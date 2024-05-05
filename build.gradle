@@ -41,8 +41,8 @@ minecraft {
     mcVersion = '1.12.2'
 
     // MCP Mappings
-    mcpMappingChannel = 'stable'
-    mcpMappingVersion = '39'
+    mcpMappingChannel = 'snapshot'
+    mcpMappingVersion = '20171003'
     
     // Set username here, the UUID will be looked up automatically
     username = 'klebe0815'
@@ -78,15 +78,21 @@ tasks.injectTags.configure {
     outputClassName.set("${project.group}.${project.archives_base_name}.Tags")
 }
 
-
 repositories {
+    maven { url "https://repo.spongepowered.org/maven" }
+    maven { url "https://repo.cleanroommc.com/releases" }
+    maven { url "https://dvs1.progwml6.com/files/maven" }
+    maven { url "https://maven.blamejared.com/" }
+    maven { url "https://www.ryanliptak.com/maven/" }
+    maven { url "https://maven.thiakil.com/" }
+    maven { url "https://maven.shadowfacts.net/" }
     maven {
-        name 'CleanroomMC Maven'
-        url 'https://maven.cleanroommc.com'
+        name 'GTNH Maven'
+        url 'https://nexus.gtnewhorizons.com/repository/public/'
     }
     maven {
-        name 'SpongePowered Maven'
-        url 'https://repo.spongepowered.org/maven'
+        name 'GTCEu Maven'
+        url 'https://maven.gtceu.com'
     }
     maven {
         name 'CurseMaven'
@@ -95,39 +101,48 @@ repositories {
             includeGroup 'curse.maven'
         }
     }
-    maven { 
-        //  JEI
-        url = "https://dvs1.progwml6.com/files/maven"
-    }
-    maven {
-        // location of a maven mirror for JEI files, as a fallback
-        name = "ModMaven"
-        url = "https://modmaven.k-4u.nl"
-    }
-    maven { 
-        //  Forgelin
-        url "https://maven.shadowfacts.net/"
-    }
-    maven {
-        url 'https://maven.blamejared.com'
-    }
-    
-    jcenter()
-    mavenCentral()
+    mavenLocal() // Must be last for caching to work
 }
 
 dependencies {
-    implementation rfg.deobf("mezz.jei:jei_${mc_version}:${jei_version}:api")
-    implementation "net.shadowfacts:Forgelin:${forgelin_version}"
-    implementation files(
-            "libs/CraftTweaker2-1.12-4.1.17.jar",
-            "libs/alib-1.0.12.jar",
-            "libs/GameStages-1.12.2-2.0.123.jar",
-            "libs/Bookshelf-1.12.2-2.3.590.jar",
-    ) // TODO: Use CurseMaven for these
+    // Common:
+    annotationProcessor 'org.ow2.asm:asm-debug-all:5.2'
+    annotationProcessor 'com.google.guava:guava:32.1.2-jre'
+    annotationProcessor 'com.google.code.gson:gson:2.8.9'
 
-    runtimeOnly rfg.deobf("curse.maven:had-enough-items-557549:4810661")
-    runtimeOnly rfg.deobf("curse.maven:the-one-probe-community-edition-885670:4746213")
+    // RetroFuturaGradle:
+    String mixinBooter = modUtils.enableMixins('zone.rong:mixinbooter:9.1')
+    // modUtils.enableMixins('zone.rong:mixinbooter:9.1', 'mod_id.mixins.refmap.json') << add refmap name as 2nd arg (optional)
+    api(mixinBooter) {
+        transitive = false
+    }
+    annotationProcessor(mixinBooter) {
+        transitive = false
+    }
+
+     // Dependencies
+    implementation "CraftTweaker2:CraftTweaker2-API:" + project.version_crafttweaker
+    implementation "CraftTweaker2:ZenScript:" + project.version_crafttweaker
+    implementation "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-" + project.version_crafttweaker
+
+    implementation rfg.deobf("curse.maven:had-enough-items-557549:5229422")
+    implementation("com.cleanroommc:groovyscript:1.0.1") { transitive = false } // so it doesn't installs JEI
+
+    implementation "net.shadowfacts:Forgelin:${forgelin_version}"
+
+    implementation rfg.deobf("curse.maven:alchemylib-293426:2761706")
+    implementation rfg.deobf("curse.maven:game-stages-268655:2951840")
+    implementation rfg.deobf("curse.maven:bookshelf-228525:2836960")
+
+    // Runtime dependencies
+    runtimeOnly rfg.deobf("curse.maven:the-one-probe-community-edition-885670:5171095")
+    runtimeOnly rfg.deobf("curse.maven:vintagefix-871198:5010926")
+    runtimeOnly rfg.deobf("curse.maven:startup-timer-782070:5001902")
+
+    runtimeOnly "com.cleanroommc:configanytime:2.0"
+    runtimeOnly rfg.deobf("curse.maven:red-core-873867:4883852")
+    runtimeOnly rfg.deobf("curse.maven:alfheim-lighting-engine-910715:4949716")
+    runtimeOnly rfg.deobf("curse.maven:valkyrie-874067:4591076")
 }
 
 

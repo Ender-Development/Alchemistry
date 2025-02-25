@@ -1,0 +1,336 @@
+# Changelog
+
+## [1.1.0] - Ender-Development Takeover
+- ported the buildscript to RFG
+- adapted to forgelin Continuous
+
+## [1.0.41]
+- Reverted the Fusion multiblock sided-input changes introduced in v39, now instead there is a button to toggle between 'single mode' and 'regular mode'.
+- In 'single mode' only one item is allowed in each slot at a time, this allows for easier automation with AE2 and the like
+- Tweaked the ingot texture, the old ones had weird 'bright' spots on the longer side face
+- Improved error handling for custom elements
+
+## [1.0.40]
+- Fixed Chemical Dissolver excessively updating chunks
+
+## [1.0.39]
+- Modified the versioning scheme to be consistent with the 1.14+ versions
+- The Fusion multiblock now uses sided inputs to give fine-grained control, especially when both inputs are the same element
+
+## [1.0.34]
+- Updated ru_ru.lang (thanks to Kellixon)
+- Added uk_ua.lang (thanks to tigerxp)
+
+## [1.0.33]
+- Fixed some localization bits for better compatibility with non-english languages
+- Removed all of the duplicate liquifier recipes
+
+## [1.0.32]
+- Disabled water +alkali "explosions" for now, unsure how to prevent it from crashing
+- Added safeguards for a rare crash (probably related to tiquality)
+
+## [1.0.31]
+- Improved the periodic diagram, both when held and when used (thank you to ShadowDoctor for the graphic)
+
+## [1.0.30]
+- Hotfix for alkali booms crashing on servers (elements, not ingots)
+
+## [1.0.29]
+- Alkali Metals (Lithium, Sodium, Potassium, Rubidium, Cesium, and Francium) will now all react when tossed in water (in-world).
+- Single element items are pretty tame, but ingots are similar to TNT
+
+## [1.0.28]
+- Fixed bug where electrolyzer gui would not update energy if it had no fluid
+- Added dissolver recipe for apples & cocoa beans
+- Added a new item, the "Periodic Diagram" that displays a fullscreen periodic table when used
+
+## [1.0.25]
+- SIGNIFICANT performance improvements
+
+## [1.0.24]
+- Updated zh_cn.lang thanks to magcicada
+- Fixed combiner recipe clashes for glowstone/glowstone blocks & quartz/quartz blocks
+- Fixed bug where Liquifier would process its input, even if the output tank had a different kind of fluid, under very specific conditions
+- Preemptively patched the Atomizer to prevent a similar issue as above from cropping up
+
+## [1.0.23]
+- Fission & Fusion controllers no longer care about what blocks are inside of their empty space around the core.
+- Previously they needed to be completely empty, so mobs could spawn inside
+- Added german translation thanks to Linde0404
+
+## [1.0.22]
+- Added Game Stage support for the Chemical Combiner (and 2 associated CT methods)
+- Fixed patchouli fission/fusion visualization being centered 2 blocks under ground
+
+## [1.0.21]
+- (Smooth) Stone Dissolver recipe is now significantly better
+- Empty NBT Tags (0 energy, no items, empty tanks) should no longer be stored when machines are broken
+- All machines can now be crafted alone to clear their NBT tags
+
+## [1.0.20]
+- Gold, Coal, and Iron ore now give small amounts of byproducts when dissolved
+- Added feather dissolver/combiner recipes
+- Modified bone-related recipes
+- Added wheat seed dissolver recipe
+
+## [1.0.19]
+- Fixed food being duped when spiking/masking food with > 1 food in the crafting grid
+- Added a brief patchouli entry for the Slot Filler
+
+## [1.0.18]
+- Diorite/Andesite/Granite recipes are much more generous now
+
+## [1.0.17]
+- Improved performance
+- Added Combiner recipe for Nether Wart
+- Added the "Slot Filler" as a way to allow AE2/RS/etc automation with the Combiner without needing 1 machine per recipe
+- It's a consumable item with a max stack size of 1, that will just be ignored, then consumed.
+
+## [1.0.16]
+- Added a family-friendly config that modifies the names of drug compounds to something more innocuous
+- Added recipes for pufferfish and sponges
+
+## [1.0.15]
+- Fixed debug spam regarding OreDict registration
+- Fixed patchouli guidebook recipe
+
+## [1.0.14]
+- Fission & Fusion recipes will now use oredicted ingots
+
+## [1.0.13]
+- Fix crash with the "Hooked" mod, related to me not registering my capability
+- Wet sand should now support any modded blocks that inherit from BlockCactus or BlockReed
+
+## [1.0.12]
+- Psilocybin will no longer afflict all players on the server at once whenever it is consumed
+
+## [1.0.11]
+- Moved Oredict registration to pre-init, should fix compatibility with unidict and others
+
+## [1.0.10]
+- Changed default recipes for Fission & Fusion parts to include some of the new elemental ingots
+- Fixed up some miscellaneous missing/clashing recipes
+- Internal Refactoring
+
+## [1.0.9]
+- Tweaked the default config speed of the Dissolver & Combiner to both be faster
+- Fixed the Chemical Combiner not starting up again (without manual intervention) after a world is re-opened when a recipe isn't set.
+- Fixed recipe clash between itemSilicon and ingotSilicon
+
+## [1.0.8]
+- Added 'Wet Sand', allows you to grow sugarcane without adjacent water
+- Update ru_ru.lang (thanks to Kellixon)
+
+## [1.0.7]
+- Flint now worth 3 silicon dioxide instead of 4
+- Protein Dissolver recipe no longer has randomized output
+- Added a few new miscellaneous mod compat recipes for the liquifier/atomizer
+
+## [1.0.6]
+- Added (oredicted) ingots for all elements that make remotely make sense (i.e. not iron, gold, mercury, or most non-metals)
+- Red dye is now mapped to mercury sulfide instead of iron oxide
+
+## [1.0.5]
+- bugfix for compat with some other mods
+
+## [1.0.4]
+- Decided to remove all recipes
+- Added caffeine, another active compound
+- Added the ability to 'spike' foods with active compounds, as well as the ability to 'mask the flavor" by adding sodium chloride
+- Tweaked a few miscellaneous recipes
+- Added some basic information to the Patchouli guide regarding active compounds and food spiking
+- Updated ru_ru.lang (thanks to Kellixon)
+
+## [1.0.3]
+- Few minor recipe tweaks for b a l a n c e
+- Salt and saltpeter (and equivalent oredict entries) should now have dissolver/combiner recipes
+- Updated fr_fr.lang (thanks to Sufike)
+- Several new compounds
+- several compounds now have potion effects
+
+## [1.0.2]
+- Element abbreviations now render everywhere, go make those periodic tables with item frames or storage drawers, or whatever
+- Custom elements now require the ResourceLoader mod
+
+## [1.0.1]
+- Fixed electrum recipes (again!)
+- Items oredicted with alumiNIUM instead of alumiNUM will now get recipes too
+- Recipes using oredicted items with ALL elements will get recipes (because GregTech)
+- Added CraftTweaker method called 'removeAllRecipes()' for all single-block machines
+
+## [1.0.0]
+- Added plenty of recipes for various vanilla content (special thanks to Habeeb M for suggestions)
+- Fixed borked bronze/electrum recipes
+- Added (partial) fr_fr.lang translation (thanks to Sufike)
+
+## [0.9.6]
+- Revert Item rendering for Chemical Combiner, should fix weird bugginess in the GUI
+
+## [0.9.5]
+- The Combiner recipe target now displays the stack tooltip, especially helpful for chemical compounds
+- Added Neon Lights (and other lights for other noble gases). They don't look brilliant, but they'll do for now
+- Zirconium recipes should now auto-generate (ores, ingots, plates, etc)
+- New Liquifier recipe for cocoa Butter recipe (from Nuclearcraft)
+- MILK
+
+## [0.9.4]
+- Fission/Fusion Controller blocks now indicate whether or not they are off (black), on standby (yellow), or turned on (green)
+- Textures for compounds & elements are no longer flat-colored. They have a slightly textured look now
+
+## [0.9.3]
+- Fix Wool/Rotten Flesh recipe clash
+- Made some crops a bit less OP
+- Updated ru_ru.lang and added ru_ru patchouli (thanks to kellixon)
+- Some internal refactoring, might help prevent potential bugs
+
+## [0.9.2]
+- Fix Beetroot recipe
+
+## [0.9.1]
+- Compounds made through CraftTweaker will no longer overwrite default compounds
+- Fixed Elements & Compounds not showing up in creative search
+
+## [0.9.0]
+- The electrolyzer (the only obviously non-symmetrical machine) now uses proper directional block placing
+- Added Fission & Fusion multiblocks
+- Electrolyzer now orients properly on placement
+- A few recipe tweaks
+- Combiner now will process again when no recipe is set and inputs are in correct slot
+
+## [0.8.19]
+- About 20 new chemical compounds
+- Many new machine recipes
+
+## [0.8.18]
+- 0.8.17 upload didn't build properly for some reason, fixed now
+
+## [0.8.17]
+- Fixed bug where the combiner recipe would change to the bottom recipe on the JEI page if you didn't select any recipe
+- Dissolver recipes with multiple rolls will be outputted much more efficiently/quickly now (output stacks will be merged if possible, for example, if you have 20 rolls of 100% [2x Stone] with a dissolver speed of 8, then it will be outputted in 5 ticks rather than 20)
+
+## [0.8.16]
+- Removed invar dissolver recipes for now
+- Removed the duplicate combiner charcoal recipe
+- Emeralds <-> Beryl changed from 16 to 8
+- Slightly better dissolver output for nether bricks
+
+## [0.8.15]
+- Fixed machine energy capacity configs again, so this time they should /actually/ work for pre-existing machines, not only newly placed ones
+- Added a config to control the speed of the Chemical Dissolver, it is now faster by default as well
+
+## [0.8.14]
+- Requires alib 1.0.7
+- Fixed GUIs freezing for a second when being opened for the first time after world load
+- Fixed a few machines that were using the wrong config values for energy consumption
+- Added config options for machine max energy capacity
+- Lots of internal code cleanup
+
+## [0.8.13]
+- Dissolver recipes now can use floating-point numbers for probability
+- The Combiner "target" item now has proper light for blocks (before all items were fine, but blocks would look dim)
+
+## [0.8.12]
+- Removed debug spam
+
+## [0.8.11]
+- Added 'addElement' crafttweaker function, allowing you to create new elements
+- Added 'addCompound' crafttweaker function, unsurprisingly, allowing you to create new chemical compounds
+- Added a '/dissolver' command which copies the Chemical Dissolver recipe for the item that you're holding so it can be easily edited.
+- Minor recipe tweaks
+
+## [0.8.10]
+- Fixed crafttweaker dissolver recipes not accepting null stacks
+- Updated ru_ru.lang (thanks again to kellixon)
+
+## [0.8.9]
+- Added a new item the "Obsidian Breaker", a consumable item that instantly harvests obsidian
+- The dissolver now should be smart about how it stacks its output. It will try to stack with existing stacks if possible before moving to empty slots
+- Added an evaporator recipe for Lava -> Magma blocks, allowing the Dissolver to be built before going to the Nether, and thus allowing the obsidian breaker to be made before going to the Nether as well.
+- Tweaked a few miscellaneous machine recipes
+
+## [0.8.8]
+- Added elements 110-118 (some of which didn't even have names when I started making this mod!)
+- Fixed buggy Dissolver output probably caused by v0.8.4
+
+## [0.8.7]
+- Fixed crafttweaker Dissolver removeRecipe bug introduced in 0.8.5 for oredict entries
+- Added basic log messages for all crafttweaker recipes
+
+## [0.8.6]
+- The Liquifier/Atomizer metal recipes are now normalized with other mods i.e. 1 ingot = 16 chem items = 144mb to prevent item duplication with a mod like Tinkers
+
+## [0.8.5]
+- Fixed tile break particles for all tiles
+- Fixed Atomizer working without power
+- Fixed ghost/invalid recipes in Dissolver JEI
+- Added a new CT function to fetch elements/compounds rather than needing to look up the meta value
+
+## [0.8.4]
+- Tile performance improvement
+
+## [0.8.3]
+- Updated ru_ru.lang, again thanks to kellixon
+- Minor tweaking of the Combiner JEI display
+- The Evaporator now renders fluids in-world(!)
+
+## [0.8.2]
+- The Chemical Combiner now has a custom JEI transfer handler (the [+] button).
+- It no longer transfers items, but it *does* instantly set the recipe template
+
+This has a few side effects:
+* Better performance due to some internal refactoring
+* Setting combiner recipe templates no longer makes you want to rip your hair out, as all it takes is a single click in JEI
+* The Combiner will not function without JEI now (but who played without JEI anyway?)
+* The CraftTweaker 'Combiner.removeRecipe' handler now takes an output instead of a list of inputs
+* Recipe clashes (with same ingredients in same slots, but different quantities) are no longer an issue
+
+## [0.8.0]
+- Fixed XML bug with Chem Dissolver input not working with the 'quantity' attribute
+- Added JEI transfer handlers (the [+] button) for the Chemical Dissolver, Liquifier, and Electrolyzer
+- Alloy recipes should be fixed now (before they could generate more resources than they took to make)
+- Added a few micellaneous machine recipes
+- Machines should no longer assume a stack size of 64 for all items
+- Added basic CraftTweaker support for all machines(!)
+
+## [0.7.15]
+- Added a Russian translation, thanks to kellixon on github
+- Added tooltips for all of the energy consuming blocks telling how much FE/t they consume as per the configs
+- All machines have had a texture/model makeover
+
+## [0.7.14]
+- The evaporator recipe has been changed to no longer require iron, only stone
+- I touched up the mineral salt & fertilizer texture. They still aren't pretty, but they're better
+- Added recipes for cactus
+- The fertilizer recipe now gives 8 items output instead of 1
+- The blocks with custom models should now have normal sized in-world items
+- All fluids with the name of elements (oxygen, hydrogen, [molten] iron, etc.) now have recipes in the atomizer to convert modded fluids into element items. The liquifier now has all of these recipes reversed as well
+- Few other little things
+
+
+## [0.7.10]
+- Custom XML recipes will now be loaded from all .xml files in the /config/alchemistry directory. Previously only custom.xml was allowed.
+- Added a fertilizer item, which essentially functions the same as vanilla bonemeal, but is acquired a different way
+- Added miscellaneous chemical compounds, recipes, etc.
+
+## [0.5.6]
+-Hotfix for startup crash when ran outside of dev
+
+## [0.5.5]
+- Able to shrink jar size down by more than 50%
+- Removed some debug stuff that was left in
+
+## [0.5.4]
+- Added a progress bar for the evaporator
+- Added a few more miscellaneous machine recipes
+- Trimmed down the jar file size a bit
+
+## [0.5.0]
+- Added primitive "smart insertion" with recipe locking and machine pausing buttons to facilitate automation
+- All NBT data (items,energy,fluids,etc) should now be saved properly when any machines are broken
+- Electrolyzer can now only use the proper electrolyte, not any ingredient
+
+## [0.4.1]
+- Added a texture for energy bars
+- Added colors for the rest of the current elements and compounds
+- Fixed bug where some dissolver recipes (planks, silicon) would mess with all of the crafting recipes in JEI that had that item
+- Added a few miscellaneous recipes

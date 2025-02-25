@@ -3,8 +3,7 @@ pluginManagement {
         maven {
             // RetroFuturaGradle
             name 'GTNH Maven'
-            url 'http://jenkins.usrv.eu:8081/nexus/content/groups/public/'
-            allowInsecureProtocol = true
+            url 'https://nexus.gtnewhorizons.com/repository/public/'
             mavenContent {
                 includeGroup 'com.gtnewhorizons'
                 includeGroup 'com.gtnewhorizons.retrofuturagradle'
@@ -14,11 +13,22 @@ pluginManagement {
         mavenCentral()
         mavenLocal()
     }
+    plugins {
+        id 'org.jetbrains.kotlin.jvm' version '2.1.10'
+    }
 }
 
 plugins {
     // Automatic toolchain provisioning
-    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.4.0'
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.8.0'
+}
+
+dependencyResolutionManagement {
+    versionCatalogs {
+        create("libs") {
+            version("kotlinVersion", "2.1.10")
+        }
+    }
 }
 
 // Due to an IntelliJ bug, this has to be done

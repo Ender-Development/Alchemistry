@@ -18,8 +18,5 @@ build
 .gradle
 
 # other
-OLD
 eclipse
 run
-classes
-modelfiles

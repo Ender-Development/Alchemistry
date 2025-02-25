@@ -17,6 +17,9 @@ import net.minecraftforge.oredict.OreDictionary
 import org.w3c.dom.Element
 import org.w3c.dom.NodeList
 import java.io.File
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 /**
  * Created by al132 on 5/10/2018.
@@ -47,7 +50,7 @@ class XMLRecipeParser {
             val nodes: NodeList = doc.getElementsByTagName("recipe")
             (0 until nodes.length).forEach { index ->
                 val element = nodes.item(index) as Element
-                val recipeType = element.getAttribute("type").toLowerCase()
+                val recipeType = element.getAttribute("type").lowercase(Locale.getDefault())
                 when (recipeType) {
                     "dissolver"    -> parseDissolverRecipe(element)
                     "combiner"     -> parseCombinerRecipe(element)

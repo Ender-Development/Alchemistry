@@ -11,6 +11,7 @@ import net.minecraft.world.World
 import net.minecraftforge.client.model.ModelLoader
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
+import java.util.*
 
 /**
  * Created by al132 on 1/16/2017.
@@ -20,7 +21,7 @@ class ItemElement(name: String) : ItemMetaBase(name) {
     @SideOnly(Side.CLIENT)
     override fun registerModel() {
         ElementRegistry.keys().forEach {
-            val elementName = ElementRegistry[it]?.name?.toLowerCase() ?: ""
+            val elementName = ElementRegistry[it]?.name?.lowercase(Locale.getDefault()) ?: ""
             ModelLoader.setCustomModelResourceLocation(this, it,
                     ModelResourceLocation(registryName.toString() + "_" + elementName, "inventory"))
         }
@@ -44,7 +45,7 @@ class ItemElement(name: String) : ItemMetaBase(name) {
         val element = ElementRegistry[stack.metadata]
         if (stack.metadata > 118 && stack.item == ModItems.elements) {
             val elementName = ElementRegistry[stack.metadata]?.name ?: "<Error>"
-            return elementName.split("_").joinToString(separator = " ") { it.first().toUpperCase() + it.drop(1) }
+            return elementName.split("_").joinToString(separator = " ") { it.first().uppercaseChar() + it.drop(1) }
         } else return super.getItemStackDisplayName(stack)
     }
 
@@ -52,7 +53,7 @@ class ItemElement(name: String) : ItemMetaBase(name) {
         var i = stack!!.itemDamage
         if (!ElementRegistry.keys().contains(i)) i = 1
         try {
-            return super.getTranslationKey() + "_" + ElementRegistry[i]!!.name.toLowerCase()
+            return super.getTranslationKey() + "_" + ElementRegistry[i]!!.name.lowercase(Locale.getDefault())
         } catch (e: NullPointerException) {
             throw NullPointerException("Unable to find translation key for element #[$i]")
         }

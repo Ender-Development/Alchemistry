@@ -75,6 +75,7 @@ class FusionControllerBlock(name: String,
             EnumFacing.SOUTH -> sum += 3
             EnumFacing.WEST  -> sum += 6
             EnumFacing.EAST  -> sum += 9
+            else             -> sum += 0
         }
         when (state.getValue(FusionControllerBlock.STATUS)) {
             PropertyPowerStatus.OFF     -> sum += 0

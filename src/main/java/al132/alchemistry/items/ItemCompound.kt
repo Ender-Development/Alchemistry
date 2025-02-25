@@ -84,7 +84,7 @@ class ItemCompound(name: String) : ItemMetaBase(name) {
         val compound = CompoundRegistry[stack.metadata]
         if (stack.item == ModItems.compounds && compound != null && !(compound.isInternalCompound)) {
             val compoundName = CompoundRegistry[stack.metadata]?.name ?: "<Error>"
-            return compoundName.split("_").joinToString(separator = " ") { it.first().toUpperCase() + it.drop(1) }
+            return compoundName.split("_").joinToString(separator = " ") { it.first().uppercaseChar() + it.drop(1) }
         } else return super.getItemStackDisplayName(stack)
     }
 

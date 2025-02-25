@@ -36,7 +36,7 @@ val heathenSpelling = "aluminium"
 val heathenSpelling2 = "caesium"
 
 data class DissolverOreData(val prefix: String, val quantity: Int, val strs: List<String>) {
-    fun toDictName(index: Int) = prefix + strs[index].first().toUpperCase() + strs[index].substring(1)
+    fun toDictName(index: Int) = prefix + strs[index].first().uppercaseChar() + strs[index].substring(1)
     val size = strs.size
 }
 

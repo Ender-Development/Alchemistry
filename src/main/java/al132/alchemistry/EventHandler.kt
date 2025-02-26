@@ -5,10 +5,10 @@ import al132.alchemistry.capability.CapabilityDrugInfo
 import al132.alchemistry.items.DankMolecule
 import al132.alchemistry.items.ItemCompound
 import al132.alchemistry.items.ModItems
-import al132.alib.utils.extensions.toStack
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.init.Blocks
+import net.minecraft.item.ItemStack
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.event.AttachCapabilitiesEvent
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent
@@ -24,7 +24,7 @@ class EventHandler {
         if (e.itemStack.item == ModItems.obsidianBreaker && target.block == Blocks.OBSIDIAN) {
             e.itemStack.shrink(1)
             e.world.setBlockToAir(e.pos)
-            e.entityPlayer.addItemStackToInventory(Blocks.OBSIDIAN.toStack())
+            e.entityPlayer.addItemStackToInventory(ItemStack(Blocks.OBSIDIAN, 1))
         }
     }
 
@@ -32,8 +32,8 @@ class EventHandler {
     fun finishItemEvent(e: LivingEntityUseItemEvent.Finish) {
         if (e.item.hasTagCompound()) {
             val tag = e.item.tagCompound
-            if (tag?.hasKey("alchemistryPotion") ?: false) {
-                val moleculeMeta = tag!!.getInteger("alchemistryPotion")
+            if (tag?.hasKey("alchemistryPotion") == true) {
+                val moleculeMeta = tag.getInteger("alchemistryPotion")
                 val molecule: DankMolecule? = ItemCompound.getDankMoleculeForMeta(moleculeMeta)
                 if (molecule != null && e.entityLiving is EntityPlayer) molecule.activateForPlayer(e.entityLiving as EntityPlayer)
             }

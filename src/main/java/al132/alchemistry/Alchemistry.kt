@@ -24,12 +24,13 @@ import org.apache.logging.log4j.Logger
 import java.util.*
 
 
-//TODO: Everything
-@net.minecraftforge.fml.common.Mod(modid = Reference.MODID,
-        name = Reference.MODNAME,
-        version = Reference.VERSION,
-        dependencies = Reference.DEPENDENCIES,
-        modLanguageAdapter = "net.shadowfacts.forgelin.KotlinAdapter")
+@Mod(
+    modid = Reference.MODID,
+    name = Reference.MODNAME,
+    version = Reference.VERSION,
+    dependencies = Reference.DEPENDENCIES,
+    modLanguageAdapter = "io.github.chaosunity.forgelin.KotlinAdapter"
+)
 object Alchemistry {
 
     //https://github.com/jaredlll08/ModTweaker/blob/1.12/src/main/java/com/blamejared/ModTweaker.java

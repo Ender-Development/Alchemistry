@@ -1,7 +1,6 @@
 package al132.alchemistry
 
 import al132.alchemistry.blocks.ModBlocks
-import al132.alib.utils.extensions.toStack
 import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.item.ItemStack
 import java.io.File
@@ -9,17 +8,16 @@ import java.text.DecimalFormat
 
 object Reference {
 
-    const val MODID = "alchemistry"
-    const val MODNAME = "Alchemistry"
-    const val VERSION = "1.12.2-42"
-    const val DEPENDENCIES = "required-after:forgelin;required-after:alib;after:crafttweaker;before:jei;"
+    const val MODID = Tags.MOD_ID
+    const val MODNAME = Tags.MOD_NAME
+    const val VERSION = Tags.VERSION
+    const val DEPENDENCIES = "required-after:forgelin_continuous;required-after:alib;after:crafttweaker;before:jei;"
     val DECIMAL_FORMAT = DecimalFormat("#0.00")
 
-    val pathPrefix = "alchemistry:"
     lateinit var configPath: String
     lateinit var configDir: File
 
     val creativeTab: CreativeTabs = object : CreativeTabs("alchemistry") {
-        override fun createIcon(): ItemStack = ModBlocks.chemical_combiner.toStack()
+        override fun createIcon(): ItemStack = ItemStack(ModBlocks.chemical_combiner, 1)
     }
 }

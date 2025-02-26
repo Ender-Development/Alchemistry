@@ -4,7 +4,6 @@ import al132.alchemistry.chemistry.ChemicalCompound
 import al132.alchemistry.chemistry.ChemicalElement
 import al132.alchemistry.chemistry.CompoundRegistry
 import al132.alchemistry.chemistry.ElementRegistry
-import al132.alib.utils.extensions.toStack
 import net.minecraft.block.Block
 import net.minecraft.init.Blocks
 import net.minecraft.item.Item
@@ -36,9 +35,9 @@ fun String.toStack(quantity: Int = 1, meta: Int = 0): ItemStack {
     } else if (outputCompound != null) {
         outputStack = outputCompound.toItemStack(quantity = quantity)
     } else if (outputItem != null) {
-        outputStack = outputItem.toStack(quantity = quantity, meta = actualMeta)
+        outputStack = ItemStack(outputItem, quantity, actualMeta)
     } else if (outputBlock != null && outputBlock != Blocks.AIR && outputBlock != Blocks.WATER) {
-        outputStack = outputBlock.toStack(quantity = quantity, meta = actualMeta)
+        outputStack = ItemStack(outputBlock, quantity, actualMeta)
     }
     return outputStack
 }

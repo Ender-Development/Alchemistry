@@ -365,3 +365,12 @@ jei.elements.description=All elements (except Hydrogen) can be created with the 
 guide.alchemistry.title=Alchemistry Guidebook
 guide.alchemistry.landing=Welcome to the Alchemistry Guidebook. This book will introduce you to some of the basics of the mod :)
 
+config.alchemistry.general=General
+config.alchemistry.fission=Fission Reactor
+config.alchemistry.fusion=Fusion Reactor
+config.alchemistry.combiner=Chemical Combiner
+config.alchemistry.dissolver=Chemical Dissolver
+config.alchemistry.electrolyzer=Electrolyzer
+config.alchemistry.evaporator=Evaporator
+config.alchemistry.atomizer=Atomizer
+config.alchemistry.liquifier=Liquifier

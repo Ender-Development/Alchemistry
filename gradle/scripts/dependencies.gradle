@@ -99,6 +99,10 @@ dependencies {
     implementation rfg.deobf("curse.maven:alchemylib-293426:2761706")
 
     // Game Stages
-    runtimeOnly rfg.deobf("curse.maven:bookshelf-228525:2836960")
+    runtimeOnly "curse.maven:bookshelf-228525:2836960"
     implementation rfg.deobf("curse.maven:game-stages-268655:2951840")
+
+    // Patchouli
+    runtimeOnly "curse.maven:patchouli-rofl-edition-905159:6178311"
+    runtimeOnly "curse.maven:patchouli-books-1133738:6136828"
 }

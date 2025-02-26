@@ -1,22 +1,12 @@
 package al132.alchemistry.blocks
 
-import al132.alchemistry.Alchemistry
 import al132.alchemistry.Reference
 import al132.alchemistry.client.GuiHandler
 import al132.alchemistry.tiles.*
 import al132.alib.blocks.ALBlock
-import al132.alib.blocks.ALTileBlock
 import net.minecraft.block.Block
 import net.minecraft.block.material.Material
-import net.minecraft.block.state.IBlockState
-import net.minecraft.init.Items
 import net.minecraft.item.Item
-import net.minecraft.item.ItemStack
-import net.minecraft.nbt.NBTTagCompound
-import net.minecraft.tileentity.TileEntity
-import net.minecraft.util.NonNullList
-import net.minecraft.util.math.BlockPos
-import net.minecraft.world.IBlockAccess
 import net.minecraftforge.event.RegistryEvent
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly

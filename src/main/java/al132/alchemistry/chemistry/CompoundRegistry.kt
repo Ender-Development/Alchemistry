@@ -7,7 +7,7 @@ import java.awt.Color
  */
 object CompoundRegistry {
     private val compounds = HashMap<Int, ChemicalCompound>()
-    var internalChemicalIndex = 0
+    private var internalChemicalIndex = 0
 
     fun init() {
         addInternal(Compound {

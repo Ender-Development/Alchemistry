@@ -21,7 +21,7 @@ import net.minecraftforge.common.capabilities.Capability
  * Created by al132 on 4/29/2017.
  */
 class TileFissionController : TileBase(), IGuiTile, ITickable, IItemTile,
-        IEnergyTile by EnergyTileImpl(capacity = ConfigHandler.fissionEnergyCapacity!!) {
+    IEnergyTile by EnergyTileImpl(capacity = ConfigHandler.FISSION.energyCapacity) {
 
     var progressTicks = 0
     var recipeOutput1: ItemStack = ItemStack.EMPTY
@@ -100,11 +100,11 @@ class TileFissionController : TileBase(), IGuiTile, ITickable, IItemTile,
                 && (ItemStack.areItemsEqual(output[1], recipeOutput2) || output[1].isEmpty)
                 && output[0].count + recipeOutput1.count <= recipeOutput1.maxStackSize
                 && output[1].count + recipeOutput2.count <= recipeOutput2.maxStackSize
-                && energyStorage.energyStored >= ConfigHandler.fissionEnergyPerTick!!
+                && energyStorage.energyStored >= ConfigHandler.FISSION.energyPerTick
     }
 
     fun process() {
-        if (progressTicks < ConfigHandler.fissionProcessingTicks!!) {
+        if (progressTicks < ConfigHandler.FISSION.processingTicks) {
             progressTicks++
         } else {
             progressTicks = 0
@@ -112,7 +112,7 @@ class TileFissionController : TileBase(), IGuiTile, ITickable, IItemTile,
             if (!recipeOutput2.isEmpty) output.setOrIncrement(1, recipeOutput2.copy())
             input.decrementSlot(0, 1) //Will refresh the recipe, clearing the recipeOutputs if only 1 stack is left
         }
-        this.energyStorage.extractEnergy(ConfigHandler.fissionEnergyPerTick!!, false)
+        this.energyStorage.extractEnergy(ConfigHandler.FISSION.energyPerTick, false)
     }
 
 
@@ -129,7 +129,9 @@ class TileFissionController : TileBase(), IGuiTile, ITickable, IItemTile,
         this.updateMultiblock()
     }
 
-    private fun containsCasing(pos: BlockPos): Boolean = (this.world.getBlockState(pos).block == ModBlocks.fissionCasing)
+    private fun containsCasing(pos: BlockPos): Boolean =
+        (this.world.getBlockState(pos).block == ModBlocks.fissionCasing)
+
     private fun containsCore(pos: BlockPos): Boolean = (this.world.getBlockState(pos).block == ModBlocks.fissionCore)
     private fun containsFissionPart(pos: BlockPos): Boolean {
         val block = this.world.getBlockState(pos).block
@@ -141,7 +143,8 @@ class TileFissionController : TileBase(), IGuiTile, ITickable, IItemTile,
     }
 
     fun validateMultiblock(): Boolean {
-        val multiblockDirection: EnumFacing? = world?.getBlockState(this.pos)?.getValue(FissionControllerBlock.FACING)?.opposite
+        val multiblockDirection: EnumFacing? =
+            world?.getBlockState(this.pos)?.getValue(FissionControllerBlock.FACING)?.opposite
         if (multiblockDirection == null) return false
         fun BlockPos.offsetUp(amt: Int = 1) = this.offset(EnumFacing.UP, amt)
         fun BlockPos.offsetLeft(amt: Int = 1) = this.offset(multiblockDirection.rotateY(), amt)
@@ -170,7 +173,7 @@ class TileFissionController : TileBase(), IGuiTile, ITickable, IItemTile,
             if (it.z == outsideCorner1.z || it.z == outsideCorner2.z) sharedAxes++
             sharedAxes >= 1
         }.filterNot(this.pos::equals)
-                .count(this::containsFissionPart)
+            .count(this::containsFissionPart)
 
 
         val casingCorner1 = this.pos.offsetLeft(2).offsetBack(1)
@@ -183,7 +186,9 @@ class TileFissionController : TileBase(), IGuiTile, ITickable, IItemTile,
             sharedAxes >= 1
         }.all(::containsCasing)
 
-        return casingMatches && coreMatches && /*emptyInsideMatches && */(borderingParts == 0)
+        val compact = ConfigHandler.FISSION.compactFissionReactor || borderingParts == 0
+
+        return casingMatches && coreMatches && /*emptyInsideMatches && */ compact
     }
 
 

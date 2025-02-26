@@ -22,7 +22,7 @@ class LiquifierBlock(name: String,
     override fun registerItemBlock(event: RegistryEvent.Register<Item>) {
         event.registry.register(TooltipItemBlock(this,
                 Translator.translateToLocalFormatted("tooltip.alchemistry.energy_requirement",
-                        ConfigHandler.liquifierEnergyPerTick ?: "?"))
+                        ConfigHandler.LIQUIFIER.energyPerTick))
                 .setRegistryName(this.registryName))
     }
 

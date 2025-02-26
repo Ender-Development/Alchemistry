@@ -24,7 +24,7 @@ class AtomizerBlock(name: String,
     override fun registerItemBlock(event: RegistryEvent.Register<Item>) {
         event.registry.register(TooltipItemBlock(this,
                 Translator.translateToLocalFormatted("tooltip.alchemistry.energy_requirement",
-                        ConfigHandler.atomizerEnergyPerTick ?: "?"))
+                        ConfigHandler.ATOMIZER.energyPerTick))
                 //.translate() + " " + ConfigHandler.atomizerEnergyPerTick + " FE/t")
                 .setRegistryName(this.registryName))
     }

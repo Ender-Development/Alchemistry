@@ -17,7 +17,7 @@ import net.minecraftforge.fluids.capability.templates.FluidHandlerConcatenate
  * Created by al132 on 4/29/2017.
  */
 class TileAtomizer : TileBase(), IGuiTile, ITickable, IItemTile, IFluidTile,
-        IEnergyTile by EnergyTileImpl(capacity = ConfigHandler.atomizerEnergyCapacity!!) {
+        IEnergyTile by EnergyTileImpl(capacity = ConfigHandler.ATOMIZER.energyCapacity) {
 
     val inputTank: FluidTank
     private var currentRecipe: AtomizerRecipe? = null
@@ -82,7 +82,7 @@ class TileAtomizer : TileBase(), IGuiTile, ITickable, IItemTile, IFluidTile,
     fun canProcess(): Boolean {
         if (currentRecipe != null) {
             val recipeOutput = currentRecipe!!.output
-            return energyStorage.energyStored >= ConfigHandler.atomizerEnergyPerTick!!
+            return energyStorage.energyStored >= ConfigHandler.ATOMIZER.energyPerTick
                     && inputTank.fluidAmount >= currentRecipe!!.input.amount
                     && (ItemStack.areItemsEqual(output[0], recipeOutput) || output[0].isEmpty)
                     && output[0].count + recipeOutput.count <= recipeOutput.maxStackSize
@@ -90,13 +90,13 @@ class TileAtomizer : TileBase(), IGuiTile, ITickable, IItemTile, IFluidTile,
     }
 
     fun process() {
-        if (progressTicks < ConfigHandler.atomizerProcessingTicks!!) {
+        if (progressTicks < ConfigHandler.ATOMIZER.processingTicks) {
             progressTicks++
         } else {
             progressTicks = 0
             output.setOrIncrement(0, currentRecipe!!.output.copy())
             inputTank.drainInternal(currentRecipe!!.input.amount, true)
         }
-        this.energyStorage.extractEnergy(ConfigHandler.atomizerEnergyPerTick!!, false)
+        this.energyStorage.extractEnergy(ConfigHandler.ATOMIZER.energyPerTick, false)
     }
 }

@@ -40,7 +40,7 @@ class ElectrolyzerBlock(name: String,
     override fun registerItemBlock(event: RegistryEvent.Register<Item>) {
         event.registry.register(TooltipItemBlock(this,
                 Translator.translateToLocalFormatted("tooltip.alchemistry.energy_requirement",
-                        ConfigHandler.electrolyzerEnergyPerTick ?: "?"))
+                        ConfigHandler.ELECTROLYZER.energyPerTick))
                 .setRegistryName(this.registryName))
     }
 

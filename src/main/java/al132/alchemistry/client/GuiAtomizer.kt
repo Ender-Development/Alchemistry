@@ -31,7 +31,7 @@ class GuiAtomizer(playerInv: InventoryPlayer, tile: TileAtomizer) :
         val i = (this.width - this.xSize) / 2
         val j = (this.height - this.ySize) / 2
         if (tile.progressTicks > 0) {
-            val k = this.getBarScaled(28, tile.progressTicks, ConfigHandler.atomizerProcessingTicks!!)
+            val k = this.getBarScaled(28, tile.progressTicks, ConfigHandler.ATOMIZER.processingTicks)
             this.drawTexturedModalRect(i + 79, j+63, 175, 0, k, 9)
         }
     }

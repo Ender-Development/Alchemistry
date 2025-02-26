@@ -32,7 +32,7 @@ class FusionControllerBlock(name: String,
     override fun registerItemBlock(event: RegistryEvent.Register<Item>) {
         event.registry.register(TooltipItemBlock(this,
                 Translator.translateToLocalFormatted("tooltip.alchemistry.energy_requirement",
-                        ConfigHandler.fusionEnergyPerTick ?: "?"))
+                        ConfigHandler.FUSION.energyPerTick))
                 .setRegistryName(this.registryName))
     }
 

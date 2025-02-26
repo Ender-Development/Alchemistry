@@ -16,7 +16,7 @@ import java.util.*
  * Created by al132 on 1/16/2017.
  */
 class TileChemicalDissolver : TileBase(), IGuiTile, ITickable, IItemTile,
-        IEnergyTile by EnergyTileImpl(capacity = ConfigHandler.dissolverEnergyCapacity!!) {
+        IEnergyTile by EnergyTileImpl(capacity = ConfigHandler.DISSOLVER.energyCapacity) {
 
     private var outputSuccessful = true
     var outputThisTick: ItemStack = ItemStack.EMPTY
@@ -58,7 +58,7 @@ class TileChemicalDissolver : TileBase(), IGuiTile, ITickable, IItemTile,
     }
 
     fun canProcess(): Boolean {
-        return energyStorage.energyStored >= ConfigHandler.dissolverEnergyPerTick!!
+        return energyStorage.energyStored >= ConfigHandler.DISSOLVER.energyPerTick
                 && (currentRecipe != null || !outputBuffer.isEmpty())
     }
 
@@ -73,7 +73,7 @@ class TileChemicalDissolver : TileBase(), IGuiTile, ITickable, IItemTile,
 
         //If output didn't happen or didn't fail last tick, queue up next output single stack
         if (outputSuccessful) {
-            if (outputBuffer.size > 0) outputThisTick = outputBuffer[0].splitStack(ConfigHandler.dissolverSpeed!!)
+            if (outputBuffer.size > 0) outputThisTick = outputBuffer[0].splitStack(ConfigHandler.DISSOLVER.speed)
             else outputThisTick = ItemStack.EMPTY
 
             if (outputBuffer.size > 0 && outputBuffer[0].isEmpty) outputBuffer.removeAt(0)
@@ -101,7 +101,7 @@ class TileChemicalDissolver : TileBase(), IGuiTile, ITickable, IItemTile,
 
         //consume energy and single stack if successful, won't be designated as such until there's a "hit" above
         if (outputSuccessful) {
-            this.energyStorage.extractEnergy(ConfigHandler.dissolverEnergyPerTick!!, false)
+            this.energyStorage.extractEnergy(ConfigHandler.DISSOLVER.energyPerTick, false)
             outputThisTick = ItemStack.EMPTY
         }
     }

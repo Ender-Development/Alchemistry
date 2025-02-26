@@ -32,7 +32,7 @@ class FissionControllerBlock(name: String,
     override fun registerItemBlock(event: RegistryEvent.Register<Item>) {
         event.registry.register(TooltipItemBlock(this,
                 Translator.translateToLocalFormatted("tooltip.alchemistry.energy_requirement",
-                        ConfigHandler.fissionEnergyPerTick ?: "?"))
+                        ConfigHandler.FISSION.energyPerTick))
                 .setRegistryName(this.registryName))
     }
 

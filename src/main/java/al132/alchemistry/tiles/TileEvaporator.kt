@@ -95,9 +95,9 @@ class TileEvaporator : TileBase(), IGuiTile, ITickable, IItemTile, IFluidTile {
     }
 
     fun calculateProcessingTime(): Int { //TODO more elaborate calculation?
-        var temp = ConfigHandler.evaporatorProcessingTicks!!
-        if (!BiomeDictionary.hasType(world.getBiomeForCoordsBody(this.pos), BiomeDictionary.Type.DRY)) {// != BiomeDesert::class.java) {
-            temp += (ConfigHandler.evaporatorProcessingTicks!! * .5).toInt()
+        var temp = ConfigHandler.EVAPORATOR.processingTicks
+        if (!BiomeDictionary.hasType(world.getBiomeForCoordsBody(this.pos), BiomeDictionary.Type.DRY)) {
+            temp += (ConfigHandler.EVAPORATOR.processingTicks * .5).toInt()
         }
         return temp
     }

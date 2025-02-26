@@ -31,7 +31,7 @@ class GuiLiquifier(playerInv: InventoryPlayer, tile: TileLiquifier) :
         val i = (this.width - this.xSize) / 2
         val j = (this.height - this.ySize) / 2
         if (tile.progressTicks > 0) {
-            val k = this.getBarScaled(28, tile.progressTicks, ConfigHandler.liquifierProcessingTicks!!)
+            val k = this.getBarScaled(28, tile.progressTicks, ConfigHandler.LIQUIFIER.processingTicks)
             this.drawTexturedModalRect(i + 79, j+63, 175, 0, k, 9)
         }
     }

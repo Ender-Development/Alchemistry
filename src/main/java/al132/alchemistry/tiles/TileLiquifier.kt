@@ -18,7 +18,7 @@ import net.minecraftforge.fluids.capability.templates.FluidHandlerConcatenate
  * Created by al132 on 4/29/2017.
  */
 class TileLiquifier : TileBase(), IGuiTile, ITickable, IItemTile, IFluidTile,
-        IEnergyTile by EnergyTileImpl(ConfigHandler.liquifierEnergyCapacity!!) {
+        IEnergyTile by EnergyTileImpl(ConfigHandler.LIQUIFIER.energyCapacity) {
 
     val outputTank: FluidTank
     private var currentRecipe: LiquifierRecipe? = null
@@ -97,21 +97,22 @@ class TileLiquifier : TileBase(), IGuiTile, ITickable, IItemTile, IFluidTile,
     fun canProcess(): Boolean {
         if(currentRecipe != null) {
             val recipeOutput = currentRecipe!!.output
-            return outputTank.capacity >= outputTank.fluidAmount + recipeOutput.amount
-                    && this.energyStorage.energyStored >= ConfigHandler.liquifierEnergyPerTick!!
+            return (outputTank.capacity >= outputTank.fluidAmount + recipeOutput.amount
+                    && this.energyStorage.energyStored >= ConfigHandler.LIQUIFIER.energyPerTick
                     && input[0].count >= currentRecipe!!.input.count
-                    && ((outputTank.fluid?.fluid == recipeOutput.fluid ?: false) || outputTank.fluid == null)
+                    && ((outputTank.fluid?.fluid == (recipeOutput.fluid ?: false))
+                    || outputTank.fluid == null))
         }else return false;
     }
 
     fun process() {
-        if (progressTicks < ConfigHandler.liquifierProcessingTicks!!) {
+        if (progressTicks < ConfigHandler.LIQUIFIER.processingTicks) {
             progressTicks++
         } else {
             progressTicks = 0
             outputTank.fillInternal(currentRecipe!!.output.copy(), true)//; .setOrIncrement(0, currentRecipe!!.output)
             input[0].shrink(currentRecipe!!.input.count)
         }
-        this.energyStorage.extractEnergy(ConfigHandler.liquifierEnergyPerTick!!, false)
+        this.energyStorage.extractEnergy(ConfigHandler.LIQUIFIER.energyPerTick, false)
     }
 }

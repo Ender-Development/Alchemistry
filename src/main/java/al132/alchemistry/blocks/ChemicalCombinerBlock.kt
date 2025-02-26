@@ -32,7 +32,7 @@ class ChemicalCombinerBlock(name: String,
     override fun registerItemBlock(event: RegistryEvent.Register<Item>) {
         event.registry.register(TooltipItemBlock(this,
                 Translator.translateToLocalFormatted("tooltip.alchemistry.energy_requirement",
-                        ConfigHandler.combinerEnergyPerTick ?: "?"))
+                        ConfigHandler.COMBINER.energyPerTick))
                 .setRegistryName(this.registryName))
     }
 

@@ -22,7 +22,7 @@ import net.minecraftforge.items.ItemStackHandler
  * Created by al132 on 1/22/2017.
  */
 class TileChemicalCombiner : TileBase(), IGuiTile, ITickable, IItemTile,
-        IEnergyTile by EnergyTileImpl(capacity = ConfigHandler.combinerEnergyCapacity!!) {
+        IEnergyTile by EnergyTileImpl(capacity = ConfigHandler.COMBINER.energyCapacity) {
 
     var currentRecipe: CombinerRecipe? = null
     var recipeIsLocked = false
@@ -67,9 +67,9 @@ class TileChemicalCombiner : TileBase(), IGuiTile, ITickable, IItemTile,
     }
 
     fun process() {
-        this.energyStorage.extractEnergy(ConfigHandler.combinerEnergyPerTick!!, false)
+        this.energyStorage.extractEnergy(ConfigHandler.COMBINER.energyPerTick, false)
 
-        if (progressTicks < ConfigHandler.combinerProcessingTicks!!) progressTicks++
+        if (progressTicks < ConfigHandler.COMBINER.processingTicks) progressTicks++
         else {
             progressTicks = 0
             currentRecipe?.let { output.setOrIncrement(0, it.output.copy()) }
@@ -95,7 +95,7 @@ class TileChemicalCombiner : TileBase(), IGuiTile, ITickable, IItemTile,
     fun canProcess(): Boolean {
         return currentRecipe != null
                 && (currentRecipe!!.gamestage == "" || hasCurrentRecipeStage())
-                && energyStorage.energyStored >= ConfigHandler.combinerEnergyPerTick!! //has enough energy
+                && energyStorage.energyStored >= ConfigHandler.COMBINER.energyPerTick //has enough energy
                 && (currentRecipe!!.output.count + output[0].count <= currentRecipe!!.output.maxStackSize) //output quantities can stack
                 && (ItemStack.areItemsEqual(output[0], currentRecipe!!.output) || output[0].isEmpty) //output item types can stack
                 && currentRecipe!!.matchesHandlerStacks(this.input)

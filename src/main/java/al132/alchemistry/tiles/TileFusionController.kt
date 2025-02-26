@@ -21,7 +21,7 @@ import net.minecraftforge.common.capabilities.Capability
  * Created by al132 on 4/29/2017.
  */
 class TileFusionController : TileBase(), IGuiTile, ITickable, IItemTile,
-        IEnergyTile by EnergyTileImpl(capacity = ConfigHandler.fusionEnergyCapacity!!) {
+    IEnergyTile by EnergyTileImpl(capacity = ConfigHandler.FUSION.energyCapacity) {
 
     var progressTicks = 0
     var recipeOutput: ItemStack = ItemStack.EMPTY
@@ -78,9 +78,18 @@ class TileFusionController : TileBase(), IGuiTile, ITickable, IItemTile,
             val currentStatus = state.getValue(STATUS)
             if (this.isValidMultiblock) {
                 if (isActive) {
-                    if (currentStatus != PropertyPowerStatus.ON) this.world.setBlockState(this.pos, state.withProperty(STATUS, PropertyPowerStatus.ON))
-                } else if (currentStatus != PropertyPowerStatus.STANDBY) world.setBlockState(pos, state.withProperty(STATUS, PropertyPowerStatus.STANDBY))
-            } else if (currentStatus != PropertyPowerStatus.OFF) world.setBlockState(pos, state.withProperty(STATUS, PropertyPowerStatus.OFF))
+                    if (currentStatus != PropertyPowerStatus.ON) this.world.setBlockState(
+                        this.pos,
+                        state.withProperty(STATUS, PropertyPowerStatus.ON)
+                    )
+                } else if (currentStatus != PropertyPowerStatus.STANDBY) world.setBlockState(
+                    pos,
+                    state.withProperty(STATUS, PropertyPowerStatus.STANDBY)
+                )
+            } else if (currentStatus != PropertyPowerStatus.OFF) world.setBlockState(
+                pos,
+                state.withProperty(STATUS, PropertyPowerStatus.OFF)
+            )
 
             if (canProcess()) process()
             this.markDirtyClientEvery(5)
@@ -95,12 +104,12 @@ class TileFusionController : TileBase(), IGuiTile, ITickable, IItemTile,
                 && !recipeOutput.isEmpty
                 && (ItemStack.areItemsEqual(output[0], recipeOutput) || output[0].isEmpty)
                 && output[0].count + recipeOutput.count <= recipeOutput.maxStackSize
-                && energyStorage.energyStored >= ConfigHandler.fusionEnergyPerTick!!
+                && energyStorage.energyStored >= ConfigHandler.FUSION.energyCapacity
 
     }
 
     fun process() {
-        if (progressTicks < ConfigHandler.fusionProcessingTicks!!) {
+        if (progressTicks < ConfigHandler.FUSION.processingTicks) {
             progressTicks++
         } else {
             progressTicks = 0
@@ -108,7 +117,7 @@ class TileFusionController : TileBase(), IGuiTile, ITickable, IItemTile,
             input.decrementSlot(0, 1) //Will refresh the recipe, clearing the recipeOutputs if only 1 stack is left
             input.decrementSlot(1, 1) //Will refresh the recipe, clearing the recipeOutputs if only 1 stack is left
         }
-        this.energyStorage.extractEnergy(ConfigHandler.fusionEnergyPerTick!!, false)
+        this.energyStorage.extractEnergy(ConfigHandler.FUSION.energyPerTick, false)
     }
 
 
@@ -139,7 +148,8 @@ class TileFusionController : TileBase(), IGuiTile, ITickable, IItemTile,
     }
 
     fun validateMultiblock(): Boolean {
-        val multiblockDirection: EnumFacing? = world?.getBlockState(this.pos)?.getValue(FusionControllerBlock.FACING)?.opposite
+        val multiblockDirection: EnumFacing? =
+            world?.getBlockState(this.pos)?.getValue(FusionControllerBlock.FACING)?.opposite
         if (multiblockDirection == null) return false
         fun BlockPos.offsetUp(amt: Int = 1) = this.offset(EnumFacing.UP, amt)
         fun BlockPos.offsetLeft(amt: Int = 1) = this.offset(multiblockDirection.rotateY(), amt)
@@ -167,7 +177,7 @@ class TileFusionController : TileBase(), IGuiTile, ITickable, IItemTile,
             if (it.z == outsideCorner1.z || it.z == outsideCorner2.z) sharedAxes++
             sharedAxes >= 1
         }.filterNot(this.pos::equals)
-                .count(this::containsFusionPart)
+            .count(this::containsFusionPart)
 
 
         val casingCorner1 = this.pos.offsetLeft(2).offsetBack(1)
@@ -180,16 +190,18 @@ class TileFusionController : TileBase(), IGuiTile, ITickable, IItemTile,
             sharedAxes >= 1
         }.all(::containsCasing)
 
-        return casingMatches && coreMatches && /*emptyInsideMatches &&*/ (borderingParts == 0)
+        val compact = ConfigHandler.FUSION.compactFusionReactor || borderingParts == 0
+
+        return casingMatches && coreMatches && /*emptyInsideMatches &&*/ compact
     }
 
     override fun hasCapability(capability: Capability<*>, facing: EnumFacing?): Boolean {
-        if (this.isValidMultiblock) return super.hasCapability(capability, facing)
-        else return false
+        return if (this.isValidMultiblock) super.hasCapability(capability, facing)
+        else false
     }
 
     override fun <T : Any> getCapability(capability: Capability<T>, facing: EnumFacing?): T? {
-        if (this.isValidMultiblock) return super.getCapability(capability, facing)
-        else return null
+        return if (this.isValidMultiblock) super.getCapability(capability, facing)
+        else null
     }
 }

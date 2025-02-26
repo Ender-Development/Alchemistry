@@ -51,15 +51,20 @@ class ItemCompound(name: String) : ItemMetaBase(name) {
     override fun onItemRightClick(worldIn: World, playerIn: EntityPlayer, handIn: EnumHand): ActionResult<ItemStack> {
         playerIn.activeHand = handIn
         val stack = playerIn.getHeldItem(handIn)
-        if (metaHasDankMolecule(stack.metadata)) return ActionResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn))
+        if (metaHasDankMolecule(stack.metadata)) return ActionResult(
+            EnumActionResult.SUCCESS,
+            playerIn.getHeldItem(handIn)
+        )
         else return ActionResult(EnumActionResult.PASS, stack)
     }
 
     @SideOnly(Side.CLIENT)
     override fun registerModel() {
         CompoundRegistry.keys().forEach {
-            ModelLoader.setCustomModelResourceLocation(this, it,
-                    ModelResourceLocation(registryName.toString(), "inventory"))
+            ModelLoader.setCustomModelResourceLocation(
+                this, it,
+                ModelResourceLocation(registryName.toString(), "inventory")
+            )
         }
     }
 
@@ -88,46 +93,69 @@ class ItemCompound(name: String) : ItemMetaBase(name) {
         } else return super.getItemStackDisplayName(stack)
     }
 
-    override fun getTranslationKey(stack: ItemStack?): String {
-        var i = stack!!.itemDamage
+    override fun getTranslationKey(stack: ItemStack): String {
+        var i = stack.itemDamage
         if (!CompoundRegistry.keys().contains(i)) i = 0
-        if (ConfigHandler.familyFriendlyMode!! &&
-                (i == CompoundRegistry["cocaine"]!!.meta
-                        || i == CompoundRegistry["psilocybin"]!!.meta
-                        || i == CompoundRegistry["mescaline"]!!.meta)) {
-        return super.getTranslationKey() + "_" + CompoundRegistry[i]!!.name + "_family"
+        if (ConfigHandler.GENERAL.familyFriendlyMode
+            && (i == CompoundRegistry["cocaine"]!!.meta
+                    || i == CompoundRegistry["psilocybin"]!!.meta
+                    || i == CompoundRegistry["mescaline"]!!.meta)
+        ) {
+            return super.getTranslationKey() + "_" + CompoundRegistry[i]!!.name + "_family"
         }
         return super.getTranslationKey() + "_" + CompoundRegistry[i]!!.name
     }
 
     companion object {
         val dankMolecules = ArrayList<DankMolecule>().apply {
-            add(DankMolecule(CompoundRegistry["potassium_cyanide"]!!.meta, 500, 2,
-                    listOf("wither".toPotion(), "poison".toPotion(), "nausea".toPotion(),
-                            "slowness".toPotion(), "hunger".toPotion()))
-            { e ->
-                e.foodStats.foodLevel = 0
-                e.attackEntityFrom(DamageSource.STARVE, 12.0f)
-            })
+            add(
+                DankMolecule(
+                    CompoundRegistry["potassium_cyanide"]!!.meta, 500, 2,
+                    listOf(
+                        "wither".toPotion(), "poison".toPotion(), "nausea".toPotion(),
+                        "slowness".toPotion(), "hunger".toPotion()
+                    )
+                )
+                { e ->
+                    e.foodStats.foodLevel = 0
+                    e.attackEntityFrom(DamageSource.STARVE, 12.0f)
+                })
 
-            add(DankMolecule(CompoundRegistry["psilocybin"]!!.meta, 600, 2,
-                    listOf("night_vision".toPotion(), "glowing".toPotion(), "slowness".toPotion()))
-            { e: EntityPlayer -> e.getCapability(CapabilityDrugInfo.DRUG_INFO, null)?.psilocybinTicks = 1100 })
+            add(
+                DankMolecule(
+                    CompoundRegistry["psilocybin"]!!.meta, 600, 2,
+                    listOf("night_vision".toPotion(), "glowing".toPotion(), "slowness".toPotion())
+                )
+                { e: EntityPlayer -> e.getCapability(CapabilityDrugInfo.DRUG_INFO, null)?.psilocybinTicks = 1100 })
 
-            add(DankMolecule(CompoundRegistry["penicillin"]!!.meta, 0, 0, listOf())
-            { e -> e.clearActivePotions(); e.heal(2.0f) })
+            add(
+                DankMolecule(CompoundRegistry["penicillin"]!!.meta, 0, 0, listOf())
+                { e -> e.clearActivePotions(); e.heal(2.0f) })
 
-            add(DankMolecule(CompoundRegistry["epinephrine"]!!.meta, 400, 0,
-                    listOf("night_vision".toPotion(), "speed".toPotion(), "haste".toPotion())))
+            add(
+                DankMolecule(
+                    CompoundRegistry["epinephrine"]!!.meta, 400, 0,
+                    listOf("night_vision".toPotion(), "speed".toPotion(), "haste".toPotion())
+                )
+            )
 
-            add(DankMolecule(CompoundRegistry["cocaine"]!!.meta, 400, 2,
-                    listOf("night_vision".toPotion(), "speed".toPotion(), "haste".toPotion(), "jump_boost".toPotion())))
+            add(
+                DankMolecule(
+                    CompoundRegistry["cocaine"]!!.meta, 400, 2,
+                    listOf("night_vision".toPotion(), "speed".toPotion(), "haste".toPotion(), "jump_boost".toPotion())
+                )
+            )
 
-            add(DankMolecule(CompoundRegistry["acetylsalicylic_acid"]!!.meta, 0, 0, listOf())
-            { e -> e.heal(5.0f) })
+            add(
+                DankMolecule(CompoundRegistry["acetylsalicylic_acid"]!!.meta, 0, 0, listOf())
+                { e -> e.heal(5.0f) })
 
-            add(DankMolecule(CompoundRegistry["caffeine"]!!.meta, 400, 0,
-                    listOf("night_vision".toPotion(), "speed".toPotion(), "haste".toPotion())))
+            add(
+                DankMolecule(
+                    CompoundRegistry["caffeine"]!!.meta, 400, 0,
+                    listOf("night_vision".toPotion(), "speed".toPotion(), "haste".toPotion())
+                )
+            )
         }
 
         fun metaHasDankMolecule(meta: Int) = dankMolecules.any { it.meta == meta }
@@ -137,8 +165,10 @@ class ItemCompound(name: String) : ItemMetaBase(name) {
 }
 
 
-data class DankMolecule(val meta: Int, val duration: Int, val amplifier: Int, val potionEffects: List<Potion>,
-                        val entityEffects: (EntityPlayer) -> Unit = {}) {
+data class DankMolecule(
+    val meta: Int, val duration: Int, val amplifier: Int, val potionEffects: List<Potion>,
+    val entityEffects: (EntityPlayer) -> Unit = {}
+) {
 
     fun activateForPlayer(player: EntityPlayer) {
         for (effect in this.potionEffects) {

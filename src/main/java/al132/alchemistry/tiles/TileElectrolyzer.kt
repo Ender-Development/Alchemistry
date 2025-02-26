@@ -18,7 +18,7 @@ import net.minecraftforge.fluids.capability.templates.FluidHandlerConcatenate
  * Created by al132 on 1/16/2017.
  */
 class TileElectrolyzer : TileBase(), IGuiTile, ITickable, IFluidTile, IItemTile,
-        IEnergyTile by EnergyTileImpl(capacity = ConfigHandler.electrolyzerEnergyCapacity!!) {
+        IEnergyTile by EnergyTileImpl(capacity = ConfigHandler.ELECTROLYZER.energyCapacity) {
 
     val inputTank: FluidTank
     var progressTicks = 0
@@ -88,7 +88,7 @@ class TileElectrolyzer : TileBase(), IGuiTile, ITickable, IFluidTile, IItemTile,
         return currentRecipe != null
                 && inputTank.fluidAmount >= currentRecipe!!.input.amount
                 && input[0].count >= currentRecipe!!.electrolytes[0].count
-                && this.energyStorage.energyStored >= ConfigHandler.electrolyzerEnergyPerTick!!
+                && this.energyStorage.energyStored >= ConfigHandler.ELECTROLYZER.energyCapacity
                 && (0 until 4).all {
             val outputStack = output[it]
             val recipeStack = currentRecipe!!.outputs[it].copy()
@@ -98,7 +98,7 @@ class TileElectrolyzer : TileBase(), IGuiTile, ITickable, IFluidTile, IItemTile,
     }
 
     fun process() {
-        if (progressTicks < ConfigHandler.electrolyzerProcessingTicks!!) {
+        if (progressTicks < ConfigHandler.ELECTROLYZER.processingTicks) {
             progressTicks++
         } else {
             progressTicks = 0
@@ -109,7 +109,7 @@ class TileElectrolyzer : TileBase(), IGuiTile, ITickable, IFluidTile, IItemTile,
 
             (0 until 4).forEach { output.setOrIncrement(it, currentRecipe!!.calculatedInSlot(it)) }
 
-            this.energyStorage.extractEnergy(ConfigHandler.electrolyzerEnergyPerTick!!, false)
+            this.energyStorage.extractEnergy(ConfigHandler.ELECTROLYZER.energyPerTick, false)
         }
     }
 }

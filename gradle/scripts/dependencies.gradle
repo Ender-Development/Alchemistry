@@ -109,4 +109,7 @@ dependencies {
     // Retro Sophisticated Backpacks (for Reference)
     runtimeOnly "curse.maven:modularui-624243:6206809"
     runtimeOnly "curse.maven:retro-sophisticated-backpacks-1197465:6234681"
+
+    // Resource Loader
+    runtimeOnly "curse.maven:resource-loader-226447:2477566"
 }

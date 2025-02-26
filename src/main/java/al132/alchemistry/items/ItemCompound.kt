@@ -7,6 +7,7 @@ import al132.alchemistry.chemistry.CompoundRegistry
 import al132.alchemistry.utils.extensions.toPotion
 import al132.alib.utils.extensions.translate
 import net.minecraft.client.renderer.block.model.ModelResourceLocation
+import net.minecraft.client.resources.I18n
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.entity.EntityLivingBase
@@ -87,10 +88,9 @@ class ItemCompound(name: String) : ItemMetaBase(name) {
 
     override fun getItemStackDisplayName(stack: ItemStack): String {
         val compound = CompoundRegistry[stack.metadata]
-        if (stack.item == ModItems.compounds && compound != null && !(compound.isInternalCompound)) {
-            val compoundName = CompoundRegistry[stack.metadata]?.name ?: "<Error>"
-            return compoundName.split("_").joinToString(separator = " ") { it.first().uppercaseChar() + it.drop(1) }
-        } else return super.getItemStackDisplayName(stack)
+        return if (stack.item == ModItems.compounds && compound != null && !(compound.isInternalCompound)) {
+            I18n.format(getTranslationKey(stack))
+        } else super.getItemStackDisplayName(stack)
     }
 
     override fun getTranslationKey(stack: ItemStack): String {
@@ -101,9 +101,9 @@ class ItemCompound(name: String) : ItemMetaBase(name) {
                     || i == CompoundRegistry["psilocybin"]!!.meta
                     || i == CompoundRegistry["mescaline"]!!.meta)
         ) {
-            return super.getTranslationKey() + "_" + CompoundRegistry[i]!!.name + "_family"
+            return super.getTranslationKey() + "_" + CompoundRegistry[i]!!.name + "_family.name"
         }
-        return super.getTranslationKey() + "_" + CompoundRegistry[i]!!.name
+        return super.getTranslationKey() + "_" + CompoundRegistry[i]!!.name + ".name"
     }
 
     companion object {

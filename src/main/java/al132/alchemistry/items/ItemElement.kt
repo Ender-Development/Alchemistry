@@ -3,6 +3,7 @@ package al132.alchemistry.items
 import al132.alchemistry.chemistry.ChemicalElement
 import al132.alchemistry.chemistry.ElementRegistry
 import net.minecraft.client.renderer.block.model.ModelResourceLocation
+import net.minecraft.client.resources.I18n
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.item.ItemStack
@@ -42,18 +43,16 @@ class ItemElement(name: String) : ItemMetaBase(name) {
     }
 
     override fun getItemStackDisplayName(stack: ItemStack): String {
-        val element = ElementRegistry[stack.metadata]
-        if (stack.metadata > 118 && stack.item == ModItems.elements) {
-            val elementName = ElementRegistry[stack.metadata]?.name ?: "<Error>"
-            return elementName.split("_").joinToString(separator = " ") { it.first().uppercaseChar() + it.drop(1) }
-        } else return super.getItemStackDisplayName(stack)
+        return if (stack.metadata > 118 && stack.item == ModItems.elements) {
+            I18n.format(getTranslationKey(stack))
+        } else super.getItemStackDisplayName(stack)
     }
 
-    override fun getTranslationKey(stack: ItemStack?): String {
-        var i = stack!!.itemDamage
+    override fun getTranslationKey(stack: ItemStack): String {
+        var i = stack.itemDamage
         if (!ElementRegistry.keys().contains(i)) i = 1
         try {
-            return super.getTranslationKey() + "_" + ElementRegistry[i]!!.name.lowercase(Locale.getDefault())
+            return super.getTranslationKey() + "_" + ElementRegistry[i]!!.name.lowercase(Locale.getDefault()) + ".name"
         } catch (e: NullPointerException) {
             throw NullPointerException("Unable to find translation key for element #[$i]")
         }

@@ -12,6 +12,13 @@ This feature will be overhauled in the future. For now, you can use [this projec
 
 - switched build system to [RetroFuturaGradle](https://github.com/GTNewHorizons/RetroFuturaGradle)
 - switched to the latest kotlin version utilizing [Forgelin-Continuous](https://www.curseforge.com/minecraft/mc-mods/forgelin-continuous)
+- rewrote the config system to allow editing the config in-game
+- added a config option that allows Fission and Fusion Reactors multiblocks to share their respective casings
+- fixed custom compounds and elements not being translatable
+
+## License
+
+Switched Licence from [MIT](https://mit-license.org) to [GPL-2.0](https://www.gnu.org/licenses/old-licenses/gpl-2.0.html), which allows me to use some assets from the modern version of the mod.
 
 ## [Ender-Development](https://github.com/Ender-Development)
 

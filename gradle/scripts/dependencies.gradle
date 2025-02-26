@@ -105,4 +105,8 @@ dependencies {
     // Patchouli
     runtimeOnly "curse.maven:patchouli-rofl-edition-905159:6178311"
     runtimeOnly "curse.maven:patchouli-books-1133738:6136828"
+
+    // Retro Sophisticated Backpacks (for Reference)
+    runtimeOnly "curse.maven:modularui-624243:6206809"
+    runtimeOnly "curse.maven:retro-sophisticated-backpacks-1197465:6234681"
 }

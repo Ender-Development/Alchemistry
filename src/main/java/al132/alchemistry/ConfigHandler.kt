@@ -3,17 +3,15 @@ package al132.alchemistry
 import com.cleanroommc.configanytime.ConfigAnytime
 import net.minecraftforge.common.config.Config
 import net.minecraftforge.common.config.ConfigManager
-import net.minecraftforge.common.config.Configuration
 import net.minecraftforge.fml.client.event.ConfigChangedEvent
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
-import java.io.File
 
 /**
  * Created by al132 on 4/28/2017.
  */
 
-@Config(modid = Reference.MODID, name = Reference.MODID, category = Reference.MODID)
+@Config(modid = Reference.MODID, name = Reference.MODID + "/" + Reference.MODID)
 object ConfigHandler {
 
     @JvmField
@@ -266,6 +264,7 @@ object ConfigHandler {
     @Mod.EventBusSubscriber(modid = Reference.MODID)
     object ConfigEventHandler {
         @SubscribeEvent
+        @JvmStatic
         fun onConfigChangedEvent(event: ConfigChangedEvent.OnConfigChangedEvent) {
             if (event.modID == Reference.MODID) {
                 ConfigManager.sync(Reference.MODID, Config.Type.INSTANCE)

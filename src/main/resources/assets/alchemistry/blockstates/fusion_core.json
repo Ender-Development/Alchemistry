@@ -1,10 +1,16 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "alchemistry:fusion_core"
-  },
   "variants": {
-    "normal": [{}],
-    "inventory": [{}]
+    "axis=x": {
+      "model": "alchemistry:block/fusion_core_horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "alchemistry:block/fusion_core"
+    },
+    "axis=z": {
+      "model": "alchemistry:block/fusion_core_horizontal",
+      "x": 90
+    }
   }
 }

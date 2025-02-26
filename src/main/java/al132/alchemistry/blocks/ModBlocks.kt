@@ -6,7 +6,9 @@ import al132.alchemistry.tiles.*
 import al132.alib.blocks.ALBlock
 import net.minecraft.block.Block
 import net.minecraft.block.material.Material
+import net.minecraft.client.renderer.block.model.ModelResourceLocation
 import net.minecraft.item.Item
+import net.minecraftforge.client.model.ModelLoader
 import net.minecraftforge.event.RegistryEvent
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
@@ -23,11 +25,13 @@ object ModBlocks {
     val liquifier = LiquifierBlock("liquifier", TileLiquifier::class.java, GuiHandler.LIQUIFIER_ID)
 
     val fissionCasing: BaseBlock = BaseBlock("fission_casing")
-    val fissionCore = BaseBlock("fission_core")
+    val fissionGlass: BaseBlock = BaseBlock("fission_glass")
+    val fissionCore: BaseBlock = BaseBlock("fission_core")
     val fissionController = FissionControllerBlock("fission_controller", TileFissionController::class.java, GuiHandler.FISSION_CONTROLLER_ID)
 
-    val fusionCasing = BaseBlock("fusion_casing")
-    val fusionCore = BaseBlock("fusion_core")
+    val fusionCasing: BaseBlock = BaseBlock("fusion_casing")
+    val fusionGlass: BaseBlock = BaseBlock("fusion_glass")
+    val fusionCore: BaseBlock = BaseBlock("fusion_core")
     val fusionController = FusionControllerBlock("fusion_controller", TileFusionController::class.java, GuiHandler.FUSION_CONTROLLER_ID)
 
     val neonLight = LightBlock("neon_light")//red-orange

@@ -1,10 +1,16 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "alchemistry:fission_core"
-  },
-  "variants": {
-    "normal": [{}],
-    "inventory": [{}]
-  }
+    "variants": {
+        "axis=y": {
+            "model": "alchemistry:fission_core"
+        },
+        "axis=z": {
+            "model": "alchemistry:fission_core",
+            "x": 90
+        },
+        "axis=x": {
+            "model": "alchemistry:fission_core",
+            "x": 90,
+            "y": 90
+        }
+    }
 }

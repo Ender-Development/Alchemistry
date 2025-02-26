@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column_horizontal",
+  "textures": {
+    "end": "alchemistry:block/fusion_core_end",
+    "side": "alchemistry:block/fusion_core_side"
+  }
+}

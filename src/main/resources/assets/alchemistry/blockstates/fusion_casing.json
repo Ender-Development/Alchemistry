@@ -1,7 +1,7 @@
 {
   "forge_marker": 1,
   "defaults": {
-    "model": "alchemistry:fusion_casing"
+    "model": "alchemistry:reactor_casing"
   },
   "variants": {
     "normal": [{}],

@@ -1,12 +1,7 @@
 {
-  "parent": "block/cube",
+  "parent": "block/cube_column",
   "textures": {
-    "particle": "alchemistry:blocks/dark_block",
-    "down": "alchemistry:blocks/fission_core",
-    "up": "alchemistry:blocks/fission_core",
-    "east": "alchemistry:blocks/fission_core_side",
-    "west": "alchemistry:blocks/fission_core_side",
-    "south": "alchemistry:blocks/fission_core_side",
-    "north": "alchemistry:blocks/fission_core_side"
+    "end": "alchemistry:blocks/fission_core_end",
+    "side": "alchemistry:blocks/fission_core_side"
   }
 }

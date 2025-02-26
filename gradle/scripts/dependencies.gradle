@@ -112,4 +112,7 @@ dependencies {
 
     // Resource Loader
     runtimeOnly "curse.maven:resource-loader-226447:2477566"
+
+    // CTM
+    runtimeOnly "curse.maven:ctm-267602:2915363"
 }

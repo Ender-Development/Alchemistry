@@ -1,9 +1,9 @@
 {
   "forge_marker": 1,
   "defaults": {
-    "model": "alchemistry:fission_chamber_controller",
+    "model": "alchemistry:fission_controller",
     "textures": {
-      "front": "alchemistry:blocks/fission_chamber_controller_off"
+      "front": "alchemistry:blocks/fission_controller_off"
     }
   },
   "variants": {
@@ -19,17 +19,17 @@
       "off": {},
       "standby": {
         "textures": {
-          "front": "alchemistry:blocks/fission_chamber_controller_standby"
+          "front": "alchemistry:blocks/fission_controller_standby"
         }
       },
       "on": {
         "textures": {
-          "front": "alchemistry:blocks/fission_chamber_controller_on"
+          "front": "alchemistry:blocks/fission_controller_on"
         }
       },
       "disabled": {
         "textures": {
-          "front": "alchemistry:blocks/fission_chamber_controller_disabled"
+          "front": "alchemistry:blocks/fission_controller_disabled"
         }
       }
     }

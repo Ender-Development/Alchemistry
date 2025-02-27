@@ -3,7 +3,7 @@
   "defaults": {
     "model": "alchemistry:fusion_controller",
     "textures": {
-      "front": "alchemistry:blocks/fusion_controller_front"
+      "front": "alchemistry:blocks/fusion_controller_off"
     }
   },
   "variants": {
@@ -11,20 +11,25 @@
     "inventory": [{}],
     "facing": {
       "north": {},
+      "east": {"y": 90},
       "south": {"y": 180},
-      "west": {"y": 270},
-      "east": {"y": 90}
+      "west": {"y": 270}
     },
     "status": {
       "off": {},
       "standby": {
         "textures": {
-          "front": "alchemistry:blocks/controller_standby"
+          "front": "alchemistry:blocks/fusion_controller_standby"
         }
       },
       "on": {
         "textures": {
-          "front": "alchemistry:blocks/controller_active"
+          "front": "alchemistry:blocks/fusion_controller_on"
+        }
+      },
+      "disabled": {
+        "textures": {
+          "front": "alchemistry:blocks/fusion_controller_disabled"
         }
       }
     }

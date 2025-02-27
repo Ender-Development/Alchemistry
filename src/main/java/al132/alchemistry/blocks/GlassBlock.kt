@@ -12,8 +12,10 @@ class GlassBlock(name: String) : BaseBlock(name){
         this.soundType = SoundType.GLASS
     }
 
+    @Deprecated("")
     override fun isOpaqueCube(state: IBlockState) = false
 
+    @Deprecated("")
     override fun shouldSideBeRendered(state: IBlockState, access: IBlockAccess, pos: BlockPos, side: EnumFacing): Boolean {
         return access.getBlockState(pos.add(side.directionVec)).block != this
     }

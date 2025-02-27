@@ -10,6 +10,7 @@ import net.minecraft.util.EnumFacing.Axis
 import net.minecraft.util.EnumHand
 import net.minecraft.util.Rotation
 import net.minecraft.util.math.BlockPos
+import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 
 class CoreBlock(name: String) : BaseBlock(name) {
@@ -19,7 +20,7 @@ class CoreBlock(name: String) : BaseBlock(name) {
     }
 
     init {
-        this.defaultState = this.blockState.baseState.withProperty(AXIS, Axis.Y)
+        defaultState = blockState.baseState.withProperty(AXIS, Axis.Y)
     }
 
     // stole these from BlockRotatedPillar
@@ -30,12 +31,13 @@ class CoreBlock(name: String) : BaseBlock(name) {
         return true
     }
 
+    @Deprecated("")
     override fun withRotation(state: IBlockState, rot: Rotation): IBlockState {
         if(rot != Rotation.COUNTERCLOCKWISE_90 && rot != Rotation.CLOCKWISE_90)
             return state
 
         val rot = state.getValue(AXIS)
-        if(rot == EnumFacing.Axis.X)
+        if(rot == Axis.X)
             return state.withProperty(AXIS, Axis.Z)
         if(rot == Axis.Z)
             return state.withProperty(AXIS, Axis.X)
@@ -43,6 +45,7 @@ class CoreBlock(name: String) : BaseBlock(name) {
         return state
     }
 
+    @Deprecated("")
     override fun getStateFromMeta(meta: Int): IBlockState {
         val r = meta and 12 // 12 = 4 | 8
         return defaultState.withProperty(AXIS, if(r == 4) Axis.X else if(r == 8) Axis.Z else Axis.Y)
@@ -53,6 +56,7 @@ class CoreBlock(name: String) : BaseBlock(name) {
         return if(axis == Axis.X) 4 else if(axis == Axis.Z) 8 else 0
     }
 
+    override fun getLightValue(state: IBlockState, world: IBlockAccess, pos: BlockPos): Int = 4
 
     override fun createBlockState() = BlockStateContainer(this, *PROPERTIES)
 

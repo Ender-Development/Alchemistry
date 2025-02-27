@@ -89,7 +89,7 @@ class ItemCompound(name: String) : ItemMetaBase(name) {
     override fun getItemStackDisplayName(stack: ItemStack): String {
         val compound = CompoundRegistry[stack.metadata]
         return if (stack.item == ModItems.compounds && compound != null && !(compound.isInternalCompound)) {
-            I18n.format(getTranslationKey(stack))
+            I18n.format(getTranslationKey(stack) + ".name")
         } else super.getItemStackDisplayName(stack)
     }
 
@@ -101,9 +101,9 @@ class ItemCompound(name: String) : ItemMetaBase(name) {
                     || i == CompoundRegistry["psilocybin"]!!.meta
                     || i == CompoundRegistry["mescaline"]!!.meta)
         ) {
-            return super.getTranslationKey() + "_" + CompoundRegistry[i]!!.name + "_family.name"
+            return super.getTranslationKey() + "_" + CompoundRegistry[i]!!.name + "_family"
         }
-        return super.getTranslationKey() + "_" + CompoundRegistry[i]!!.name + ".name"
+        return super.getTranslationKey() + "_" + CompoundRegistry[i]!!.name
     }
 
     companion object {

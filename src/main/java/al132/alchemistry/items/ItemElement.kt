@@ -44,7 +44,7 @@ class ItemElement(name: String) : ItemMetaBase(name) {
 
     override fun getItemStackDisplayName(stack: ItemStack): String {
         return if (stack.metadata > 118 && stack.item == ModItems.elements) {
-            I18n.format(getTranslationKey(stack))
+            I18n.format(getTranslationKey(stack) + ".name")
         } else super.getItemStackDisplayName(stack)
     }
 
@@ -52,7 +52,7 @@ class ItemElement(name: String) : ItemMetaBase(name) {
         var i = stack.itemDamage
         if (!ElementRegistry.keys().contains(i)) i = 1
         try {
-            return super.getTranslationKey() + "_" + ElementRegistry[i]!!.name.lowercase(Locale.getDefault()) + ".name"
+            return super.getTranslationKey() + "_" + ElementRegistry[i]!!.name.lowercase(Locale.getDefault())
         } catch (e: NullPointerException) {
             throw NullPointerException("Unable to find translation key for element #[$i]")
         }

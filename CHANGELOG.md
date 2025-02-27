@@ -3,6 +3,9 @@
 ## [1.1.0] - Ender-Development Takeover
 - ported the buildscript to RFG
 - adapted to forgelin Continuous
+- backported most of the modern textures
+- added glass for each kind of reactor
+- tweaked reactor validation to respect glass
 
 ## [1.0.41]
 - Reverted the Fusion multiblock sided-input changes introduced in v39, now instead there is a button to toggle between 'single mode' and 'regular mode'.

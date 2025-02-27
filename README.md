@@ -1,6 +1,6 @@
 # Alchemistry - Redox
 
-Alchemistry is a tech mod, inspired by the classic [Minechem](https://www.curseforge.com/minecraft/mc-mods/minechem-archive), that allows you to decompose items into their constituent elements, then recombine them to create new items. This is a fork of the 1.12.2 branch of the [original mod](https://www.curseforge.com/minecraft/mc-mods/alchemistry) and aims to be the definitive 1.12.2 version of the mod. We try to achieve this by updating the the buildscripts as well as the dependencies to the latest versions. While also adapting the codebase to the newest kotlin version. Furthermore, this version tries to fix as many bugs as possible, while also adding new features and improvements.
+Alchemistry is a tech mod, inspired by the classic [Minechem](https://www.curseforge.com/minecraft/mc-mods/minechem-archive), that allows you to decompose items into their constituent elements, then recombine them to create new items. This is a fork of the 1.12.2 branch of the [original mod](https://www.curseforge.com/minecraft/mc-mods/alchemistry) and aims to be the definitive 1.12.2 version of the mod. This is achieved by updating dependencies, fixing bugs, and improving the current features.
 
 <a href="https://www.akliz.net/enderman"><img src="https://github.com/Ender-Development/PatchouliBooks/raw/master/banner.png" align="center"/></a>
 
@@ -15,6 +15,9 @@ This feature will be overhauled in the future. For now, you can use [this projec
 - rewrote the config system to allow editing the config in-game
 - added a config option that allows Fission and Fusion Reactors multiblocks to share their respective casings
 - fixed custom compounds and elements not being translatable
+- backported reactor and machine textures from the modern version of the mod
+- added fission and fusion glass to decorate the reactors
+- reactor cores now emit a small amount of light
 
 ## License
 

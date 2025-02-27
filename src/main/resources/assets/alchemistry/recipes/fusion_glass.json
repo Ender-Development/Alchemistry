@@ -1,0 +1,26 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "WNW",
+    "NEN",
+    "WNW"
+  ],
+  "key": {
+    "E": {
+      "type": "forge:ore_dict",
+      "ore": "blockGlass"
+    },
+    "W": {
+      "type": "forge:ore_dict",
+      "ore": "ingotTungsten"
+    },
+    "N": {
+      "type": "forge:ore_dict",
+      "ore": "ingotNeodymium"
+    }
+  },
+  "result": {
+    "count": 4,
+    "item": "alchemistry:fusion_glass"
+  }
+}

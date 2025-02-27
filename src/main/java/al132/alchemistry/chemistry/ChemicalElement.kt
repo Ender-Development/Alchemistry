@@ -8,7 +8,7 @@ import java.awt.Color
 /**
  * Created by al132 on 1/22/2017.
  */
-class ChemicalElement constructor(override var name: String, val abbreviation: String, override var color: Color = Color.white) : ICompoundComponent {
+class ChemicalElement constructor(override var name: String, val abbreviation: String, override var color: Color = Color.white, var group: Int = 0, var period: Int = 0) : ICompoundComponent {
 
     override val item: Item
         get() = ModItems.elements

@@ -1,7 +1,10 @@
 {
+  "forge_marker": 1,
+  "defaults": {
+    "model": "alchemistry:fusion_glass"
+  },
   "variants": {
-    "": {
-      "model": "alchemistry:block/reactor_glass"
-    }
+    "normal": [{}],
+    "inventory": [{}]
   }
 }

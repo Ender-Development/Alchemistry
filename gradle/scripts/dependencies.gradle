@@ -115,4 +115,7 @@ dependencies {
 
     // CTM
     runtimeOnly "curse.maven:ctm-267602:2915363"
+
+    // Exponential Power
+    runtimeOnly "curse.maven:exponential-power-254249:2576624"
 }

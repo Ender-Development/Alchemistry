@@ -20,16 +20,12 @@ import net.minecraftforge.common.capabilities.Capability
 /**
  * Created by al132 on 4/29/2017.
  */
-class TileFusionController : TileBase(), IGuiTile, ITickable, IItemTile,
+class TileFusionController(reactorType: ReactorType = ReactorType.FUSION) : AbstractReactorController(reactorType),
+    IGuiTile, ITickable, IItemTile,
     IEnergyTile by EnergyTileImpl(capacity = ConfigHandler.FUSION.energyCapacity) {
 
-    var progressTicks = 0
     var recipeOutput: ItemStack = ItemStack.EMPTY
-    var isValidMultiblock: Boolean = false
-    var checkMultiblockTicks: Int = 0
     var singleMode: Boolean = false
-    //lateinit var inputLeft: IItemHandler
-    //lateinit var inputRight: IItemHandler
 
     init {
         initInventoryCapability(2, 1)
@@ -52,11 +48,9 @@ class TileFusionController : TileBase(), IGuiTile, ITickable, IItemTile,
                 super.onContentsChanged(slot)
             }
         }
-        //inputLeft = RangedWrapper(input, 0, 1)
-        //inputRight = RangedWrapper(input, 1, 2)
     }
 
-    fun refreshRecipe() {
+    override fun refreshRecipe() {
         val meta1 = this.input[0].metadata
         val meta2 = this.input[1].metadata
         val outputElement: ChemicalElement? = ElementRegistry[meta1 + meta2]
@@ -76,7 +70,7 @@ class TileFusionController : TileBase(), IGuiTile, ITickable, IItemTile,
             val state = this.world.getBlockState(this.pos)
             if (state.block != ModBlocks.fusionController) return;
             val currentStatus = state.getValue(STATUS)
-            if (this.isValidMultiblock) {
+            if (this.isMultiblockValid) {
                 if (isActive) {
                     if (currentStatus != PropertyPowerStatus.ON) this.world.setBlockState(
                         this.pos,
@@ -97,8 +91,8 @@ class TileFusionController : TileBase(), IGuiTile, ITickable, IItemTile,
     }
 
 
-    fun canProcess(): Boolean {
-        return this.isValidMultiblock
+    override fun canProcess(): Boolean {
+        return this.isMultiblockValid
                 && !input[0].isEmpty
                 && !input[1].isEmpty
                 && !recipeOutput.isEmpty
@@ -108,7 +102,7 @@ class TileFusionController : TileBase(), IGuiTile, ITickable, IItemTile,
 
     }
 
-    fun process() {
+    override fun process() {
         if (progressTicks < ConfigHandler.FUSION.processingTicks) {
             progressTicks++
         } else {
@@ -119,7 +113,6 @@ class TileFusionController : TileBase(), IGuiTile, ITickable, IItemTile,
         }
         this.energyStorage.extractEnergy(ConfigHandler.FUSION.energyPerTick, false)
     }
-
 
     override fun writeToNBT(compound: NBTTagCompound): NBTTagCompound {
         super.writeToNBT(compound)
@@ -134,74 +127,5 @@ class TileFusionController : TileBase(), IGuiTile, ITickable, IItemTile,
         this.singleMode = compound.getBoolean("singleMode")
         this.refreshRecipe()
         this.updateMultiblock()
-    }
-
-    private fun containsCasing(pos: BlockPos): Boolean = (this.world.getBlockState(pos).block == ModBlocks.fusionCasing)
-    private fun containsCore(pos: BlockPos): Boolean = (this.world.getBlockState(pos).block == ModBlocks.fusionCore)
-    private fun containsFusionPart(pos: BlockPos): Boolean {
-        val block = this.world.getBlockState(pos).block
-        return block == ModBlocks.fusionCasing || block == ModBlocks.fusionCore || block == ModBlocks.fusionController
-    }
-
-    fun updateMultiblock() {
-        this.isValidMultiblock = validateMultiblock()
-    }
-
-    fun validateMultiblock(): Boolean {
-        val multiblockDirection: EnumFacing? =
-            world?.getBlockState(this.pos)?.getValue(FusionControllerBlock.FACING)?.opposite
-        if (multiblockDirection == null) return false
-        fun BlockPos.offsetUp(amt: Int = 1) = this.offset(EnumFacing.UP, amt)
-        fun BlockPos.offsetLeft(amt: Int = 1) = this.offset(multiblockDirection.rotateY(), amt)
-        fun BlockPos.offsetRight(amt: Int = 1) = this.offset(multiblockDirection.rotateY(), -1 * amt)
-        fun BlockPos.offsetBack(amt: Int = 1) = this.offset(multiblockDirection, amt)
-        fun BlockPos.offsetDown(amt: Int = 1) = this.offset(EnumFacing.DOWN, amt)
-
-        val coreBottom = this.pos.offsetBack(3).offsetUp()
-        val coreTop = coreBottom.offsetUp(2)
-        val coreMatches = BlockPos.getAllInBox(coreBottom, coreTop).all(::containsCore)
-        /*
-        val insideCorner1 = this.pos.offsetUp().offsetLeft().offsetBack(2)
-        val insideCorner2 = insideCorner1.offsetBack(2).offsetRight(2).offsetUp(2)
-        val middleXZ = this.pos.offsetBack(3)
-        val emptyInsideMatches = BlockPos.getAllInBox(insideCorner1, insideCorner2)
-                .filterNot { it.x == middleXZ.x && it.z == middleXZ.z }.all(world::isAirBlock)
-        */
-        //A cube of all blocks surrounding the fusion multiblock, checking to ensure no other fusion multiblocks are overlapping/sharing
-        val outsideCorner1 = this.pos.offsetLeft(3).offsetDown()
-        val outsideCorner2 = outsideCorner1.offsetRight(6).offsetUp(6).offsetBack(6)
-        val borderingParts = BlockPos.getAllInBox(outsideCorner1, outsideCorner2).filter {
-            var sharedAxes = 0
-            if (it.x == outsideCorner1.x || it.x == outsideCorner2.x) sharedAxes++
-            if (it.y == outsideCorner1.y || it.y == outsideCorner2.y) sharedAxes++
-            if (it.z == outsideCorner1.z || it.z == outsideCorner2.z) sharedAxes++
-            sharedAxes >= 1
-        }.filterNot(this.pos::equals)
-            .count(this::containsFusionPart)
-
-
-        val casingCorner1 = this.pos.offsetLeft(2).offsetBack(1)
-        val casingCorner2 = casingCorner1.offsetRight(4).offsetBack(4).offsetUp(4)
-        val casingMatches = BlockPos.getAllInBox(casingCorner1, casingCorner2).filter {
-            var sharedAxes = 0
-            if (it.x == casingCorner1.x || it.x == casingCorner2.x) sharedAxes++
-            if (it.y == casingCorner1.y || it.y == casingCorner2.y) sharedAxes++
-            if (it.z == casingCorner1.z || it.z == casingCorner2.z) sharedAxes++
-            sharedAxes >= 1
-        }.all(::containsCasing)
-
-        val compact = ConfigHandler.FUSION.compactFusionReactor || borderingParts == 0
-
-        return casingMatches && coreMatches && /*emptyInsideMatches &&*/ compact
-    }
-
-    override fun hasCapability(capability: Capability<*>, facing: EnumFacing?): Boolean {
-        return if (this.isValidMultiblock) super.hasCapability(capability, facing)
-        else false
-    }
-
-    override fun <T : Any> getCapability(capability: Capability<T>, facing: EnumFacing?): T? {
-        return if (this.isValidMultiblock) super.getCapability(capability, facing)
-        else null
     }
 }

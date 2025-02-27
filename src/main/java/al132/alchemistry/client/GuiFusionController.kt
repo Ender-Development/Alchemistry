@@ -58,7 +58,7 @@ class GuiFusionController(playerInv: InventoryPlayer, tile: TileFusionController
     }
 
     fun updateStatus() {
-        if (tile.isValidMultiblock) statusText = ""
+        if (tile.isMultiblockValid) statusText = ""
         else statusText = Translator.translateToLocal("tile.fusion.invalid_multiblock")
     }
 

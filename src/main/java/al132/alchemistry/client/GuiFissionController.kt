@@ -39,7 +39,7 @@ class GuiFissionController(playerInv: InventoryPlayer, tile: TileFissionControll
     }
 
     fun updateStatus() {
-        if (tile.isValidMultiblock) statusText = ""
+        if (tile.isMultiblockValid) statusText = ""
         else statusText = Translator.translateToLocal("tile.fission.invalid_multiblock")
     }
 

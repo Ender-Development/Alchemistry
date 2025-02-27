@@ -7,9 +7,11 @@ tile.liquifier.name=Liquifier
 tile.fission_controller.name=Fission Controller
 tile.fission_core.name=Fission Core
 tile.fission_casing.name=Fission Casing
+tile.fission_glass.name=Fission Glass
 tile.fusion_controller.name=Fusion Controller
 tile.fusion_core.name=Fusion Core
 tile.fusion_casing.name=Fusion Casing
+tile.fusion_glass.name=Fusion Glass
 
 tile.neon_light.name=Neon Light
 tile.krypton_light.name=Krypton Light

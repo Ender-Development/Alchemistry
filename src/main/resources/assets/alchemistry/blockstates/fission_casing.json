@@ -1,9 +1,10 @@
 {
   "forge_marker": 1,
-    "defaults": {
-        "tran": "cube_all"
-    },
+  "defaults": {
+    "model": "alchemistry:fission_casing"
+  },
   "variants": {
-    "normal": { "model": "alchemistry:fission_casing" }
+    "normal": [{}],
+    "inventory": [{}]
   }
 }

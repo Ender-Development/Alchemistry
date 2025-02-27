@@ -4,7 +4,7 @@
     "type": "ctm",
     "layer": "TRANSLUCENT",
     "textures": [
-        "alchemistry:block/reactor_glass_ctm"
+        "alchemistry:blocks/reactor_glass_ctm"
     ],
     "extra": {
       "light": 0

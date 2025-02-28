@@ -3,12 +3,12 @@ package al132.alchemistry.client
 import al132.alchemistry.Reference
 import al132.alchemistry.chemistry.ChemicalElement
 import al132.alchemistry.chemistry.ElementRegistry
-import al132.alib.utils.extensions.translate
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiScreen
 import net.minecraft.client.gui.ScaledResolution
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.util.ResourceLocation
+import kotlin.math.roundToInt
 
 class GuiPeriodicTable : GuiScreen() {
     init {
@@ -38,9 +38,9 @@ class GuiPeriodicTable : GuiScreen() {
 
         val scaledRes = ScaledResolution(Minecraft.getMinecraft())
         val w = scaledRes.scaledWidth.coerceAtMost(1512)
-        val w_scale = w / 1512f
+        val wScale = w / 1512f
         val h = scaledRes.scaledHeight.coerceAtMost(792)
-        val h_scale = h / 792f
+        val hScale = h / 792f
 
         GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f)
         Minecraft.getMinecraft().textureManager.bindTexture(
@@ -50,85 +50,42 @@ class GuiPeriodicTable : GuiScreen() {
             )
         )
         drawScaledCustomSizeModalRect(0, 0, 0f, 0f, w, h, w, h, w.toFloat(), h.toFloat())
-        drawCenteredString(fontRenderer, "alchemistry.gui.periodic_table".translate(), width / 2, 24, 0xFFFFFF)
 
-        val boxWidth = 84f * w_scale
-        val boxHeight = 84f * h_scale
+        val boxWidth = 84f * wScale
+        val boxHeight = 84f * hScale
         val group = (mouseX / boxWidth).toInt() + 1
-        val period = (mouseY / boxHeight).toInt() + 1
-        // TODO: account for La/Actinides (Hf/... gets replaced by them, + the Y gap in-between)
+        var period: Int
+        var reverse = false
+        if(mouseY > (7 * 84f * hScale)) {
+            // La/Actinides
+            // have to compensate for the offset
+            val y = mouseY - 35f * hScale
+            period = (y / boxHeight).toInt() - 1
 
-        println("$group, $period")
-        val element = ElementRegistry.getAllElements().find { it.group == group && it.period == period }
+            // free space in-between
+            if(mouseY < ((7 * 84f + 35) * hScale))
+                period = -1
+            reverse = true
+        } else
+            period = (mouseY / boxHeight).toInt() + 1
+
+        val elements = ElementRegistry.getAllElements()
+        val predicate = { el: ChemicalElement -> el.group == group && el.period == period }
+        val element = if(reverse) elements.find(predicate) else elements.findLast(predicate)
 
         if(element != null)
             drawElementTip(element)
 
-//        val startX = ((width - (boxWidth * 18)) / 2) * w_scale
-//        val startY = (((height - (boxHeight * 7)) / 2) - 33.0f) * h_scale
-//        println("scale: ${w_scale}, ${h_scale}; boxSize: ${boxWidth}x${boxHeight}; startXY: $startX, $startY")
-//        var count = 0
-
-//        println("$mouseX, $mouseY")
-//        println("$row, $col")
-        
-//        ElementRegistry.getAllElements().forEach { element ->
-//            var x = startX
-//            var y = startY
-//            val group = element.group
-//            val period = element.period
-//
-//            if (group == 0 || period == 0) {
-//                return@forEach
-//            }
-//
-//            for (row in 1 until 8) {
-//                if (period == row) {
-//                    for (col in 0 until 19) {
-//                        if (group == col) {
-//                            if (!((period == 6 || period == 7) && group == 3)) {
-//                                if (mouseX >= x && mouseX <= x + boxWidth && mouseY >= y && mouseY <= y + boxHeight) {
-//                                    drawElementTip(element)
-//                                }
-//                            } else {
-//                                val resetX = x
-//                                val resetY = y
-//                                if (period == 6) {
-//                                    y = (boxHeight * 7.45f) + startY
-//                                    x = (boxWidth * count) + startX + boxWidth * 2
-//                                    if (mouseX >= x && mouseX <= x + boxWidth && mouseY >= y && mouseY <= y + boxHeight) {
-//                                        drawElementTip(element)
-//                                    }
-//                                    count++
-//                                }
-//                                if (period == 7) {
-//                                    y = (boxHeight * 8.45f) + startY
-//                                    x = (boxWidth * count - 15) + startX + boxWidth * 2
-//                                    if (mouseX >= x && mouseX <= x + boxWidth && mouseY >= y && mouseY <= y + boxHeight) {
-//                                        drawElementTip(element)
-//                                    }
-//                                    count++
-//                                }
-//                                y = resetY
-//                                x = resetX
-//                            }
-//                        }
-//                        x += boxWidth
-//                    }
-//                }
-//                x = startX
-//                y += boxHeight
-//            }
-//        }
         GlStateManager.popMatrix()
         super.drawScreen(mouseX, mouseY, partialTicks)
     }
 
-    // TODO: fix scaling and overall drawing position
     private fun drawElementTip(element: ChemicalElement) {
         val scaledRes = ScaledResolution(Minecraft.getMinecraft())
+        val boxWidth = 84f * scaledRes.scaledWidth.coerceAtMost(1512) / 1512f
+        val boxHeight = 84f * scaledRes.scaledWidth.coerceAtMost(792) / 792f
         val w = scaledRes.scaledWidth.coerceAtMost(816)
-        val h = scaledRes.scaledHeight.coerceAtMost(240)
+        val h = scaledRes.scaledHeight.coerceAtMost(240).coerceAtMost((boxHeight * 3).toInt())
 
         GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f)
         Minecraft.getMinecraft().textureManager.bindTexture(
@@ -137,6 +94,6 @@ class GuiPeriodicTable : GuiScreen() {
                 "textures/gui/elements/${element.name}_tooltip.png"
             )
         )
-        drawScaledCustomSizeModalRect(((this.width - 276) / 2) - 55, ((this.height - (7 * 28)) / 2) - 30, 0f, 0f, w, h, w, h, w.toFloat(), h.toFloat())
+        drawScaledCustomSizeModalRect((boxWidth * 2).roundToInt(), 0, 0f, 0f, w / 2, h / 2, w / 2, h / 2, w / 2f, h / 2f)
     }
 }

@@ -11,61 +11,65 @@ import net.minecraft.util.ResourceLocation
 import kotlin.math.roundToInt
 
 class GuiPeriodicTable : GuiScreen() {
+    val minecraft: Minecraft = Minecraft.getMinecraft()
+
     init {
-        this.width = Minecraft.getMinecraft().displayWidth
-        this.height = Minecraft.getMinecraft().displayHeight
+        width = minecraft.displayWidth
+        height = minecraft.displayHeight
+    }
+
+    companion object {
+        // period_table.png size
+        const val IMAGE_WIDTH = 1512
+        const val IMAGE_HEIGHT = 792
+
+        // element box size
+        const val BOX_WIDTH = 84
+        const val BOX_HEIGHT = 84
+
+        // offset between the main table and La/Actinides
+        const val ACTINIDES_OFFSET = 35
+
+        // size of the element tooltip pngs
+        const val TOOLTIP_WIDTH = 816
+        const val TOOLTIP_HEIGHT = 240
     }
 
     override fun doesGuiPauseGame(): Boolean {
         return false
     }
 
-//    val textureLocation = ResourceLocation(Reference.MODID, "textures/images/periodic_table.png")
-//    override fun drawScreen(mouseX: Int, mouseY: Int, partialTicks: Float) {
-//        super.drawScreen(mouseX, mouseY, partialTicks)
-//        this.drawDefaultBackground()
-//        this.mc.textureManager.bindTexture(this.textureLocation)
-//        val scaledRes = ScaledResolution(Minecraft.getMinecraft())
-//        val w = Math.min(scaledRes.scaledWidth, 2000)
-//        val h = Math.min(scaledRes.scaledHeight, 1016)
-//        //drawModalRectWithCustomSizedTexture(0, 0, 0f, 0f,w,h,w.toFloat(),h.toFloat())
-//        drawScaledCustomSizeModalRect(0, 0, 0f, 0f, w, h, w, h, w.toFloat(), h.toFloat())
-//    }
-
     override fun drawScreen(mouseX: Int, mouseY: Int, partialTicks: Float) {
         GlStateManager.pushMatrix()
         drawDefaultBackground()
 
-        val scaledRes = ScaledResolution(Minecraft.getMinecraft())
-        val w = scaledRes.scaledWidth.coerceAtMost(1512)
-        val wScale = w / 1512f
-        val h = scaledRes.scaledHeight.coerceAtMost(792)
-        val hScale = h / 792f
+        val scaledRes = ScaledResolution(minecraft)
+        val w = scaledRes.scaledWidth.coerceAtMost(IMAGE_WIDTH)
+        val wScale = w / IMAGE_WIDTH.toFloat()
+        val h = scaledRes.scaledHeight.coerceAtMost(IMAGE_HEIGHT)
+        val hScale = h / IMAGE_HEIGHT.toFloat()
 
-        GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f)
-        Minecraft.getMinecraft().textureManager.bindTexture(
-            ResourceLocation(
-                Reference.MODID,
-                "textures/gui/periodic_table.png"
-            )
-        )
+        GlStateManager.color(1f, 1f, 1f, 1f)
+        minecraft.textureManager.bindTexture(ResourceLocation(Reference.MODID, "textures/gui/periodic_table.png"))
         drawScaledCustomSizeModalRect(0, 0, 0f, 0f, w, h, w, h, w.toFloat(), h.toFloat())
 
-        val boxWidth = 84f * wScale
-        val boxHeight = 84f * hScale
-        val group = (mouseX / boxWidth).toInt() + 1
+        val boxWidth = BOX_WIDTH * wScale
+        val boxHeight = BOX_HEIGHT * hScale
+        var group = (mouseX / boxWidth).toInt() + 1
         var period: Int
         var reverse = false
-        if(mouseY > (7 * 84f * hScale)) {
+        if(mouseY > 7 * boxHeight) {
+            val offsetScaled = ACTINIDES_OFFSET * hScale
             // La/Actinides
             // have to compensate for the offset
-            val y = mouseY - 35f * hScale
+            val y = mouseY - offsetScaled
             period = (y / boxHeight).toInt() - 1
+            ++group
+            reverse = true
 
             // free space in-between
-            if(mouseY < ((7 * 84f + 35) * hScale))
+            if(mouseY < 7 * boxHeight + offsetScaled)
                 period = -1
-            reverse = true
         } else
             period = (mouseY / boxHeight).toInt() + 1
 
@@ -81,19 +85,14 @@ class GuiPeriodicTable : GuiScreen() {
     }
 
     private fun drawElementTip(element: ChemicalElement) {
-        val scaledRes = ScaledResolution(Minecraft.getMinecraft())
-        val boxWidth = 84f * scaledRes.scaledWidth.coerceAtMost(1512) / 1512f
-        val boxHeight = 84f * scaledRes.scaledWidth.coerceAtMost(792) / 792f
-        val w = scaledRes.scaledWidth.coerceAtMost(816)
-        val h = scaledRes.scaledHeight.coerceAtMost(240).coerceAtMost((boxHeight * 3).toInt())
+        val scaledRes = ScaledResolution(minecraft)
+        val boxWidth = BOX_WIDTH.toFloat() * scaledRes.scaledWidth.coerceAtMost(IMAGE_WIDTH) / IMAGE_WIDTH
+        val boxHeight = BOX_HEIGHT.toFloat() * scaledRes.scaledHeight.coerceAtMost(IMAGE_HEIGHT) / IMAGE_HEIGHT
+        val h = scaledRes.scaledHeight.coerceAtMost(TOOLTIP_HEIGHT).coerceAtMost((boxHeight * 2.5f).roundToInt())
+        val w = (h * TOOLTIP_WIDTH.toFloat() / TOOLTIP_HEIGHT).roundToInt()
 
-        GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f)
-        Minecraft.getMinecraft().textureManager.bindTexture(
-            ResourceLocation(
-                Reference.MODID,
-                "textures/gui/elements/${element.name}_tooltip.png"
-            )
-        )
-        drawScaledCustomSizeModalRect((boxWidth * 2).roundToInt(), 0, 0f, 0f, w / 2, h / 2, w / 2, h / 2, w / 2f, h / 2f)
+        GlStateManager.color(1f, 1f, 1f, 1f)
+        minecraft.textureManager.bindTexture(ResourceLocation(Reference.MODID, "textures/gui/elements/${element.name}_tooltip.png"))
+        drawScaledCustomSizeModalRect((boxWidth * 2).roundToInt(), 0, 0f, 0f, w, h,w, h, w.toFloat(), h.toFloat())
     }
 }

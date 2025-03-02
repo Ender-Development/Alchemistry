@@ -2,10 +2,13 @@ package al132.alchemistry
 
 import al132.alchemistry.capability.AlchemistryDrugDispatcher
 import al132.alchemistry.capability.CapabilityDrugInfo
+import al132.alchemistry.client.GuiPeriodicTable
 import al132.alchemistry.items.DankMolecule
 import al132.alchemistry.items.ItemCompound
 import al132.alchemistry.items.ModItems
+import net.minecraft.client.Minecraft
 import net.minecraft.entity.Entity
+import net.minecraft.entity.item.EntityPainting
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.init.Blocks
 import net.minecraft.item.ItemStack
@@ -25,6 +28,16 @@ class EventHandler {
             e.itemStack.shrink(1)
             e.world.setBlockToAir(e.pos)
             e.entityPlayer.addItemStackToInventory(ItemStack(Blocks.OBSIDIAN, 1))
+        }
+    }
+
+    @SubscribeEvent
+    fun rightClickPainting(e: PlayerInteractEvent.EntityInteract) {
+        if (e.target is EntityPainting) {
+            val painting = e.target as EntityPainting
+            if (painting.art.title == "PeriodicTable" && e.entityPlayer.world.isRemote) {
+                Minecraft.getMinecraft().displayGuiScreen(GuiPeriodicTable())
+            }
         }
     }
 

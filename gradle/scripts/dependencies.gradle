@@ -118,4 +118,7 @@ dependencies {
 
     // Exponential Power
     runtimeOnly "curse.maven:exponential-power-254249:2576624"
+
+    // JSON Paintings
+    runtimeOnly "maven.modrinth:json-paintings:QBprvpeM"
 }

@@ -6,6 +6,8 @@
 - backported most of the modern textures
 - added glass for each kind of reactor
 - tweaked reactor validation to respect glass
+- ported back the interactive periodic table
+- ported back the periodic table painting (needs [JSON Paintings](https://modrinth.com/mod/json-paintings))
 
 ## [1.0.41]
 - Reverted the Fusion multiblock sided-input changes introduced in v39, now instead there is a button to toggle between 'single mode' and 'regular mode'.

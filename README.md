@@ -16,8 +16,43 @@ This feature will be overhauled in the future. For now, you can use [this projec
 - added a config option that allows Fission and Fusion Reactors multiblocks to share their respective casings
 - fixed custom compounds and elements not being translatable
 - backported reactor and machine textures from the modern version of the mod
+- backported the interactive periodic table
 - added fission and fusion glass to decorate the reactors
 - reactor cores now emit a small amount of light
+
+## Dependencies
+
+![badge](https://img.shields.io/badge/required-Forgelin--Continuous-gray?style=flat-square&labelColor=red&link=https://www.curseforge.com/minecraft/mc-mods/forgelin-continuous)
+
+This mod is written in Kotlin, which requires the Forgelin library to be present to run.
+
+![badge](https://img.shields.io/badge/required-AlchemyLib-gray?style=flat-square&labelColor=red&link=https://www.curseforge.com/minecraft/mc-mods/alchemylib)
+
+This mod is a library that provides the basic functionality for Alchemistry.
+
+![badge](https://img.shields.io/badge/optional-Patchouli-gray?style=flat-square&labelColor=green&link=https://www.curseforge.com/minecraft/mc-mods/patchouli-rofl-edition)
+
+By default, the mod comes with a Patchouli book that explains the basics of the mod.
+
+![badge](https://img.shields.io/badge/optional-HadEnoughItems-gray?style=flat-square&labelColor=green&link=https://www.curseforge.com/minecraft/mc-mods/had-enough-items)
+
+All recipes are integrated into JEI.
+
+![badge](https://img.shields.io/badge/optional-JSON_Paintings-gray?style=flat-square&labelColor=green&link=https://modrinth.com/mod/json-paintings)
+
+By installing this mod, Alchemistry will add a painting that displays the periodic table.
+
+![badge](https://img.shields.io/badge/optional-CraftTweaker-gray?style=flat-square&labelColor=green&link=https://www.curseforge.com/minecraft/mc-mods/crafttweaker)
+
+Alchemistry provides CraftTweaker support for all recipes as well as adding custom elements and compounds.
+
+![badge](https://img.shields.io/badge/optional-GroovyScript-gray?style=flat-square&labelColor=green&link=https://www.curseforge.com/minecraft/mc-mods/groovyscript)
+
+The groovy-equivalent of CraftTweaker is also supported.
+
+![badge](https://img.shields.io/badge/optional-Game_Stages-gray?style=flat-square&labelColor=green&link=https://www.curseforge.com/minecraft/mc-mods/game-stages)
+
+The Combiner recipes can be locked behind Game Stages.
 
 ## License
 

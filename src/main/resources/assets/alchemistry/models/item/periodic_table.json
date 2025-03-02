@@ -1,0 +1,95 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "alchemistry:items/periodic_table"
+    },
+    "display": {
+        "firstperson_righthand": {
+            "rotation": [
+                0,
+                0,
+                0
+            ],
+            "translation": [
+                -0.8,
+                5.2,
+                0
+            ],
+            "scale": [
+                0.7,
+                0.7,
+                0.7
+            ]
+        }
+    },
+    "elements": [
+        {
+            "from": [
+                0,
+                0,
+                0
+            ],
+            "to": [
+                32,
+                32,
+                0
+            ],
+            "faces": {
+                "north": {
+                    "uv": [
+                        0,
+                        0,
+                        16,
+                        16
+                    ],
+                    "texture": "#0"
+                },
+                "east": {
+                    "uv": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "texture": "#0"
+                },
+                "south": {
+                    "uv": [
+                        0,
+                        0,
+                        16,
+                        16
+                    ],
+                    "texture": "#0"
+                },
+                "west": {
+                    "uv": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "texture": "#0"
+                },
+                "up": {
+                    "uv": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "texture": "#0"
+                },
+                "down": {
+                    "uv": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "texture": "#0"
+                }
+            }
+        }
+    ]
+}

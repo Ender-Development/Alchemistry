@@ -13,7 +13,7 @@ import net.minecraft.world.World
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 
-class ItemPeriodicDiagram : ItemBase("periodic_diagram") {
+class ItemPeriodicDiagram : ItemBase("periodic_table") {
 
     override fun onItemRightClick(world: World, player: EntityPlayer, hand: EnumHand): ActionResult<ItemStack> {
 
@@ -26,6 +26,6 @@ class ItemPeriodicDiagram : ItemBase("periodic_diagram") {
 
     @SideOnly(Side.CLIENT)
     override fun addInformation(stack: ItemStack, playerIn: World?, tooltip: List<String>, advanced: ITooltipFlag) {
-        (tooltip as MutableList).add("item.alchemistry:periodic_diagram.tooltip".translate())
+        (tooltip as MutableList).add("item.alchemistry:periodic_table.tooltip".translate())
     }
 }

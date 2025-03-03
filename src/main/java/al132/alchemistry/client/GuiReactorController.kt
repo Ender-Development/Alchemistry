@@ -42,14 +42,14 @@ abstract class GuiReactorController<T>(container: Container, tile: T, textureLoc
         val productivity = tile.productivityModifier * 100
         val speed = tile.speedModifier * 100
         this.fontRenderer.drawString(
-            I18n.format("tile.fission.productivity", "%.2f%%".format(productivity)),
+            I18n.format(textProductivity!!, "%.2f%%".format(productivity)),
             8.0f,
             115.0f,
             getColorFromValue(productivity),
             false
         )
         this.fontRenderer.drawString(
-            I18n.format("tile.fission.speed", "%.2f%%".format(speed)),
+            I18n.format(textSpeed!!, "%.2f%%".format(speed)),
             8.0f,
             125.0f,
             getColorFromValue(speed),

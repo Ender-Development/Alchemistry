@@ -81,8 +81,7 @@ class TileFissionController(reactorType: ReactorType = ReactorType.FISSION) : Ab
                 if (isActive) {
                     if (currentStatus != ON) this.world.setBlockState(this.pos, state.withProperty(STATUS, ON))
                 } else if (currentStatus != STANDBY) world.setBlockState(pos, state.withProperty(STATUS, STANDBY))
-                productivityModifier = productivityModifier()
-                speedModifier = speedModifier()
+                updateModifiers()
             } else if (currentStatus != OFF) world.setBlockState(pos, state.withProperty(STATUS, OFF))
 
             if (canProcess()) process()
@@ -97,7 +96,7 @@ class TileFissionController(reactorType: ReactorType = ReactorType.FISSION) : Ab
                 && (ItemStack.areItemsEqual(output[1], recipeOutput2) || output[1].isEmpty)
                 && output[0].count + recipeOutput1.count <= recipeOutput1.maxStackSize
                 && output[1].count + recipeOutput2.count <= recipeOutput2.maxStackSize
-                && energyStorage.energyStored >= ConfigHandler.FISSION.energyPerTick
+                && energyStorage.energyStored >= getModifiedEnergyCost(ConfigHandler.FISSION.energyPerTick)
     }
 
     override fun process() {
@@ -126,23 +125,6 @@ class TileFissionController(reactorType: ReactorType = ReactorType.FISSION) : Ab
             }
             input.decrementSlot(0, 1) //Will refresh the recipe, clearing the recipeOutputs if only 1 stack is left
         }
-        this.energyStorage.extractEnergy(ConfigHandler.FISSION.energyPerTick, false)
-    }
-
-    override fun writeToNBT(compound: NBTTagCompound): NBTTagCompound {
-        super.writeToNBT(compound)
-        compound.setInteger("ProgressTicks", progressTicks)
-        compound.setDouble("ProductivityModifier", productivityModifier)
-        compound.setDouble("SpeedModifier", speedModifier)
-        return compound
-    }
-
-    override fun readFromNBT(compound: NBTTagCompound) {
-        super.readFromNBT(compound)
-        this.progressTicks = compound.getInteger("ProgressTicks")
-        this.productivityModifier = compound.getDouble("ProductivityModifier")
-        this.speedModifier = compound.getDouble("SpeedModifier")
-        this.refreshRecipe()
-        this.updateMultiblock()
+        this.energyStorage.extractEnergy(getModifiedEnergyCost(ConfigHandler.FISSION.energyPerTick), false)
     }
 }

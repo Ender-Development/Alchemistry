@@ -5,6 +5,7 @@ import al132.alchemistry.tiles.ReactorType
 import al132.alib.client.CapabilityEnergyDisplayWrapper
 import al132.alib.tiles.IGuiTile
 import al132.alib.utils.Translator
+import com.sun.org.apache.xpath.internal.operations.Bool
 import net.minecraft.client.resources.I18n
 import net.minecraft.inventory.Container
 import net.minecraft.util.ResourceLocation
@@ -46,6 +47,7 @@ abstract class GuiReactorController<T>(container: Container, tile: T, textureLoc
         val infoHeight = 95.0f
         val productivity = tile.productivityModifier * 100
         val speed = tile.speedModifier * 100
+        val energy = tile.energyModifier * 100
         this.fontRenderer.drawStringWithShadow(statusText, 30.0f, infoHeight, Color.WHITE.rgb)
         this.fontRenderer.drawString(
             I18n.format(textProductivity!!, "%.2f%%".format(productivity)),
@@ -61,6 +63,13 @@ abstract class GuiReactorController<T>(container: Container, tile: T, textureLoc
             getColorFromValue(speed),
             false
         )
+        this.fontRenderer.drawString(
+            I18n.format(textEnergy!!, "%.2f%%".format(energy)),
+            8.0f,
+            infoHeight + 30,
+            getColorFromValue(energy, invert = true),
+            false
+        )
         updateStatus()
     }
 
@@ -72,12 +81,13 @@ abstract class GuiReactorController<T>(container: Container, tile: T, textureLoc
         }
     }
 
-    private fun getColorFromValue(value: Double): Int {
+    private fun getColorFromValue(value: Double, invert: Boolean = false): Int {
         return when {
-            value < 0 -> Color(148, 26, 26).rgb
-            value > 0 -> Color(27, 105, 27).rgb
+            !invert && value > 0 -> Color(27, 105, 27).rgb
+            !invert && value < 0 -> Color(148, 26, 26).rgb
+            invert && value > 0 -> Color(148, 26, 26).rgb
+            invert && value < 0 -> Color(27, 105, 27).rgb
             else -> Color.GRAY.rgb
         }
     }
-
 }

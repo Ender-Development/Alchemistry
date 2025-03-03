@@ -352,12 +352,14 @@ tile.combiner.pause=Pause
 tile.combiner.resume=Resume
 tile.combiner.target=Target
 tile.fission.invalid_multiblock=Invalid Fission Multiblock
-tile.fission.productivity=Prod. Modifier: %s
+tile.fission.productivity=Production Bonus: %s
 tile.fission.speed=Speed Modifier: %s
+tile.fission.energy=Energy Consumption: %s
 tile.fusion.invalid_multiblock=Invalid Fusion Multiblock
 tile.fusion.single_mode=Single Mode
-tile.fusion.productivity=Prod. Modifier: %s
+tile.fusion.productivity=Production Bonus: %s
 tile.fusion.speed=Speed Modifier: %s
+tile.fusion.energy=Energy Consumption: %s
 tile.fusion.regular_mode=Regular Mode
 
 jei.electrolyzer.electrolyte=Electrolyte

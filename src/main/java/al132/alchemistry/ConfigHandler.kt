@@ -71,10 +71,10 @@ object ConfigHandler {
 
         @JvmField
         @Config.Name("Fission Reactor Modifiers")
-        @Config.Comment("List of fluid modifiers for the Fission Reactor. Syntax: fluidName;productivity;speed")
+        @Config.Comment("List of fluid modifiers for the Fission Reactor. Syntax: fluidName;productivity;speed;energy")
         var fissionReactorModifiers = arrayOf(
-            "water;0.0;0.02",
-            "lava;0.2;-0.05"
+            "water;0.0;0.02;-0.05",
+            "lava;0.2;-0.05;0.1"
         )
     }
 
@@ -116,10 +116,10 @@ object ConfigHandler {
 
         @JvmField
         @Config.Name("Fusion Reactor Modifiers")
-        @Config.Comment("List of fluid modifiers for the Fusion Reactor. Syntax: fluidName;productivity;speed")
+        @Config.Comment("List of fluid modifiers for the Fusion Reactor. Syntax: fluidName;productivity;speed;energy")
         var fusionReactorModifiers = arrayOf(
-            "water;0.0;0.02",
-            "lava;0.2;-0.05"
+            "water;0.0;0.02;-0.03",
+            "lava;0.2;-0.05,0.1"
         )
     }
 

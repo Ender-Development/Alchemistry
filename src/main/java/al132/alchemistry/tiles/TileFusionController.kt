@@ -77,8 +77,7 @@ class TileFusionController(reactorType: ReactorType = ReactorType.FUSION) : Abst
                     pos,
                     state.withProperty(STATUS, PropertyPowerStatus.STANDBY)
                 )
-                speedModifier = speedModifier()
-                productivityModifier = productivityModifier()
+                updateModifiers()
             } else if (currentStatus != PropertyPowerStatus.OFF) world.setBlockState(
                 pos,
                 state.withProperty(STATUS, PropertyPowerStatus.OFF)
@@ -97,7 +96,7 @@ class TileFusionController(reactorType: ReactorType = ReactorType.FUSION) : Abst
                 && !recipeOutput.isEmpty
                 && (ItemStack.areItemsEqual(output[0], recipeOutput) || output[0].isEmpty)
                 && output[0].count + recipeOutput.count <= recipeOutput.maxStackSize
-                && energyStorage.energyStored >= ConfigHandler.FUSION.energyCapacity
+                && energyStorage.energyStored >= getModifiedEnergyCost(ConfigHandler.FUSION.energyPerTick)
 
     }
 
@@ -120,25 +119,17 @@ class TileFusionController(reactorType: ReactorType = ReactorType.FUSION) : Abst
             input.decrementSlot(0, 1) //Will refresh the recipe, clearing the recipeOutputs if only 1 stack is left
             input.decrementSlot(1, 1) //Will refresh the recipe, clearing the recipeOutputs if only 1 stack is left
         }
-        this.energyStorage.extractEnergy(ConfigHandler.FUSION.energyPerTick, false)
+        this.energyStorage.extractEnergy(getModifiedEnergyCost(ConfigHandler.FUSION.energyPerTick), false)
     }
 
     override fun writeToNBT(compound: NBTTagCompound): NBTTagCompound {
         super.writeToNBT(compound)
-        compound.setInteger("ProgressTicks", progressTicks)
         compound.setBoolean("singleMode", singleMode)
-        compound.setDouble("speedModifier", speedModifier)
-        compound.setDouble("productivityModifier", productivityModifier)
         return compound
     }
 
     override fun readFromNBT(compound: NBTTagCompound) {
-        super.readFromNBT(compound)
-        this.progressTicks = compound.getInteger("ProgressTicks")
         this.singleMode = compound.getBoolean("singleMode")
-        this.speedModifier = compound.getDouble("speedModifier")
-        this.productivityModifier = compound.getDouble("productivityModifier")
-        this.refreshRecipe()
-        this.updateMultiblock()
+        super.readFromNBT(compound)
     }
 }

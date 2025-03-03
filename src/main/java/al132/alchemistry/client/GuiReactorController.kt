@@ -5,7 +5,6 @@ import al132.alchemistry.tiles.ReactorType
 import al132.alib.client.CapabilityEnergyDisplayWrapper
 import al132.alib.tiles.IGuiTile
 import al132.alib.utils.Translator
-import net.minecraft.client.gui.ScaledResolution
 import net.minecraft.client.resources.I18n
 import net.minecraft.inventory.Container
 import net.minecraft.util.ResourceLocation
@@ -15,18 +14,18 @@ import kotlin.math.ceil
 abstract class GuiReactorController<T>(container: Container, tile: T, textureLocation: ResourceLocation) :
     GuiBase<T>(container, tile, textureLocation) where T : AbstractReactorController, T : IGuiTile {
 
-    val infoHeight = 95.0f
+    val infoHeight = 88.0f
+    val infoX = 12.0f
 
     override var displayName: String = ""
     var textProductivity: String? = null
     var textSpeed: String? = null
     var textEnergy: String? = null
     var textInvalid: String? = null
-
-    var statusText: String = ""
+    var textValid: String? = null
 
     init {
-        this.displayData.add(CapabilityEnergyDisplayWrapper(7, 10, 16, 60, tile::energyStorage))
+        this.displayData.add(CapabilityEnergyDisplayWrapper(8, 10, 16, 60, tile::energyStorage))
         when (tile.reactorType) {
             ReactorType.FISSION -> {
                 displayName = Translator.translateToLocal("tile.fission_controller.name")
@@ -34,6 +33,7 @@ abstract class GuiReactorController<T>(container: Container, tile: T, textureLoc
                 textSpeed = "tile.fission.speed"
                 textEnergy = "tile.fission.energy"
                 textInvalid = "tile.fission.invalid_multiblock"
+                textValid = "tile.fission.valid_multiblock"
             }
 
             ReactorType.FUSION -> {
@@ -42,6 +42,7 @@ abstract class GuiReactorController<T>(container: Container, tile: T, textureLoc
                 textSpeed = "tile.fusion.speed"
                 textEnergy = "tile.fusion.energy"
                 textInvalid = "tile.fusion.invalid_multiblock"
+                textValid = "tile.fusion.valid_multiblock"
             }
         }
     }
@@ -51,32 +52,40 @@ abstract class GuiReactorController<T>(container: Container, tile: T, textureLoc
         val productivity = tile.productivityModifier * 100
         val speed = tile.speedModifier * 100
         val energy = tile.energyModifier * 100
-        fontRenderer.drawString(
-            statusText, ((xSize / 2 - fontRenderer.getStringWidth(statusText) / 2).toFloat()),
-            infoHeight, Color.RED.rgb, false
-        )
-        fontRenderer.drawString(
-            I18n.format(textProductivity!!, "%.2f%%".format(productivity)),
-            8.0f,
-            infoHeight + 10,
-            getColorFromValue(productivity),
-            false
-        )
-        fontRenderer.drawString(
-            I18n.format(textSpeed!!, "%.2f%%".format(speed)),
-            8.0f,
-            infoHeight + 20,
-            getColorFromValue(speed),
-            false
-        )
-        fontRenderer.drawString(
-            I18n.format(textEnergy!!, "%.2f%%".format(energy)),
-            8.0f,
-            infoHeight + 30,
-            getColorFromValue(energy, invert = true),
-            false
-        )
-        updateStatus()
+        if (tile.isMultiblockValid) {
+            val valid = Translator.translateToLocal(textValid!!)
+            fontRenderer.drawString(
+                valid, ((xSize / 2 - fontRenderer.getStringWidth(valid) / 2).toFloat()),
+                infoHeight, Color(170, 0, 170).rgb, false
+            )
+            fontRenderer.drawString(
+                I18n.format(textProductivity!!, "%.2f%%".format(productivity)),
+                infoX,
+                infoHeight + 13,
+                getColorFromValue(productivity),
+                false
+            )
+            fontRenderer.drawString(
+                I18n.format(textSpeed!!, "%.2f%%".format(speed)),
+                infoX,
+                infoHeight + 23,
+                getColorFromValue(speed),
+                false
+            )
+            fontRenderer.drawString(
+                I18n.format(textEnergy!!, "%.2f%%".format(energy)),
+                infoX,
+                infoHeight + 33,
+                getColorFromValue(energy, invert = true),
+                false
+            )
+        } else {
+            val invalid = Translator.translateToLocal(textInvalid!!)
+            fontRenderer.drawString(
+                invalid, ((xSize / 2 - fontRenderer.getStringWidth(invalid) / 2).toFloat()),
+                infoHeight, Color(170, 0, 0).rgb, false
+            )
+        }
     }
 
     override fun drawScreen(mouseX: Int, mouseY: Int, partialTicks: Float) {
@@ -84,29 +93,21 @@ abstract class GuiReactorController<T>(container: Container, tile: T, textureLoc
         drawModifierText(mouseX, mouseY)
     }
 
-    private fun updateStatus() {
-        statusText = if (tile.isMultiblockValid) {
-            ""
-        } else {
-            Translator.translateToLocal(textInvalid.toString())
-        }
-    }
-
     private fun getColorFromValue(value: Double, invert: Boolean = false): Int {
         return when {
-            !invert && value > 0 -> Color(27, 105, 27).rgb
-            !invert && value < 0 -> Color(148, 26, 26).rgb
-            invert && value > 0 -> Color(148, 26, 26).rgb
-            invert && value < 0 -> Color(27, 105, 27).rgb
+            !invert && value > 0 -> Color(27, 155, 27).rgb
+            !invert && value < 0 -> Color(198, 26, 26).rgb
+            invert && value > 0 -> Color(198, 26, 26).rgb
+            invert && value < 0 -> Color(27, 155, 27).rgb
             else -> Color.GRAY.rgb
         }
     }
 
     private fun drawModifierText(mouseX: Int, mouseY: Int) {
-        if (mouseX < guiLeft + 8 || mouseX > guiLeft + xSize - 8 || mouseY < guiTop || mouseY > guiTop + ySize) return
+        if (mouseX < guiLeft + infoX || mouseX > guiLeft + xSize - infoX || mouseY < guiTop || mouseY > guiTop + ySize || !tile.isMultiblockValid) return
         val fontHeight = fontRenderer.FONT_HEIGHT
         val y = (this.height - this.ySize) / 2
-        val offset = y + infoHeight
+        val offset = y + infoHeight + 3
         when {
             offset + 10 <= mouseY && mouseY <= offset + 10 + fontHeight -> {
                 drawHoveringText(

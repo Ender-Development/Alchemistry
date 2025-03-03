@@ -23,7 +23,7 @@ class GuiFusionController(playerInv: InventoryPlayer, tile: TileFusionController
 
     override fun initGui() {
         super.initGui()
-        modeButton = GuiButton(0, this.guiLeft + 30, this.guiTop + 40, 80, 20, "Test")
+        modeButton = GuiButton(0, this.guiLeft + 150 - 80, this.guiTop + 25, 80, 20, "Test")
         this.buttonList.add(modeButton)
     }
 
@@ -39,8 +39,8 @@ class GuiFusionController(playerInv: InventoryPlayer, tile: TileFusionController
         val i = (this.width - this.xSize) / 2
         val j = (this.height - this.ySize) / 2
         if (tile.progressTicks > 0) {
-            val k = this.getBarScaled(28, tile.progressTicks, tile.getModifiedProcessTime())
-            this.drawTexturedModalRect(i + 90, j + 82, 175, 0, k, 9)
+            val k = this.getBarScaled(36, tile.progressTicks, tile.getModifiedProcessTime())
+            this.drawTexturedModalRect(i + 88, j + 53, 175, 0, k, 16)
         }
     }
 
@@ -50,7 +50,7 @@ class GuiFusionController(playerInv: InventoryPlayer, tile: TileFusionController
     }
 
     private fun updateButtonStrings() {
-        if (tile.singleMode) modeButton.displayString = Translator.translateToLocal("tile.fusion.regular_mode")
-        else modeButton.displayString = Translator.translateToLocal("tile.fusion.single_mode")
+        if (tile.singleMode) modeButton.displayString = Translator.translateToLocal("tile.fusion.single_mode")
+        else modeButton.displayString = Translator.translateToLocal("tile.fusion.regular_mode")
     }
 }

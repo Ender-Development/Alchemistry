@@ -7,6 +7,7 @@ import al132.alib.tiles.ALTile
 import al132.alib.tiles.IGuiTile
 import net.minecraft.inventory.Container
 import net.minecraft.util.ResourceLocation
+import java.awt.Color
 
 
 abstract class GuiBase<T>(container: Container, tile: T, textureLocation: ResourceLocation) :
@@ -39,5 +40,12 @@ abstract class GuiBase<T>(container: Container, tile: T, textureLocation: Resour
             this.drawTexturedModalRect(i, j + storage.height - k, textureX + 38, textureY, storage.width, k)
         }
         this.mc.textureManager.bindTexture(this.textureLocation)
+    }
+
+    override fun drawGuiContainerForegroundLayer(mouseX: Int, mouseY: Int) {
+        if (this.displayName.isNotEmpty()) {
+            this.fontRenderer.drawString(this.displayName,
+                    this.xSize / 2 - this.fontRenderer.getStringWidth(this.displayName) / 2, 10, Color.DARK_GRAY.rgb)
+        }
     }
 }

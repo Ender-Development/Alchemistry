@@ -26,9 +26,4 @@ class GuiFissionController(playerInv: InventoryPlayer, tile: TileFissionControll
             this.drawTexturedModalRect(i + 79, j + 63, 175, 0, k, 9)
         }
     }
-
-    override fun drawGuiContainerForegroundLayer(mouseX: Int, mouseY: Int) {
-        super.drawGuiContainerForegroundLayer(mouseX, mouseY)
-        this.fontRenderer.drawStringWithShadow(statusText, 30.0f, 100.0f, Color.WHITE.rgb)
-    }
 }

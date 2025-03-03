@@ -48,7 +48,6 @@ class GuiFusionController(playerInv: InventoryPlayer, tile: TileFusionController
     override fun drawGuiContainerForegroundLayer(mouseX: Int, mouseY: Int) {
         super.drawGuiContainerForegroundLayer(mouseX, mouseY)
         updateButtonStrings()
-        this.fontRenderer.drawStringWithShadow(statusText, 30.0f, 110.0f, Color.WHITE.rgb)
     }
 
     private fun updateButtonStrings() {

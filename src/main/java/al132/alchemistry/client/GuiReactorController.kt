@@ -15,6 +15,7 @@ abstract class GuiReactorController<T>(container: Container, tile: T, textureLoc
     override var displayName: String = ""
     var textProductivity: String? = null
     var textSpeed: String? = null
+    var textEnergy: String? = null
     var textInvalid: String? = null
 
     var statusText: String = ""
@@ -26,12 +27,15 @@ abstract class GuiReactorController<T>(container: Container, tile: T, textureLoc
                 displayName = Translator.translateToLocal("tile.fission_controller.name")
                 textProductivity = "tile.fission.productivity"
                 textSpeed = "tile.fission.speed"
+                textEnergy = "tile.fission.energy"
                 textInvalid = "tile.fission.invalid_multiblock"
             }
+
             ReactorType.FUSION -> {
                 displayName = Translator.translateToLocal("tile.fusion_controller.name")
                 textProductivity = "tile.fusion.productivity"
                 textSpeed = "tile.fusion.speed"
+                textEnergy = "tile.fusion.energy"
                 textInvalid = "tile.fusion.invalid_multiblock"
             }
         }
@@ -39,19 +43,21 @@ abstract class GuiReactorController<T>(container: Container, tile: T, textureLoc
 
     override fun drawGuiContainerForegroundLayer(mouseX: Int, mouseY: Int) {
         super.drawGuiContainerForegroundLayer(mouseX, mouseY)
+        val infoHeight = 95.0f
         val productivity = tile.productivityModifier * 100
         val speed = tile.speedModifier * 100
+        this.fontRenderer.drawStringWithShadow(statusText, 30.0f, infoHeight, Color.WHITE.rgb)
         this.fontRenderer.drawString(
             I18n.format(textProductivity!!, "%.2f%%".format(productivity)),
             8.0f,
-            115.0f,
+            infoHeight + 10,
             getColorFromValue(productivity),
             false
         )
         this.fontRenderer.drawString(
             I18n.format(textSpeed!!, "%.2f%%".format(speed)),
             8.0f,
-            125.0f,
+            infoHeight + 20,
             getColorFromValue(speed),
             false
         )

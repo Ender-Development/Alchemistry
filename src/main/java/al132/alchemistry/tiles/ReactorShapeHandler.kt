@@ -3,8 +3,10 @@ package al132.alchemistry.tiles
 import al132.alchemistry.ConfigHandler
 import al132.alchemistry.blocks.ModBlocks
 import net.minecraft.block.Block
+import net.minecraft.block.BlockLiquid
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.math.BlockPos
+import net.minecraftforge.fluids.Fluid
 
 class ReactorShapeHandler(val controller: AbstractReactorController, reactorType: ReactorType) {
 
@@ -44,21 +46,25 @@ class ReactorShapeHandler(val controller: AbstractReactorController, reactorType
         val checkInnerCasing = getInnerCasings().all { isFilling(it) }
         val checkCompact = compactEnabled || getOutside() == 0
         val checkCore = (getCoreZ(corePos).all { isCore(it) }
-                    && isAir(corePos.offsetForward())
-                    && isAir(corePos.offsetBack())
-                    && isAir(corePos.offsetLeft())
-                    && isAir(corePos.offsetRight()))
+                    && isNonCore(corePos.offsetForward())
+                    && isNonCore(corePos.offsetBack())
+                    && isNonCore(corePos.offsetLeft())
+                    && isNonCore(corePos.offsetRight()))
                 || (getCoreX(corePos).all { isCore(it) }
-                    && isAir(corePos.offsetUp())
-                    && isAir(corePos.offsetDown())
-                    && isAir(corePos.offsetForward())
-                    && isAir(corePos.offsetBack()))
+                    && isNonCore(corePos.offsetUp())
+                    && isNonCore(corePos.offsetDown())
+                    && isNonCore(corePos.offsetForward())
+                    && isNonCore(corePos.offsetBack()))
                 || (getCoreY(corePos).all { isCore(it) }
-                    && isAir(corePos.offsetLeft())
-                    && isAir(corePos.offsetRight())
-                    && isAir(corePos.offsetUp())
-                    && isAir(corePos.offsetDown()))
+                    && isNonCore(corePos.offsetLeft())
+                    && isNonCore(corePos.offsetRight())
+                    && isNonCore(corePos.offsetUp())
+                    && isNonCore(corePos.offsetDown()))
         return checkOuterCasing && checkInnerCasing && checkCompact && checkCore
+    }
+
+    fun countFluid(fluid: Fluid): Int {
+        return getInnerVolume().count { controller.world.getBlockState(it).block == fluid.block }
     }
 
     private fun getOuterCasings(): Set<BlockPos> {
@@ -231,7 +237,16 @@ class ReactorShapeHandler(val controller: AbstractReactorController, reactorType
         return borderingParts
     }
 
+    private fun getInnerVolume(): Set<BlockPos> {
+        val innerVolume = mutableSetOf<BlockPos>()
+        val innerCorner1 = controller.pos.offsetBack(2).offsetLeft().offsetUp()
+        val innerCorner2 = innerCorner1.offsetBack(2).offsetRight(2).offsetUp(2)
+        innerVolume.addAll(BlockPos.getAllInBox(innerCorner1, innerCorner2))
+        return innerVolume
+    }
+
     private fun isAir(pos: BlockPos): Boolean = controller.world.isAirBlock(pos)
+    private fun isLiquid(pos: BlockPos): Boolean = controller.world.getBlockState(pos).block is BlockLiquid
     private fun isCore(pos: BlockPos): Boolean = (controller.world.getBlockState(pos).block == coreBlock)
     private fun isCasing(pos: BlockPos): Boolean = (controller.world.getBlockState(pos).block == casingBlock)
     private fun isFilling(pos: BlockPos): Boolean =
@@ -239,6 +254,10 @@ class ReactorShapeHandler(val controller: AbstractReactorController, reactorType
 
     private fun isReactorPart(pos: BlockPos): Boolean {
         return isCore(pos) || isFilling(pos) || (controller.world.getBlockState(pos).block == controllerBlock)
+    }
+
+    private fun isNonCore(pos: BlockPos): Boolean {
+        return isAir(pos) || isLiquid(pos)
     }
 
     private fun BlockPos.offsetUp(amt: Int = 1) = this.offset(EnumFacing.UP, amt)

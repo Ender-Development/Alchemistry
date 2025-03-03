@@ -1,7 +1,6 @@
 package al132.alchemistry.tiles
 
 import al132.alchemistry.ConfigHandler
-import al132.alchemistry.blocks.FissionControllerBlock
 import al132.alchemistry.blocks.FissionControllerBlock.Companion.STATUS
 import al132.alchemistry.blocks.ModBlocks
 import al132.alchemistry.blocks.PropertyPowerStatus.*
@@ -12,10 +11,8 @@ import al132.alib.utils.extensions.get
 import al132.alib.utils.extensions.toStack
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
-import net.minecraft.util.EnumFacing
 import net.minecraft.util.ITickable
-import net.minecraft.util.math.BlockPos
-import net.minecraftforge.common.capabilities.Capability
+import kotlin.math.floor
 
 /**
  * Created by al132 on 4/29/2017.
@@ -29,6 +26,7 @@ class TileFissionController(reactorType: ReactorType = ReactorType.FISSION) : Ab
 
     init {
         initInventoryCapability(1, 2)
+        loadConfig(ConfigHandler.FISSION.fissionReactorModifiers)
     }
 
     override fun initInventoryInputCapability() {
@@ -83,6 +81,8 @@ class TileFissionController(reactorType: ReactorType = ReactorType.FISSION) : Ab
                 if (isActive) {
                     if (currentStatus != ON) this.world.setBlockState(this.pos, state.withProperty(STATUS, ON))
                 } else if (currentStatus != STANDBY) world.setBlockState(pos, state.withProperty(STATUS, STANDBY))
+                productivityModifier = productivityModifier()
+                speedModifier = speedModifier()
             } else if (currentStatus != OFF) world.setBlockState(pos, state.withProperty(STATUS, OFF))
 
             if (canProcess()) process()
@@ -101,12 +101,29 @@ class TileFissionController(reactorType: ReactorType = ReactorType.FISSION) : Ab
     }
 
     override fun process() {
-        if (progressTicks < ConfigHandler.FISSION.processingTicks) {
+        if (progressTicks < getModifiedProcessTime(ConfigHandler.FISSION.processingTicks)) {
             progressTicks++
         } else {
             progressTicks = 0
-            output.setOrIncrement(0, recipeOutput1.copy())
-            if (!recipeOutput2.isEmpty) output.setOrIncrement(1, recipeOutput2.copy())
+
+            var stacksize1 = recipeOutput1.count
+            var staticMultiplier = floor(productivityModifier).toInt()
+            var randomMultiplier = if (productivityModifier - staticMultiplier > Math.random()) 1 else 0
+            if (staticMultiplier != 0 || randomMultiplier != 0) {
+                stacksize1 *= staticMultiplier + randomMultiplier
+            }
+            var outputStack1 = recipeOutput1.copy()
+            outputStack1.count = stacksize1
+            output.setOrIncrement(0, outputStack1)
+            if (!recipeOutput2.isEmpty) {
+                var stacksize2 = recipeOutput2.count
+                if (staticMultiplier != 0 || randomMultiplier != 0) {
+                    stacksize2 *= staticMultiplier + randomMultiplier
+                }
+                var outputStack2 = recipeOutput2.copy()
+                outputStack2.count = stacksize2
+                output.setOrIncrement(1, outputStack2)
+            }
             input.decrementSlot(0, 1) //Will refresh the recipe, clearing the recipeOutputs if only 1 stack is left
         }
         this.energyStorage.extractEnergy(ConfigHandler.FISSION.energyPerTick, false)
@@ -115,12 +132,16 @@ class TileFissionController(reactorType: ReactorType = ReactorType.FISSION) : Ab
     override fun writeToNBT(compound: NBTTagCompound): NBTTagCompound {
         super.writeToNBT(compound)
         compound.setInteger("ProgressTicks", progressTicks)
+        compound.setDouble("ProductivityModifier", productivityModifier)
+        compound.setDouble("SpeedModifier", speedModifier)
         return compound
     }
 
     override fun readFromNBT(compound: NBTTagCompound) {
         super.readFromNBT(compound)
         this.progressTicks = compound.getInteger("ProgressTicks")
+        this.productivityModifier = compound.getDouble("ProductivityModifier")
+        this.speedModifier = compound.getDouble("SpeedModifier")
         this.refreshRecipe()
         this.updateMultiblock()
     }

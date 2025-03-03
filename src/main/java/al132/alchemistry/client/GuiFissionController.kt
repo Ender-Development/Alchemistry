@@ -4,6 +4,7 @@ import al132.alchemistry.ConfigHandler
 import al132.alchemistry.tiles.TileFissionController
 import al132.alib.client.CapabilityEnergyDisplayWrapper
 import al132.alib.utils.Translator
+import net.minecraft.client.resources.I18n
 import net.minecraft.entity.player.InventoryPlayer
 import net.minecraft.util.ResourceLocation
 import java.awt.Color
@@ -33,7 +34,7 @@ class GuiFissionController(playerInv: InventoryPlayer, tile: TileFissionControll
         val i = (this.width - this.xSize) / 2
         val j = (this.height - this.ySize) / 2
         if (tile.progressTicks > 0) {
-            val k = this.getBarScaled(28, tile.progressTicks, ConfigHandler.FISSION.processingTicks) //TODO
+            val k = this.getBarScaled(28, tile.progressTicks, tile.getModifiedProcessTime(ConfigHandler.FISSION.processingTicks))
             this.drawTexturedModalRect(i + 79, j + 63, 175, 0, k, 9)
         }
     }
@@ -47,5 +48,8 @@ class GuiFissionController(playerInv: InventoryPlayer, tile: TileFissionControll
         super.drawGuiContainerForegroundLayer(mouseX, mouseY)
         updateStatus()
         this.fontRenderer.drawStringWithShadow(statusText, 30.0f, 100.0f, Color.WHITE.rgb)
+        // upgrades
+        this.fontRenderer.drawStringWithShadow(I18n.format("tile.fission.productivity", "%.2f%%".format(tile.productivityModifier * 100)), 8.0f, 120.0f, Color.WHITE.rgb)
+        this.fontRenderer.drawStringWithShadow(I18n.format("tile.fission.speed", "%.2f%%".format(tile.speedModifier * 100)), 8.0f, 130.0f, Color.WHITE.rgb)
     }
 }

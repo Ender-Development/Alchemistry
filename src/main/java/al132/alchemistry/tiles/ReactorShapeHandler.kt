@@ -261,9 +261,9 @@ class ReactorShapeHandler(val controller: AbstractReactorController, reactorType
     }
 
     private fun BlockPos.offsetUp(amt: Int = 1) = this.offset(EnumFacing.UP, amt)
-    private fun BlockPos.offsetLeft(amt: Int = 1) = this.offset(multiblockDirection?.rotateY(), amt)
-    private fun BlockPos.offsetRight(amt: Int = 1) = this.offset(multiblockDirection?.rotateY(), -1 * amt)
-    private fun BlockPos.offsetBack(amt: Int = 1) = this.offset(multiblockDirection, amt)
-    private fun BlockPos.offsetForward(amt: Int = 1) = this.offset(multiblockDirection, -1 * amt)
+    private fun BlockPos.offsetLeft(amt: Int = 1) = this.offset(multiblockDirection!!.rotateY(), amt)
+    private fun BlockPos.offsetRight(amt: Int = 1) = this.offset(multiblockDirection!!.rotateY(), -1 * amt)
+    private fun BlockPos.offsetBack(amt: Int = 1) = this.offset(multiblockDirection!!, amt)
+    private fun BlockPos.offsetForward(amt: Int = 1) = this.offset(multiblockDirection!!, -1 * amt)
     private fun BlockPos.offsetDown(amt: Int = 1) = this.offset(EnumFacing.DOWN, amt)
 }

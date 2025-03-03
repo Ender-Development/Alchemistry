@@ -13,7 +13,7 @@ This feature will be overhauled in the future. For now, you can use [this projec
 - switched build system to [RetroFuturaGradle](https://github.com/GTNewHorizons/RetroFuturaGradle)
 - switched to the latest kotlin version utilizing [Forgelin-Continuous](https://www.curseforge.com/minecraft/mc-mods/forgelin-continuous)
 - rewrote the config system to allow editing the config in-game
-- added a config option that allows Fission and Fusion Reactors multiblocks to share their respective casings
+- added a config option that allows Fission and Fusion Reactors' multiblocks to share their respective casings
 - fixed custom compounds and elements not being translatable
 - backported reactor and machine textures from the modern version of the mod
 - backported the interactive periodic table
@@ -24,15 +24,15 @@ This feature will be overhauled in the future. For now, you can use [this projec
 
 ![badge](https://img.shields.io/badge/required-Forgelin--Continuous-gray?style=flat-square&labelColor=red&link=https://www.curseforge.com/minecraft/mc-mods/forgelin-continuous)
 
-This mod is written in Kotlin, which requires the Forgelin library to be present to run.
+Alchemistry is written in Kotlin, which requires the Forgelin library to be present to run.
 
 ![badge](https://img.shields.io/badge/required-AlchemyLib-gray?style=flat-square&labelColor=red&link=https://www.curseforge.com/minecraft/mc-mods/alchemylib)
 
-This mod is a library that provides the basic functionality for Alchemistry.
+AlchemyLib is a library that provides the basic functionality for Alchemistry.
 
 ![badge](https://img.shields.io/badge/optional-Patchouli-gray?style=flat-square&labelColor=green&link=https://www.curseforge.com/minecraft/mc-mods/patchouli-rofl-edition)
 
-By default, the mod comes with a Patchouli book that explains the basics of the mod.
+Alchemistry comes with a Patchouli book that explains the basics of the mod.
 
 ![badge](https://img.shields.io/badge/optional-HadEnoughItems-gray?style=flat-square&labelColor=green&link=https://www.curseforge.com/minecraft/mc-mods/had-enough-items)
 
@@ -40,7 +40,7 @@ All recipes are integrated into JEI.
 
 ![badge](https://img.shields.io/badge/optional-JSON_Paintings-gray?style=flat-square&labelColor=green&link=https://modrinth.com/mod/json-paintings)
 
-By installing this mod, Alchemistry will add a painting that displays the periodic table.
+Alchemistry adds a painting that displays the periodic table, given JSON Paintings is present.
 
 ![badge](https://img.shields.io/badge/optional-CraftTweaker-gray?style=flat-square&labelColor=green&link=https://www.curseforge.com/minecraft/mc-mods/crafttweaker)
 
@@ -56,7 +56,7 @@ The Combiner recipes can be locked behind Game Stages.
 
 ## License
 
-Switched Licence from [MIT](https://mit-license.org) to [GPL-2.0](https://www.gnu.org/licenses/old-licenses/gpl-2.0.html), which allows me to use some assets from the modern version of the mod.
+Switched license from [MIT](https://mit-license.org) to [GPL-2.0](https://www.gnu.org/licenses/old-licenses/gpl-2.0.html), which allows me to use some assets from the modern version of the mod.
 
 ## [Ender-Development](https://github.com/Ender-Development)
 

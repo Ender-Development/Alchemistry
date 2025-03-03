@@ -45,7 +45,7 @@ abstract class GuiBase<T>(container: Container, tile: T, textureLocation: Resour
     override fun drawGuiContainerForegroundLayer(mouseX: Int, mouseY: Int) {
         if (this.displayName.isNotEmpty()) {
             this.fontRenderer.drawString(this.displayName,
-                    this.xSize / 2 - this.fontRenderer.getStringWidth(this.displayName) / 2, 10, Color.DARK_GRAY.rgb)
+                    this.xSize / 2 - this.fontRenderer.getStringWidth(this.displayName) / 2, 5, Color.DARK_GRAY.rgb)
         }
     }
 }

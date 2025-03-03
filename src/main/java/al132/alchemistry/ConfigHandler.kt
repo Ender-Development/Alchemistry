@@ -113,6 +113,14 @@ object ConfigHandler {
             "or for rows of reactors to share a wall of casing blocks."
         )
         var compactFusionReactor = false
+
+        @JvmField
+        @Config.Name("Fusion Reactor Modifiers")
+        @Config.Comment("List of fluid modifiers for the Fusion Reactor. Syntax: fluidName;productivity;speed")
+        var fusionReactorModifiers = arrayOf(
+            "water;0.0;0.02",
+            "lava;0.2;-0.05"
+        )
     }
 
     @JvmField

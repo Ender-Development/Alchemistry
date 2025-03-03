@@ -2,6 +2,7 @@ package al132.alchemistry.tiles
 
 import al132.alchemistry.blocks.FissionControllerBlock
 import al132.alchemistry.blocks.FusionControllerBlock
+import al132.alib.tiles.IEnergyTile
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.Tuple
 import net.minecraftforge.common.capabilities.Capability
@@ -9,7 +10,7 @@ import net.minecraftforge.fluids.Fluid
 import net.minecraftforge.fluids.FluidRegistry
 import kotlin.math.floor
 
-abstract class AbstractReactorController(val reactorType: ReactorType) : TileBase() {
+abstract class AbstractReactorController(val reactorType: ReactorType) : TileBase(), IEnergyTile {
 
     val shapeHandler = ReactorShapeHandler(this, reactorType)
     var fluidModifiers = mutableMapOf<Fluid, Tuple<Double, Double>>() //Tuple<Productivity, Speed>

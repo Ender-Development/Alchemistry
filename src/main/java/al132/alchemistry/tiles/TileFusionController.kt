@@ -1,7 +1,6 @@
 package al132.alchemistry.tiles
 
 import al132.alchemistry.ConfigHandler
-import al132.alchemistry.blocks.FusionControllerBlock
 import al132.alchemistry.blocks.FusionControllerBlock.Companion.STATUS
 import al132.alchemistry.blocks.ModBlocks
 import al132.alchemistry.blocks.PropertyPowerStatus
@@ -12,10 +11,8 @@ import al132.alib.tiles.*
 import al132.alib.utils.extensions.get
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
-import net.minecraft.util.EnumFacing
 import net.minecraft.util.ITickable
-import net.minecraft.util.math.BlockPos
-import net.minecraftforge.common.capabilities.Capability
+import kotlin.math.floor
 
 /**
  * Created by al132 on 4/29/2017.
@@ -29,18 +26,19 @@ class TileFusionController(reactorType: ReactorType = ReactorType.FUSION) : Abst
 
     init {
         initInventoryCapability(2, 1)
+        loadConfig(ConfigHandler.FUSION.fusionReactorModifiers)
     }
 
     override fun initInventoryInputCapability() {
         input = object : ALTileStackHandler(inputSlots, this) {
             override fun insertItem(slot: Int, stack: ItemStack, simulate: Boolean): ItemStack {
                 if (singleMode) {
-                    if (this.getStackInSlot(slot).isEmpty) return super.insertItem(slot, stack, simulate)
-                    else return stack
+                    return if (this.getStackInSlot(slot).isEmpty) super.insertItem(slot, stack, simulate)
+                    else stack
                 }
-                if (stack.item == ModItems.elements) {
-                    return super.insertItem(slot, stack, simulate)
-                } else return stack
+                return if (stack.item == ModItems.elements) {
+                    super.insertItem(slot, stack, simulate)
+                } else stack
             }
 
             override fun onContentsChanged(slot: Int) {
@@ -59,7 +57,6 @@ class TileFusionController(reactorType: ReactorType = ReactorType.FUSION) : Abst
     }
 
     override fun update() {
-
         if (!world.isRemote) {
             checkMultiblockTicks++
             if (checkMultiblockTicks >= 20) {
@@ -80,6 +77,8 @@ class TileFusionController(reactorType: ReactorType = ReactorType.FUSION) : Abst
                     pos,
                     state.withProperty(STATUS, PropertyPowerStatus.STANDBY)
                 )
+                speedModifier = speedModifier()
+                productivityModifier = productivityModifier()
             } else if (currentStatus != PropertyPowerStatus.OFF) world.setBlockState(
                 pos,
                 state.withProperty(STATUS, PropertyPowerStatus.OFF)
@@ -103,11 +102,21 @@ class TileFusionController(reactorType: ReactorType = ReactorType.FUSION) : Abst
     }
 
     override fun process() {
-        if (progressTicks < ConfigHandler.FUSION.processingTicks) {
+        if (progressTicks < getModifiedProcessTime(ConfigHandler.FUSION.processingTicks)) {
             progressTicks++
         } else {
             progressTicks = 0
-            output.setOrIncrement(0, recipeOutput.copy())
+
+            var stacksize = recipeOutput.count
+            var staticMultiplier = floor(productivityModifier).toInt()
+            var randomMultiplier = if (productivityModifier - staticMultiplier > Math.random()) 1 else 0
+            if (staticMultiplier != 0 || randomMultiplier != 0) {
+                stacksize *= staticMultiplier + randomMultiplier
+            }
+            var outputStack = recipeOutput.copy()
+            outputStack.count = stacksize
+            output.setOrIncrement(0, outputStack)
+
             input.decrementSlot(0, 1) //Will refresh the recipe, clearing the recipeOutputs if only 1 stack is left
             input.decrementSlot(1, 1) //Will refresh the recipe, clearing the recipeOutputs if only 1 stack is left
         }
@@ -118,6 +127,8 @@ class TileFusionController(reactorType: ReactorType = ReactorType.FUSION) : Abst
         super.writeToNBT(compound)
         compound.setInteger("ProgressTicks", progressTicks)
         compound.setBoolean("singleMode", singleMode)
+        compound.setDouble("speedModifier", speedModifier)
+        compound.setDouble("productivityModifier", productivityModifier)
         return compound
     }
 
@@ -125,6 +136,8 @@ class TileFusionController(reactorType: ReactorType = ReactorType.FUSION) : Abst
         super.readFromNBT(compound)
         this.progressTicks = compound.getInteger("ProgressTicks")
         this.singleMode = compound.getBoolean("singleMode")
+        this.speedModifier = compound.getDouble("speedModifier")
+        this.productivityModifier = compound.getDouble("productivityModifier")
         this.refreshRecipe()
         this.updateMultiblock()
     }

@@ -99,7 +99,7 @@ class AlchemistryPlugin : IModPlugin {
         registry.addRecipes(ModRecipes.fissionRecipes.map { FissionRecipeWrapper(it) }, FISSION)
 
 
-        registry.addRecipeClickArea(GuiChemicalDissolver::class.java, 86, 50, 17, 33, DISSOLVER)
+        registry.addRecipeClickArea(GuiChemicalDissolver::class.java, 69, 21, 38, 80, DISSOLVER)
         registry.addRecipeClickArea(GuiChemicalCombiner::class.java, 100, 20, 35, 33, COMBINER)
         registry.addRecipeClickArea(GuiElectrolyzer::class.java, 73, 58, 39, 23, ELECTROLYZER)
         registry.addRecipeClickArea(GuiEvaporator::class.java, 73, 54, 39, 23, EVAPORATOR)

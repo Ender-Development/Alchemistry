@@ -5,14 +5,18 @@ import al132.alchemistry.tiles.ReactorType
 import al132.alib.client.CapabilityEnergyDisplayWrapper
 import al132.alib.tiles.IGuiTile
 import al132.alib.utils.Translator
-import com.sun.org.apache.xpath.internal.operations.Bool
+import net.minecraft.client.gui.ScaledResolution
 import net.minecraft.client.resources.I18n
 import net.minecraft.inventory.Container
 import net.minecraft.util.ResourceLocation
 import java.awt.Color
+import kotlin.math.ceil
 
 abstract class GuiReactorController<T>(container: Container, tile: T, textureLocation: ResourceLocation) :
     GuiBase<T>(container, tile, textureLocation) where T : AbstractReactorController, T : IGuiTile {
+
+    val infoHeight = 95.0f
+
     override var displayName: String = ""
     var textProductivity: String? = null
     var textSpeed: String? = null
@@ -44,26 +48,28 @@ abstract class GuiReactorController<T>(container: Container, tile: T, textureLoc
 
     override fun drawGuiContainerForegroundLayer(mouseX: Int, mouseY: Int) {
         super.drawGuiContainerForegroundLayer(mouseX, mouseY)
-        val infoHeight = 95.0f
         val productivity = tile.productivityModifier * 100
         val speed = tile.speedModifier * 100
         val energy = tile.energyModifier * 100
-        this.fontRenderer.drawStringWithShadow(statusText, 30.0f, infoHeight, Color.WHITE.rgb)
-        this.fontRenderer.drawString(
+        fontRenderer.drawString(
+            statusText, ((xSize / 2 - fontRenderer.getStringWidth(statusText) / 2).toFloat()),
+            infoHeight, Color.RED.rgb, false
+        )
+        fontRenderer.drawString(
             I18n.format(textProductivity!!, "%.2f%%".format(productivity)),
             8.0f,
             infoHeight + 10,
             getColorFromValue(productivity),
             false
         )
-        this.fontRenderer.drawString(
+        fontRenderer.drawString(
             I18n.format(textSpeed!!, "%.2f%%".format(speed)),
             8.0f,
             infoHeight + 20,
             getColorFromValue(speed),
             false
         )
-        this.fontRenderer.drawString(
+        fontRenderer.drawString(
             I18n.format(textEnergy!!, "%.2f%%".format(energy)),
             8.0f,
             infoHeight + 30,
@@ -71,6 +77,11 @@ abstract class GuiReactorController<T>(container: Container, tile: T, textureLoc
             false
         )
         updateStatus()
+    }
+
+    override fun drawScreen(mouseX: Int, mouseY: Int, partialTicks: Float) {
+        super.drawScreen(mouseX, mouseY, partialTicks)
+        drawModifierText(mouseX, mouseY)
     }
 
     private fun updateStatus() {
@@ -88,6 +99,53 @@ abstract class GuiReactorController<T>(container: Container, tile: T, textureLoc
             invert && value > 0 -> Color(148, 26, 26).rgb
             invert && value < 0 -> Color(27, 105, 27).rgb
             else -> Color.GRAY.rgb
+        }
+    }
+
+    private fun drawModifierText(mouseX: Int, mouseY: Int) {
+        if (mouseX < guiLeft + 8 || mouseX > guiLeft + xSize - 8 || mouseY < guiTop || mouseY > guiTop + ySize) return
+        val fontHeight = fontRenderer.FONT_HEIGHT
+        val y = (this.height - this.ySize) / 2
+        val offset = y + infoHeight
+        when {
+            offset + 10 <= mouseY && mouseY <= offset + 10 + fontHeight -> {
+                drawHoveringText(
+                    listOf(
+                        I18n.format("tooltip.productivity.title"),
+                        I18n.format("tooltip.productivity.default"),
+                        I18n.format(
+                            "tooltip.productivity.current",
+                            if (ceil(tile.productivityModifier) == 0.0) 1 else ceil(tile.productivityModifier).toInt()
+                        )
+                    ),
+                    mouseX,
+                    mouseY
+                )
+            }
+
+            offset + 20 <= mouseY && mouseY <= offset + 20 + fontHeight -> {
+                drawHoveringText(
+                    listOf(
+                        I18n.format("tooltip.speed.title"),
+                        I18n.format("tooltip.speed.default", tile.defaultProcessTime),
+                        I18n.format("tooltip.speed.current", tile.getModifiedProcessTime())
+                    ),
+                    mouseX,
+                    mouseY
+                )
+            }
+
+            offset + 30 <= mouseY && mouseY <= offset + 30 + fontHeight -> {
+                drawHoveringText(
+                    listOf(
+                        I18n.format("tooltip.energy.title"),
+                        I18n.format("tooltip.energy.default", tile.defaultEnergyPerTick),
+                        I18n.format("tooltip.energy.current", tile.getModifiedEnergyCost())
+                    ),
+                    mouseX,
+                    mouseY
+                )
+            }
         }
     }
 }

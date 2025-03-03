@@ -17,9 +17,13 @@ import kotlin.math.floor
 /**
  * Created by al132 on 4/29/2017.
  */
-class TileFusionController(reactorType: ReactorType = ReactorType.FUSION) : AbstractReactorController(reactorType),
+class TileFusionController(reactorType: ReactorType = ReactorType.FUSION,
+                           override val defaultEnergyPerTick: Int = ConfigHandler.FUSION.energyPerTick,
+                           override val defaultEnergyCapacity: Int = ConfigHandler.FUSION.energyCapacity,
+                           override val defaultProcessTime: Int = ConfigHandler.FUSION.processingTicks
+) : AbstractReactorController(reactorType),
     IGuiTile, ITickable, IItemTile,
-    IEnergyTile by EnergyTileImpl(capacity = ConfigHandler.FUSION.energyCapacity) {
+    IEnergyTile by EnergyTileImpl(capacity = defaultEnergyCapacity) {
 
     var recipeOutput: ItemStack = ItemStack.EMPTY
     var singleMode: Boolean = false
@@ -63,7 +67,7 @@ class TileFusionController(reactorType: ReactorType = ReactorType.FUSION) : Abst
                 updateMultiblock()
                 checkMultiblockTicks = 0
             }
-            val isActive = !this.input[0].isEmpty && !this.input[1].isEmpty
+            val isActive = !this.input[0].isEmpty && !this.input[1].isEmpty && energyStorage.energyStored >= getModifiedEnergyCost()
             val state = this.world.getBlockState(this.pos)
             if (state.block != ModBlocks.fusionController) return;
             val currentStatus = state.getValue(STATUS)
@@ -96,12 +100,12 @@ class TileFusionController(reactorType: ReactorType = ReactorType.FUSION) : Abst
                 && !recipeOutput.isEmpty
                 && (ItemStack.areItemsEqual(output[0], recipeOutput) || output[0].isEmpty)
                 && output[0].count + recipeOutput.count <= recipeOutput.maxStackSize
-                && energyStorage.energyStored >= getModifiedEnergyCost(ConfigHandler.FUSION.energyPerTick)
+                && energyStorage.energyStored >= getModifiedEnergyCost()
 
     }
 
     override fun process() {
-        if (progressTicks < getModifiedProcessTime(ConfigHandler.FUSION.processingTicks)) {
+        if (progressTicks < getModifiedProcessTime()) {
             progressTicks++
         } else {
             progressTicks = 0
@@ -119,7 +123,7 @@ class TileFusionController(reactorType: ReactorType = ReactorType.FUSION) : Abst
             input.decrementSlot(0, 1) //Will refresh the recipe, clearing the recipeOutputs if only 1 stack is left
             input.decrementSlot(1, 1) //Will refresh the recipe, clearing the recipeOutputs if only 1 stack is left
         }
-        this.energyStorage.extractEnergy(getModifiedEnergyCost(ConfigHandler.FUSION.energyPerTick), false)
+        this.energyStorage.extractEnergy(getModifiedEnergyCost(), false)
     }
 
     override fun writeToNBT(compound: NBTTagCompound): NBTTagCompound {

@@ -17,9 +17,13 @@ import kotlin.math.floor
 /**
  * Created by al132 on 4/29/2017.
  */
-class TileFissionController(reactorType: ReactorType = ReactorType.FISSION) : AbstractReactorController(reactorType),
+class TileFissionController(reactorType: ReactorType = ReactorType.FISSION,
+                            override val defaultEnergyPerTick: Int = ConfigHandler.FISSION.energyPerTick,
+                            override val defaultEnergyCapacity: Int = ConfigHandler.FISSION.energyCapacity,
+                            override val defaultProcessTime: Int = ConfigHandler.FISSION.processingTicks
+) : AbstractReactorController(reactorType),
     IGuiTile, ITickable, IItemTile,
-    IEnergyTile by EnergyTileImpl(capacity = ConfigHandler.FISSION.energyCapacity) {
+    IEnergyTile by EnergyTileImpl(capacity = defaultEnergyCapacity) {
 
     var recipeOutput1: ItemStack = ItemStack.EMPTY
     var recipeOutput2: ItemStack = ItemStack.EMPTY
@@ -68,7 +72,7 @@ class TileFissionController(reactorType: ReactorType = ReactorType.FISSION) : Ab
 
     override fun update() {
         if (!world.isRemote) {
-            val isActive = !this.input[0].isEmpty
+            val isActive = !this.input[0].isEmpty && energyStorage.energyStored >= getModifiedEnergyCost()
             checkMultiblockTicks++
             if (checkMultiblockTicks >= 20) {
                 updateMultiblock()
@@ -96,11 +100,11 @@ class TileFissionController(reactorType: ReactorType = ReactorType.FISSION) : Ab
                 && (ItemStack.areItemsEqual(output[1], recipeOutput2) || output[1].isEmpty)
                 && output[0].count + recipeOutput1.count <= recipeOutput1.maxStackSize
                 && output[1].count + recipeOutput2.count <= recipeOutput2.maxStackSize
-                && energyStorage.energyStored >= getModifiedEnergyCost(ConfigHandler.FISSION.energyPerTick)
+                && energyStorage.energyStored >= getModifiedEnergyCost()
     }
 
     override fun process() {
-        if (progressTicks < getModifiedProcessTime(ConfigHandler.FISSION.processingTicks)) {
+        if (progressTicks < getModifiedProcessTime()) {
             progressTicks++
         } else {
             progressTicks = 0
@@ -112,7 +116,7 @@ class TileFissionController(reactorType: ReactorType = ReactorType.FISSION) : Ab
                 stacksize1 *= staticMultiplier + randomMultiplier
             }
             var outputStack1 = recipeOutput1.copy()
-            outputStack1.count = stacksize1
+            outputStack1.count = if (stacksize1 > outputStack1.maxStackSize) outputStack1.maxStackSize else stacksize1
             output.setOrIncrement(0, outputStack1)
             if (!recipeOutput2.isEmpty) {
                 var stacksize2 = recipeOutput2.count
@@ -120,11 +124,11 @@ class TileFissionController(reactorType: ReactorType = ReactorType.FISSION) : Ab
                     stacksize2 *= staticMultiplier + randomMultiplier
                 }
                 var outputStack2 = recipeOutput2.copy()
-                outputStack2.count = stacksize2
+                outputStack2.count = if (stacksize2 > outputStack2.maxStackSize) outputStack2.maxStackSize else stacksize2
                 output.setOrIncrement(1, outputStack2)
             }
             input.decrementSlot(0, 1) //Will refresh the recipe, clearing the recipeOutputs if only 1 stack is left
         }
-        this.energyStorage.extractEnergy(getModifiedEnergyCost(ConfigHandler.FISSION.energyPerTick), false)
+        this.energyStorage.extractEnergy(getModifiedEnergyCost(), false)
     }
 }

@@ -8,7 +8,6 @@ import al132.alib.utils.Translator
 import net.minecraft.client.gui.GuiButton
 import net.minecraft.entity.player.InventoryPlayer
 import net.minecraft.util.ResourceLocation
-import java.awt.Color
 
 /**
  * Created by al132 on 1/16/2017.
@@ -40,7 +39,7 @@ class GuiFusionController(playerInv: InventoryPlayer, tile: TileFusionController
         val i = (this.width - this.xSize) / 2
         val j = (this.height - this.ySize) / 2
         if (tile.progressTicks > 0) {
-            val k = this.getBarScaled(28, tile.progressTicks, tile.getModifiedProcessTime(ConfigHandler.FUSION.processingTicks))
+            val k = this.getBarScaled(28, tile.progressTicks, tile.getModifiedProcessTime())
             this.drawTexturedModalRect(i + 90, j + 82, 175, 0, k, 9)
         }
     }

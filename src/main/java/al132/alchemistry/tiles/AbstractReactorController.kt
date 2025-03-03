@@ -21,6 +21,10 @@ abstract class AbstractReactorController(val reactorType: ReactorType) : TileBas
     var checkMultiblockTicks: Int = 0
     var progressTicks = 0
 
+    abstract val defaultEnergyPerTick: Int
+    abstract val defaultEnergyCapacity: Int
+    abstract val defaultProcessTime: Int
+
     abstract fun refreshRecipe()
     abstract fun canProcess(): Boolean
     abstract fun process()
@@ -64,12 +68,12 @@ abstract class AbstractReactorController(val reactorType: ReactorType) : TileBas
         }
     }
 
-    fun getModifiedProcessTime(default: Int): Int {
-        return floor(default + default * (1 - speedModifier)).toInt()
+    fun getModifiedProcessTime(default: Int = defaultProcessTime): Int {
+        return floor(default * (1 - speedModifier)).toInt()
     }
 
-    fun getModifiedEnergyCost(default: Int): Int {
-        return floor(default + default * (1 - energyModifier)).toInt()
+    fun getModifiedEnergyCost(default: Int = defaultEnergyPerTick): Int {
+        return floor(default * (1 + energyModifier)).toInt()
     }
 
     override fun hasCapability(capability: Capability<*>, facing: EnumFacing?): Boolean {

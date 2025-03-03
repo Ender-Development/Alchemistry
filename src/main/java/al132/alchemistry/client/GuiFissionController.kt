@@ -4,7 +4,6 @@ import al132.alchemistry.ConfigHandler
 import al132.alchemistry.tiles.TileFissionController
 import net.minecraft.entity.player.InventoryPlayer
 import net.minecraft.util.ResourceLocation
-import java.awt.Color
 
 /**
  * Created by al132 on 1/16/2017.
@@ -22,7 +21,7 @@ class GuiFissionController(playerInv: InventoryPlayer, tile: TileFissionControll
         val i = (this.width - this.xSize) / 2
         val j = (this.height - this.ySize) / 2
         if (tile.progressTicks > 0) {
-            val k = this.getBarScaled(28, tile.progressTicks, tile.getModifiedProcessTime(ConfigHandler.FISSION.processingTicks))
+            val k = this.getBarScaled(28, tile.progressTicks, tile.getModifiedProcessTime())
             this.drawTexturedModalRect(i + 79, j + 63, 175, 0, k, 9)
         }
     }

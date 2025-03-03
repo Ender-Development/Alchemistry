@@ -382,3 +382,13 @@ config.alchemistry.electrolyzer=Electrolyzer
 config.alchemistry.evaporator=Evaporator
 config.alchemistry.atomizer=Atomizer
 config.alchemistry.liquifier=Liquifier
+
+tooltip.productivity.title=§6Productivity§r
+tooltip.productivity.default=By default, the machine produces no bonus items
+tooltip.productivity.current=Current max bonus multiplier: §d%sx§r
+tooltip.speed.title=§6Speed§r
+tooltip.speed.default=Default: §d%s§r ticks per operation
+tooltip.speed.current=Current: §d%s§r ticks per operation
+tooltip.energy.title=§6Energy Consumption§r
+tooltip.energy.default=Default: §d%s§r FE/t
+tooltip.energy.current=Current: §d%s§r FE/t

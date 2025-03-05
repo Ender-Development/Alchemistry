@@ -10,7 +10,7 @@ import mezz.jei.api.ingredients.IIngredients
 import mezz.jei.api.ingredients.VanillaTypes
 
 class FissionRecipeCategory(guiHelper: IGuiHelper)
-    : AlchemistryRecipeCategory<FissionRecipeWrapper>(guiHelper.createDrawable(guiTexture, u, v, 128, 32),
+    : AlchemistryRecipeCategory<FissionRecipeWrapper>(guiHelper.createDrawable(guiTexture, u, v, 115, 26),
         "jei.fission_controller.name") {
 
     override fun getTitle(): String = Translator.translateToLocal("jei.fission_controller.name")
@@ -21,7 +21,7 @@ class FissionRecipeCategory(guiHelper: IGuiHelper)
         val guiItemStacks = recipeLayout.itemStacks
 
         var x = 43 - u
-        var y = 52 - v
+        var y = 74 - v
         guiItemStacks.init(INPUT_ONE, true, x, y)
         guiItemStacks.set(INPUT_ONE, ingredients.getInputs(VanillaTypes.ITEM)[0])
 
@@ -41,8 +41,8 @@ class FissionRecipeCategory(guiHelper: IGuiHelper)
         private val OUTPUT_ONE = 1
         private val OUTPUT_TWO = 2
 
-        private val u = 33
-        private val v = 45
+        private val u = 39
+        private val v = 70
 
         private val guiTexture = GuiFissionController.textureLocation
     }

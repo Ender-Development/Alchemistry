@@ -10,7 +10,7 @@ import mezz.jei.api.ingredients.IIngredients
 import mezz.jei.api.ingredients.VanillaTypes
 
 class LiquifierRecipeCategory(guiHelper: IGuiHelper)
-    : AlchemistryRecipeCategory<LiquifierRecipeWrapper>(guiHelper.createDrawable(guiTexture, u, v, 100, 125),
+    : AlchemistryRecipeCategory<LiquifierRecipeWrapper>(guiHelper.createDrawable(guiTexture, u, v, 98, 80),
         "jei.liquifier.name") {
 
     override fun getTitle(): String = Translator.translateToLocal("jei.liquifier.name")
@@ -22,15 +22,15 @@ class LiquifierRecipeCategory(guiHelper: IGuiHelper)
         val guiFluidStacks = recipeLayout.fluidStacks
 
 
-        var x = 48 - u
-        var y = 57 - v
+        var x = 44 - u
+        var y = 117 - v
         guiItemStacks.init(INPUT_ONE, true, x, y)
         guiItemStacks.set(INPUT_ONE, ingredients.getInputs(VanillaTypes.ITEM)[0])
 
-        x = 122 - u
-        y = 40 - v
+        x = 116 - u
+        y = 64 - v
         val outputFluidStack = ingredients.getOutputs(VanillaTypes.FLUID)[0][0]
-        guiFluidStacks.init(FLUID_ONE, true, x, y, 16, 60, outputFluidStack.amount, false, null)
+        guiFluidStacks.init(FLUID_ONE, true, x, y, 16, 70, outputFluidStack.amount, false, null)
         guiFluidStacks.set(FLUID_ONE, outputFluidStack)
     }
 
@@ -39,8 +39,8 @@ class LiquifierRecipeCategory(guiHelper: IGuiHelper)
         private val INPUT_ONE = 0
         private val FLUID_ONE = 1
 
-        private val u = 40
-        private val v = 11
+        private val u = 39
+        private val v = 59
 
         private val guiTexture = GuiLiquifier.textureLocation
     }

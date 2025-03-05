@@ -10,7 +10,7 @@ import mezz.jei.api.ingredients.IIngredients
 import mezz.jei.api.ingredients.VanillaTypes
 
 class AtomizerRecipeCategory(guiHelper: IGuiHelper)
-    : AlchemistryRecipeCategory<AtomizerRecipeWrapper>(guiHelper.createDrawable(guiTexture, u, v, 100, 125),
+    : AlchemistryRecipeCategory<AtomizerRecipeWrapper>(guiHelper.createDrawable(guiTexture, u, v, 98, 79),
         "jei.atomizer.name") {
 
     override fun getTitle(): String = Translator.translateToLocal("jei.atomizer.name")
@@ -22,15 +22,15 @@ class AtomizerRecipeCategory(guiHelper: IGuiHelper)
         val guiFluidStacks = recipeLayout.fluidStacks
 
 
-        var x = 121 - u
-        var y = 51 - v
+        var x = 115 - u
+        var y = 117 - v
         guiItemStacks.init(OUTPUT_ONE, false, x, y)
         guiItemStacks.set(OUTPUT_ONE, ingredients.getOutputs(VanillaTypes.ITEM)[0])
 
-        x = 48 - u
-        y = 69 - u
+        x = 44 - u
+        y = 44 - u
         val inputStack = ingredients.getInputs(VanillaTypes.FLUID)[0][0]
-        guiFluidStacks.init(FLUID_ONE, true, x, y, 16, 60, inputStack.amount, false, null)
+        guiFluidStacks.init(FLUID_ONE, true, x, y, 16, 70, inputStack.amount, false, null)
         guiFluidStacks.set(FLUID_ONE, inputStack)
     }
 
@@ -39,8 +39,8 @@ class AtomizerRecipeCategory(guiHelper: IGuiHelper)
         private val OUTPUT_ONE = 1
         private val FLUID_ONE = 1
 
-        private val u = 40
-        private val v = 11
+        private val u = 39
+        private val v = 59
 
         private val guiTexture = GuiAtomizer.textureLocation
     }

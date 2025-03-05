@@ -12,7 +12,7 @@ import mezz.jei.api.ingredients.VanillaTypes
 import net.minecraft.item.ItemStack
 
 class ElectrolyzerRecipeCategory(guiHelper: IGuiHelper)
-    : AlchemistryRecipeCategory<ElectrolyzerRecipeWrapper>(guiHelper.createDrawable(guiTexture, u, v, 100, 125),
+    : AlchemistryRecipeCategory<ElectrolyzerRecipeWrapper>(guiHelper.createDrawable(guiTexture, u, v, 116, 80),
         "jei.electrolyzer.name") {
 
     override fun getTitle(): String = Translator.translateToLocal("jei.electrolyzer.name")
@@ -24,19 +24,20 @@ class ElectrolyzerRecipeCategory(guiHelper: IGuiHelper)
         val guiFluidStacks = recipeLayout.fluidStacks
 
 
-        var x = 84 - u
-        var y = 38 - v
+        var x = 79 - u
+        var y = 81 - v
         guiItemStacks.init(INPUT_ONE, true, x, y)
         guiItemStacks.set(INPUT_ONE, recipeWrapper.recipe.electrolytes)
 
-        x = 121 - u
-        y = 51 - v
+        x = 115 - u
+        y = 99 - v
         guiItemStacks.init(OUTPUT_ONE, false, x, y)
+        x += 18
+        guiItemStacks.init(OUTPUT_THREE, false, x, y)
+        x -= 18
         y += 18
         guiItemStacks.init(OUTPUT_TWO, false, x, y)
-        y += 18
-        guiItemStacks.init(OUTPUT_THREE, false, x, y)
-        y += 18
+        x += 18
         guiItemStacks.init(OUTPUT_FOUR, false, x, y)
 
         guiItemStacks.set(OUTPUT_ONE, ingredients.getOutputs(VanillaTypes.ITEM)[0])
@@ -45,10 +46,10 @@ class ElectrolyzerRecipeCategory(guiHelper: IGuiHelper)
         guiItemStacks.set(OUTPUT_FOUR, ingredients.getOutputs(VanillaTypes.ITEM)[3])
 
 
-        x = 48 - u
-        y = 69 - u
+        x = 44 - u
+        y = 44 - u
         val inputStack = ingredients.getInputs(VanillaTypes.FLUID)[0][0]
-        guiFluidStacks.init(FLUID_ONE, true, x, y, 16, 60, inputStack.amount, false, null)
+        guiFluidStacks.init(FLUID_ONE, true, x, y, 16, 70, inputStack.amount, false, null)
         guiFluidStacks.set(FLUID_ONE, inputStack)
 
         guiItemStacks.addTooltipCallback(object : ITooltipCallback<ItemStack> {
@@ -70,8 +71,8 @@ class ElectrolyzerRecipeCategory(guiHelper: IGuiHelper)
         private val OUTPUT_FOUR = 4
         private val FLUID_ONE = 1
 
-        private val u = 40
-        private val v = 11
+        private val u = 39
+        private val v = 59
 
         private val guiTexture = GuiElectrolyzer.textureLocation
     }

@@ -11,15 +11,15 @@ import mezz.jei.api.ingredients.VanillaTypes
 
 class CombinerRecipeCategory(guiHelper: IGuiHelper) :
         AlchemistryRecipeCategory<CombinerRecipeWrapper>
-        (guiHelper.createDrawable(guiTexture, u, v, 159 - u, /*70*/85 - v), "jei.combiner.name") {
+        (guiHelper.createDrawable(guiTexture, u, v, 116, 62), "jei.combiner.name") {
 
     companion object {
 
         private const val INPUT_SIZE = 9
         private const val OUTPUT_SLOT = 9
 
-        private const val u = 35
-        private const val v = 10
+        private const val u = 39
+        private const val v = 77
 
         private val guiTexture = GuiChemicalCombiner.textureLocation
     }
@@ -30,9 +30,9 @@ class CombinerRecipeCategory(guiHelper: IGuiHelper) :
 
     override fun setRecipe(recipeLayout: IRecipeLayout, recipeWrapper: CombinerRecipeWrapper, ingredients: IIngredients) {
         val guiItemStacks = recipeLayout.itemStacks
-        val startX = 38 - u
+        val startX = 42 - u
         var x = startX
-        var y = 13 - v
+        var y = 81 - v
         var index = 0
         for (i in 0 until 3) {
             for (j in 0 until 3) {
@@ -49,8 +49,8 @@ class CombinerRecipeCategory(guiHelper: IGuiHelper) :
             guiItemStacks.set(i, ingredients.getInputs(VanillaTypes.ITEM)[i])
         }
 
-        x = 139 - u
-        y = 32 - v
+        x = 133 - u
+        y = 99 - v
 
         guiItemStacks.init(OUTPUT_SLOT, false, x, y)
         //guiItemStacks.set(OUTPUT_SLOT, ingredients.getOutputs(ItemStack::class.java)[0])

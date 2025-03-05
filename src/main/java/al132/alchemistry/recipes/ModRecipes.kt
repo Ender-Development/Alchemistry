@@ -1822,6 +1822,8 @@ object ModRecipes {
                 }
             })
         }
+
+        dissolverRecipes.removeIf { recipe -> recipe.input == null || recipe.input!!.matchingStacks.isEmpty() }
     }
 
 

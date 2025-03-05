@@ -24,16 +24,16 @@ class TileChemicalDissolver : TileBase(), IGuiTile, ITickable, IItemTile,
     private var outputBuffer: MutableList<ItemStack> = ArrayList()
 
     init {
-        this.initInventoryCapability(1, 10)
+        this.initInventoryCapability(1, 12)
     }
 
     override fun initInventoryInputCapability() {
 
         input = object : ALTileStackHandler(inputSlots, this) {
             override fun insertItem(slot: Int, stack: ItemStack, simulate: Boolean): ItemStack {
-                if(!this.getStackInSlot(slot).isEmpty) return super.insertItem(slot, stack, simulate)
-                else if (DissolverRecipe.match(stack, false) != null) return super.insertItem(slot, stack, simulate)
-                else return stack
+                return if(!this.getStackInSlot(slot).isEmpty) super.insertItem(slot, stack, simulate)
+                else if (DissolverRecipe.match(stack, false) != null) super.insertItem(slot, stack, simulate)
+                else stack
             }
 
             override fun onContentsChanged(slot: Int) {
@@ -73,10 +73,10 @@ class TileChemicalDissolver : TileBase(), IGuiTile, ITickable, IItemTile,
 
         //If output didn't happen or didn't fail last tick, queue up next output single stack
         if (outputSuccessful) {
-            if (outputBuffer.size > 0) outputThisTick = outputBuffer[0].splitStack(ConfigHandler.DISSOLVER.speed)
+            if (outputBuffer.isNotEmpty()) outputThisTick = outputBuffer[0].splitStack(ConfigHandler.DISSOLVER.speed)
             else outputThisTick = ItemStack.EMPTY
 
-            if (outputBuffer.size > 0 && outputBuffer[0].isEmpty) outputBuffer.removeAt(0)
+            if (outputBuffer.isNotEmpty() && outputBuffer[0].isEmpty) outputBuffer.removeAt(0)
             outputSuccessful = false
         }
 

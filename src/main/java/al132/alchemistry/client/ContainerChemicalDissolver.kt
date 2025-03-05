@@ -12,7 +12,7 @@ class ContainerChemicalDissolver(playerInv: InventoryPlayer,
         ContainerBase<TileChemicalDissolver>(playerInv, tile) {
 
     override fun addOwnSlots() {
-        addSlotToContainer(SlotItemHandler(tile.input, 0, 44, 53))
-        addSlotArray(x_start = 116, y_start = 17, rows = 5, columns = 2, handler = tile.output)
+        addSlotToContainer(SlotItemHandler(tile.input, 0, 44, 100))
+        addSlotArray(x_start = 98, y_start = 82, rows = 3, columns = 4, handler = tile.output)
     }
 }

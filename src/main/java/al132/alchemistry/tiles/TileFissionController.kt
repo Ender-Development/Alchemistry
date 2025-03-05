@@ -88,7 +88,7 @@ class TileFissionController(reactorType: ReactorType = ReactorType.FISSION,
                 updateModifiers()
             } else if (currentStatus != OFF) world.setBlockState(pos, state.withProperty(STATUS, OFF))
 
-            if (canProcess()) process()
+            if (canProcess()) process() else progressTicks = 0
             this.markDirtyClientEvery(5)
         }
     }

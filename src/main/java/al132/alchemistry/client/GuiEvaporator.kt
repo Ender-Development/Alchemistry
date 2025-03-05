@@ -10,8 +10,8 @@ import net.minecraft.util.ResourceLocation
  * Created by al132 on 4/29/2017.
  */
 
-class GuiEvaporator(playerInv: InventoryPlayer, tile: TileEvaporator)
-    : GuiBase<TileEvaporator>(ContainerEvaporator(playerInv, tile),tile,GuiEvaporator.textureLocation) {
+class GuiEvaporator(playerInv: InventoryPlayer, tile: TileEvaporator, override val displayNameOffset: Int = 51)
+    : GuiBase<TileEvaporator>(ContainerEvaporator(playerInv, tile),tile, textureLocation) {
 
     companion object {
         val textureLocation = ResourceLocation(root + "evaporator_gui.png")
@@ -20,7 +20,7 @@ class GuiEvaporator(playerInv: InventoryPlayer, tile: TileEvaporator)
     override val displayName = Translator.translateToLocal("tile.evaporator.name")
 
     init {
-        this.displayData.add(CapabilityFluidDisplayWrapper(48, 40, 16, 60, tile::inputTank))
+        this.displayData.add(CapabilityFluidDisplayWrapper(44, 64, 16, 70, tile::inputTank))
     }
 
     override fun drawGuiContainerBackgroundLayer(partialTicks: Float, mouseX: Int, mouseY: Int) {
@@ -29,8 +29,8 @@ class GuiEvaporator(playerInv: InventoryPlayer, tile: TileEvaporator)
         val i = (this.width - this.xSize) / 2
         val j = (this.height - this.ySize) / 2
         if (tile.progressTicks > 0) {
-            val k = this.getBarScaled(28, tile.progressTicks, tile.calculateProcessingTime())
-            this.drawTexturedModalRect(i + 79, j+63, 175, 0, k, 9)
+            val k = this.getBarScaled(36, tile.progressTicks, tile.calculateProcessingTime())
+            this.drawTexturedModalRect(i + 70, j+118, 175, 0, k, 16)
         }
     }
 }

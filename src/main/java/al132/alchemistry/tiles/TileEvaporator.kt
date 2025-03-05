@@ -59,7 +59,7 @@ class TileEvaporator : TileBase(), IGuiTile, ITickable, IItemTile, IFluidTile {
                 this.currentRecipe = ModRecipes.evaporatorRecipes.firstOrNull {
                     inputTank.fluid?.containsFluid(it.input) ?: false
                 }
-                if (canProcess()) process()
+                if (canProcess()) process() else progressTicks = 0
                 markDirtyGUIEvery(5)
             }
         }

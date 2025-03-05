@@ -40,7 +40,7 @@ class GuiFusionController(playerInv: InventoryPlayer, tile: TileFusionController
         val j = (this.height - this.ySize) / 2
         if (tile.progressTicks > 0) {
             val k = this.getBarScaled(36, tile.progressTicks, tile.getModifiedProcessTime())
-            this.drawTexturedModalRect(i + 88, j + 53, 175, 0, k, 16)
+            this.drawTexturedModalRect(i + 88, j + 75, 175, 0, k, 16)
         }
     }
 

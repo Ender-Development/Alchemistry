@@ -87,7 +87,7 @@ class TileFusionController(reactorType: ReactorType = ReactorType.FUSION,
                 state.withProperty(STATUS, PropertyPowerStatus.OFF)
             )
 
-            if (canProcess()) process()
+            if (canProcess()) process() else progressTicks = 0
             this.markDirtyClientEvery(5)
         }
     }

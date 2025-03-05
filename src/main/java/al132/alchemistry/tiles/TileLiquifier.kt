@@ -72,7 +72,7 @@ class TileLiquifier : TileBase(), IGuiTile, ITickable, IItemTile, IFluidTile,
     override fun update() {
         if (!world.isRemote) {
             if (!this.input[0].isEmpty) {
-                if (canProcess()) process()
+                if (canProcess()) process() else progressTicks = 0
             }
             this.markDirtyGUIEvery(5)
         }

@@ -12,6 +12,6 @@ class ContainerLiquifier(playerInv: InventoryPlayer,
         ContainerBase<TileLiquifier>(playerInv, tile) {
 
     override fun addOwnSlots() {
-        this.addSlotToContainer(SlotItemHandler(tile.input,0,49,58))
+        this.addSlotToContainer(SlotItemHandler(tile.input,0,44,118))
     }
 }

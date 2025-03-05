@@ -11,8 +11,8 @@ import net.minecraft.util.ResourceLocation
 /**
  * Created by al132 on 1/16/2017.
  */
-class GuiLiquifier(playerInv: InventoryPlayer, tile: TileLiquifier) :
-        GuiBase<TileLiquifier>(ContainerLiquifier(playerInv, tile), tile,GuiLiquifier.textureLocation) {
+class GuiLiquifier(playerInv: InventoryPlayer, tile: TileLiquifier, override val displayNameOffset: Int = 51) :
+        GuiBase<TileLiquifier>(ContainerLiquifier(playerInv, tile), tile, textureLocation) {
 
     companion object {
         val textureLocation = ResourceLocation(root + "liquifier_gui.png")
@@ -21,8 +21,8 @@ class GuiLiquifier(playerInv: InventoryPlayer, tile: TileLiquifier) :
     override val displayName = Translator.translateToLocal("tile.liquifier.name")
 
     init {
-        this.displayData.add(CapabilityEnergyDisplayWrapper(7, 10, 16, 60, tile::energyStorage))
-        this.displayData.add(CapabilityFluidDisplayWrapper(122, 40, 16, 60, tile::outputTank))
+        this.displayData.add(CapabilityEnergyDisplayWrapper(8, 64, 16, 70, tile::energyStorage))
+        this.displayData.add(CapabilityFluidDisplayWrapper(116, 64, 16, 70, tile::outputTank))
     }
 
     override fun drawGuiContainerBackgroundLayer(partialTicks: Float, mouseX: Int, mouseY: Int) {
@@ -31,8 +31,8 @@ class GuiLiquifier(playerInv: InventoryPlayer, tile: TileLiquifier) :
         val i = (this.width - this.xSize) / 2
         val j = (this.height - this.ySize) / 2
         if (tile.progressTicks > 0) {
-            val k = this.getBarScaled(28, tile.progressTicks, ConfigHandler.LIQUIFIER.processingTicks)
-            this.drawTexturedModalRect(i + 79, j+63, 175, 0, k, 9)
+            val k = this.getBarScaled(36, tile.progressTicks, ConfigHandler.LIQUIFIER.processingTicks)
+            this.drawTexturedModalRect(i + 70, j+118, 175, 0, k, 16)
         }
     }
 }

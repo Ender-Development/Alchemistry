@@ -58,9 +58,9 @@ class TileElectrolyzer : TileBase(), IGuiTile, ITickable, IFluidTile, IItemTile,
         if (!world.isRemote) {
             if(inputTank.fluidAmount > 0) {
                 this.currentRecipe = ModRecipes.electrolyzerRecipes.firstOrNull {
-                    (inputTank.fluid?.containsFluid(it.input) ?: false) && it.electrolytes.containsItem(input[0])
+                    (inputTank.fluid?.containsFluid(it.input) == true) && it.electrolytes.containsItem(input[0])
                 }
-                if (canProcess()) process()
+                if (canProcess()) process() else progressTicks = 0
             }
             this.markDirtyGUIEvery(5)
         }

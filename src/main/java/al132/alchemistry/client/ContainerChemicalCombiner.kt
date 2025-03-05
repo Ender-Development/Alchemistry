@@ -13,7 +13,7 @@ class ContainerChemicalCombiner(val playerInv: IInventory,
         ContainerBase<TileChemicalCombiner>(playerInv, tileCombiner) {
 
     override fun addOwnSlots() {
-        this.addSlotArray(x_start = 39, y_start = 14, rows = 3, columns = 3, handler = tile.input)
-        this.addSlotToContainer(SlotItemHandler(tile.output, 0, 140, 33))
+        this.addSlotArray(x_start = 44, y_start = 82, rows = 3, columns = 3, handler = tile.input)
+        this.addSlotToContainer(SlotItemHandler(tile.output, 0, 134, 100))
     }
 }

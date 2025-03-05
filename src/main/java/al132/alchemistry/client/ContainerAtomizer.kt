@@ -12,6 +12,6 @@ class ContainerAtomizer(playerInv: InventoryPlayer,
         ContainerBase<TileAtomizer>(playerInv, tile) {
 
     override fun addOwnSlots() {
-        this.addSlotToContainer(SlotItemHandler(tile.output,0,122,52))
+        this.addSlotToContainer(SlotItemHandler(tile.output,0,116,118))
     }
 }

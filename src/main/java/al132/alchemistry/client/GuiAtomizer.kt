@@ -11,8 +11,8 @@ import net.minecraft.util.ResourceLocation
 /**
  * Created by al132 on 1/16/2017.
  */
-class GuiAtomizer(playerInv: InventoryPlayer, tile: TileAtomizer) :
-        GuiBase<TileAtomizer>(ContainerAtomizer(playerInv, tile), tile,GuiAtomizer.textureLocation) {
+class GuiAtomizer(playerInv: InventoryPlayer, tile: TileAtomizer, override val displayNameOffset: Int = 51) :
+    GuiBase<TileAtomizer>(ContainerAtomizer(playerInv, tile), tile, textureLocation) {
 
     companion object {
         val textureLocation = ResourceLocation(root + "atomizer_gui.png")
@@ -21,8 +21,8 @@ class GuiAtomizer(playerInv: InventoryPlayer, tile: TileAtomizer) :
     override val displayName = Translator.translateToLocal("tile.atomizer.name")
 
     init {
-        this.displayData.add(CapabilityEnergyDisplayWrapper(7, 10, 16, 60, tile::energyStorage))
-        this.displayData.add(CapabilityFluidDisplayWrapper(48, 40, 16, 60, tile::inputTank))
+        this.displayData.add(CapabilityEnergyDisplayWrapper(8, 64, 16, 70, tile::energyStorage))
+        this.displayData.add(CapabilityFluidDisplayWrapper(44, 64, 16, 70, tile::inputTank))
     }
 
     override fun drawGuiContainerBackgroundLayer(partialTicks: Float, mouseX: Int, mouseY: Int) {
@@ -31,8 +31,8 @@ class GuiAtomizer(playerInv: InventoryPlayer, tile: TileAtomizer) :
         val i = (this.width - this.xSize) / 2
         val j = (this.height - this.ySize) / 2
         if (tile.progressTicks > 0) {
-            val k = this.getBarScaled(28, tile.progressTicks, ConfigHandler.ATOMIZER.processingTicks)
-            this.drawTexturedModalRect(i + 79, j+63, 175, 0, k, 9)
+            val k = this.getBarScaled(36, tile.progressTicks, ConfigHandler.ATOMIZER.processingTicks)
+            this.drawTexturedModalRect(i + 70, j + 98, 175, 0, k, 16)
         }
     }
 }

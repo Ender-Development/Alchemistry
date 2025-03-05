@@ -53,7 +53,7 @@ class TileAtomizer : TileBase(), IGuiTile, ITickable, IItemTile, IFluidTile,
     override fun update() {
         if (!world.isRemote) {
             if (inputTank.fluidAmount > 0) {
-                if (canProcess()) process()
+                if (canProcess()) process() else progressTicks = 0
             }
             markDirtyGUIEvery(5)
         }

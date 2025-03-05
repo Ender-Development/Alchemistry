@@ -47,26 +47,26 @@ class AlchemistryPlugin : IModPlugin {
         lateinit var recipeRegistry: IRecipeRegistry
     }
 
-    override fun onRuntimeAvailable(jeiRuntime: IJeiRuntime?) {
-        recipeRegistry = jeiRuntime!!.recipeRegistry
+    override fun onRuntimeAvailable(jeiRuntime: IJeiRuntime) {
+        recipeRegistry = jeiRuntime.recipeRegistry
     }
 
-    override fun registerCategories(registry: IRecipeCategoryRegistration?) {
-        registry?.jeiHelpers?.guiHelper?.let { guiHelper ->
+    override fun registerCategories(registry: IRecipeCategoryRegistration) {
+        registry.jeiHelpers.guiHelper.let { guiHelper ->
             registry.addRecipeCategories(
-                    DissolverRecipeCategory(guiHelper),
-                    CombinerRecipeCategory(guiHelper),
-                    ElectrolyzerRecipeCategory(guiHelper),
-                    EvaporatorRecipeCategory(guiHelper),
-                    AtomizerRecipeCategory(guiHelper),
-                    LiquifierRecipeCategory(guiHelper),
-                    FissionRecipeCategory(guiHelper)
+                DissolverRecipeCategory(guiHelper),
+                CombinerRecipeCategory(guiHelper),
+                ElectrolyzerRecipeCategory(guiHelper),
+                EvaporatorRecipeCategory(guiHelper),
+                AtomizerRecipeCategory(guiHelper),
+                LiquifierRecipeCategory(guiHelper),
+                FissionRecipeCategory(guiHelper)
             )
         }
     }
 
-    override fun register(registry: IModRegistry?) {
-        jeiHelpers = registry!!.jeiHelpers
+    override fun register(registry: IModRegistry) {
+        jeiHelpers = registry.jeiHelpers
 
         registry.handleRecipes(DissolverRecipe::class.java,
                 { recipe -> DissolverRecipeWrapper(recipe) },
@@ -99,13 +99,13 @@ class AlchemistryPlugin : IModPlugin {
         registry.addRecipes(ModRecipes.fissionRecipes.map { FissionRecipeWrapper(it) }, FISSION)
 
 
-        registry.addRecipeClickArea(GuiChemicalDissolver::class.java, 69, 21, 38, 80, DISSOLVER)
-        registry.addRecipeClickArea(GuiChemicalCombiner::class.java, 100, 20, 35, 33, COMBINER)
-        registry.addRecipeClickArea(GuiElectrolyzer::class.java, 73, 58, 39, 23, ELECTROLYZER)
-        registry.addRecipeClickArea(GuiEvaporator::class.java, 73, 54, 39, 23, EVAPORATOR)
-        registry.addRecipeClickArea(GuiAtomizer::class.java, 73, 54, 39, 23, ATOMIZER)
-        registry.addRecipeClickArea(GuiLiquifier::class.java, 73, 54, 39, 23, LIQUIFIER)
-        registry.addRecipeClickArea(GuiFissionController::class.java, 70, 53, 36, 16, FISSION)
+        registry.addRecipeClickArea(GuiChemicalDissolver::class.java, 63, 86, 32, 44, DISSOLVER)
+        registry.addRecipeClickArea(GuiChemicalCombiner::class.java, 102, 90, 27, 36, COMBINER)
+        registry.addRecipeClickArea(GuiElectrolyzer::class.java, 70, 99, 36, 36, ELECTROLYZER)
+        registry.addRecipeClickArea(GuiEvaporator::class.java, 70, 118, 36, 16, EVAPORATOR)
+        registry.addRecipeClickArea(GuiAtomizer::class.java, 70, 118, 36, 16, ATOMIZER)
+        registry.addRecipeClickArea(GuiLiquifier::class.java, 70, 118, 36, 16, LIQUIFIER)
+        registry.addRecipeClickArea(GuiFissionController::class.java, 70, 75, 36, 16, FISSION)
 
         registry.addRecipeCatalyst(ModBlocks.chemical_dissolver.toStack(), DISSOLVER)
         registry.addRecipeCatalyst(ModBlocks.chemical_combiner.toStack(), COMBINER)

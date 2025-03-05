@@ -3,6 +3,7 @@ package al132.alchemistry.client
 
 import al132.alib.client.ALGuiBase
 import al132.alib.client.CapabilityEnergyDisplayWrapper
+import al132.alib.client.CapabilityFluidDisplayWrapper
 import al132.alib.tiles.ALTile
 import al132.alib.tiles.IGuiTile
 import net.minecraft.inventory.Container
@@ -12,6 +13,8 @@ import java.awt.Color
 
 abstract class GuiBase<T>(container: Container, tile: T, textureLocation: ResourceLocation) :
     ALGuiBase<T>(container, tile, textureLocation) where T : ALTile, T : IGuiTile {
+
+    abstract val displayNameOffset: Int
 
     override var powerBarTexture: ResourceLocation? = ResourceLocation(root + "template.png")
 
@@ -37,15 +40,28 @@ abstract class GuiBase<T>(container: Container, tile: T, textureLocation: Resour
         mc.textureManager.bindTexture(texture)
         this.drawTexturedModalRect(i, j, textureX, textureY, storage.width, storage.height)
         if (storage.getStored() > 0) {
-            this.drawTexturedModalRect(i, j + storage.height - k, textureX + 38, textureY, storage.width, k)
+            this.drawTexturedModalRect(i, j + storage.height - k, textureX + 16, textureY, storage.width, k)
         }
+        this.mc.textureManager.bindTexture(this.textureLocation)
+    }
+
+    override fun drawFluidTank(wrapper: CapabilityFluidDisplayWrapper, i: Int, j: Int, width: Int, height: Int) {
+        super.drawFluidTank(wrapper, i, j, width=16, height=70)
+        val i = wrapper.x + ((this.width - this.xSize) / 2)
+        val j = wrapper.y + ((this.height - this.ySize) / 2)
+        mc.textureManager.bindTexture(powerBarTexture!!)
+        this.drawTexturedModalRect(i, j, 32, 0, 16, 70)
         this.mc.textureManager.bindTexture(this.textureLocation)
     }
 
     override fun drawGuiContainerForegroundLayer(mouseX: Int, mouseY: Int) {
         if (this.displayName.isNotEmpty()) {
-            this.fontRenderer.drawString(this.displayName,
-                    this.xSize / 2 - this.fontRenderer.getStringWidth(this.displayName) / 2, 5, Color.DARK_GRAY.rgb)
+            this.fontRenderer.drawString(
+                this.displayName,
+                this.xSize / 2 - this.fontRenderer.getStringWidth(this.displayName) / 2,
+                displayNameOffset,
+                Color.DARK_GRAY.rgb
+            )
         }
     }
 }

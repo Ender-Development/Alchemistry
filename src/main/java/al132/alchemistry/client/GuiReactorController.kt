@@ -14,9 +14,10 @@ import kotlin.math.ceil
 abstract class GuiReactorController<T>(container: Container, tile: T, textureLocation: ResourceLocation) :
     GuiBase<T>(container, tile, textureLocation) where T : AbstractReactorController, T : IGuiTile {
 
-    val infoHeight = 88.0f
+    val infoHeight = 102.0f
     val infoX = 12.0f
 
+    override val displayNameOffset: Int = 8
     override var displayName: String = ""
     var textProductivity: String? = null
     var textSpeed: String? = null
@@ -25,7 +26,7 @@ abstract class GuiReactorController<T>(container: Container, tile: T, textureLoc
     var textValid: String? = null
 
     init {
-        this.displayData.add(CapabilityEnergyDisplayWrapper(8, 10, 16, 60, tile::energyStorage))
+        this.displayData.add(CapabilityEnergyDisplayWrapper(8, 21, 16, 70, tile::energyStorage))
         when (tile.reactorType) {
             ReactorType.FISSION -> {
                 displayName = Translator.translateToLocal("tile.fission_controller.name")
@@ -53,29 +54,24 @@ abstract class GuiReactorController<T>(container: Container, tile: T, textureLoc
         val speed = tile.speedModifier * 100
         val energy = tile.energyModifier * 100
         if (tile.isMultiblockValid) {
-            val valid = Translator.translateToLocal(textValid!!)
-            fontRenderer.drawString(
-                valid, ((xSize / 2 - fontRenderer.getStringWidth(valid) / 2).toFloat()),
-                infoHeight, Color(170, 0, 170).rgb, false
-            )
             fontRenderer.drawString(
                 I18n.format(textProductivity!!, "%.2f%%".format(productivity)),
                 infoX,
-                infoHeight + 13,
+                infoHeight,
                 getColorFromValue(productivity),
                 false
             )
             fontRenderer.drawString(
                 I18n.format(textSpeed!!, "%.2f%%".format(speed)),
                 infoX,
-                infoHeight + 23,
+                infoHeight + 10,
                 getColorFromValue(speed),
                 false
             )
             fontRenderer.drawString(
                 I18n.format(textEnergy!!, "%.2f%%".format(energy)),
                 infoX,
-                infoHeight + 33,
+                infoHeight + 20,
                 getColorFromValue(energy, invert = true),
                 false
             )
@@ -83,7 +79,7 @@ abstract class GuiReactorController<T>(container: Container, tile: T, textureLoc
             val invalid = Translator.translateToLocal(textInvalid!!)
             fontRenderer.drawString(
                 invalid, ((xSize / 2 - fontRenderer.getStringWidth(invalid) / 2).toFloat()),
-                infoHeight, Color(170, 0, 0).rgb, false
+                infoHeight + 12, Color(170, 0, 0).rgb, false
             )
         }
     }
@@ -107,9 +103,9 @@ abstract class GuiReactorController<T>(container: Container, tile: T, textureLoc
         if (mouseX < guiLeft + infoX || mouseX > guiLeft + xSize - infoX || mouseY < guiTop || mouseY > guiTop + ySize || !tile.isMultiblockValid) return
         val fontHeight = fontRenderer.FONT_HEIGHT
         val y = (this.height - this.ySize) / 2
-        val offset = y + infoHeight + 3
+        val offset = y + infoHeight
         when {
-            offset + 10 <= mouseY && mouseY <= offset + 10 + fontHeight -> {
+            offset <= mouseY && mouseY <= offset + fontHeight -> {
                 drawHoveringText(
                     listOf(
                         I18n.format("tooltip.productivity.title"),
@@ -124,7 +120,7 @@ abstract class GuiReactorController<T>(container: Container, tile: T, textureLoc
                 )
             }
 
-            offset + 20 <= mouseY && mouseY <= offset + 20 + fontHeight -> {
+            offset + 10 <= mouseY && mouseY <= offset + 10 + fontHeight -> {
                 drawHoveringText(
                     listOf(
                         I18n.format("tooltip.speed.title"),
@@ -136,7 +132,7 @@ abstract class GuiReactorController<T>(container: Container, tile: T, textureLoc
                 )
             }
 
-            offset + 30 <= mouseY && mouseY <= offset + 30 + fontHeight -> {
+            offset + 20 <= mouseY && mouseY <= offset + 20 + fontHeight -> {
                 drawHoveringText(
                     listOf(
                         I18n.format("tooltip.energy.title"),

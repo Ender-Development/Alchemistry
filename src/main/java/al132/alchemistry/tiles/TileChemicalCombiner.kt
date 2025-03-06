@@ -42,10 +42,10 @@ class TileChemicalCombiner : TileBase(), IGuiTile, ITickable, IItemTile,
     override fun initInventoryInputCapability() {
         input = object : ALTileStackHandler(inputSlots, this) {
             override fun insertItem(slot: Int, stack: ItemStack, simulate: Boolean): ItemStack {
-                if (!recipeIsLocked) return super.insertItem(slot, stack, simulate)
-                else if (recipeIsLocked && (currentRecipe?.inputs?.get(slot)?.areItemsEqual(stack) == true)) {
-                    return super.insertItem(slot, stack, simulate)
-                } else return stack
+                return if(!recipeIsLocked || currentRecipe?.inputs?.get(slot)?.areItemsEqual(stack) == true)
+                    super.insertItem(slot, stack, simulate)
+                else
+                    return stack
             }
 
             override fun onContentsChanged(slot: Int) {

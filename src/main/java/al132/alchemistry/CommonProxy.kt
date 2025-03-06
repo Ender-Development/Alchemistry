@@ -19,7 +19,6 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
 import net.minecraftforge.fml.common.network.NetworkRegistry
 import java.io.File
-import java.io.FileFilter
 import java.util.*
 
 open class CommonProxy {
@@ -49,7 +48,7 @@ open class CommonProxy {
     open fun init(e: FMLInitializationEvent) {
         ModRecipes.initOredict()
         Reference.configDir
-            .listFiles(FileFilter { it.extension.lowercase(Locale.getDefault()) == "xml" })
+            .listFiles { it.extension.lowercase(Locale.getDefault()) == "xml" }
             ?.forEach { XMLRecipeParser().init(it.name) }
         NetworkRegistry.INSTANCE.registerGuiHandler(Alchemistry, GuiHandler())
         MinecraftForge.EVENT_BUS.register(EventHandler())

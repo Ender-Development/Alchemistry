@@ -1,7 +1,6 @@
 package al132.alchemistry.chemistry
 
 import java.awt.Color
-import java.util.*
 
 /**
  * Created by al132 on 1/22/2017.
@@ -121,14 +120,14 @@ object  ElementRegistry {
         add(108, "hassium", "Hs", Color(78, 5, 51), 8, 7)
         add(109, "meitnerium", "Mt", Color(169, 138, 37), 9, 7)
         add(110, "darmstadtium", "Ds", Color(14, 144, 190), 10, 7)
-        add(111,"roentgenium","Rg",Color(150,90,90),11,7)
-        add(112,"copernicium","Cn",Color(160,40,240),12,7)
-        add(113,"nihonium","Nh",Color(220,250,180),13,7)
-        add(114,"flerovium","Fl",Color(200,180,254),14,7)
-        add(115,"moscovium","Mc",Color(250,180,200),15,7)
-        add(116,"livermorium","Lv",Color(250,250,200),16,7)
-        add(117,"tennessine","Ts",Color(150,250,250),17,7)
-        add(118,"oganesson","Og",Color(250,150,250),18,7)
+        add(111,"roentgenium","Rg", Color(150,90,90),11,7)
+        add(112,"copernicium","Cn", Color(160,40,240),12,7)
+        add(113,"nihonium","Nh", Color(220,250,180),13,7)
+        add(114,"flerovium","Fl", Color(200,180,254),14,7)
+        add(115,"moscovium","Mc", Color(250,180,200),15,7)
+        add(116,"livermorium","Lv", Color(250,250,200),16,7)
+        add(117,"tennessine","Ts", Color(150,250,250),17,7)
+        add(118,"oganesson","Og", Color(250,150,250),18,7)
     }
 
     operator fun get(atomicNumber: Int): ChemicalElement? = elements.values.firstOrNull { it.meta == atomicNumber }

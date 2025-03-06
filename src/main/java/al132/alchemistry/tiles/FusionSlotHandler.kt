@@ -7,7 +7,9 @@ class FusionSlotHandler(val tile: TileFusionController, itemHandler: IItemHandle
         SlotItemHandler(itemHandler, index, xPos, yPos) {
 
     override fun getSlotStackLimit(): Int {
-        if(this.tile.singleMode) return 1
-        else return super.getSlotStackLimit()
+        return if(this.tile.singleMode)
+            1
+        else
+            super.getSlotStackLimit()
     }
 }

@@ -21,7 +21,7 @@ object PacketHandler {
         INSTANCE!!.registerMessage(
                 ChemicalCombinerTransferPacket.Handler::class.java, ChemicalCombinerTransferPacket::class.java, nextID(), Side.SERVER)
         INSTANCE!!.registerMessage(
-                BoomPacket.Handler::class.java,BoomPacket::class.java,nextID(),Side.CLIENT)
+                BoomPacket.Handler::class.java, BoomPacket::class.java,nextID(), Side.CLIENT)
         INSTANCE!!.registerMessage(
                 FusionModePacket.Handler::class.java, FusionModePacket::class.java, nextID(), Side.SERVER)
     }

@@ -11,7 +11,6 @@ import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraftforge.items.IItemHandler
 import net.minecraftforge.oredict.OreDictionary
-import java.util.*
 
 /**
  * Created by al132 on 1/22/2017.
@@ -47,7 +46,7 @@ data class CombinerRecipe(val output: ItemStack, private val objsIn: List<Any?>,
                 matchingStacks++
             }
         }
-        return (matchingStacks == CombinerRecipe.INPUT_COUNT)
+        return (matchingStacks == INPUT_COUNT)
     }
 
     companion object {
@@ -61,7 +60,6 @@ data class CombinerRecipe(val output: ItemStack, private val objsIn: List<Any?>,
 
         private fun matchInputs(inputStacks: List<ItemStack>): CombinerRecipe? {
             outer@ for (recipe in ModRecipes.combinerRecipes) {
-                var matchingStacks = 0
                 inner@ for ((index: Int, recipeStack: ItemStack) in recipe.inputs.withIndex()) {
                     val inputStack: ItemStack = inputStacks[index]
                     if ((inputStack.item == ModItems.slotFiller || inputStack.isEmpty) && recipeStack.isEmpty) {

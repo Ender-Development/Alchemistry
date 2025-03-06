@@ -46,9 +46,10 @@ class TileElectrolyzer : TileBase(), IGuiTile, ITickable, IFluidTile, IItemTile,
     override fun initInventoryInputCapability() {
         input = object : ALTileStackHandler(inputSlots, this) {
             override fun insertItem(slot: Int, stack: ItemStack, simulate: Boolean): ItemStack {
-                if (ModRecipes.electrolyzerRecipes.any { it.electrolytes.containsItem(stack) }) {
-                    return super.insertItem(slot, stack, simulate)
-                } else return stack
+                return if (ModRecipes.electrolyzerRecipes.any { it.electrolytes.containsItem(stack) })
+                    super.insertItem(slot, stack, simulate)
+                else
+                    stack
             }
 
         }

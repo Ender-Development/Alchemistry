@@ -111,12 +111,12 @@ class TileFusionController(reactorType: ReactorType = ReactorType.FUSION,
             progressTicks = 0
 
             var stacksize = recipeOutput.count
-            var staticMultiplier = floor(productivityModifier).toInt()
-            var randomMultiplier = if (productivityModifier - staticMultiplier > Math.random()) 1 else 0
+            val staticMultiplier = floor(productivityModifier).toInt()
+            val randomMultiplier = if (productivityModifier - staticMultiplier > Math.random()) 1 else 0
             if (staticMultiplier != 0 || randomMultiplier != 0) {
                 stacksize *= staticMultiplier + randomMultiplier
             }
-            var outputStack = recipeOutput.copy()
+            val outputStack = recipeOutput.copy()
             outputStack.count = stacksize
             output.setOrIncrement(0, outputStack)
 

@@ -27,8 +27,10 @@ class TileAtomizer : TileBase(), IGuiTile, ITickable, IItemTile, IFluidTile,
         initInventoryCapability(0, 1)
         inputTank = object : FluidTank(Fluid.BUCKET_VOLUME * 10) {
             override fun canFillFluidType(fluid: FluidStack?): Boolean {
-                if (this.fluid == null) return true
-                else return this.fluid?.fluid == fluid?.fluid
+                return if(this.fluid == null)
+                    true
+                else
+                    this.fluid!!.fluid == fluid?.fluid
             }
 
             override fun onContentsChanged() {

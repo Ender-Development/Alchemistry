@@ -48,9 +48,10 @@ class TileLiquifier : TileBase(), IGuiTile, ITickable, IItemTile, IFluidTile,
     override fun initInventoryInputCapability() {
         input = object : ALTileStackHandler(inputSlots, this) {
             override fun insertItem(slot: Int, stack: ItemStack, simulate: Boolean): ItemStack {
-                if (ModRecipes.liquifierRecipes.any { it.input.isItemEqual(stack) }) {
-                    return super.insertItem(slot, stack, simulate)
-                } else return stack
+                return if(ModRecipes.liquifierRecipes.any { it.input.isItemEqual(stack) })
+                    super.insertItem(slot, stack, simulate)
+                else
+                    stack
             }
 
             override fun onContentsChanged(slot: Int) {
@@ -95,14 +96,15 @@ class TileLiquifier : TileBase(), IGuiTile, ITickable, IItemTile, IFluidTile,
     }
 
     fun canProcess(): Boolean {
-        if(currentRecipe != null) {
-            val recipeOutput = currentRecipe!!.output
-            return (outputTank.capacity >= outputTank.fluidAmount + recipeOutput.amount
-                    && this.energyStorage.energyStored >= ConfigHandler.LIQUIFIER.energyPerTick
-                    && input[0].count >= currentRecipe!!.input.count
-                    && ((outputTank.fluid?.fluid == (recipeOutput.fluid ?: false))
-                    || outputTank.fluid == null))
-        }else return false;
+        if(currentRecipe == null)
+            return false
+
+        val recipeOutput = currentRecipe!!.output
+        return (outputTank.capacity >= outputTank.fluidAmount + recipeOutput.amount
+                && this.energyStorage.energyStored >= ConfigHandler.LIQUIFIER.energyPerTick
+                && input[0].count >= currentRecipe!!.input.count
+                && ((outputTank.fluid?.fluid == (recipeOutput.fluid ?: false))
+                || outputTank.fluid == null))
     }
 
     fun process() {

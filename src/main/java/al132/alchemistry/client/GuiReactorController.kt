@@ -5,6 +5,7 @@ import al132.alchemistry.tiles.ReactorType
 import al132.alib.client.CapabilityEnergyDisplayWrapper
 import al132.alib.tiles.IGuiTile
 import al132.alib.utils.Translator
+import al132.alib.utils.extensions.translate
 import net.minecraft.client.resources.I18n
 import net.minecraft.inventory.Container
 import net.minecraft.util.ResourceLocation
@@ -19,33 +20,21 @@ abstract class GuiReactorController<T>(container: Container, tile: T, textureLoc
 
     override val displayNameOffset: Int = 8
     override var displayName: String = ""
-    var textProductivity: String? = null
-    var textSpeed: String? = null
-    var textEnergy: String? = null
-    var textInvalid: String? = null
-    var textValid: String? = null
+    val textProductivity: String
+    val textSpeed: String
+    val textEnergy: String
+    val textInvalid: String
+    val textValid: String
 
     init {
         this.displayData.add(CapabilityEnergyDisplayWrapper(8, 21, 16, 70, tile::energyStorage))
-        when (tile.reactorType) {
-            ReactorType.FISSION -> {
-                displayName = Translator.translateToLocal("tile.fission_controller.name")
-                textProductivity = "tile.fission.productivity"
-                textSpeed = "tile.fission.speed"
-                textEnergy = "tile.fission.energy"
-                textInvalid = "tile.fission.invalid_multiblock"
-                textValid = "tile.fission.valid_multiblock"
-            }
-
-            ReactorType.FUSION -> {
-                displayName = Translator.translateToLocal("tile.fusion_controller.name")
-                textProductivity = "tile.fusion.productivity"
-                textSpeed = "tile.fusion.speed"
-                textEnergy = "tile.fusion.energy"
-                textInvalid = "tile.fusion.invalid_multiblock"
-                textValid = "tile.fusion.valid_multiblock"
-            }
-        }
+        val type = if(tile.reactorType == ReactorType.FISSION) "fission" else "fusion"
+        displayName = "tile.${type}_controller.name".translate()
+        textProductivity = "tile.$type.productivity"
+        textSpeed = "tile.$type.speed"
+        textEnergy = "tile.$type.energy"
+        textInvalid = "tile.$type.invalid_multiblock"
+        textValid = "tile.$type.valid_multiblock"
     }
 
     override fun drawGuiContainerForegroundLayer(mouseX: Int, mouseY: Int) {
@@ -55,28 +44,28 @@ abstract class GuiReactorController<T>(container: Container, tile: T, textureLoc
         val energy = tile.energyModifier * 100
         if (tile.isMultiblockValid) {
             fontRenderer.drawString(
-                I18n.format(textProductivity!!, "%.2f%%".format(productivity)),
+                I18n.format(textProductivity, "%.2f%%".format(productivity)),
                 infoX,
                 infoHeight,
                 getColorFromValue(productivity),
                 false
             )
             fontRenderer.drawString(
-                I18n.format(textSpeed!!, "%.2f%%".format(speed)),
+                I18n.format(textSpeed, "%.2f%%".format(speed)),
                 infoX,
                 infoHeight + 10,
                 getColorFromValue(speed),
                 false
             )
             fontRenderer.drawString(
-                I18n.format(textEnergy!!, "%.2f%%".format(energy)),
+                I18n.format(textEnergy, "%.2f%%".format(energy)),
                 infoX,
                 infoHeight + 20,
                 getColorFromValue(energy, invert = true),
                 false
             )
         } else {
-            val invalid = Translator.translateToLocal(textInvalid!!)
+            val invalid = Translator.translateToLocal(textInvalid)
             fontRenderer.drawString(
                 invalid, ((xSize / 2 - fontRenderer.getStringWidth(invalid) / 2).toFloat()),
                 infoHeight + 12, Color(170, 0, 0).rgb, false

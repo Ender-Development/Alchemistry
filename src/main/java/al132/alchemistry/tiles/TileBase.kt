@@ -31,14 +31,16 @@ abstract class TileBase : ALTile() {
     }
 
     override fun hasCapability(capability: Capability<*>, facing: EnumFacing?): Boolean {
-        if (Reference.ITEM_CAP == capability && (!ConfigHandler.GENERAL.enableAutomation)) {
-            return false;
-        } else return super.hasCapability(capability, facing)
+        return if (Reference.ITEM_CAP == capability && (!ConfigHandler.GENERAL.enableAutomation))
+            false
+        else
+            super.hasCapability(capability, facing)
     }
 
     override fun <T : Any> getCapability(capability: Capability<T>, facing: EnumFacing?): T? {
-        if (Reference.ITEM_CAP == capability && (!ConfigHandler.GENERAL.enableAutomation)) {
-            return null
-        } else return super.getCapability(capability, facing)
+        return if (Reference.ITEM_CAP == capability && (!ConfigHandler.GENERAL.enableAutomation))
+            null
+        else
+            super.getCapability(capability, facing)
     }
 }

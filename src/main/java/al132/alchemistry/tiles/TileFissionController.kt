@@ -10,7 +10,6 @@ import al132.alib.tiles.*
 import al132.alib.utils.extensions.get
 import al132.alib.utils.extensions.toStack
 import net.minecraft.item.ItemStack
-import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.util.ITickable
 import kotlin.math.floor
 
@@ -110,12 +109,12 @@ class TileFissionController(reactorType: ReactorType = ReactorType.FISSION,
             progressTicks = 0
 
             var stacksize1 = recipeOutput1.count
-            var staticMultiplier = floor(productivityModifier).toInt()
-            var randomMultiplier = if (productivityModifier - staticMultiplier > Math.random()) 1 else 0
+            val staticMultiplier = floor(productivityModifier).toInt()
+            val randomMultiplier = if (productivityModifier - staticMultiplier > Math.random()) 1 else 0
             if (staticMultiplier != 0 || randomMultiplier != 0) {
                 stacksize1 *= staticMultiplier + randomMultiplier
             }
-            var outputStack1 = recipeOutput1.copy()
+            val outputStack1 = recipeOutput1.copy()
             outputStack1.count = if (stacksize1 > outputStack1.maxStackSize) outputStack1.maxStackSize else stacksize1
             output.setOrIncrement(0, outputStack1)
             if (!recipeOutput2.isEmpty) {
@@ -123,7 +122,7 @@ class TileFissionController(reactorType: ReactorType = ReactorType.FISSION,
                 if (staticMultiplier != 0 || randomMultiplier != 0) {
                     stacksize2 *= staticMultiplier + randomMultiplier
                 }
-                var outputStack2 = recipeOutput2.copy()
+                val outputStack2 = recipeOutput2.copy()
                 outputStack2.count = if (stacksize2 > outputStack2.maxStackSize) outputStack2.maxStackSize else stacksize2
                 output.setOrIncrement(1, outputStack2)
             }

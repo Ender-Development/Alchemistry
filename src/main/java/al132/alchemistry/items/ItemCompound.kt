@@ -52,11 +52,10 @@ class ItemCompound(name: String) : ItemMetaBase(name) {
     override fun onItemRightClick(worldIn: World, playerIn: EntityPlayer, handIn: EnumHand): ActionResult<ItemStack> {
         playerIn.activeHand = handIn
         val stack = playerIn.getHeldItem(handIn)
-        if (metaHasDankMolecule(stack.metadata)) return ActionResult(
-            EnumActionResult.SUCCESS,
-            playerIn.getHeldItem(handIn)
-        )
-        else return ActionResult(EnumActionResult.PASS, stack)
+        return if (metaHasDankMolecule(stack.metadata))
+            ActionResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn))
+        else
+            ActionResult(EnumActionResult.PASS, stack)
     }
 
     @SideOnly(Side.CLIENT)

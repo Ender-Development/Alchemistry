@@ -332,7 +332,7 @@ jei.atomizer.name=Атомайзер
 jei.liquifier.name=Разжижитель
 jei.fission_controller.name=Мультиблок деления
 
-itemGroup.alchemistry=Alchemistry
+itemGroup.alchemistry=Alchemistry - Redox
 
 item.alchemistry:fertilizer.tooltip=Может использоваться как костная мука
 item.alchemistry:obsidian_breaker.tooltip=ПКМ на блоке обсидиана, удерживая этот предмет, чтобы мгновенно собрать обсидиан. Этот предмет будет израсходован.

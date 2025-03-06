@@ -203,7 +203,7 @@ jei.atomizer.name=Atomiseur
 jei.liquifier.name=Liquefieur
 jei.fission_controller.name=Fission Multiblock
 
-itemGroup.alchemistry=Alchimie
+itemGroup.alchemistry=Alchimie - Redox
 
 item.alchemistry:fertilizer.tooltip=Peut être utilisé comme de la poudre d'os
 item.alchemistry:obsidian_breaker.tooltip=Clique droit sur une Obsidian la récoltera. L'item se consomme.

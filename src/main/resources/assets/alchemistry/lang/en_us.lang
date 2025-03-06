@@ -334,7 +334,7 @@ jei.atomizer.name=Atomizer
 jei.liquifier.name=Liqufier
 jei.fission_controller.name=Fission Multiblock
 
-itemGroup.alchemistry=Alchemistry
+itemGroup.alchemistry=Alchemistry - Redox
 
 item.alchemistry:fertilizer.tooltip=Can be used like bonemeal
 item.alchemistry:obsidian_breaker.tooltip=Right-click an obsidian block while holding this item to instantly harvest the obsidian. This item will be consumed.

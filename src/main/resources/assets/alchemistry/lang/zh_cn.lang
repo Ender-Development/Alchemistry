@@ -333,7 +333,7 @@ jei.atomizer.name=雾化器
 jei.liquifier.name=液化器
 jei.fission_controller.name=裂变仓
 
-itemGroup.alchemistry=Alchemistry
+itemGroup.alchemistry=Alchemistry - Redox
 
 item.alchemistry:fertilizer.tooltip=可以当做骨粉使用
 item.alchemistry:obsidian_breaker.tooltip=右击黑曜石可以立刻采集这块黑曜石

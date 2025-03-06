@@ -230,7 +230,7 @@ jei.atomizer.name=Zerstäuben
 jei.liquifier.name=Verflüssigen
 jei.fission_controller.name=Spalten
 
-itemGroup.alchemistry=Alchemistry
+itemGroup.alchemistry=Alchemistry - Redox
 
 item.alchemistry:fertilizer.tooltip=Kann wie Knochenmehl verwendet werden
 item.alchemistry:obsidian_breaker.tooltip=Rechtsklicke einen Obsidianblock während du dieses Item hältst, um das Obsidian sofort abzubauen; dabei wird das Item mit sofortiger Wirkung zerstört.

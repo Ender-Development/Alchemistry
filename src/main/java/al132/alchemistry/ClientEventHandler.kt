@@ -6,6 +6,7 @@ import al132.alchemistry.items.ItemCompound
 import al132.alib.utils.extensions.translate
 import net.minecraft.item.ItemFood
 import net.minecraftforge.client.event.FOVUpdateEvent
+import net.minecraftforge.client.event.ModelBakeEvent
 import net.minecraftforge.event.entity.player.ItemTooltipEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
@@ -37,5 +38,10 @@ class ClientEventHandler {
                 e.toolTip.add("§b" + "spiked_food.tooltip".translate() + " " + compoundName + "§r")
             }
         }
+    }
+
+    @SubscribeEvent
+    fun modelBake(e: ModelBakeEvent) {
+
     }
 }

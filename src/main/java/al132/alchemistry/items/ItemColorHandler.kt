@@ -15,13 +15,14 @@ class ItemColorHandler : IItemColor {
         val item = stack.item
         val meta = stack.metadata
 
-        return if(tintIndex != 0)
+        return if (tintIndex != 0) {
             Color.WHITE.rgb
-        else if (item is ItemElementIngot && ElementRegistry.keys().filter { it <= 118 }.contains(meta))
+        } else if (item is ItemElement) {
             ElementRegistry[meta]!!.color.rgb
-        else if (item is ItemCompound && CompoundRegistry.keys().contains(meta))
+        } else if (item is ItemElementIngot && ElementRegistry.keys().filter { it <= 118 }.contains(meta)) {
+            ElementRegistry[meta]!!.color.rgb
+        } else if (item is ItemCompound && CompoundRegistry.keys().contains(meta)) {
             CompoundRegistry[meta]!!.color.rgb
-        else
-            Color.BLACK.rgb
+        } else Color.BLACK.rgb
     }
 }

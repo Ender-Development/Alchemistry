@@ -1,9 +1,11 @@
 package al132.alchemistry
 
 
+import al132.alchemistry.items.ItemElement
 import al132.alchemistry.items.ModItems
 import net.minecraftforge.client.model.obj.OBJLoader
 import net.minecraftforge.common.MinecraftForge
+import net.minecraftforge.fml.client.registry.RenderingRegistry
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
 import net.minecraftforge.fml.relauncher.Side

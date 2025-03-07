@@ -17,14 +17,15 @@ import java.util.*
 /**
  * Created by al132 on 1/16/2017.
  */
-class ItemElement(name: String) : ItemMetaBase(name) {
+class ItemElement(name: String) : ItemTEISR(name) {
 
     @SideOnly(Side.CLIENT)
     override fun registerModel() {
         ElementRegistry.keys().forEach {
-            val elementName = ElementRegistry[it]?.name?.lowercase(Locale.getDefault()) ?: ""
-            ModelLoader.setCustomModelResourceLocation(this, it,
-                    ModelResourceLocation(registryName.toString() + "_" + elementName, "inventory"))
+            ModelLoader.setCustomModelResourceLocation(
+                this, it,
+                ModelResourceLocation(registryName.toString(), "inventory")
+            )
         }
     }
 

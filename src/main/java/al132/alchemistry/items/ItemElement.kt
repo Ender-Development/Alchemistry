@@ -17,7 +17,7 @@ import java.util.*
 /**
  * Created by al132 on 1/16/2017.
  */
-class ItemElement(name: String) : ItemTEISR(name) {
+class ItemElement(name: String) : ItemMetaBase(name) {
 
     @SideOnly(Side.CLIENT)
     override fun registerModel() {

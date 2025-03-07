@@ -1,5 +1,5 @@
 {
-	"package": "",
+	"package": "al132.alchemistry.mixins.minecraft",
 	"required": true,
 	"refmap": "mixins.alchemistry.refmap.json",
 	"target": "@env(DEFAULT)",
@@ -7,5 +7,7 @@
 	"compatibilityLevel": "JAVA_8",
 	"mixins": [],
 	"server": [],
-	"client": []
+	"client": [
+		"RenderItemMixin"
+	]
 }

@@ -147,4 +147,6 @@ object  ElementRegistry {
     fun getAllElements() = this.elements.values.toSet()
 
     fun keys() = this.elements.keys.toSet()
+
+    fun abbreviation(atomicNumber: Int) = elements[atomicNumber]?.abbreviation ?: "??"
 }

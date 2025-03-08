@@ -13,10 +13,10 @@ class AlchLoadingPlugin : IFMLLoadingPlugin, IEarlyMixinLoader {
     val isClient: Boolean = FMLLaunchHandler.side().isClient
 
     private val serversideMixinConfig: Map<String, () -> Boolean> = mapOf()
-    private val clientsideMixinConfig: Map<String, () -> Boolean> = mapOf()
-    private val commonMixinConfig: Map<String, () -> Boolean> = mapOf(
-        "mixins.alchemistry.core.json" to { true }
+    private val clientsideMixinConfig: Map<String, () -> Boolean> = mapOf(
+        "mixins.alchemistry.minecraft.json" to { true }
     )
+    private val commonMixinConfig: Map<String, () -> Boolean> = mapOf()
 
 
     override fun getASMTransformerClass(): Array<out String?>? {
@@ -39,23 +39,20 @@ class AlchLoadingPlugin : IFMLLoadingPlugin, IEarlyMixinLoader {
     }
 
     override fun getMixinConfigs(): List<String?>? {
-        val configs: List<String> = mutableListOf(commonMixinConfig.keys.toString())
+        val config: MutableList<String> = mutableListOf()
         if (isClient) {
-            configs.plus(clientsideMixinConfig.keys.toString())
+            config.addAll(clientsideMixinConfig.keys)
         } else {
-            configs.plus(serversideMixinConfig.keys.toString())
+            config.addAll(serversideMixinConfig.keys)
         }
-        return configs
+        config.addAll(commonMixinConfig.keys)
+        return config
     }
 
     override fun shouldMixinConfigQueue(mixinConfig: String?): Boolean {
-        val sidedSupplier: (() -> Boolean)? = if (isClient) {
-            clientsideMixinConfig[mixinConfig]
-        } else {
-            serversideMixinConfig[mixinConfig]
-        }
-        val commonSupplier: (() -> Boolean)? = commonMixinConfig[mixinConfig]
-        return (sidedSupplier?.invoke() ?: commonSupplier?.invoke()) == true
+        val loadClient = isClient && clientsideMixinConfig[mixinConfig]?.invoke() == true
+        val loadCommon = commonMixinConfig[mixinConfig]?.invoke() == true
+        return if (loadClient) true else loadCommon
     }
 
 }

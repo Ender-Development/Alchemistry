@@ -1,0 +1,13 @@
+{
+	"package": "al132.alchemistry.mixins.jei",
+	"required": true,
+	"refmap": "mixins.alchemistry.refmap.json",
+	"target": "@env(DEFAULT)",
+	"minVersion": "0.8.5",
+	"compatibilityLevel": "JAVA_8",
+	"mixins": [
+		"ItemStackFastRendererMixin"
+	],
+	"server": [],
+	"client": []
+}

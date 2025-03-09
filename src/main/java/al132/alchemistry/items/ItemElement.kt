@@ -1,5 +1,6 @@
 package al132.alchemistry.items
 
+import al132.alchemistry.Reference
 import al132.alchemistry.chemistry.ChemicalElement
 import al132.alchemistry.chemistry.ElementRegistry
 import net.minecraft.client.renderer.block.model.ModelResourceLocation
@@ -8,6 +9,7 @@ import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.item.ItemStack
 import net.minecraft.util.NonNullList
+import net.minecraft.util.ResourceLocation
 import net.minecraft.world.World
 import net.minecraftforge.client.model.ModelLoader
 import net.minecraftforge.fml.relauncher.Side
@@ -18,6 +20,10 @@ import java.util.*
  * Created by al132 on 1/16/2017.
  */
 class ItemElement(name: String) : ItemTEISR(name) {
+
+    companion object {
+        val texture: ResourceLocation = ResourceLocation(Reference.MODID,"items/element")
+    }
 
     @SideOnly(Side.CLIENT)
     override fun registerModel() {
@@ -57,5 +63,9 @@ class ItemElement(name: String) : ItemTEISR(name) {
         } catch (e: NullPointerException) {
             throw NullPointerException("Unable to find translation key for element #[$i]")
         }
+    }
+
+    fun getTexture(): ResourceLocation {
+        return texture
     }
 }

@@ -1,6 +1,60 @@
 {
-	"parent": "builtin/entity",
-	 "textures": { 
-		"layer0": "alchemistry:items/element"
-	}
+    "parent": "builtin/entity",
+    "textures": {
+        "layer0": "alchemistry:items/element"
+    },
+    "display": {
+        "thirdperson_righthand": {
+            "translation": [
+                0,
+                0,
+                0
+            ]
+        },
+        "firstperson_righthand": {
+            "translation": [
+                0,
+                0,
+                0
+            ]
+        },
+        "gui": {
+            "translation": [
+                0,
+                0,
+                0
+            ]
+        },
+        "ground": {
+            "translation": [
+                0,
+                1,
+                0
+            ],
+            "scale": [
+                0.5,
+                0.5,
+                0.5
+            ]
+        },
+        "head": {
+            "translation": [
+                0,
+                16,
+                7
+            ]
+        },
+        "fixed": {
+            "rotation": [
+                0,
+                180,
+                0
+            ],
+            "translation": [
+                0,
+                0,
+                -8
+            ]
+        }
+    }
 }

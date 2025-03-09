@@ -38,6 +38,7 @@ object ModItems {
         }
     }
     var slotFiller = ItemSlotFiller()
+    var dummyElement = ItemBase("dummy_element")
 
     var elements = ItemElement("element")
     var compounds = ItemCompound("compound")

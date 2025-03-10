@@ -4,10 +4,6 @@ Alchemistry is a tech mod, inspired by the classic [Minechem](https://www.cursef
 
 <a href="https://www.akliz.net/enderman"><img src="https://github.com/Ender-Development/PatchouliBooks/raw/master/banner.png" align="center"/></a>
 
-## Custom Elements
-
-This feature will be overhauled in the future. For now, you can use [this project](https://github.com/al132mc/alchemistry-resource-creator) to generate element .png files for your custom elements.
-
 ## Current Changes
 
 - switched build system to [RetroFuturaGradle](https://github.com/GTNewHorizons/RetroFuturaGradle)

@@ -1,24 +1,18 @@
 package al132.alchemistry.client
 
 import al132.alchemistry.chemistry.ElementRegistry
-import al132.alchemistry.items.ItemColorHandler
 import al132.alchemistry.items.ItemElement
 import al132.alchemistry.items.ModItems
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.FontRenderer
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.ItemModelMesher
-import net.minecraft.client.renderer.RenderHelper
 import net.minecraft.client.renderer.block.model.IBakedModel
-import net.minecraft.client.renderer.block.model.ItemCameraTransforms
 import net.minecraft.client.renderer.texture.TextureAtlasSprite
-import net.minecraft.client.renderer.texture.TextureMap
 import net.minecraft.client.renderer.tileentity.TileEntityItemStackRenderer
-import net.minecraft.init.Items
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ResourceLocation
-import net.minecraftforge.client.ForgeHooksClient
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import org.lwjgl.opengl.GL11
@@ -28,6 +22,7 @@ class ElementItemStackRenderer : TileEntityItemStackRenderer() {
     companion object {
         val instance = ElementItemStackRenderer()
         val mc: Minecraft = Minecraft.getMinecraft()
+        val font: ResourceLocation = ResourceLocation("textures/font/ascii.png")
     }
 
     override fun renderByItem(stack: ItemStack, partialTicks: Float) {
@@ -35,6 +30,10 @@ class ElementItemStackRenderer : TileEntityItemStackRenderer() {
         var model: IBakedModel = getBakedModel(stack)
         if (item is ItemElement) {
             var texture: TextureAtlasSprite = mc.textureMapBlocks.getAtlasSprite(ItemElement.texture.toString())
+            val abbreviation: String? = ElementRegistry[stack.metadata]?.abbreviation
+            //val fontRenderer: FontRenderer = AbbreviationRenderer(mc.gameSettings, font, mc.textureManager, false)
+            val fontRenderer: FontRenderer = getFontRenderer(stack)
+
             GlStateManager.enableRescaleNormal()
             GlStateManager.enableAlpha()
             GlStateManager.alphaFunc(GL11.GL_GREATER, 0.1F)
@@ -43,22 +42,17 @@ class ElementItemStackRenderer : TileEntityItemStackRenderer() {
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F)
             GlStateManager.disableLighting()
             GlStateManager.pushMatrix()
-            //mc.textureManager.bindTexture(item.getTexture())
             GlStateManager.translate(0.0, 0.0, 0.0)
+
             mc.renderItem.renderModel(model, stack)
-
-
-            val abbreviation: String? = ElementRegistry[stack.metadata]?.abbreviation
-            val fontRenderer: FontRenderer = getFontRenderer(stack)
-
-
-
 
             GlStateManager.disableBlend()
             GlStateManager.disableCull()
             GlStateManager.scale(0.05, -0.05, 0.0)
             GlStateManager.translate(0.0, -20.0, 0.0)
+
             fontRenderer.drawString(abbreviation!!, 0, 0, 0xFFFFFF)
+
             GlStateManager.scale(20.0, -20.0, 0.0)
             GlStateManager.enableCull()
             GlStateManager.enableLighting()

@@ -17,6 +17,8 @@ class ItemColorHandler : IItemColor {
 
         return if(tintIndex != 0)
             Color.WHITE.rgb
+        else if (item is ItemElement)
+            if (meta > 118) ElementRegistry[meta]!!.color.rgb else Color.WHITE.rgb
         else if (item is ItemElementIngot && ElementRegistry.keys().filter { it <= 118 }.contains(meta))
             ElementRegistry[meta]!!.color.rgb
         else if (item is ItemCompound && CompoundRegistry.keys().contains(meta))

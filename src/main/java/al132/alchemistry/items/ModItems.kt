@@ -48,6 +48,7 @@ object ModItems {
         val itemColors = Minecraft.getMinecraft().itemColors
         itemColors.registerItemColorHandler(colorHandler, compounds)
         itemColors.registerItemColorHandler(colorHandler, ingots)
+        itemColors.registerItemColorHandler(colorHandler, elements)
     }
 }
 

@@ -22,9 +22,11 @@ class ItemElement(name: String) : ItemMetaBase(name) {
     @SideOnly(Side.CLIENT)
     override fun registerModel() {
         ElementRegistry.keys().forEach {
-            val elementName = ElementRegistry[it]?.name?.lowercase(Locale.getDefault()) ?: ""
+            val element = ElementRegistry[it]
+            val elementName = element?.name?.lowercase(Locale.getDefault()) ?: ""
+            val elementNumber = element?.meta ?: 0
             ModelLoader.setCustomModelResourceLocation(this, it,
-                    ModelResourceLocation(registryName.toString() + "_" + elementName, "inventory"))
+                    ModelResourceLocation(if (elementNumber <= 118) registryName.toString() + "_" + elementName else registryName.toString(), "inventory"))
         }
     }
 

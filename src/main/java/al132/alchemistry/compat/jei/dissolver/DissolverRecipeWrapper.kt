@@ -7,6 +7,7 @@ import al132.alib.utils.Translator
 import mezz.jei.api.ingredients.IIngredients
 import mezz.jei.api.ingredients.VanillaTypes
 import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.FontRenderer
 import java.awt.Color
 
 class DissolverRecipeWrapper(recipe: DissolverRecipe) : AlchemistryRecipeWrapper<DissolverRecipe>(recipe) {
@@ -16,21 +17,22 @@ class DissolverRecipeWrapper(recipe: DissolverRecipe) : AlchemistryRecipeWrapper
         else return Reference.DECIMAL_FORMAT.format(probability) + "%"
     }
 
-    override fun drawInfo(minecraft: Minecraft?, recipeWidth: Int, recipeHeight: Int, mouseX: Int, mouseY: Int) {
+    override fun drawInfo(minecraft: Minecraft, recipeWidth: Int, recipeHeight: Int, mouseX: Int, mouseY: Int) {
+        val fontRenderer: FontRenderer = minecraft.fontRenderer
 
         var y = 50
         for (index in recipe.outputs.set.indices) {
             val text = formatProbability(recipe.outputs.probabilityAtIndex(index))
-            minecraft!!.fontRenderer?.drawString(text, 0/*-5*/, y, Color.BLACK.rgb)
+            fontRenderer.drawString(text, 0, y, Color.BLACK.rgb)
             y += 18
         }
 
         var probabilityType = ""
-        if (recipe.outputs.relativeProbability) probabilityType = Translator.translateToLocal("jei.dissolver.relative")
-        else probabilityType = Translator.translateToLocal("jei.dissolver.absolute")
+        probabilityType = if (recipe.outputs.relativeProbability) Translator.translateToLocal("jei.dissolver.relative")
+        else Translator.translateToLocal("jei.dissolver.absolute")
 
-        minecraft!!.fontRenderer.drawString("${Translator.translateToLocal("jei.dissolver.type")}: $probabilityType", 5, 4, Color.BLACK.rgb)
-        minecraft.fontRenderer.drawString("${Translator.translateToLocal("jei.dissolver.rolls")}: ${recipe.outputs.rolls}", 5, 16, Color.BLACK.rgb)
+        fontRenderer.drawString("${Translator.translateToLocal("jei.dissolver.type")}: $probabilityType", 0, 4, Color.BLACK.rgb)
+        fontRenderer.drawString("${Translator.translateToLocal("jei.dissolver.rolls")}: ${recipe.outputs.rolls}", 0, 16, Color.BLACK.rgb)
     }
 
     override fun getIngredients(ingredients: IIngredients) {

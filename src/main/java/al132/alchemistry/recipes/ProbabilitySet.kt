@@ -20,7 +20,7 @@ data class ProbabilitySet(private var _set: List<ProbabilityGroup>? = ArrayList(
                           val rolls: Int = 1) {
 
     val set: ImmutableList<ProbabilityGroup>
-        get() = ImmutableList.copyOf(_set)
+        get() = ImmutableList.copyOf(_set!!.sortedBy { -it.probability })
 
 
     fun toStackList(): List<ItemStack> {

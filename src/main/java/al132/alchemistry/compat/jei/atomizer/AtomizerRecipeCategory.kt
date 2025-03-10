@@ -10,7 +10,7 @@ import mezz.jei.api.ingredients.IIngredients
 import mezz.jei.api.ingredients.VanillaTypes
 
 class AtomizerRecipeCategory(guiHelper: IGuiHelper)
-    : AlchemistryRecipeCategory<AtomizerRecipeWrapper>(guiHelper.createDrawable(guiTexture, u, v, 98, 79),
+    : AlchemistryRecipeCategory<AtomizerRecipeWrapper>(guiHelper.createDrawable(guiTexture, u, v, 98, 80),
         "jei.atomizer.name") {
 
     override fun getTitle(): String = Translator.translateToLocal("jei.atomizer.name")

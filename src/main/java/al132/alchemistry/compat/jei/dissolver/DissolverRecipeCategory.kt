@@ -13,14 +13,13 @@ class DissolverRecipeCategory(guiHelper: IGuiHelper)
     : AlchemistryRecipeCategory<DissolverRecipeWrapper>(guiHelper.createDrawable(guiTexture, u, v, width, height),
         "jei.dissolver.name") {
 
-
     companion object {
         val INPUT_ONE = 2
         val OUTPUT_STARTING_INDEX = 3
         val u = 5
         val v = 5
-        val width = 180//170
-        val height = 256//170
+        val width = 180
+        val height = 256
         val guiTexture = ResourceLocation("alchemistry:textures/gui/container/chemical_dissolver_jei.png")
     }
 
@@ -30,13 +29,13 @@ class DissolverRecipeCategory(guiHelper: IGuiHelper)
 
     override fun setRecipe(recipeLayout: IRecipeLayout, recipeWrapper: DissolverRecipeWrapper, ingredients: IIngredients) {
         val guiItemStacks = recipeLayout.itemStacks
-        val inputStack: List<ItemStack> = recipeWrapper.recipe.inputs//ingredients.getInputs(VanillaTypes.ITEM)[0]
+        val inputStack: List<ItemStack> = recipeWrapper.recipe.inputs
         val outputSet = recipeWrapper.recipe.outputs.set
-        var x = 95 - u
-        var y = 7 - v
+        var x = 99 - u
+        var y = 14 - v
         guiItemStacks.init(INPUT_ONE, true, x, y)
         guiItemStacks.set(INPUT_ONE, inputStack)
-        x = 50 - u
+        x = 45 - u
         y = 50 - v
 
         var outputSlotIndex = OUTPUT_STARTING_INDEX
@@ -47,7 +46,7 @@ class DissolverRecipeCategory(guiHelper: IGuiHelper)
                 x += 18
                 outputSlotIndex++
             }
-            x = 50 - u
+            x = 45 - u
             y += 18
         }
     }

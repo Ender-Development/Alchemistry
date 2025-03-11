@@ -17,12 +17,12 @@ import net.minecraftforge.fluids.capability.templates.FluidHandlerConcatenate
 /**
  * Created by al132 on 4/29/2017.
  */
-class TileAtomizer : TileBase(), IGuiTile, ITickable, IItemTile, IFluidTile,
+class TileAtomizer : AbstractMachine<AtomizerRecipe>(AtomizerRegister.INSTANCE), IFluidTile,
         IEnergyTile by EnergyTileImpl(capacity = ConfigHandler.ATOMIZER.energyCapacity) {
 
     val inputTank: FluidTank
-    private var currentRecipe: AtomizerRecipe? = null
-    var progressTicks = 0
+    override var recipeTime: Int = ConfigHandler.ATOMIZER.processingTicks
+    var energyPerTick: Int = ConfigHandler.ATOMIZER.energyPerTick
 
     init {
         initInventoryCapability(0, 1)
@@ -45,7 +45,7 @@ class TileAtomizer : TileBase(), IGuiTile, ITickable, IItemTile, IFluidTile,
         inputTank.setCanDrain(false)
     }
 
-    fun updateRecipe() {
+    override fun updateRecipe() {
         if (inputTank.fluid != null &&
                 (currentRecipe == null || !ItemStack.areItemStacksEqual(currentRecipe!!.output, output.getStackInSlot(0)))) {
             currentRecipe = AtomizerRegister.INSTANCE.recipes.firstOrNull { it.input.fluid == inputTank.fluid?.fluid }
@@ -53,53 +53,43 @@ class TileAtomizer : TileBase(), IGuiTile, ITickable, IItemTile, IFluidTile,
         if (inputTank.fluid == null) currentRecipe = null
     }
 
-    override fun update() {
-        if (!world.isRemote) {
-            if (inputTank.fluidAmount > 0) {
-                if (canProcess()) process() else progressTicks = 0
-            }
-            markDirtyGUIEvery(5)
-        }
+    override fun onProcessComplete() {
+        output.setOrIncrement(0, currentRecipe!!.output.copy())
+        inputTank.drainInternal(currentRecipe!!.input.amount, true)
     }
 
-
-    override fun writeToNBT(compound: NBTTagCompound): NBTTagCompound {
-        super.writeToNBT(compound)
-        val inputTankNBT = NBTTagCompound()
-        this.inputTank.writeToNBT(inputTankNBT)
-        compound.setTag("InputTankNBT", inputTankNBT)
-        compound.setInteger("ProgressTicks", progressTicks)
-        return compound
+    override fun onWorkTick() {
+        this.energyStorage.extractEnergy(energyPerTick, false)
     }
 
-    override fun readFromNBT(compound: NBTTagCompound) {
-        super.readFromNBT(compound)
-        this.inputTank.readFromNBT(compound.getCompoundTag("InputTankNBT"))
-        this.progressTicks = compound.getInteger("ProgressTicks")
-        updateRecipe()
+    override fun shouldTick(): Boolean {
+        return inputTank.fluidAmount > 0
     }
 
-    override val fluidTanks: FluidHandlerConcatenate?
-        get() = FluidHandlerConcatenate(inputTank)
-
-    fun canProcess(): Boolean {
+    override fun shouldProcess(): Boolean {
         if (currentRecipe != null) {
             val recipeOutput = currentRecipe!!.output
-            return energyStorage.energyStored >= ConfigHandler.ATOMIZER.energyPerTick
+            return energyStorage.energyStored >= energyPerTick
                     && inputTank.fluidAmount >= currentRecipe!!.input.amount
                     && (ItemStack.areItemsEqual(output[0], recipeOutput) || output[0].isEmpty)
                     && output[0].count + recipeOutput.count <= recipeOutput.maxStackSize
         } else return false;
     }
 
-    fun process() {
-        if (progressTicks < ConfigHandler.ATOMIZER.processingTicks) {
-            progressTicks++
-        } else {
-            progressTicks = 0
-            output.setOrIncrement(0, currentRecipe!!.output.copy())
-            inputTank.drainInternal(currentRecipe!!.input.amount, true)
-        }
-        this.energyStorage.extractEnergy(ConfigHandler.ATOMIZER.energyPerTick, false)
+    override fun writeToNBT(compound: NBTTagCompound): NBTTagCompound {
+        super.writeToNBT(compound)
+        val inputTankNBT = NBTTagCompound()
+        this.inputTank.writeToNBT(inputTankNBT)
+        compound.setTag("InputTankNBT", inputTankNBT)
+        return compound
     }
+
+    override fun readFromNBT(compound: NBTTagCompound) {
+        super.readFromNBT(compound)
+        this.inputTank.readFromNBT(compound.getCompoundTag("InputTankNBT"))
+        updateRecipe()
+    }
+
+    override val fluidTanks: FluidHandlerConcatenate?
+        get() = FluidHandlerConcatenate(inputTank)
 }

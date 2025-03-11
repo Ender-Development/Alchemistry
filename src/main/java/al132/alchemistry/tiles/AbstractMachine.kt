@@ -7,7 +7,8 @@ import al132.alib.tiles.IItemTile
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.util.ITickable
 
-abstract class AbstractMachine<T: IRecipe>(recipeRegister: AbstractRecipeRegister<T>) : TileBase(), ITickable, IGuiTile, IItemTile {
+abstract class AbstractMachine<T : IRecipe>(recipeRegister: AbstractRecipeRegister<T>) : TileBase(), ITickable,
+    IGuiTile, IItemTile {
     val recipeRegister: List<T> = recipeRegister.recipes
 
     abstract var recipeTime: Int
@@ -15,37 +16,37 @@ abstract class AbstractMachine<T: IRecipe>(recipeRegister: AbstractRecipeRegiste
     var isPaused: Boolean = false
     var currentRecipe: T? = null
 
-    /*
-    * Update the stored recipe variable
-    * Used in init and readFromNBT
+    /**
+     * Update the stored recipe variable
+     * Used in init and readFromNBT
      */
     abstract fun updateRecipe()
 
-    /*
-    * Fired when the machine finishes a recipe
-    * Used for consuming inputs and producing outputs
+    /**
+     * Fired when the machine finishes a recipe
+     * Used for consuming inputs and producing outputs
      */
     abstract fun onProcessComplete()
 
-    /*
-    * Fired every tick the machine is active
-    * Used for consuming energy, etc.
+    /**
+     * Fired every tick the machine is active
+     * Used for consuming energy, etc.
      */
     abstract fun onWorkTick()
 
-    /*
-    * Check if there is anything present to process
+    /**
+     * Check if there is anything present to process
      */
     abstract fun shouldTick(): Boolean
 
-    /*
-    * Check if there is a valid recipe, enough energy, etc.
+    /**
+     * Check if the machine should process the current recipe
      */
     abstract fun shouldProcess(): Boolean
 
     override fun update() {
         if (world.isRemote) return
-        if (shouldTick()) {
+        if (shouldTick() && !isPaused) {
             if (shouldProcess()) {
                 onWorkTick()
                 if (progressTicks >= recipeTime) {

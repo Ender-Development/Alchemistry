@@ -369,7 +369,6 @@ jei.dissolver.relative=Relative
 jei.dissolver.absolute=Absolute
 jei.dissolver.type=Type
 jei.dissolver.rolls=Rolls
-jei.elements.description=All elements (except Hydrogen) can be created with the Fusion multiblock.\nThe multiblock accepts 2 elements as input and fuses them together to create a new element equal to the sum of their atomic numbers."
 
 guide.alchemistry.title=Alchemistry Guidebook
 guide.alchemistry.landing=Welcome to the Alchemistry Guidebook. This book will introduce you to some of the basics of the mod :)

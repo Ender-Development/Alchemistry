@@ -4,6 +4,7 @@ package al132.alchemistry.compat.ct
 import al132.alchemistry.Alchemistry
 import al132.alchemistry.recipes.EvaporatorRecipe
 import al132.alchemistry.recipes.ModRecipes
+import al132.alchemistry.recipes.register.EvaporatorRegister
 import crafttweaker.IAction
 import crafttweaker.annotations.ModOnly
 import crafttweaker.annotations.ZenRegister
@@ -28,7 +29,7 @@ object CTEvaporator {
             override fun apply() {
                 val inputStack = input.internal as FluidStack
                 val outputStack = output.internal as ItemStack
-                ModRecipes.evaporatorRecipes.add(EvaporatorRecipe(inputStack, outputStack))
+                EvaporatorRegister.INSTANCE.recipes.add(EvaporatorRecipe(inputStack, outputStack))
             }
         })
     }
@@ -41,7 +42,7 @@ object CTEvaporator {
 
             override fun apply() {
                 val inputStack = input.internal as FluidStack
-                ModRecipes.evaporatorRecipes.removeIf { it.input.isFluidEqual(inputStack) }
+                EvaporatorRegister.INSTANCE.recipes.removeIf { it.input.isFluidEqual(inputStack) }
             }
         })
     }
@@ -52,7 +53,7 @@ object CTEvaporator {
         Alchemistry.LATE_REMOVALS.add(object : IAction {
             override fun describe() = "Removed ALL Evaporator recipes"
 
-            override fun apply() = ModRecipes.evaporatorRecipes.clear()
+            override fun apply() = EvaporatorRegister.INSTANCE.recipes.clear()
         })
     }
 }

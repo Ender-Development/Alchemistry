@@ -1,5 +1,6 @@
 package al132.alchemistry.recipes
 
+import al132.alchemistry.recipes.register.DissolverRegister
 import al132.alib.utils.extensions.equalsIgnoreMeta
 import al132.alib.utils.extensions.toImmutable
 import net.minecraft.item.ItemStack
@@ -30,7 +31,7 @@ data class DissolverRecipe(
 
     companion object {
         fun match(input: ItemStack, quantitySensitive: Boolean): DissolverRecipe? {
-            for (recipe in ModRecipes.dissolverRecipes) {
+            for (recipe in DissolverRegister.INSTANCE.recipes) {
                 for (recipeStack in recipe.inputs) {
                     if (recipeStack.equalsIgnoreMeta(input)
                         && (input.itemDamage == recipeStack.itemDamage

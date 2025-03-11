@@ -3,6 +3,7 @@ package al132.alchemistry.compat.ct
 import al132.alchemistry.Alchemistry
 import al132.alchemistry.recipes.LiquifierRecipe
 import al132.alchemistry.recipes.ModRecipes
+import al132.alchemistry.recipes.register.LiquifierRegister
 import crafttweaker.IAction
 import crafttweaker.annotations.ModOnly
 import crafttweaker.annotations.ZenRegister
@@ -27,7 +28,7 @@ object CTLiquifier {
             override fun apply() {
                 val inputStack = input.internal as ItemStack
                 val outputStack = output.internal as FluidStack
-                ModRecipes.liquifierRecipes.add(LiquifierRecipe(inputStack, outputStack))
+                LiquifierRegister.INSTANCE.recipes.add(LiquifierRecipe(inputStack, outputStack))
             }
         })
     }
@@ -40,7 +41,7 @@ object CTLiquifier {
 
             override fun apply() {
                 val inputStack = input.internal as ItemStack
-                ModRecipes.liquifierRecipes.removeIf { it.input.isItemEqual(inputStack) }
+                LiquifierRegister.INSTANCE.recipes.removeIf { it.input.isItemEqual(inputStack) }
             }
         })
     }
@@ -51,7 +52,7 @@ object CTLiquifier {
         Alchemistry.LATE_REMOVALS.add(object : IAction {
             override fun describe() = "Removed ALL Liquifier recipes"
 
-            override fun apply() = ModRecipes.liquifierRecipes.clear()
+            override fun apply() = LiquifierRegister.INSTANCE.recipes.clear()
         })
     }
 }

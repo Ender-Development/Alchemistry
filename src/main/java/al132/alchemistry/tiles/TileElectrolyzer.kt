@@ -3,6 +3,7 @@ package al132.alchemistry.tiles
 import al132.alchemistry.ConfigHandler
 import al132.alchemistry.recipes.ElectrolyzerRecipe
 import al132.alchemistry.recipes.ModRecipes
+import al132.alchemistry.recipes.register.ElectrolyzerRegister
 import al132.alib.tiles.*
 import al132.alib.utils.extensions.containsItem
 import al132.alib.utils.extensions.get
@@ -29,7 +30,7 @@ class TileElectrolyzer : TileBase(), IGuiTile, ITickable, IFluidTile, IItemTile,
 
         inputTank = object : FluidTank(Fluid.BUCKET_VOLUME * 10) {
             override fun canFillFluidType(fluid: FluidStack?): Boolean {
-                return ModRecipes.electrolyzerRecipes.any { it.input.fluid == fluid?.fluid }
+                return ElectrolyzerRegister.INSTANCE.recipes.any { it.input.fluid == fluid?.fluid }
             }
 
             override fun onContentsChanged() {
@@ -46,7 +47,7 @@ class TileElectrolyzer : TileBase(), IGuiTile, ITickable, IFluidTile, IItemTile,
     override fun initInventoryInputCapability() {
         input = object : ALTileStackHandler(inputSlots, this) {
             override fun insertItem(slot: Int, stack: ItemStack, simulate: Boolean): ItemStack {
-                return if (ModRecipes.electrolyzerRecipes.any { it.electrolytes.containsItem(stack) })
+                return if (ElectrolyzerRegister.INSTANCE.recipes.any { it.electrolytes.containsItem(stack) })
                     super.insertItem(slot, stack, simulate)
                 else
                     stack
@@ -58,7 +59,7 @@ class TileElectrolyzer : TileBase(), IGuiTile, ITickable, IFluidTile, IItemTile,
     override fun update() {
         if (!world.isRemote) {
             if(inputTank.fluidAmount > 0) {
-                this.currentRecipe = ModRecipes.electrolyzerRecipes.firstOrNull {
+                this.currentRecipe = ElectrolyzerRegister.INSTANCE.recipes.firstOrNull {
                     (inputTank.fluid?.containsFluid(it.input) == true) && it.electrolytes.containsItem(input[0])
                 }
                 if (canProcess()) process() else progressTicks = 0

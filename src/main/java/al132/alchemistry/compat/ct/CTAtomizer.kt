@@ -3,6 +3,7 @@ package al132.alchemistry.compat.ct
 import al132.alchemistry.Alchemistry
 import al132.alchemistry.recipes.AtomizerRecipe
 import al132.alchemistry.recipes.ModRecipes
+import al132.alchemistry.recipes.register.AtomizerRegister
 import crafttweaker.IAction
 import crafttweaker.annotations.ModOnly
 import crafttweaker.annotations.ZenRegister
@@ -27,7 +28,7 @@ object CTAtomizer {
             override fun apply() {
                 val inputStack = input.internal as FluidStack
                 val outputStack = output.internal as ItemStack
-                ModRecipes.atomizerRecipes.add(AtomizerRecipe(false,inputStack, outputStack))
+                AtomizerRegister.INSTANCE.recipes.add(AtomizerRecipe(false,inputStack, outputStack))
             }
         })
     }
@@ -40,7 +41,7 @@ object CTAtomizer {
 
             override fun apply() {
                 val inputStack = input.internal as FluidStack
-                ModRecipes.atomizerRecipes.removeIf { it.input.isFluidEqual(inputStack) }
+                AtomizerRegister.INSTANCE.recipes.removeIf { it.input.isFluidEqual(inputStack) }
             }
         })
     }
@@ -51,7 +52,7 @@ object CTAtomizer {
         Alchemistry.LATE_REMOVALS.add(object : IAction {
             override fun describe() = "Removed ALL Atomizer recipes"
 
-            override fun apply() = ModRecipes.atomizerRecipes.clear()
+            override fun apply() = AtomizerRegister.INSTANCE.recipes.clear()
         })
     }
 }

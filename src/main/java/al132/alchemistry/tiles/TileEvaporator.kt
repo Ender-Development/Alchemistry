@@ -3,6 +3,7 @@ package al132.alchemistry.tiles
 import al132.alchemistry.ConfigHandler
 import al132.alchemistry.recipes.EvaporatorRecipe
 import al132.alchemistry.recipes.ModRecipes
+import al132.alchemistry.recipes.register.EvaporatorRegister
 import al132.alib.tiles.IFluidTile
 import al132.alib.tiles.IGuiTile
 import al132.alib.tiles.IItemTile
@@ -30,7 +31,7 @@ class TileEvaporator : TileBase(), IGuiTile, ITickable, IItemTile, IFluidTile {
 
         inputTank = object : FluidTank(Fluid.BUCKET_VOLUME * 10) {
             override fun canFillFluidType(fluid: FluidStack?): Boolean {
-                return ModRecipes.evaporatorRecipes.any { it.input.fluid == fluid?.fluid }
+                return EvaporatorRegister.INSTANCE.recipes.any { it.input.fluid == fluid?.fluid }
             }
 
             override fun onContentsChanged() {
@@ -48,7 +49,7 @@ class TileEvaporator : TileBase(), IGuiTile, ITickable, IItemTile, IFluidTile {
     fun updateRecipe() {
         val inputStack = this.inputTank.fluid
         if ((inputStack != null) && (currentRecipe == null || currentRecipe!!.input.fluid == inputStack.fluid)){
-            this.currentRecipe = ModRecipes.evaporatorRecipes.firstOrNull { it.input.fluid == inputStack.fluid }
+            this.currentRecipe = EvaporatorRegister.INSTANCE.recipes.firstOrNull { it.input.fluid == inputStack.fluid }
         }
         if (inputStack == null) currentRecipe = null
     }
@@ -56,7 +57,7 @@ class TileEvaporator : TileBase(), IGuiTile, ITickable, IItemTile, IFluidTile {
     override fun update() {
         if (!world.isRemote) {
             if (inputTank.fluidAmount > 0) {
-                this.currentRecipe = ModRecipes.evaporatorRecipes.firstOrNull {
+                this.currentRecipe = EvaporatorRegister.INSTANCE.recipes.firstOrNull {
                     inputTank.fluid?.containsFluid(it.input) ?: false
                 }
                 if (canProcess()) process() else progressTicks = 0

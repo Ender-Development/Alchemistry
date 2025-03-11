@@ -28,6 +28,13 @@ import al132.alchemistry.compat.jei.liquifier.LiquifierRecipeCategory
 import al132.alchemistry.compat.jei.liquifier.LiquifierRecipeWrapper
 import al132.alchemistry.items.ModItems
 import al132.alchemistry.recipes.*
+import al132.alchemistry.recipes.register.AtomizerRegister
+import al132.alchemistry.recipes.register.CombinerRegister
+import al132.alchemistry.recipes.register.DissolverRegister
+import al132.alchemistry.recipes.register.ElectrolyzerRegister
+import al132.alchemistry.recipes.register.EvaporatorRegister
+import al132.alchemistry.recipes.register.FissionRegister
+import al132.alchemistry.recipes.register.LiquifierRegister
 import al132.alib.utils.extensions.toStack
 import al132.alib.utils.extensions.translate
 import mezz.jei.api.*
@@ -90,14 +97,13 @@ class AlchemistryPlugin : IModPlugin {
                 { recipe -> FissionRecipeWrapper(recipe) },
                 FISSION)
 
-        registry.addRecipes(ModRecipes.dissolverRecipes.map { DissolverRecipeWrapper(it) }, DISSOLVER)
-        registry.addRecipes(ModRecipes.combinerRecipes.map { CombinerRecipeWrapper(it) }, COMBINER)
-        registry.addRecipes(ModRecipes.electrolyzerRecipes.map { ElectrolyzerRecipeWrapper(it) }, ELECTROLYZER)
-        registry.addRecipes(ModRecipes.evaporatorRecipes.map { EvaporatorRecipeWrapper(it) }, EVAPORATOR)
-        registry.addRecipes(ModRecipes.atomizerRecipes.map { AtomizerRecipeWrapper(it) }, ATOMIZER)
-        registry.addRecipes(ModRecipes.liquifierRecipes.map { LiquifierRecipeWrapper(it) }, LIQUIFIER)
-        registry.addRecipes(ModRecipes.fissionRecipes.map { FissionRecipeWrapper(it) }, FISSION)
-
+        registry.addRecipes(DissolverRegister.INSTANCE.recipes.map { DissolverRecipeWrapper(it) }, DISSOLVER)
+        registry.addRecipes(CombinerRegister.INSTANCE.recipes.map { CombinerRecipeWrapper(it) }, COMBINER)
+        registry.addRecipes(ElectrolyzerRegister.INSTANCE.recipes.map { ElectrolyzerRecipeWrapper(it) }, ELECTROLYZER)
+        registry.addRecipes(EvaporatorRegister.INSTANCE.recipes.map { EvaporatorRecipeWrapper(it) }, EVAPORATOR)
+        registry.addRecipes(AtomizerRegister.INSTANCE.recipes.map { AtomizerRecipeWrapper(it) }, ATOMIZER)
+        registry.addRecipes(LiquifierRegister.INSTANCE.recipes.map { LiquifierRecipeWrapper(it) }, LIQUIFIER)
+        registry.addRecipes(FissionRegister.INSTANCE.recipes.map { FissionRecipeWrapper(it) }, FISSION)
 
         registry.addRecipeClickArea(GuiChemicalDissolver::class.java, 63, 86, 32, 44, DISSOLVER)
         registry.addRecipeClickArea(GuiChemicalCombiner::class.java, 102, 90, 27, 36, COMBINER)

@@ -1,6 +1,7 @@
 package al132.alchemistry.recipes
 
 import al132.alchemistry.items.ModItems
+import al132.alchemistry.recipes.register.CombinerRegister
 import al132.alib.tiles.ALTileStackHandler
 import al132.alib.utils.Utils.areItemsEqualIgnoreMeta
 import al132.alib.utils.extensions.areItemStacksEqual
@@ -62,7 +63,7 @@ data class CombinerRecipe(val output: ItemStack, private val objsIn: List<Any?>,
         }
 
         private fun matchInputs(inputStacks: List<ItemStack>): CombinerRecipe? {
-            outer@ for (recipe in ModRecipes.combinerRecipes) {
+            outer@ for (recipe in CombinerRegister.INSTANCE.recipes) {
                 inner@ for ((index: Int, recipeStack: ItemStack) in recipe.inputs.withIndex()) {
                     val inputStack: ItemStack = inputStacks[index]
                     if ((inputStack.item == ModItems.slotFiller || inputStack.isEmpty) && recipeStack.isEmpty) {
@@ -82,7 +83,7 @@ data class CombinerRecipe(val output: ItemStack, private val objsIn: List<Any?>,
         }
 
         fun matchOutput(stack: ItemStack): CombinerRecipe? {
-            return ModRecipes.combinerRecipes
+            return CombinerRegister.INSTANCE.recipes
                 .filter { it.output.item == stack.item }
                 .firstOrNull { it.output.areItemStacksEqual(stack) }
         }

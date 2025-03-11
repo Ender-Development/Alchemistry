@@ -3,6 +3,7 @@ package al132.alchemistry.tiles
 import al132.alchemistry.ConfigHandler
 import al132.alchemistry.recipes.LiquifierRecipe
 import al132.alchemistry.recipes.ModRecipes
+import al132.alchemistry.recipes.register.LiquifierRegister
 import al132.alib.tiles.*
 import al132.alib.utils.extensions.areItemsEqual
 import al132.alib.utils.extensions.get
@@ -31,7 +32,7 @@ class TileLiquifier : TileBase(), IGuiTile, ITickable, IItemTile, IFluidTile,
         initInventoryCapability(1, 0)
         outputTank = object : FluidTank(Fluid.BUCKET_VOLUME * 10) {
             override fun canFillFluidType(fluid: FluidStack?): Boolean {
-                return ModRecipes.liquifierRecipes.any { it.output.fluid == fluid?.fluid }
+                return LiquifierRegister.INSTANCE.recipes.any { it.output.fluid == fluid?.fluid }
             }
 
             override fun onContentsChanged() {
@@ -48,7 +49,7 @@ class TileLiquifier : TileBase(), IGuiTile, ITickable, IItemTile, IFluidTile,
     override fun initInventoryInputCapability() {
         input = object : ALTileStackHandler(inputSlots, this) {
             override fun insertItem(slot: Int, stack: ItemStack, simulate: Boolean): ItemStack {
-                return if(ModRecipes.liquifierRecipes.any { it.input.isItemEqual(stack) })
+                return if(LiquifierRegister.INSTANCE.recipes.any { it.input.isItemEqual(stack) })
                     super.insertItem(slot, stack, simulate)
                 else
                     stack
@@ -64,7 +65,7 @@ class TileLiquifier : TileBase(), IGuiTile, ITickable, IItemTile, IFluidTile,
     fun updateRecipe() {
         val inputStack = this.input.getStackInSlot(0)
         if (!inputStack.isEmpty && (currentRecipe == null || !ItemStack.areItemStacksEqual(currentRecipe!!.input, inputStack))) {
-            this.currentRecipe = ModRecipes.liquifierRecipes.firstOrNull { it.input.areItemsEqual(inputStack) }
+            this.currentRecipe = LiquifierRegister.INSTANCE.recipes.firstOrNull { it.input.areItemsEqual(inputStack) }
         }
         if (inputStack.isEmpty) currentRecipe = null
     }

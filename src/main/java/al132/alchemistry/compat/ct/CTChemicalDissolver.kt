@@ -5,6 +5,7 @@ import al132.alchemistry.recipes.DissolverRecipe
 import al132.alchemistry.recipes.ModRecipes
 import al132.alchemistry.recipes.ProbabilityGroup
 import al132.alchemistry.recipes.ProbabilitySet
+import al132.alchemistry.recipes.register.DissolverRegister
 import al132.alchemistry.utils.extensions.toOre
 import al132.alib.utils.extensions.containsItem
 import al132.alib.utils.extensions.equalsIgnoreMeta
@@ -43,9 +44,9 @@ object CTChemicalDissolver {
                 }
                 val outputSet = ProbabilitySet(_set = groups, relativeProbability = relativeProbability, rolls = rolls)
                 if (input is IOreDictEntry) {
-                    ModRecipes.dissolverRecipes.add(DissolverRecipe(input.name.toOre(), false, outputSet))
+                    DissolverRegister.INSTANCE.recipes.add(DissolverRecipe(input.name.toOre(), false, outputSet))
                 } else if (input is IItemStack) {
-                    ModRecipes.dissolverRecipes.add(DissolverRecipe(Ingredient.fromStacks(input.internal as ItemStack), false, outputSet))
+                    DissolverRegister.INSTANCE.recipes.add(DissolverRecipe(Ingredient.fromStacks(input.internal as ItemStack), false, outputSet))
                 }
             }
         })
@@ -59,9 +60,9 @@ object CTChemicalDissolver {
 
             override fun apply() {
                 val inputStack = input.internal
-                if (inputStack is ItemStack) ModRecipes.dissolverRecipes.removeIf { it.inputs.containsItem(inputStack) }
+                if (inputStack is ItemStack) DissolverRegister.INSTANCE.recipes.removeIf { it.inputs.containsItem(inputStack) }
                 else if (inputStack is String) {
-                    ModRecipes.dissolverRecipes.removeIf { recipe ->
+                    DissolverRegister.INSTANCE.recipes.removeIf { recipe ->
                         if (recipe.inputs.isNotEmpty() && OreDictionary.getOres(inputStack).isNotEmpty()) {
                             val inputEntry = OreDictionary.getOres(inputStack)[0]
                             val recipeEntry = recipe.inputs[0]
@@ -79,7 +80,7 @@ object CTChemicalDissolver {
         Alchemistry.LATE_REMOVALS.add(object : IAction {
             override fun describe() = "Removed ALL Chemical Dissolver recipes"
 
-            override fun apply() = ModRecipes.dissolverRecipes.clear()
+            override fun apply() = DissolverRegister.INSTANCE.recipes.clear()
         })
     }
 }

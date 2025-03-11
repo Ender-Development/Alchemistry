@@ -1,12 +1,15 @@
 package al132.alchemistry.tiles
 
 import al132.alchemistry.recipes.IRecipe
+import al132.alchemistry.recipes.register.AbstractRecipeRegister
 import al132.alib.tiles.IGuiTile
 import al132.alib.tiles.IItemTile
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.util.ITickable
 
-abstract class AbstractMachine<T: IRecipe> : TileBase(), ITickable, IGuiTile, IItemTile {
+abstract class AbstractMachine<T: IRecipe>(recipeRegister: AbstractRecipeRegister<T>) : TileBase(), ITickable, IGuiTile, IItemTile {
+    val recipeRegister: List<T> = recipeRegister.recipes
+
     abstract var recipeTime: Int
     var progressTicks: Int = 0
     var isPaused: Boolean = false

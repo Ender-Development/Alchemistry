@@ -3,6 +3,7 @@ package al132.alchemistry.tiles
 import al132.alchemistry.ConfigHandler
 import al132.alchemistry.recipes.AtomizerRecipe
 import al132.alchemistry.recipes.ModRecipes
+import al132.alchemistry.recipes.register.AtomizerRegister
 import al132.alib.tiles.*
 import al132.alib.utils.extensions.get
 import net.minecraft.item.ItemStack
@@ -47,7 +48,7 @@ class TileAtomizer : TileBase(), IGuiTile, ITickable, IItemTile, IFluidTile,
     fun updateRecipe() {
         if (inputTank.fluid != null &&
                 (currentRecipe == null || !ItemStack.areItemStacksEqual(currentRecipe!!.output, output.getStackInSlot(0)))) {
-            currentRecipe = ModRecipes.atomizerRecipes.firstOrNull { it.input.fluid == inputTank.fluid?.fluid }
+            currentRecipe = AtomizerRegister.INSTANCE.recipes.firstOrNull { it.input.fluid == inputTank.fluid?.fluid }
         }
         if (inputTank.fluid == null) currentRecipe = null
     }

@@ -3,6 +3,7 @@ package al132.alchemistry.compat.ct
 import al132.alchemistry.Alchemistry
 import al132.alchemistry.recipes.ElectrolyzerRecipe
 import al132.alchemistry.recipes.ModRecipes
+import al132.alchemistry.recipes.register.ElectrolyzerRegister
 import crafttweaker.IAction
 import crafttweaker.annotations.ModOnly
 import crafttweaker.annotations.ZenRegister
@@ -39,7 +40,7 @@ object CTElectrolyzer {
                     val recipe = ElectrolyzerRecipe(inputStack, Ingredient.fromStacks(electrolytestack), electrolyteConsumptionChance,
                             output1Stack, output2Stack, output3Stack, output3Chance ?: 0, output4Stack, output4Chance
                             ?: 0)
-                    ModRecipes.electrolyzerRecipes.add(recipe)
+                    ElectrolyzerRegister.INSTANCE.recipes.add(recipe)
                 } else Alchemistry.logger.info("Unable to add crafttweaker recipe")
             }
         })
@@ -55,7 +56,7 @@ object CTElectrolyzer {
                 val inputStack: FluidStack? = input.internal as? FluidStack
                 val electrolyteStack: ItemStack? = electrolyte.internal as? ItemStack
                 if (inputStack != null && electrolyteStack != null) {
-                    ModRecipes.electrolyzerRecipes.removeIf { it.input.isFluidEqual(inputStack) && it.matchesElectrolyte(electrolyteStack) }
+                    ElectrolyzerRegister.INSTANCE.recipes.removeIf { it.input.isFluidEqual(inputStack) && it.matchesElectrolyte(electrolyteStack) }
                 }
             }
         })
@@ -67,7 +68,7 @@ object CTElectrolyzer {
         Alchemistry.LATE_REMOVALS.add(object : IAction {
             override fun describe() = "Removed ALL Electrolyzer recipes"
 
-            override fun apply() = ModRecipes.electrolyzerRecipes.clear()
+            override fun apply() = ElectrolyzerRegister.INSTANCE.recipes.clear()
         })
     }
 }

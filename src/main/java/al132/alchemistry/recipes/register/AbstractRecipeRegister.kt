@@ -1,0 +1,28 @@
+package al132.alchemistry.recipes.register
+
+import al132.alchemistry.chemistry.ElementRegistry
+import al132.alchemistry.recipes.IRecipe
+import al132.alib.utils.Utils.oreExists
+import al132.alib.utils.extensions.toImmutable
+import net.minecraftforge.fluids.FluidRegistry
+import net.minecraftforge.oredict.OreDictionary
+
+abstract class AbstractRecipeRegister<T : IRecipe> {
+    val recipes: MutableList<T> = mutableListOf()
+
+    val heathens: Map<String, String> = mapOf(
+        "aluminium" to "aluminum",
+        "caesium" to "cesium"
+    )
+
+    val metals: List<String> = mutableListOf<String>()
+        .apply { addAll(heathens.keys) }
+        .apply { addAll(ElementRegistry.getAllElements().map { it.name }) }
+        .toImmutable()
+
+    abstract fun registerRecipes()
+
+    fun fluidExists(name: String): Boolean = FluidRegistry.isFluidRegistered(name)
+
+    fun oreNotEmpty(ore: String) = oreExists(ore) && OreDictionary.getOres(ore).isNotEmpty()
+}

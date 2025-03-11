@@ -3,6 +3,7 @@ package al132.alchemistry.compat.ct
 import al132.alchemistry.Alchemistry
 import al132.alchemistry.recipes.CombinerRecipe
 import al132.alchemistry.recipes.ModRecipes
+import al132.alchemistry.recipes.register.CombinerRegister
 import al132.alib.utils.extensions.areItemStacksEqual
 import crafttweaker.IAction
 import crafttweaker.annotations.ModOnly
@@ -30,7 +31,7 @@ object CTChemicalCombiner {
                     val recipe = CombinerRecipe(outputStack, inputStacks.map { stack: IItemStack? ->
                         (stack?.internal as? ItemStack) ?: ItemStack.EMPTY
                     })
-                    ModRecipes.combinerRecipes.add(recipe)
+                    CombinerRegister.INSTANCE.recipes.add(recipe)
                 } else Alchemistry.logger.info("Unable to add crafttweaker recipe")
             }
         })
@@ -50,7 +51,7 @@ object CTChemicalCombiner {
                     val recipe = CombinerRecipe(outputStack, inputStacks.map { stack: IItemStack? ->
                         (stack?.internal as? ItemStack) ?: ItemStack.EMPTY
                     }, stage)
-                    ModRecipes.combinerRecipes.add(recipe)
+                    CombinerRegister.INSTANCE.recipes.add(recipe)
                 } else Alchemistry.logger.info("Unable to add crafttweaker recipe")
             }
         })
@@ -65,7 +66,7 @@ object CTChemicalCombiner {
             override fun apply() {
                 val outputStack: ItemStack? = output?.internal as? ItemStack
                 if (outputStack != null) {
-                    val matchingRecipe = ModRecipes.combinerRecipes.filter { it.output.areItemStacksEqual(outputStack) }
+                    val matchingRecipe = CombinerRegister.INSTANCE.recipes.filter { it.output.areItemStacksEqual(outputStack) }
                     matchingRecipe.forEach { it.gamestage = stage }
                 } else Alchemistry.logger.info("Unable to set crafttweaker recipe stage")
             }
@@ -81,7 +82,7 @@ object CTChemicalCombiner {
             override fun apply() {
                 val unwrappedInput = input?.internal as? ItemStack ?: ItemStack.EMPTY
                 val recipe = CombinerRecipe.matchOutput(unwrappedInput)
-                if (recipe != null) ModRecipes.combinerRecipes.remove(recipe)
+                if (recipe != null) CombinerRegister.INSTANCE.recipes.remove(recipe)
             }
         })
     }
@@ -92,7 +93,7 @@ object CTChemicalCombiner {
         Alchemistry.LATE_REMOVALS.add(object : IAction {
             override fun describe() = "Removed ALL Chemical Combiner recipes"
 
-            override fun apply() = ModRecipes.combinerRecipes.clear()
+            override fun apply() = CombinerRegister.INSTANCE.recipes.clear()
         })
     }
 }

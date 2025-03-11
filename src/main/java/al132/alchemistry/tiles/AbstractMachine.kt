@@ -11,7 +11,8 @@ abstract class AbstractMachine<T : IRecipe>(recipeRegister: AbstractRecipeRegist
     IGuiTile, IItemTile {
     val recipeRegister: List<T> = recipeRegister.recipes
 
-    abstract var recipeTime: Int
+    abstract val recipeTime: Int
+
     var progressTicks: Int = 0
     var isPaused: Boolean = false
     var currentRecipe: T? = null
@@ -47,7 +48,7 @@ abstract class AbstractMachine<T : IRecipe>(recipeRegister: AbstractRecipeRegist
     override fun update() {
         if (world.isRemote) return
         if (shouldTick() && !isPaused) {
-            if (shouldProcess()) {
+            if (shouldProcess() && currentRecipe != null) {
                 onWorkTick()
                 if (progressTicks >= recipeTime) {
                     onProcessComplete()

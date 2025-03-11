@@ -2,14 +2,15 @@ package al132.alchemistry.tiles
 
 import al132.alchemistry.ConfigHandler
 import al132.alchemistry.recipes.LiquifierRecipe
-import al132.alchemistry.recipes.ModRecipes
 import al132.alchemistry.recipes.register.LiquifierRegister
-import al132.alib.tiles.*
+import al132.alib.tiles.ALTileStackHandler
+import al132.alib.tiles.EnergyTileImpl
+import al132.alib.tiles.IEnergyTile
+import al132.alib.tiles.IFluidTile
 import al132.alib.utils.extensions.areItemsEqual
 import al132.alib.utils.extensions.get
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
-import net.minecraft.util.ITickable
 import net.minecraftforge.fluids.Fluid
 import net.minecraftforge.fluids.FluidStack
 import net.minecraftforge.fluids.FluidTank
@@ -18,12 +19,13 @@ import net.minecraftforge.fluids.capability.templates.FluidHandlerConcatenate
 /**
  * Created by al132 on 4/29/2017.
  */
-class TileLiquifier : TileBase(), IGuiTile, ITickable, IItemTile, IFluidTile,
-        IEnergyTile by EnergyTileImpl(ConfigHandler.LIQUIFIER.energyCapacity) {
+class TileLiquifier : AbstractMachine<LiquifierRecipe>(LiquifierRegister.INSTANCE), IFluidTile,
+    IEnergyTile by EnergyTileImpl(ConfigHandler.LIQUIFIER.energyCapacity) {
 
     val outputTank: FluidTank
-    private var currentRecipe: LiquifierRecipe? = null
-    var progressTicks = 0
+
+    override val recipeTime: Int
+        get() = ConfigHandler.LIQUIFIER.processingTicks
 
     override val fluidTanks: FluidHandlerConcatenate?
         get() = FluidHandlerConcatenate(outputTank)
@@ -32,7 +34,7 @@ class TileLiquifier : TileBase(), IGuiTile, ITickable, IItemTile, IFluidTile,
         initInventoryCapability(1, 0)
         outputTank = object : FluidTank(Fluid.BUCKET_VOLUME * 10) {
             override fun canFillFluidType(fluid: FluidStack?): Boolean {
-                return LiquifierRegister.INSTANCE.recipes.any { it.output.fluid == fluid?.fluid }
+                return recipeRegister.any { it.output.fluid == fluid?.fluid }
             }
 
             override fun onContentsChanged() {
@@ -49,10 +51,8 @@ class TileLiquifier : TileBase(), IGuiTile, ITickable, IItemTile, IFluidTile,
     override fun initInventoryInputCapability() {
         input = object : ALTileStackHandler(inputSlots, this) {
             override fun insertItem(slot: Int, stack: ItemStack, simulate: Boolean): ItemStack {
-                return if(LiquifierRegister.INSTANCE.recipes.any { it.input.isItemEqual(stack) })
-                    super.insertItem(slot, stack, simulate)
-                else
-                    stack
+                return if (recipeRegister.any { it.input.isItemEqual(stack) }) super.insertItem(slot, stack, simulate)
+                else stack
             }
 
             override fun onContentsChanged(slot: Int) {
@@ -62,22 +62,34 @@ class TileLiquifier : TileBase(), IGuiTile, ITickable, IItemTile, IFluidTile,
         }
     }
 
-    fun updateRecipe() {
+    override fun updateRecipe() {
         val inputStack = this.input.getStackInSlot(0)
-        if (!inputStack.isEmpty && (currentRecipe == null || !ItemStack.areItemStacksEqual(currentRecipe!!.input, inputStack))) {
-            this.currentRecipe = LiquifierRegister.INSTANCE.recipes.firstOrNull { it.input.areItemsEqual(inputStack) }
+        if (!inputStack.isEmpty
+            && (currentRecipe == null || !ItemStack.areItemStacksEqual(currentRecipe!!.input, inputStack))) {
+            this.currentRecipe = recipeRegister.firstOrNull { it.input.areItemsEqual(inputStack) }
         }
         if (inputStack.isEmpty) currentRecipe = null
     }
 
+    override fun onProcessComplete() {
+        outputTank.fillInternal(currentRecipe!!.output.copy(), true)
+        input[0].shrink(currentRecipe!!.input.count)
+    }
 
-    override fun update() {
-        if (!world.isRemote) {
-            if (!this.input[0].isEmpty) {
-                if (canProcess()) process() else progressTicks = 0
-            }
-            this.markDirtyGUIEvery(5)
-        }
+    override fun onWorkTick() {
+        this.energyStorage.extractEnergy(ConfigHandler.LIQUIFIER.energyPerTick, false)
+    }
+
+    override fun shouldTick(): Boolean {
+        return !this.input[0].isEmpty
+    }
+
+    override fun shouldProcess(): Boolean {
+        val recipeOutput = currentRecipe!!.output
+        return (outputTank.capacity >= outputTank.fluidAmount + recipeOutput.amount
+                && this.energyStorage.energyStored >= ConfigHandler.LIQUIFIER.energyPerTick
+                && input[0].count >= currentRecipe!!.input.count
+                && ((outputTank.fluid?.fluid == (recipeOutput.fluid?: false)) || outputTank.fluid == null))
     }
 
     override fun writeToNBT(compound: NBTTagCompound): NBTTagCompound {
@@ -85,37 +97,12 @@ class TileLiquifier : TileBase(), IGuiTile, ITickable, IItemTile, IFluidTile,
         val outputTankNBT = NBTTagCompound()
         this.outputTank.writeToNBT(outputTankNBT)
         compound.setTag("OutputTankNBT", outputTankNBT)
-        compound.setInteger("ProgressTicks", progressTicks)
         return compound
     }
 
     override fun readFromNBT(compound: NBTTagCompound) {
         super.readFromNBT(compound)
         this.outputTank.readFromNBT(compound.getCompoundTag("OutputTankNBT"))
-        this.progressTicks = compound.getInteger("ProgressTicks")
         updateRecipe()
-    }
-
-    fun canProcess(): Boolean {
-        if(currentRecipe == null)
-            return false
-
-        val recipeOutput = currentRecipe!!.output
-        return (outputTank.capacity >= outputTank.fluidAmount + recipeOutput.amount
-                && this.energyStorage.energyStored >= ConfigHandler.LIQUIFIER.energyPerTick
-                && input[0].count >= currentRecipe!!.input.count
-                && ((outputTank.fluid?.fluid == (recipeOutput.fluid ?: false))
-                || outputTank.fluid == null))
-    }
-
-    fun process() {
-        if (progressTicks < ConfigHandler.LIQUIFIER.processingTicks) {
-            progressTicks++
-        } else {
-            progressTicks = 0
-            outputTank.fillInternal(currentRecipe!!.output.copy(), true)//; .setOrIncrement(0, currentRecipe!!.output)
-            input[0].shrink(currentRecipe!!.input.count)
-        }
-        this.energyStorage.extractEnergy(ConfigHandler.LIQUIFIER.energyPerTick, false)
     }
 }

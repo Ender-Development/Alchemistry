@@ -18,17 +18,22 @@ import net.minecraftforge.fluids.capability.templates.FluidHandlerConcatenate
  * Created by al132 on 4/29/2017.
  */
 class TileAtomizer : AbstractMachine<AtomizerRecipe>(AtomizerRegister.INSTANCE), IFluidTile,
-        IEnergyTile by EnergyTileImpl(capacity = ConfigHandler.ATOMIZER.energyCapacity) {
+    IEnergyTile by EnergyTileImpl(capacity = ConfigHandler.ATOMIZER.energyCapacity) {
 
     val inputTank: FluidTank
-    override var recipeTime: Int = ConfigHandler.ATOMIZER.processingTicks
     var energyPerTick: Int = ConfigHandler.ATOMIZER.energyPerTick
+
+    override val recipeTime: Int
+        get() = ConfigHandler.ATOMIZER.processingTicks
+
+    override val fluidTanks: FluidHandlerConcatenate?
+        get() = FluidHandlerConcatenate(inputTank)
 
     init {
         initInventoryCapability(0, 1)
         inputTank = object : FluidTank(Fluid.BUCKET_VOLUME * 10) {
             override fun canFillFluidType(fluid: FluidStack?): Boolean {
-                return if(this.fluid == null)
+                return if (this.fluid == null)
                     true
                 else
                     this.fluid!!.fluid == fluid?.fluid
@@ -47,7 +52,8 @@ class TileAtomizer : AbstractMachine<AtomizerRecipe>(AtomizerRegister.INSTANCE),
 
     override fun updateRecipe() {
         if (inputTank.fluid != null &&
-                (currentRecipe == null || !ItemStack.areItemStacksEqual(currentRecipe!!.output, output.getStackInSlot(0)))) {
+            (currentRecipe == null || !ItemStack.areItemStacksEqual(currentRecipe!!.output, output.getStackInSlot(0)))
+        ) {
             currentRecipe = recipeRegister.firstOrNull { it.input.fluid == inputTank.fluid?.fluid }
         }
         if (inputTank.fluid == null) currentRecipe = null
@@ -67,13 +73,11 @@ class TileAtomizer : AbstractMachine<AtomizerRecipe>(AtomizerRegister.INSTANCE),
     }
 
     override fun shouldProcess(): Boolean {
-        if (currentRecipe != null) {
-            val recipeOutput = currentRecipe!!.output
-            return energyStorage.energyStored >= energyPerTick
-                    && inputTank.fluidAmount >= currentRecipe!!.input.amount
-                    && (ItemStack.areItemsEqual(output[0], recipeOutput) || output[0].isEmpty)
-                    && output[0].count + recipeOutput.count <= recipeOutput.maxStackSize
-        } else return false;
+        val recipeOutput = currentRecipe!!.output
+        return energyStorage.energyStored >= energyPerTick
+                && inputTank.fluidAmount >= currentRecipe!!.input.amount
+                && (ItemStack.areItemsEqual(output[0], recipeOutput) || output[0].isEmpty)
+                && output[0].count + recipeOutput.count <= recipeOutput.maxStackSize
     }
 
     override fun writeToNBT(compound: NBTTagCompound): NBTTagCompound {
@@ -89,7 +93,4 @@ class TileAtomizer : AbstractMachine<AtomizerRecipe>(AtomizerRegister.INSTANCE),
         this.inputTank.readFromNBT(compound.getCompoundTag("InputTankNBT"))
         updateRecipe()
     }
-
-    override val fluidTanks: FluidHandlerConcatenate?
-        get() = FluidHandlerConcatenate(inputTank)
 }

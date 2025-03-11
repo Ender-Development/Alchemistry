@@ -46,13 +46,17 @@ abstract class AbstractMachine<T : IRecipe>(recipeRegister: AbstractRecipeRegist
      */
     abstract fun shouldProcess(): Boolean
 
+    open fun onIdleTick() {
+        updateRecipe()
+    }
+
     override fun update() {
         if (world.isRemote) return
         markDirtyGUIEvery(5)
 
         if (isPaused) return
         if (shouldTick()) {
-            updateRecipe()
+            onIdleTick()
             if (shouldProcess() && currentRecipe != null) {
                 onWorkTick()
                 if (progressTicks >= recipeTime) {

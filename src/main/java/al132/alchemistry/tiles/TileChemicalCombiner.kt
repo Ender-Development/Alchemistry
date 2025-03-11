@@ -3,6 +3,7 @@ package al132.alchemistry.tiles
 import al132.alchemistry.ConfigHandler
 import al132.alchemistry.items.ModItems
 import al132.alchemistry.recipes.CombinerRecipe
+import al132.alchemistry.recipes.register.CombinerRegister
 import al132.alib.tiles.*
 import al132.alib.utils.extensions.areItemStacksEqual
 import al132.alib.utils.extensions.areItemsEqual
@@ -21,15 +22,18 @@ import net.minecraftforge.items.ItemStackHandler
 /**
  * Created by al132 on 1/22/2017.
  */
-class TileChemicalCombiner : TileBase(), IGuiTile, ITickable, IItemTile,
-        IEnergyTile by EnergyTileImpl(capacity = ConfigHandler.COMBINER.energyCapacity) {
+class TileChemicalCombiner : AbstractMachine<CombinerRecipe>(CombinerRegister.INSTANCE),
+    IEnergyTile by EnergyTileImpl(capacity = ConfigHandler.COMBINER.energyCapacity) {
 
-    var currentRecipe: CombinerRecipe? = null
     var recipeIsLocked = false
-    var progressTicks = 0
-    var paused = false
     val clientRecipeTarget: ALTileStackHandler
     var owner: String = ""
+
+    override val energyPerTick: Int
+        get() = ConfigHandler.COMBINER.energyPerTick
+
+    override val recipeTime: Int
+        get() = ConfigHandler.COMBINER.processingTicks
 
     init {
         initInventoryCapability(9, 1)
@@ -42,10 +46,10 @@ class TileChemicalCombiner : TileBase(), IGuiTile, ITickable, IItemTile,
     override fun initInventoryInputCapability() {
         input = object : ALTileStackHandler(inputSlots, this) {
             override fun insertItem(slot: Int, stack: ItemStack, simulate: Boolean): ItemStack {
-                return if(!recipeIsLocked || currentRecipe?.inputs?.get(slot)?.areItemsEqual(stack) == true)
-                    super.insertItem(slot, stack, simulate)
-                else
-                    return stack
+                return if (!recipeIsLocked || currentRecipe?.inputs?.get(slot)
+                        ?.areItemsEqual(stack) == true
+                ) super.insertItem(slot, stack, simulate)
+                else return stack
             }
 
             override fun onContentsChanged(slot: Int) {
@@ -54,59 +58,54 @@ class TileChemicalCombiner : TileBase(), IGuiTile, ITickable, IItemTile,
         }
     }
 
-    fun updateRecipe() {
+    override fun updateRecipe() {
         currentRecipe = CombinerRecipe.matchInputs(this.input)
     }
 
-    override fun update() {
-        if (!getWorld().isRemote) {
-            if (recipeIsLocked) clientRecipeTarget.setStackInSlot(0, (currentRecipe?.output?.copy()) ?: ItemStack.EMPTY)
-            if (!this.paused && canProcess()) process() else progressTicks = 0
-            this.markDirtyGUIEvery(5)
-        }
-    }
-
-    fun process() {
-        this.energyStorage.extractEnergy(ConfigHandler.COMBINER.energyPerTick, false)
-
-        if (progressTicks < ConfigHandler.COMBINER.processingTicks) progressTicks++
-        else {
-            progressTicks = 0
-            currentRecipe?.let { output.setOrIncrement(0, it.output.copy()) }
-            currentRecipe?.inputs?.forEachIndexed { index, stack ->
-                if (!stack.isEmpty) {
-                    (input.decrementSlot(index, stack.count))
-                }
-                if (input.getStackInSlot(index).item == ModItems.slotFiller) {
-                    input.decrementSlot(index, 1)
-                }
+    override fun onProcessComplete() {
+        currentRecipe?.let { output.setOrIncrement(0, it.output.copy()) }
+        currentRecipe?.inputs?.forEachIndexed { index, stack ->
+            if (!stack.isEmpty) {
+                (input.decrementSlot(index, stack.count))
+            }
+            if (input.getStackInSlot(index).item == ModItems.slotFiller) {
+                input.decrementSlot(index, 1)
             }
         }
     }
 
-    fun hasCurrentRecipeStage(): Boolean {
-        if(Loader.isModLoaded("gamestages")) {
+    override fun onWorkTick() {
+        this.energyStorage.extractEnergy(energyPerTick, false)
+    }
+
+    override fun onIdleTick() {
+        super.onIdleTick()
+        if (recipeIsLocked) clientRecipeTarget.setStackInSlot(0, (currentRecipe?.output?.copy()) ?: ItemStack.EMPTY)
+    }
+
+    override fun shouldTick(): Boolean {
+        return energyStorage.energyStored >= energyPerTick
+    }
+
+    override fun shouldProcess(): Boolean {
+        return (currentRecipe!!.gamestage == "" || hasCurrentRecipeStage())
+                && (currentRecipe!!.output.count + output[0].count <= currentRecipe!!.output.maxStackSize) //output quantities can stack
+                && (ItemStack.areItemsEqual(output[0], currentRecipe!!.output) || output[0].isEmpty) //output item types can stack
+                && currentRecipe!!.matchesHandlerStacks(this.input)
+                && (!recipeIsLocked || CombinerRecipe.matchInputs(input)?.output?.areItemStacksEqual(currentRecipe!!.output) == true)
+    }
+
+    private fun hasCurrentRecipeStage(): Boolean {
+        if (Loader.isModLoaded("gamestages")) {
             val playerList = FMLCommonHandler.instance().minecraftServerInstance.playerList
             val playerOwner: EntityPlayerMP = playerList.getPlayerByUsername(owner) ?: return false
             return GameStageHelper.hasStage(playerOwner, currentRecipe?.gamestage)
         } else return true
     }
 
-    fun canProcess(): Boolean {
-        return currentRecipe != null
-                && (currentRecipe!!.gamestage == "" || hasCurrentRecipeStage())
-                && energyStorage.energyStored >= ConfigHandler.COMBINER.energyPerTick //has enough energy
-                && (currentRecipe!!.output.count + output[0].count <= currentRecipe!!.output.maxStackSize) //output quantities can stack
-                && (ItemStack.areItemsEqual(output[0], currentRecipe!!.output) || output[0].isEmpty) //output item types can stack
-                && currentRecipe!!.matchesHandlerStacks(this.input)
-                && (!recipeIsLocked || CombinerRecipe.matchInputs(input)?.output?.areItemStacksEqual(currentRecipe!!.output) ?: false)
-    }
-
     override fun readFromNBT(compound: NBTTagCompound) {
         super.readFromNBT(compound)
         this.recipeIsLocked = compound.getBoolean("RecipeIsLocked")
-        this.progressTicks = compound.getInteger("ProgressTicks")
-        this.paused = compound.getBoolean("Paused")
         this.owner = compound.getString("Owner")
 
         if (this.recipeIsLocked) {
@@ -119,15 +118,12 @@ class TileChemicalCombiner : TileBase(), IGuiTile, ITickable, IItemTile,
             this.currentRecipe = CombinerRecipe.matchOutput(recipeTarget)
             clientRecipeTarget.setStackInSlot(0, (currentRecipe?.output?.copy()) ?: ItemStack.EMPTY!!)
         } else {
-            this.updateRecipe()
             clientRecipeTarget.setStackInSlot(0, ItemStack.EMPTY)
         }
     }
 
     override fun writeToNBT(compound: NBTTagCompound): NBTTagCompound {
         compound.setBoolean("RecipeIsLocked", this.recipeIsLocked)
-        compound.setInteger("ProgressTicks", this.progressTicks)
-        compound.setBoolean("Paused", this.paused)
         compound.setString("Owner", this.owner)
         if (this.recipeIsLocked && this.currentRecipe != null) {
             val recipeInputs = NBTTagList()

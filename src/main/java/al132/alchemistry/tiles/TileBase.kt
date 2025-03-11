@@ -14,7 +14,7 @@ abstract class TileBase : ALTile() {
         return oldState.block != newState.block;
     }
 
-    fun markDirtyGUI(){
+    fun markDirtyGUI() {
         markDirty()
         world?.let {
             val state = world.getBlockState(getPos())
@@ -22,7 +22,7 @@ abstract class TileBase : ALTile() {
         }
     }
 
-    fun markDirtyGUIEvery(ticks : Int){
+    fun markDirtyGUIEvery(ticks: Int) {
         this.dirtyTicks++
         if (this.dirtyTicks >= ticks) {
             this.markDirtyGUI()

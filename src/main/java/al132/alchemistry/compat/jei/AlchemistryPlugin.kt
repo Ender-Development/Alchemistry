@@ -2,7 +2,6 @@ package al132.alchemistry.compat.jei
 
 import al132.alchemistry.Reference
 import al132.alchemistry.blocks.ModBlocks
-import al132.alchemistry.chemistry.ElementRegistry
 import al132.alchemistry.client.*
 import al132.alchemistry.compat.jei.AlchemistryRecipeUID.ATOMIZER
 import al132.alchemistry.compat.jei.AlchemistryRecipeUID.COMBINER
@@ -10,6 +9,7 @@ import al132.alchemistry.compat.jei.AlchemistryRecipeUID.DISSOLVER
 import al132.alchemistry.compat.jei.AlchemistryRecipeUID.ELECTROLYZER
 import al132.alchemistry.compat.jei.AlchemistryRecipeUID.EVAPORATOR
 import al132.alchemistry.compat.jei.AlchemistryRecipeUID.FISSION
+import al132.alchemistry.compat.jei.AlchemistryRecipeUID.FUSION
 import al132.alchemistry.compat.jei.AlchemistryRecipeUID.LIQUIFIER
 import al132.alchemistry.compat.jei.atomizer.AtomizerRecipeCategory
 import al132.alchemistry.compat.jei.atomizer.AtomizerRecipeWrapper
@@ -24,22 +24,16 @@ import al132.alchemistry.compat.jei.evaporator.EvaporatorRecipeCategory
 import al132.alchemistry.compat.jei.evaporator.EvaporatorRecipeWrapper
 import al132.alchemistry.compat.jei.fission.FissionRecipeCategory
 import al132.alchemistry.compat.jei.fission.FissionRecipeWrapper
+import al132.alchemistry.compat.jei.fusion.FusionRecipeCategory
+import al132.alchemistry.compat.jei.fusion.FusionRecipeWrapper
 import al132.alchemistry.compat.jei.liquifier.LiquifierRecipeCategory
 import al132.alchemistry.compat.jei.liquifier.LiquifierRecipeWrapper
-import al132.alchemistry.items.ModItems
 import al132.alchemistry.recipes.*
-import al132.alchemistry.recipes.register.AtomizerRegister
-import al132.alchemistry.recipes.register.CombinerRegister
-import al132.alchemistry.recipes.register.DissolverRegister
-import al132.alchemistry.recipes.register.ElectrolyzerRegister
-import al132.alchemistry.recipes.register.EvaporatorRegister
-import al132.alchemistry.recipes.register.FissionRegister
-import al132.alchemistry.recipes.register.LiquifierRegister
+import al132.alchemistry.recipes.register.*
 import al132.alib.utils.extensions.toStack
 import al132.alib.utils.extensions.translate
 import mezz.jei.api.*
 import mezz.jei.api.gui.IDrawable
-import mezz.jei.api.ingredients.VanillaTypes
 import mezz.jei.api.recipe.IRecipeCategory
 import mezz.jei.api.recipe.IRecipeCategoryRegistration
 import mezz.jei.api.recipe.IRecipeWrapper
@@ -67,7 +61,8 @@ class AlchemistryPlugin : IModPlugin {
                 EvaporatorRecipeCategory(guiHelper),
                 AtomizerRecipeCategory(guiHelper),
                 LiquifierRecipeCategory(guiHelper),
-                FissionRecipeCategory(guiHelper)
+                FissionRecipeCategory(guiHelper),
+                FusionRecipeCategory(guiHelper)
             )
         }
     }
@@ -96,6 +91,9 @@ class AlchemistryPlugin : IModPlugin {
         registry.handleRecipes(FissionRecipe::class.java,
                 { recipe -> FissionRecipeWrapper(recipe) },
                 FISSION)
+        registry.handleRecipes(FusionRecipe::class.java,
+                { recipe -> FusionRecipeWrapper(recipe) },
+                FUSION)
 
         registry.addRecipes(DissolverRegister.INSTANCE.recipes.map { DissolverRecipeWrapper(it) }, DISSOLVER)
         registry.addRecipes(CombinerRegister.INSTANCE.recipes.map { CombinerRecipeWrapper(it) }, COMBINER)
@@ -104,6 +102,7 @@ class AlchemistryPlugin : IModPlugin {
         registry.addRecipes(AtomizerRegister.INSTANCE.recipes.map { AtomizerRecipeWrapper(it) }, ATOMIZER)
         registry.addRecipes(LiquifierRegister.INSTANCE.recipes.map { LiquifierRecipeWrapper(it) }, LIQUIFIER)
         registry.addRecipes(FissionRegister.INSTANCE.recipes.map { FissionRecipeWrapper(it) }, FISSION)
+        registry.addRecipes(FusionRegister.INSTANCE.recipes.map { FusionRecipeWrapper(it) }, FUSION)
 
         registry.addRecipeClickArea(GuiChemicalDissolver::class.java, 63, 86, 32, 44, DISSOLVER)
         registry.addRecipeClickArea(GuiChemicalCombiner::class.java, 102, 90, 27, 36, COMBINER)
@@ -112,6 +111,7 @@ class AlchemistryPlugin : IModPlugin {
         registry.addRecipeClickArea(GuiAtomizer::class.java, 70, 118, 36, 16, ATOMIZER)
         registry.addRecipeClickArea(GuiLiquifier::class.java, 70, 118, 36, 16, LIQUIFIER)
         registry.addRecipeClickArea(GuiFissionController::class.java, 70, 75, 36, 16, FISSION)
+        registry.addRecipeClickArea(GuiFusionController::class.java, 88, 75, 36, 16, FUSION)
 
         registry.addRecipeCatalyst(ModBlocks.chemical_dissolver.toStack(), DISSOLVER)
         registry.addRecipeCatalyst(ModBlocks.chemical_combiner.toStack(), COMBINER)
@@ -120,6 +120,7 @@ class AlchemistryPlugin : IModPlugin {
         registry.addRecipeCatalyst(ModBlocks.atomizer.toStack(), ATOMIZER)
         registry.addRecipeCatalyst(ModBlocks.liquifier.toStack(), LIQUIFIER)
         registry.addRecipeCatalyst(ModBlocks.fissionController.toStack(), FISSION)
+        registry.addRecipeCatalyst(ModBlocks.fusionController.toStack(), FUSION)
 
         val transferRegistry: IRecipeTransferRegistry = registry.recipeTransferRegistry
         transferRegistry.addRecipeTransferHandler(CombinerTransferHandler(), COMBINER)
@@ -127,10 +128,7 @@ class AlchemistryPlugin : IModPlugin {
         transferRegistry.addRecipeTransferHandler(ContainerLiquifier::class.java, LIQUIFIER, 0, 1, 1, 36)
         transferRegistry.addRecipeTransferHandler(ContainerElectrolyzer::class.java, ELECTROLYZER, 0, 1, 1, 36)
         transferRegistry.addRecipeTransferHandler(ContainerFissionController::class.java, FISSION, 0, 1, 3, 36)
-
-        for (i in ElementRegistry.keys()) {
-           registry.addIngredientInfo(ModItems.elements.toStack(meta = i), VanillaTypes.ITEM, "jei.elements.description")
-        }
+        transferRegistry.addRecipeTransferHandler(ContainerFusionController::class.java, FUSION, 0, 1, 3, 36)
     }
 }
 
@@ -142,7 +140,7 @@ object AlchemistryRecipeUID {
     val ATOMIZER = Reference.MODID + ".atomizer"
     val LIQUIFIER = Reference.MODID + ".liquifier"
     val FISSION = Reference.MODID + ".fission"
-
+    val FUSION = Reference.MODID + ".fusion"
 }
 
 abstract class AlchemistryRecipeWrapper<out R>(val recipe: R) : IRecipeWrapper

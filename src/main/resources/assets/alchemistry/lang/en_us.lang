@@ -333,6 +333,7 @@ jei.evaporator.name=Evaporator
 jei.atomizer.name=Atomizer
 jei.liquifier.name=Liqufier
 jei.fission_controller.name=Fission Multiblock
+jei.fusion_controller.name=Fusion Multiblock
 
 itemGroup.alchemistry=Alchemistry - Redox
 

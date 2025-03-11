@@ -28,7 +28,7 @@ import net.minecraftforge.event.RegistryEvent
 class ElectrolyzerBlock(name: String,
                         tileClass: Class<out TileEntity>,
                         guiID: Int)
-    : BaseTileBlock(name, tileClass, guiID) {
+    : BaseMachineBlock(name, tileClass, guiID) {
 
     val boundingBox = AxisAlignedBB(0.0, 0.0, 0.0, 1.0, 0.75, 1.0)
 

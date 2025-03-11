@@ -23,7 +23,7 @@ import net.minecraftforge.fml.client.registry.ClientRegistry
 class EvaporatorBlock(name: String,
                       tileClass: Class<out TileEntity>,
                       guiID: Int)
-    : BaseTileBlock(name, tileClass, guiID) {
+    : BaseMachineBlock(name, tileClass, guiID) {
 
     val boundingBox = AxisAlignedBB(0.0625, 0.0625, 0.0625, 0.9375, 0.75, 0.9375)
     val boundingBox2 = AxisAlignedBB(0.25, 0.0, 0.25, 0.75, 0.0625, 0.75)

@@ -17,7 +17,7 @@ import net.minecraftforge.event.RegistryEvent
 class ChemicalDissolverBlock(name: String,
                             tileClass: Class<out TileEntity>,
                             guiID: Int)
-    : BaseTileBlock(name, tileClass, guiID) {
+    : BaseMachineBlock(name, tileClass, guiID) {
 
     override fun registerItemBlock(event: RegistryEvent.Register<Item>){
         event.registry.register(TooltipItemBlock(this,

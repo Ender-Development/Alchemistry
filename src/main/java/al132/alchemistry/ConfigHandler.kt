@@ -57,7 +57,7 @@ object ConfigHandler {
         @Config.RequiresMcRestart
         @Config.Name("Processing Ticks")
         @Config.Comment("Max energy capacity of the Fission Multiblock")
-        @Config.RangeInt(min = 1, max = Integer.MAX_VALUE)
+        @Config.RangeInt(min = 0, max = Integer.MAX_VALUE)
         var processingTicks = 40
 
         @JvmField
@@ -102,7 +102,7 @@ object ConfigHandler {
         @Config.RequiresMcRestart
         @Config.Name("Processing Ticks")
         @Config.Comment("Max energy capacity of the Fusion Multiblock")
-        @Config.RangeInt(min = 1, max = Integer.MAX_VALUE)
+        @Config.RangeInt(min = 0, max = Integer.MAX_VALUE)
         var processingTicks = 40
 
         @JvmField
@@ -147,7 +147,7 @@ object ConfigHandler {
         @Config.RequiresMcRestart
         @Config.Name("Processing Ticks")
         @Config.Comment("Number of ticks per operation for the Combiner")
-        @Config.RangeInt(min = 1, max = Integer.MAX_VALUE)
+        @Config.RangeInt(min = 0, max = Integer.MAX_VALUE)
         var processingTicks = 5
     }
 
@@ -170,6 +170,13 @@ object ConfigHandler {
         @Config.Comment("Energy consumption rate per tick for the Dissolver")
         @Config.RangeInt(min = 0, max = Integer.MAX_VALUE)
         var energyPerTick = 100
+
+        @JvmField
+        @Config.RequiresMcRestart
+        @Config.Name("Processing Ticks")
+        @Config.Comment("Number of ticks per operation for the Combiner")
+        @Config.RangeInt(min = 0, max = Integer.MAX_VALUE)
+        var processingTicks = 0
 
         @JvmField
         @Config.RequiresMcRestart
@@ -203,7 +210,7 @@ object ConfigHandler {
         @Config.RequiresMcRestart
         @Config.Name("Processing Ticks")
         @Config.Comment("Number of ticks per Electrolyzer operation")
-        @Config.RangeInt(min = 1, max = Integer.MAX_VALUE)
+        @Config.RangeInt(min = 0, max = Integer.MAX_VALUE)
         var processingTicks = 10
     }
 
@@ -217,7 +224,7 @@ object ConfigHandler {
         @Config.RequiresMcRestart
         @Config.Name("Processing Ticks")
         @Config.Comment("The best possible processing time for the Evaporator. In practice it will be increased by biome, time of day, etc")
-        @Config.RangeInt(min = 1, max = Integer.MAX_VALUE)
+        @Config.RangeInt(min = 0, max = Integer.MAX_VALUE)
         var processingTicks = 160
     }
 
@@ -245,7 +252,7 @@ object ConfigHandler {
         @Config.RequiresMcRestart
         @Config.Name("Processing Ticks")
         @Config.Comment("Number of ticks per Atomizer operation")
-        @Config.RangeInt(min = 1, max = Integer.MAX_VALUE)
+        @Config.RangeInt(min = 0, max = Integer.MAX_VALUE)
         var processingTicks = 100
     }
 
@@ -273,7 +280,7 @@ object ConfigHandler {
         @Config.RequiresMcRestart
         @Config.Name("Processing Ticks")
         @Config.Comment("Number of ticks per Liquifier operation")
-        @Config.RangeInt(min = 1, max = Integer.MAX_VALUE)
+        @Config.RangeInt(min = 0, max = Integer.MAX_VALUE)
         var processingTicks = 100
     }
 

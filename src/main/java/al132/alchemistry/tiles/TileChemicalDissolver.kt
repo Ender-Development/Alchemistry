@@ -2,6 +2,7 @@ package al132.alchemistry.tiles
 
 import al132.alchemistry.ConfigHandler
 import al132.alchemistry.recipes.DissolverRecipe
+import al132.alchemistry.recipes.register.DissolverRegister
 import al132.alib.tiles.*
 import al132.alib.utils.Utils.canStacksMerge
 import al132.alib.utils.extensions.get
@@ -15,62 +16,43 @@ import java.util.*
 /**
  * Created by al132 on 1/16/2017.
  */
-class TileChemicalDissolver : TileBase(), IGuiTile, ITickable, IItemTile,
+class TileChemicalDissolver : AbstractMachine<DissolverRecipe>(DissolverRegister.INSTANCE),
         IEnergyTile by EnergyTileImpl(capacity = ConfigHandler.DISSOLVER.energyCapacity) {
 
     private var outputSuccessful = true
-    var outputThisTick: ItemStack = ItemStack.EMPTY
-    var currentRecipe: DissolverRecipe? = null
     private var outputBuffer: MutableList<ItemStack> = ArrayList()
+    private var outputThisTick: ItemStack = ItemStack.EMPTY
+
+    override val energyPerTick: Int
+        get() = ConfigHandler.DISSOLVER.energyPerTick
+
+    override val recipeTime: Int
+        get() = ConfigHandler.DISSOLVER.processingTicks
 
     init {
         this.initInventoryCapability(1, 12)
     }
 
     override fun initInventoryInputCapability() {
-
         input = object : ALTileStackHandler(inputSlots, this) {
             override fun insertItem(slot: Int, stack: ItemStack, simulate: Boolean): ItemStack {
                 return if(!this.getStackInSlot(slot).isEmpty) super.insertItem(slot, stack, simulate)
                 else if (DissolverRecipe.match(stack, false) != null) super.insertItem(slot, stack, simulate)
                 else stack
             }
-
-            override fun onContentsChanged(slot: Int) {
-                updateRecipe()
-            }
         }
     }
 
-    fun updateRecipe(){
+    override fun updateRecipe(){
         this.currentRecipe = DissolverRecipe.match(input[0], true)
-
     }
 
-    override fun update() {
-        if (!getWorld().isRemote) {
-            if (!input[0].isEmpty || outputBuffer.isNotEmpty()) {
-                //updateRecipe()
-                if (canProcess()) process()
-            }
-            this.markDirtyGUIEvery(5)
-        }
-    }
-
-    fun canProcess(): Boolean {
-        return energyStorage.energyStored >= ConfigHandler.DISSOLVER.energyPerTick
-                && (currentRecipe != null || !outputBuffer.isEmpty())
-    }
-
-
-    //tries to output a stack with getCount of one from the current recipe output buffer each tick
-    fun process() {
+    override fun onProcessComplete() {
         //if no output buffer, set the buffer to recipe outputs
         if (outputBuffer.isEmpty()) {
             outputBuffer = currentRecipe!!.outputs.calculateOutput().toMutableList()
             input.decrementSlot(0, currentRecipe!!.inputs[0].count)
         }
-
         //If output didn't happen or didn't fail last tick, queue up next output single stack
         if (outputSuccessful) {
             if (outputBuffer.isNotEmpty()) outputThisTick = outputBuffer[0].splitStack(ConfigHandler.DISSOLVER.speed)
@@ -79,7 +61,6 @@ class TileChemicalDissolver : TileBase(), IGuiTile, ITickable, IItemTile,
             if (outputBuffer.isNotEmpty() && outputBuffer[0].isEmpty) outputBuffer.removeAt(0)
             outputSuccessful = false
         }
-
         //Try to stack output with existing stacks in output, if possible
         for (i in 0 until output.slots) {
             if (canStacksMerge(outputThisTick, output[i], stacksCanbeEmpty = false)) {
@@ -98,12 +79,23 @@ class TileChemicalDissolver : TileBase(), IGuiTile, ITickable, IItemTile,
                 }
             }
         }
-
-        //consume energy and single stack if successful, won't be designated as such until there's a "hit" above
+        //consume single stack if successful, won't be designated as such until there's a "hit" above
         if (outputSuccessful) {
-            this.energyStorage.extractEnergy(ConfigHandler.DISSOLVER.energyPerTick, false)
             outputThisTick = ItemStack.EMPTY
         }
+    }
+
+    override fun onWorkTick() {
+        this.energyStorage.extractEnergy(energyPerTick, false)
+    }
+
+    override fun shouldTick(): Boolean {
+        return !input[0].isEmpty || outputBuffer.isNotEmpty()
+    }
+
+    override fun shouldProcess(): Boolean {
+        return energyStorage.energyStored >= energyPerTick
+                && (currentRecipe != null || !outputBuffer.isEmpty())
     }
 
     override fun readFromNBT(compound: NBTTagCompound) {
@@ -114,7 +106,6 @@ class TileChemicalDissolver : TileBase(), IGuiTile, ITickable, IItemTile,
         for (i in 0 until outputBufferList.tagCount()) {
             outputBuffer.add(ItemStack(outputBufferList.getCompoundTagAt(i)))
         }
-        updateRecipe()
     }
 
     override fun writeToNBT(compound: NBTTagCompound): NBTTagCompound {

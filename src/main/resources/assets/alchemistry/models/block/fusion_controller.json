@@ -3,11 +3,11 @@
   "render_type": "minecraft:solid",
   "textures": {
     "particle": "alchemistry:blocks/fusion_controller_hside",
-    "down": "alchemistry:blocks/fusion_controller_vside",
+    "down": "alchemistry:blocks/fusion_casing",
     "east": "alchemistry:blocks/fusion_controller_hside",
     "north": "#front",
     "south": "alchemistry:blocks/fusion_controller_back",
-    "up": "alchemistry:blocks/fusion_controller_vside",
+    "up": "alchemistry:blocks/fusion_casing",
     "west": "alchemistry:blocks/fusion_controller_hside"
   }
 }

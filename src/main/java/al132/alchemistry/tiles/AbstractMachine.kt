@@ -1,14 +1,16 @@
 package al132.alchemistry.tiles
 
+import al132.alchemistry.recipes.IRecipe
 import al132.alib.tiles.IGuiTile
 import al132.alib.tiles.IItemTile
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.util.ITickable
 
-abstract class AbstractMachine : TileBase(), ITickable, IGuiTile, IItemTile {
+abstract class AbstractMachine<T: IRecipe> : TileBase(), ITickable, IGuiTile, IItemTile {
     abstract var recipeTime: Int
     var progressTicks: Int = 0
     var isPaused: Boolean = false
+    var currentRecipe: T? = null
 
     /*
     * Update the stored recipe variable

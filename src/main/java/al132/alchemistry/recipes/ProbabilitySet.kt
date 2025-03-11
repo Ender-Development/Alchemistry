@@ -50,7 +50,7 @@ data class ProbabilitySet(private var _set: List<ProbabilityGroup>? = ArrayList(
                         component.output.filterNot { it.isEmpty }.forEach { x ->
                             val stack: ItemStack = x.copy()
                             val index = temp.indexOfFirst { stack.areStacksEqualIgnoreQuantity(it) }
-                            if (index != -1) temp[index].grow(stack.count)//stack.count)
+                            if (index != -1) temp[index].grow(stack.count)
                             else temp.add(stack)
                         }
                         break

@@ -52,12 +52,12 @@ class XMLRecipeParser {
                 val element = nodes.item(index) as Element
                 val recipeType = element.getAttribute("type").lowercase(Locale.getDefault())
                 when (recipeType) {
-                    "dissolver"    -> parseDissolverRecipe(element)
-                    "combiner"     -> parseCombinerRecipe(element)
-                    "evaporator"   -> parseEvaporatorRecipe(element)
+                    "dissolver" -> parseDissolverRecipe(element)
+                    "combiner" -> parseCombinerRecipe(element)
+                    "evaporator" -> parseEvaporatorRecipe(element)
                     "electrolyzer" -> parseElectrolyzerRecipe(element)
-                    "atomizer"     -> parseAtomizerRecipe(element)
-                    "liquifier"    -> parseLiquifierRecipe(element)
+                    "atomizer" -> parseAtomizerRecipe(element)
+                    "liquifier" -> parseLiquifierRecipe(element)
                 }
             }
         } catch (e: org.xml.sax.SAXParseException) {
@@ -65,13 +65,12 @@ class XMLRecipeParser {
         }
     }
 
-
     fun parseElectrolyzerRecipe(element: Element) {
         val inputFluid: Fluid? = FluidRegistry.getFluid(element.getFirst("input")?.textContent ?: "")
         val inputQuantity: Int = element.getFirst("input")?.getAttribute("quantity")?.toIntOrNull() ?: 100
         val actionType: String? = element.getAttribute("action")
         val electrolyteConsumptionChance = element.getFirst("electrolyte")?.getAttribute("probability")?.toIntOrNull()
-                ?: 50
+            ?: 50
         val electrolytesXML = element.getFirst("electrolyte")
         val electrolyteString = electrolytesXML?.textContent ?: ""
         val electrolyteStack = electrolytesXML.tagToStack()
@@ -80,46 +79,54 @@ class XMLRecipeParser {
             val outputs: ArrayList<ItemStack> = arrayListOf()
             val outputXMLElement = element.getFirst("output")
             (0 until 2).forEach { index ->
-                val outputQuantity: Int = outputXMLElement?.getNth("item", index)?.getAttribute("quantity")?.toIntOrNull()
+                val outputQuantity: Int =
+                    outputXMLElement?.getNth("item", index)?.getAttribute("quantity")?.toIntOrNull()
                         ?: 1
                 val tempStack = (outputXMLElement?.getNth("item", index)?.textContent
-                        ?: "").toStack(quantity = outputQuantity)
+                    ?: "").toStack(quantity = outputQuantity)
                 if (!tempStack.isEmpty) outputs.add(tempStack)
             }
             if (inputFluid != null && outputs.count() > 0) {
                 if (OreDictionary.doesOreNameExist(electrolyteString)) {
-                    ModRecipes.electrolyzerRecipes.add(ElectrolyzerRecipe(
+                    ModRecipes.electrolyzerRecipes.add(
+                        ElectrolyzerRecipe(
                             input = FluidStack(inputFluid, inputQuantity),
-                            _electrolyte = Ingredient.fromStacks(*OreDictionary.getOres(electrolyteString).toTypedArray()),
+                            _electrolyte = Ingredient.fromStacks(
+                                *OreDictionary.getOres(electrolyteString).toTypedArray()
+                            ),
                             electrolyteConsumptionChance = electrolyteConsumptionChance,
                             outputOne = outputs[0],
-                            outputTwo = outputs[1]))
+                            outputTwo = outputs[1]
+                        )
+                    )
                     Alchemistry.logger.info("Added Electrolyzer recipe for [${inputFluid.name},$inputQuantity,$electrolyteString]")
 
                 } else if (!electrolyteStack.isEmpty) {
-                    ModRecipes.electrolyzerRecipes.add(ElectrolyzerRecipe(
+                    ModRecipes.electrolyzerRecipes.add(
+                        ElectrolyzerRecipe(
                             input = inputFluid.toStack(inputQuantity),
                             _electrolyte = Ingredient.fromStacks(electrolyteStack),
                             electrolyteConsumptionChance = electrolyteConsumptionChance,
                             outputOne = outputs[0],
-                            outputTwo = outputs[1]))
+                            outputTwo = outputs[1]
+                        )
+                    )
                     Alchemistry.logger.info("Added Electrolyzer recipe for [${inputFluid.name},$inputQuantity,$electrolyteStack]")
                 }
             }
         } else if (actionType == "remove") {
             ModRecipes.electrolyzerRecipes
-                    .filter {
-                        it.input.fluid == inputFluid
-                                && it.input.amount == inputQuantity
-                                && (it.matchesElectrolyte(electrolyteStack))
-                    }
-                    .forEach {
-                        ModRecipes.electrolyzerRecipes.remove(it)
-                        Alchemistry.logger.info("Removed Electrolyzer recipe: $it")
-                    }
+                .filter {
+                    it.input.fluid == inputFluid
+                            && it.input.amount == inputQuantity
+                            && (it.matchesElectrolyte(electrolyteStack))
+                }
+                .forEach {
+                    ModRecipes.electrolyzerRecipes.remove(it)
+                    Alchemistry.logger.info("Removed Electrolyzer recipe: $it")
+                }
         }
     }
-
 
     fun parseCombinerRecipe(element: Element) {
         val actionType: String? = element.getAttribute("action")
@@ -159,7 +166,6 @@ class XMLRecipeParser {
         }
     }
 
-
     fun parseEvaporatorRecipe(element: Element) {
         val inputFluid: Fluid? = FluidRegistry.getFluid(element.getFirst("input")?.textContent ?: "")
         val actionType: String? = element.getAttribute("action")
@@ -169,17 +175,23 @@ class XMLRecipeParser {
             val outputStack = element.getFirst("output").tagToStack()
 
             if (inputFluid != null && !outputStack.isEmpty) {
-                ModRecipes.evaporatorRecipes.add(EvaporatorRecipe(fluid = inputFluid, fluidQuantity = inputQuantity, output = outputStack))
+                ModRecipes.evaporatorRecipes.add(
+                    EvaporatorRecipe(
+                        fluid = inputFluid,
+                        fluidQuantity = inputQuantity,
+                        output = outputStack
+                    )
+                )
                 Alchemistry.logger.info("Added Evaporator recipe for [${inputFluid.name},$inputQuantity]")
 
             }
         } else if (actionType == "remove") {
             ModRecipes.evaporatorRecipes
-                    .filter { it.input.fluid == inputFluid }
-                    .forEach {
-                        ModRecipes.evaporatorRecipes.remove(it)
-                        Alchemistry.logger.info("Removed Evaporator recipe: $it")
-                    }
+                .filter { it.input.fluid == inputFluid }
+                .forEach {
+                    ModRecipes.evaporatorRecipes.remove(it)
+                    Alchemistry.logger.info("Removed Evaporator recipe: $it")
+                }
         }
     }
 
@@ -204,50 +216,59 @@ class XMLRecipeParser {
                 val itemStacks: ArrayList<ItemStack> = arrayListOf()
 
                 (0 until (xmlItems?.length ?: 0))
-                        .forEach { itemIndex -> itemStacks.add(xmlItems?.getNth(itemIndex).tagToStack()) }
+                    .forEach { itemIndex -> itemStacks.add(xmlItems?.getNth(itemIndex).tagToStack()) }
 
                 groupsList.add(ProbabilityGroup(_output = itemStacks, probability = probability))
             }
 
-            val outputSet = ProbabilitySet(_set = groupsList, relativeProbability = outputType != "absolute", rolls = outputRolls)
+            val outputSet =
+                ProbabilitySet(_set = groupsList, relativeProbability = outputType != "absolute", rolls = outputRolls)
             if (inputStack.isEmpty) {
                 if (OreDictionary.doesOreNameExist(inputStr)) {
-                    ModRecipes.dissolverRecipes.add(DissolverRecipe(input = inputStr.toOre(), _outputs = outputSet))
+                    ModRecipes.dissolverRecipes.add(
+                        DissolverRecipe(
+                            input = inputStr.toOre(),
+                            internalOutputs = outputSet
+                        )
+                    )
                     Alchemistry.logger.info("Added Chemical Dissolver recipe for $inputStr")
 
                 } else {
                     Alchemistry.logger.info("Failed to add Chemical Dissolver recipe for $inputStr")
                 }
             } else {
-                ModRecipes.dissolverRecipes.add(DissolverRecipe(input = inputStack.toIngredient(), _outputs = outputSet))
+                ModRecipes.dissolverRecipes.add(
+                    DissolverRecipe(
+                        input = inputStack.toIngredient(),
+                        internalOutputs = outputSet
+                    )
+                )
                 Alchemistry.logger.info("Added Chemical Dissolver recipe for $inputStack")
             }
         } else if (actionType == "remove") {
             if (!inputStack.isEmpty) {
                 ModRecipes.dissolverRecipes
-                        .filter { it.inputs.count() == 1 && it.inputs[0].areItemStacksEqual(inputStack) }
-                        .forEach {
-                            ModRecipes.dissolverRecipes.remove(it)
-                            Alchemistry.logger.info("Removed Chemical Dissolver recipe: $it")
+                    .filter { it.inputs.count() == 1 && it.inputs[0].areItemStacksEqual(inputStack) }
+                    .forEach {
+                        ModRecipes.dissolverRecipes.remove(it)
+                        Alchemistry.logger.info("Removed Chemical Dissolver recipe: $it")
 
-                        }
+                    }
             } else {
                 if (OreDictionary.doesOreNameExist(inputStr)) {
                     ModRecipes.dissolverRecipes
-                            //TODO does this work properly?
-                            .filter {
-                                it.input?.matchingStacks?.contentEquals(OreDictionary.getOres(inputStr).toArray())
-                                        ?: false
-                            }
-                            .forEach {
-                                ModRecipes.dissolverRecipes.remove(it)
-                                Alchemistry.logger.info("Removed Chemical Dissolver recipe: $it")
-                            }
+                        //TODO does this work properly?
+                        .filter {
+                            it.input?.matchingStacks?.contentEquals(OreDictionary.getOres(inputStr).toArray()) == true
+                        }
+                        .forEach {
+                            ModRecipes.dissolverRecipes.remove(it)
+                            Alchemistry.logger.info("Removed Chemical Dissolver recipe: $it")
+                        }
                 }
             }
         }
     }
-
 
     fun parseAtomizerRecipe(element: Element) {
         val inputFluid: Fluid? = FluidRegistry.getFluid(element.getFirst("input")?.textContent ?: "")
@@ -258,16 +279,22 @@ class XMLRecipeParser {
             val outputStack: ItemStack = element.getFirst("output").tagToStack()
 
             if (inputFluid != null && !outputStack.isEmpty) {
-                ModRecipes.atomizerRecipes.add(AtomizerRecipe(fluid = inputFluid, fluidQuantity = inputQuantity, output = outputStack))
+                ModRecipes.atomizerRecipes.add(
+                    AtomizerRecipe(
+                        fluid = inputFluid,
+                        fluidQuantity = inputQuantity,
+                        output = outputStack
+                    )
+                )
                 Alchemistry.logger.info("Added Atomizer recipe for [${inputFluid.name},$inputQuantity]")
             }
         } else if (actionType == "remove") {
             ModRecipes.atomizerRecipes
-                    .filter { it.input.fluid == inputFluid }
-                    .forEach {
-                        ModRecipes.atomizerRecipes.remove(it)
-                        Alchemistry.logger.info("Removed Atomizer recipe: $it")
-                    }
+                .filter { it.input.fluid == inputFluid }
+                .forEach {
+                    ModRecipes.atomizerRecipes.remove(it)
+                    Alchemistry.logger.info("Removed Atomizer recipe: $it")
+                }
         }
     }
 
@@ -281,19 +308,24 @@ class XMLRecipeParser {
             val outputFluid: Fluid? = FluidRegistry.getFluid(element.getFirst("output")?.textContent ?: "")
             val outputQuantity: Int = element.getFirst("output")?.getAttribute("quantity")?.toIntOrNull() ?: 100
             if (outputFluid != null && !inputStack.isEmpty) {
-                ModRecipes.liquifierRecipes.add(LiquifierRecipe(input = inputStack, output = FluidStack(outputFluid, outputQuantity)))
+                ModRecipes.liquifierRecipes.add(
+                    LiquifierRecipe(
+                        input = inputStack,
+                        output = FluidStack(outputFluid, outputQuantity)
+                    )
+                )
             } else {
                 Alchemistry.logger.info("Failed to add Liquifier recipe for: $inputString")
             }
         } else if (actionType == "remove") {
             ModRecipes.liquifierRecipes
-                    .filter {
-                        it.input.areItemsEqual(inputStack)
-                    }
-                    .forEach {
-                        ModRecipes.liquifierRecipes.remove(it)
-                        Alchemistry.logger.info("Removed Liquifier recipe: $it")
-                    }
+                .filter {
+                    it.input.areItemsEqual(inputStack)
+                }
+                .forEach {
+                    ModRecipes.liquifierRecipes.remove(it)
+                    Alchemistry.logger.info("Removed Liquifier recipe: $it")
+                }
         }
     }
 }

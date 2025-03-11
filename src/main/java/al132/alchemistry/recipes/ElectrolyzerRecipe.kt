@@ -9,17 +9,17 @@ import java.util.*
 /**
  * Created by al132 on 1/20/2017.
  */
-data class ElectrolyzerRecipe(val input: FluidStack,
-                              private val _electrolyte: Ingredient,
-                              val electrolyteConsumptionChance: Int,
-                              private val outputOne: ItemStack,
-                              private val outputTwo: ItemStack,
-                              private val outputThree: ItemStack = ItemStack.EMPTY,
-                              val output3Probability: Int = 50,
-                              private val outputFour: ItemStack = ItemStack.EMPTY,
-                              val output4Probability: Int = 50) {
-
-
+data class ElectrolyzerRecipe(
+    val input: FluidStack,
+    private val _electrolyte: Ingredient,
+    val electrolyteConsumptionChance: Int,
+    private val outputOne: ItemStack,
+    private val outputTwo: ItemStack,
+    private val outputThree: ItemStack = ItemStack.EMPTY,
+    val output3Probability: Int = 50,
+    private val outputFour: ItemStack = ItemStack.EMPTY,
+    val output4Probability: Int = 50
+) : IRecipe {
     val electrolytes: List<ItemStack>
         get() = _electrolyte.matchingStacks.toList()
 
@@ -37,5 +37,6 @@ data class ElectrolyzerRecipe(val input: FluidStack,
         return ItemStack.EMPTY
     }
 
-    fun matchesElectrolyte(target: ItemStack): Boolean = this._electrolyte.matchingStacks.any { it.areItemStacksEqual(target) }
+    fun matchesElectrolyte(target: ItemStack): Boolean =
+        this._electrolyte.matchingStacks.any { it.areItemStacksEqual(target) }
 }

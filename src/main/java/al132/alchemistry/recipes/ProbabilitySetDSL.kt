@@ -12,20 +12,24 @@ inline fun dissolverRecipe(init: DissolverRecipe.() -> Unit): DissolverRecipe {
     return recipe
 }
 
+class ProbabilitySetDSL(
+    var components: ArrayList<ProbabilityGroup> = ArrayList(),
+    var rolls: Int = 1,
+    var relativeProbability: Boolean = true
+) {
 
-class ProbabilitySetDSL(var components: ArrayList<ProbabilityGroup> = ArrayList(),
-                        var rolls: Int = 1,
-                        var relativeProbability: Boolean = true) {
-
-    inline fun addGroup(crossinline init: ProbabilityGroupDSL.() -> Unit) = components.add(ProbabilityGroupDSL().apply { init() }.build())
+    inline fun addGroup(crossinline init: ProbabilityGroupDSL.() -> Unit) =
+        components.add(ProbabilityGroupDSL().apply { init() }.build())
 
     inline fun addStack(init: ProbabilitySetDSL.() -> ItemStack) = components.add(ProbabilityGroup(listOf(init())))
 
     fun build() = ProbabilitySet(this.components, this.relativeProbability, this.rolls)
 }
 
-class ProbabilityGroupDSL(var stacks: ArrayList<ItemStack> = ArrayList<ItemStack>(),
-                          var probability: Double = 1.0) {
+class ProbabilityGroupDSL(
+    var stacks: ArrayList<ItemStack> = ArrayList<ItemStack>(),
+    var probability: Double = 1.0
+) {
 
     inline fun addStack(init: ProbabilityGroupDSL.() -> ItemStack) = stacks.add(init())
 

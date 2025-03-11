@@ -37,12 +37,11 @@ class TileEvaporator : AbstractMachine<EvaporatorRecipe>(EvaporatorRegister.INST
 
         inputTank = object : FluidTank(Fluid.BUCKET_VOLUME * 10) {
             override fun canFillFluidType(fluid: FluidStack?): Boolean {
-                return EvaporatorRegister.INSTANCE.recipes.any { it.input.fluid == fluid?.fluid }
+                return recipeRegister.any { it.input.fluid == fluid?.fluid }
             }
 
             override fun onContentsChanged() {
                 super.onContentsChanged()
-                updateRecipe()
                 markDirtyClient()
             }
         }
@@ -55,7 +54,7 @@ class TileEvaporator : AbstractMachine<EvaporatorRecipe>(EvaporatorRegister.INST
     override fun updateRecipe() {
         val inputStack = this.inputTank.fluid
         if ((inputStack != null) && (currentRecipe == null || currentRecipe!!.input.fluid == inputStack.fluid)) {
-            this.currentRecipe = EvaporatorRegister.INSTANCE.recipes.firstOrNull { it.input.fluid == inputStack.fluid }
+            this.currentRecipe = recipeRegister.firstOrNull { it.input.fluid == inputStack.fluid }
         }
         if (inputStack == null) currentRecipe = null
     }
@@ -92,7 +91,6 @@ class TileEvaporator : AbstractMachine<EvaporatorRecipe>(EvaporatorRegister.INST
     override fun readFromNBT(compound: NBTTagCompound) {
         super.readFromNBT(compound)
         this.inputTank.readFromNBT(compound.getCompoundTag("InputTankNBT"))
-        updateRecipe()
     }
 
     // TODO more elaborate calculation?

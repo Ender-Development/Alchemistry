@@ -42,7 +42,6 @@ class TileAtomizer : AbstractMachine<AtomizerRecipe>(AtomizerRegister.INSTANCE),
             }
 
             override fun onContentsChanged() {
-                updateRecipe()
                 markDirtyGUI()
             }
         }
@@ -93,6 +92,5 @@ class TileAtomizer : AbstractMachine<AtomizerRecipe>(AtomizerRegister.INSTANCE),
     override fun readFromNBT(compound: NBTTagCompound) {
         super.readFromNBT(compound)
         this.inputTank.readFromNBT(compound.getCompoundTag("InputTankNBT"))
-        updateRecipe()
     }
 }

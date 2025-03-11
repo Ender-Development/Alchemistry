@@ -19,30 +19,30 @@ abstract class AbstractMachine<T : IRecipe>(recipeRegister: AbstractRecipeRegist
     var currentRecipe: T? = null
 
     /**
-     * Update the stored recipe variable
-     * Used in init and readFromNBT
+     * Update the stored recipe variable.
+     * Used in init and readFromNBT.
      */
     abstract fun updateRecipe()
 
     /**
-     * Fired when the machine finishes a recipe
-     * Used for consuming inputs and producing outputs
+     * Fired when the machine finishes a recipe.
+     * Used for consuming inputs and producing outputs.
      */
     abstract fun onProcessComplete()
 
     /**
-     * Fired every tick the machine is active
+     * Fired every tick the machine is active.
      * Used for consuming energy, etc.
      */
     abstract fun onWorkTick()
 
     /**
-     * Check if there is anything present to process
+     * Check if there is anything present to process.
      */
     abstract fun shouldTick(): Boolean
 
     /**
-     * Check if the machine should process the current recipe
+     * Check if the machine should process the current recipe.
      */
     abstract fun shouldProcess(): Boolean
 
@@ -52,6 +52,7 @@ abstract class AbstractMachine<T : IRecipe>(recipeRegister: AbstractRecipeRegist
 
         if (isPaused) return
         if (shouldTick()) {
+            updateRecipe()
             if (shouldProcess() && currentRecipe != null) {
                 onWorkTick()
                 if (progressTicks >= recipeTime) {

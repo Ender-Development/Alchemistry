@@ -43,7 +43,6 @@ class TileLiquifier : AbstractMachine<LiquifierRecipe>(LiquifierRegister.INSTANC
             override fun onContentsChanged() {
                 super.onContentsChanged()
                 markDirtyGUI()
-                updateRecipe()
             }
         }
         outputTank.setTileEntity(this)
@@ -59,7 +58,6 @@ class TileLiquifier : AbstractMachine<LiquifierRecipe>(LiquifierRegister.INSTANC
             }
 
             override fun onContentsChanged(slot: Int) {
-                updateRecipe()
                 markDirtyGUI()
             }
         }
@@ -106,6 +104,5 @@ class TileLiquifier : AbstractMachine<LiquifierRecipe>(LiquifierRegister.INSTANC
     override fun readFromNBT(compound: NBTTagCompound) {
         super.readFromNBT(compound)
         this.outputTank.readFromNBT(compound.getCompoundTag("OutputTankNBT"))
-        updateRecipe()
     }
 }

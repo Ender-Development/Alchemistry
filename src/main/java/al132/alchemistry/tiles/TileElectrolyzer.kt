@@ -18,19 +18,64 @@ import net.minecraftforge.fluids.capability.templates.FluidHandlerConcatenate
 /**
  * Created by al132 on 1/16/2017.
  */
-class TileElectrolyzer : TileBase(), IGuiTile, ITickable, IFluidTile, IItemTile,
-        IEnergyTile by EnergyTileImpl(capacity = ConfigHandler.ELECTROLYZER.energyCapacity) {
+class TileElectrolyzer : AbstractMachine<ElectrolyzerRecipe>(ElectrolyzerRegister.INSTANCE), IFluidTile,
+    IEnergyTile by EnergyTileImpl(capacity = ConfigHandler.ELECTROLYZER.energyCapacity) {
 
     val inputTank: FluidTank
-    var progressTicks = 0
-    private var currentRecipe: ElectrolyzerRecipe? = null
+
+    override val fluidTanks: FluidHandlerConcatenate?
+        get() = FluidHandlerConcatenate(inputTank)
+
+    override val recipeTime: Int
+        get() = ConfigHandler.ELECTROLYZER.processingTicks
+
+    override val energyPerTick: Int
+        get() = ConfigHandler.ELECTROLYZER.energyPerTick
+
+    override fun updateRecipe() {
+        val inputStack = this.inputTank.fluid
+        if ((inputStack != null) && (currentRecipe == null || currentRecipe!!.input.fluid == inputStack.fluid)) {
+            this.currentRecipe = recipeRegister.firstOrNull { it.input.fluid == inputStack.fluid }
+        }
+        if (inputStack == null) currentRecipe = null
+    }
+
+    override fun onProcessComplete() {
+        inputTank.drainInternal(currentRecipe!!.input.amount, true)
+
+        if (world.rand.nextInt(100) < currentRecipe!!.electrolyteConsumptionChance) {
+            input.decrementSlot(0, currentRecipe!!.electrolytes[0].count)
+        }
+
+        (0 until 4).forEach { output.setOrIncrement(it, currentRecipe!!.calculatedInSlot(it)) }
+    }
+
+    override fun onWorkTick() {
+        this.energyStorage.extractEnergy(ConfigHandler.ELECTROLYZER.energyPerTick, false)
+    }
+
+    override fun shouldTick(): Boolean {
+        return inputTank.fluidAmount > 0
+    }
+
+    override fun shouldProcess(): Boolean {
+        return inputTank.fluidAmount >= currentRecipe!!.input.amount
+                && input[0].count >= currentRecipe!!.electrolytes[0].count
+                && this.energyStorage.energyStored >= energyPerTick
+                && (0 until 4).all {
+            val outputStack = output[it]
+            val recipeStack = currentRecipe!!.outputs[it].copy()
+            (outputStack.isEmpty || ItemStack.areItemsEqual(outputStack, recipeStack))
+                    && outputStack.count + recipeStack.count <= recipeStack.maxStackSize
+        }
+    }
 
     init {
         this.initInventoryCapability(1, 4)
 
         inputTank = object : FluidTank(Fluid.BUCKET_VOLUME * 10) {
             override fun canFillFluidType(fluid: FluidStack?): Boolean {
-                return ElectrolyzerRegister.INSTANCE.recipes.any { it.input.fluid == fluid?.fluid }
+                return recipeRegister.any { it.input.fluid == fluid?.fluid }
             }
 
             override fun onContentsChanged() {
@@ -47,24 +92,11 @@ class TileElectrolyzer : TileBase(), IGuiTile, ITickable, IFluidTile, IItemTile,
     override fun initInventoryInputCapability() {
         input = object : ALTileStackHandler(inputSlots, this) {
             override fun insertItem(slot: Int, stack: ItemStack, simulate: Boolean): ItemStack {
-                return if (ElectrolyzerRegister.INSTANCE.recipes.any { it.electrolytes.containsItem(stack) })
+                return if (recipeRegister.any { it.electrolytes.containsItem(stack) })
                     super.insertItem(slot, stack, simulate)
                 else
                     stack
             }
-
-        }
-    }
-
-    override fun update() {
-        if (!world.isRemote) {
-            if(inputTank.fluidAmount > 0) {
-                this.currentRecipe = ElectrolyzerRegister.INSTANCE.recipes.firstOrNull {
-                    (inputTank.fluid?.containsFluid(it.input) == true) && it.electrolytes.containsItem(input[0])
-                }
-                if (canProcess()) process() else progressTicks = 0
-            }
-            this.markDirtyGUIEvery(5)
         }
     }
 
@@ -73,45 +105,11 @@ class TileElectrolyzer : TileBase(), IGuiTile, ITickable, IFluidTile, IItemTile,
         val inputTankNBT = NBTTagCompound()
         this.inputTank.writeToNBT(inputTankNBT)
         compound.setTag("InputTankNBT", inputTankNBT)
-        compound.setInteger("ProgressTicks", this.progressTicks)
         return compound
     }
 
     override fun readFromNBT(compound: NBTTagCompound) {
         super.readFromNBT(compound)
         this.inputTank.readFromNBT(compound.getCompoundTag("InputTankNBT"))
-        this.progressTicks = compound.getInteger("ProgressTicks")
-    }
-
-    override val fluidTanks: FluidHandlerConcatenate?
-        get() = FluidHandlerConcatenate(inputTank)
-
-    fun canProcess(): Boolean {
-        return currentRecipe != null
-                && inputTank.fluidAmount >= currentRecipe!!.input.amount
-                && input[0].count >= currentRecipe!!.electrolytes[0].count
-                && this.energyStorage.energyStored >= ConfigHandler.ELECTROLYZER.energyCapacity
-                && (0 until 4).all {
-            val outputStack = output[it]
-            val recipeStack = currentRecipe!!.outputs[it].copy()
-            (outputStack.isEmpty || ItemStack.areItemsEqual(outputStack, recipeStack))
-                    && outputStack.count + recipeStack.count <= recipeStack.maxStackSize
-        }
-    }
-
-    fun process() {
-        if (progressTicks < ConfigHandler.ELECTROLYZER.processingTicks) {
-            progressTicks++
-        } else {
-            progressTicks = 0
-            inputTank.drainInternal(currentRecipe!!.input.amount, true)
-            if (world.rand.nextInt(100) < currentRecipe!!.electrolyteConsumptionChance) {
-                input.decrementSlot(0, currentRecipe!!.electrolytes[0].count)
-            }
-
-            (0 until 4).forEach { output.setOrIncrement(it, currentRecipe!!.calculatedInSlot(it)) }
-
-            this.energyStorage.extractEnergy(ConfigHandler.ELECTROLYZER.energyPerTick, false)
-        }
     }
 }

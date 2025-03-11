@@ -2,6 +2,8 @@ package al132.alchemistry
 
 import al132.alchemistry.capability.AlchemistryDrugDispatcher
 import al132.alchemistry.capability.CapabilityDrugInfo
+import al132.alchemistry.chemistry.CompoundRegistry
+import al132.alchemistry.chemistry.ElementRegistry
 import al132.alchemistry.client.GuiPeriodicTable
 import al132.alchemistry.items.DankMolecule
 import al132.alchemistry.items.ItemCompound
@@ -16,6 +18,7 @@ import net.minecraft.util.ResourceLocation
 import net.minecraftforge.event.AttachCapabilitiesEvent
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent
 import net.minecraftforge.event.entity.player.PlayerInteractEvent
+import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
 
@@ -62,24 +65,31 @@ class EventHandler {
         }
     }
 
-    /*
     @SubscribeEvent
-    fun fluidBooming(e: TickEvent.WorldTickEvent) {
-        val worldElements = e.world.loadedEntityList
-                .filter {
-                    it is EntityItem
-                            && (it.item.item == ModItems.elements || it.item.item == ModItems.ingots)
-                            && it.isInWater
-                            && listOf(3, 11, 19, 37, 55, 87).contains(it.item.metadata)
-                } as List<EntityItem>
+    fun registerFuel(event: FurnaceFuelBurnTimeEvent) {
+        val hydrogen = 20
+        val carbon = 200
 
-        worldElements.forEach {
-            if (it.item.item == ModItems.ingots) {
-                e.world.createExplosion(null, it.posX, it.posY + 1, it.posZ, 2.0f, true)
-            } else {
-                PacketHandler.INSTANCE!!.sendToDimension(BoomPacket(listOf(it.position)), it.dimension)
-            }
-            it.setDead()
+        fun getBurnTime(nCarbon: Int, nHydrogen: Int): Int {
+            return (nCarbon * carbon) + (nHydrogen * hydrogen)
         }
-    }*/
+
+        if (event.itemStack.item == ModItems.elements) {
+            event.burnTime = when (event.itemStack.itemDamage) {
+                ElementRegistry["hydrogen"]?.meta -> hydrogen
+                ElementRegistry["carbon"]?.meta -> carbon
+                else -> 0
+            }
+        } else if (event.itemStack.item == ModItems.compounds) {
+            event.burnTime = when (event.itemStack.itemDamage) {
+                CompoundRegistry["methane"]?.meta -> getBurnTime(1, 4)
+                CompoundRegistry["ethane"]?.meta -> getBurnTime(2, 6)
+                CompoundRegistry["propane"]?.meta -> getBurnTime(3, 8)
+                CompoundRegistry["butane"]?.meta -> getBurnTime(4, 10)
+                CompoundRegistry["pentane"]?.meta -> getBurnTime(5, 12)
+                CompoundRegistry["hexane"]?.meta -> getBurnTime(6, 14)
+                else -> 0
+            }
+        }
+    }
 }

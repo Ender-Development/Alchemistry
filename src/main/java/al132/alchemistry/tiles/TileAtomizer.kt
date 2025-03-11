@@ -21,7 +21,9 @@ class TileAtomizer : AbstractMachine<AtomizerRecipe>(AtomizerRegister.INSTANCE),
     IEnergyTile by EnergyTileImpl(capacity = ConfigHandler.ATOMIZER.energyCapacity) {
 
     val inputTank: FluidTank
-    var energyPerTick: Int = ConfigHandler.ATOMIZER.energyPerTick
+
+    override val energyPerTick: Int
+        get() = ConfigHandler.ATOMIZER.energyPerTick
 
     override val recipeTime: Int
         get() = ConfigHandler.ATOMIZER.processingTicks
@@ -51,8 +53,8 @@ class TileAtomizer : AbstractMachine<AtomizerRecipe>(AtomizerRegister.INSTANCE),
     }
 
     override fun updateRecipe() {
-        if (inputTank.fluid != null &&
-            (currentRecipe == null || !ItemStack.areItemStacksEqual(currentRecipe!!.output, output.getStackInSlot(0)))
+        if (inputTank.fluid != null
+            && (currentRecipe == null || !ItemStack.areItemStacksEqual(currentRecipe!!.output, output.getStackInSlot(0)))
         ) {
             currentRecipe = recipeRegister.firstOrNull { it.input.fluid == inputTank.fluid?.fluid }
         }

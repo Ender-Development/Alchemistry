@@ -12,6 +12,7 @@ abstract class AbstractMachine<T : IRecipe>(recipeRegister: AbstractRecipeRegist
     val recipeRegister: List<T> = recipeRegister.recipes
 
     abstract val recipeTime: Int
+    abstract val energyPerTick : Int
 
     var progressTicks: Int = 0
     var isPaused: Boolean = false
@@ -47,7 +48,10 @@ abstract class AbstractMachine<T : IRecipe>(recipeRegister: AbstractRecipeRegist
 
     override fun update() {
         if (world.isRemote) return
-        if (shouldTick() && !isPaused) {
+        markDirtyGUIEvery(5)
+
+        if (isPaused) return
+        if (shouldTick()) {
             if (shouldProcess() && currentRecipe != null) {
                 onWorkTick()
                 if (progressTicks >= recipeTime) {
@@ -59,8 +63,9 @@ abstract class AbstractMachine<T : IRecipe>(recipeRegister: AbstractRecipeRegist
             } else {
                 progressTicks = 0
             }
+        } else {
+            progressTicks = 0
         }
-        markDirtyGUIEvery(5)
     }
 
     override fun writeToNBT(compound: NBTTagCompound): NBTTagCompound {

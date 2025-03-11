@@ -24,6 +24,9 @@ class TileLiquifier : AbstractMachine<LiquifierRecipe>(LiquifierRegister.INSTANC
 
     val outputTank: FluidTank
 
+    override val energyPerTick: Int
+        get() = ConfigHandler.LIQUIFIER.energyPerTick
+
     override val recipeTime: Int
         get() = ConfigHandler.LIQUIFIER.processingTicks
 
@@ -77,7 +80,7 @@ class TileLiquifier : AbstractMachine<LiquifierRecipe>(LiquifierRegister.INSTANC
     }
 
     override fun onWorkTick() {
-        this.energyStorage.extractEnergy(ConfigHandler.LIQUIFIER.energyPerTick, false)
+        this.energyStorage.extractEnergy(energyPerTick, false)
     }
 
     override fun shouldTick(): Boolean {
@@ -87,7 +90,7 @@ class TileLiquifier : AbstractMachine<LiquifierRecipe>(LiquifierRegister.INSTANC
     override fun shouldProcess(): Boolean {
         val recipeOutput = currentRecipe!!.output
         return (outputTank.capacity >= outputTank.fluidAmount + recipeOutput.amount
-                && this.energyStorage.energyStored >= ConfigHandler.LIQUIFIER.energyPerTick
+                && this.energyStorage.energyStored >= energyPerTick
                 && input[0].count >= currentRecipe!!.input.count
                 && ((outputTank.fluid?.fluid == (recipeOutput.fluid?: false)) || outputTank.fluid == null))
     }

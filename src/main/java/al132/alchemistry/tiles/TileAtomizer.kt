@@ -2,13 +2,13 @@ package al132.alchemistry.tiles
 
 import al132.alchemistry.ConfigHandler
 import al132.alchemistry.recipes.AtomizerRecipe
-import al132.alchemistry.recipes.ModRecipes
 import al132.alchemistry.recipes.register.AtomizerRegister
-import al132.alib.tiles.*
+import al132.alib.tiles.EnergyTileImpl
+import al132.alib.tiles.IEnergyTile
+import al132.alib.tiles.IFluidTile
 import al132.alib.utils.extensions.get
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
-import net.minecraft.util.ITickable
 import net.minecraftforge.fluids.Fluid
 import net.minecraftforge.fluids.FluidStack
 import net.minecraftforge.fluids.FluidTank
@@ -48,7 +48,7 @@ class TileAtomizer : AbstractMachine<AtomizerRecipe>(AtomizerRegister.INSTANCE),
     override fun updateRecipe() {
         if (inputTank.fluid != null &&
                 (currentRecipe == null || !ItemStack.areItemStacksEqual(currentRecipe!!.output, output.getStackInSlot(0)))) {
-            currentRecipe = AtomizerRegister.INSTANCE.recipes.firstOrNull { it.input.fluid == inputTank.fluid?.fluid }
+            currentRecipe = recipeRegister.firstOrNull { it.input.fluid == inputTank.fluid?.fluid }
         }
         if (inputTank.fluid == null) currentRecipe = null
     }

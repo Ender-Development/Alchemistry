@@ -19,12 +19,18 @@ import net.minecraftforge.fluids.capability.templates.FluidHandlerConcatenate
 /**
  * Created by al132 on 4/29/2017.
  */
-class TileEvaporator : TileBase(), IGuiTile, ITickable, IItemTile, IFluidTile {
+class TileEvaporator : AbstractMachine<EvaporatorRecipe>(EvaporatorRegister.INSTANCE), IFluidTile {
 
     val inputTank: FluidTank
-    private var currentRecipe: EvaporatorRecipe? = null
-    var progressTicks = 0
-    var calculatedProcessingTime = 0
+
+    override val energyPerTick: Int
+        get() = 0
+
+    override val recipeTime: Int
+        get() = calculateProcessingTime(ConfigHandler.EVAPORATOR.processingTicks)
+
+    override val fluidTanks: FluidHandlerConcatenate?
+        get() = FluidHandlerConcatenate(inputTank)
 
     init {
         initInventoryCapability(0, 1)
@@ -46,24 +52,33 @@ class TileEvaporator : TileBase(), IGuiTile, ITickable, IItemTile, IFluidTile {
     }
 
 
-    fun updateRecipe() {
+    override fun updateRecipe() {
         val inputStack = this.inputTank.fluid
-        if ((inputStack != null) && (currentRecipe == null || currentRecipe!!.input.fluid == inputStack.fluid)){
+        if ((inputStack != null) && (currentRecipe == null || currentRecipe!!.input.fluid == inputStack.fluid)) {
             this.currentRecipe = EvaporatorRegister.INSTANCE.recipes.firstOrNull { it.input.fluid == inputStack.fluid }
         }
         if (inputStack == null) currentRecipe = null
     }
 
-    override fun update() {
-        if (!world.isRemote) {
-            if (inputTank.fluidAmount > 0) {
-                this.currentRecipe = EvaporatorRegister.INSTANCE.recipes.firstOrNull {
-                    inputTank.fluid?.containsFluid(it.input) ?: false
-                }
-                if (canProcess()) process() else progressTicks = 0
-                markDirtyGUIEvery(5)
-            }
-        }
+    override fun onProcessComplete() {
+        output.setOrIncrement(0, currentRecipe!!.output.copy())
+        inputTank.drainInternal(currentRecipe!!.input.amount, true)
+    }
+
+    override fun onWorkTick() {
+        // NO-OP
+    }
+
+    override fun shouldTick(): Boolean {
+        return inputTank.fluidAmount > 0
+    }
+
+    override fun shouldProcess(): Boolean {
+        val recipeOutput = currentRecipe!!.output
+        return inputTank.fluidAmount >= currentRecipe!!.input.amount
+                && (inputTank.fluid == null || inputTank.fluid!!.fluid == currentRecipe!!.input.fluid)
+                && (output[0].isEmpty || output[0].item == currentRecipe!!.output.item)
+                && output[0].count + recipeOutput.count <= recipeOutput.maxStackSize
     }
 
     override fun writeToNBT(compound: NBTTagCompound): NBTTagCompound {
@@ -71,46 +86,21 @@ class TileEvaporator : TileBase(), IGuiTile, ITickable, IItemTile, IFluidTile {
         val inputTankNBT = NBTTagCompound()
         this.inputTank.writeToNBT(inputTankNBT)
         compound.setTag("InputTankNBT", inputTankNBT)
-        compound.setInteger("ProgressTicks", progressTicks)
         return compound
     }
 
     override fun readFromNBT(compound: NBTTagCompound) {
         super.readFromNBT(compound)
         this.inputTank.readFromNBT(compound.getCompoundTag("InputTankNBT"))
-        this.progressTicks = compound.getInteger("ProgressTicks")
         updateRecipe()
     }
 
-    override val fluidTanks: FluidHandlerConcatenate?
-        get() = FluidHandlerConcatenate(inputTank)
-
-    fun canProcess(): Boolean {
-        if (currentRecipe != null) {
-            val recipeOutput = currentRecipe!!.output
-            return inputTank.fluidAmount >= currentRecipe!!.input.amount
-                    && (inputTank.fluid == null || inputTank.fluid!!.fluid == currentRecipe!!.input.fluid)
-                    && (output[0].isEmpty || output[0].item == currentRecipe!!.output.item)
-                    && output[0].count + recipeOutput.count <= recipeOutput.maxStackSize
-        } else return false;
-    }
-
-    fun calculateProcessingTime(): Int { //TODO more elaborate calculation?
-        var temp = ConfigHandler.EVAPORATOR.processingTicks
+    // TODO more elaborate calculation?
+    private fun calculateProcessingTime(config: Int): Int {
+        var temp = config
         if (!BiomeDictionary.hasType(world.getBiomeForCoordsBody(this.pos), BiomeDictionary.Type.DRY)) {
-            temp += (ConfigHandler.EVAPORATOR.processingTicks * .5).toInt()
+            temp += (config * .5).toInt()
         }
         return temp
-    }
-
-    fun process() {
-        if (progressTicks % 5 == 0) calculatedProcessingTime = calculateProcessingTime()
-
-        if (progressTicks < calculatedProcessingTime) progressTicks++
-        else {
-            progressTicks = 0
-            output.setOrIncrement(0, currentRecipe!!.output.copy())
-            inputTank.drainInternal(currentRecipe!!.input.amount, true)
-        }
     }
 }

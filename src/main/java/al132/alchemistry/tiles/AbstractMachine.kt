@@ -57,7 +57,7 @@ abstract class AbstractMachine<T : IRecipe>(recipeRegister: AbstractRecipeRegist
         if (isPaused) return
         if (shouldTick()) {
             onIdleTick()
-            if (shouldProcess() && currentRecipe != null) {
+            if (currentRecipe != null && shouldProcess()) {
                 onWorkTick()
                 if (progressTicks >= recipeTime) {
                     onProcessComplete()

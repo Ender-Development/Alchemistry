@@ -51,7 +51,7 @@ class ChemicalCombinerPacket() : IMessage {
                     tile.recipeIsLocked = !(tile.recipeIsLocked)
                     if(!tile.recipeIsLocked) tile.currentRecipe = null
                 } else if (message.pause) {
-                    tile.paused = !(tile.paused)
+                    tile.isPaused = !(tile.isPaused)
                 }
             }
         }

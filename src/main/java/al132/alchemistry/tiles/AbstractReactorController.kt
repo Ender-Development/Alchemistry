@@ -2,6 +2,8 @@ package al132.alchemistry.tiles
 
 import al132.alchemistry.blocks.FissionControllerBlock
 import al132.alchemistry.blocks.FusionControllerBlock
+import al132.alchemistry.recipes.IRecipe
+import al132.alchemistry.recipes.register.AbstractRecipeRegister
 import al132.alib.tiles.IEnergyTile
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.util.EnumFacing
@@ -10,7 +12,7 @@ import net.minecraftforge.fluids.Fluid
 import net.minecraftforge.fluids.FluidRegistry
 import kotlin.math.floor
 
-abstract class AbstractReactorController(val reactorType: ReactorType) : TileBase(), IEnergyTile {
+abstract class AbstractReactorController<T: IRecipe>(val reactorType: ReactorType, recipeRegister: AbstractRecipeRegister<T>) : AbstractMachine<T>(recipeRegister), IEnergyTile {
 
     val shapeHandler = ReactorShapeHandler(this, reactorType)
     var fluidModifiers = mutableMapOf<Fluid, List<Double>>() //List<Productivity, Speed, Energy>
@@ -19,15 +21,6 @@ abstract class AbstractReactorController(val reactorType: ReactorType) : TileBas
     var energyModifier: Double = 1.0
     var isMultiblockValid: Boolean = false
     var checkMultiblockTicks: Int = 0
-    var progressTicks = 0
-
-    abstract val defaultEnergyPerTick: Int
-    abstract val defaultEnergyCapacity: Int
-    abstract val defaultProcessTime: Int
-
-    abstract fun refreshRecipe()
-    abstract fun canProcess(): Boolean
-    abstract fun process()
 
     fun getFacing(): EnumFacing? {
         val state = this.world?.getBlockState(this.pos)
@@ -68,11 +61,11 @@ abstract class AbstractReactorController(val reactorType: ReactorType) : TileBas
         }
     }
 
-    fun getModifiedProcessTime(default: Int = defaultProcessTime): Int {
+    fun getModifiedProcessTime(default: Int): Int {
         return floor(default * (1 - speedModifier)).toInt()
     }
 
-    fun getModifiedEnergyCost(default: Int = defaultEnergyPerTick): Int {
+    fun getModifiedEnergyCost(default: Int): Int {
         return floor(default * (1 + energyModifier)).toInt()
     }
 
@@ -101,7 +94,6 @@ abstract class AbstractReactorController(val reactorType: ReactorType) : TileBas
         this.speedModifier = compound.getDouble("speedModifier")
         this.productivityModifier = compound.getDouble("productivityModifier")
         this.energyModifier = compound.getDouble("energyModifier")
-        this.refreshRecipe()
         this.updateMultiblock()
     }
 }

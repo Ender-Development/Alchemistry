@@ -19,6 +19,7 @@ object ModRecipes {
     val atomizerRecipes = AtomizerRegister.INSTANCE
     val liquifierRecipes = LiquifierRegister.INSTANCE
     val fissionRecipes = FissionRegister.INSTANCE
+    val fusionRecipes = FusionRegister.INSTANCE
 
     fun init() {
         electrolyzerRecipes.registerRecipes()
@@ -28,6 +29,7 @@ object ModRecipes {
         atomizerRecipes.registerRecipes() // before liquifier, so liquifier can use reversible recipes
         liquifierRecipes.registerRecipes()
         fissionRecipes.registerRecipes()
+        fusionRecipes.registerRecipes()
     }
 
     fun initOredict() {

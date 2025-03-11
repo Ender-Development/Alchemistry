@@ -8,7 +8,7 @@ import net.minecraft.util.EnumFacing
 import net.minecraft.util.math.BlockPos
 import net.minecraftforge.fluids.Fluid
 
-class ReactorShapeHandler(val controller: AbstractReactorController, reactorType: ReactorType) {
+class ReactorShapeHandler(val controller: AbstractReactorController<*>, reactorType: ReactorType) {
 
     var multiblockDirection: EnumFacing? = controller.getFacing()
 

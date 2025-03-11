@@ -20,7 +20,7 @@ class GuiFissionController(playerInv: InventoryPlayer, tile: TileFissionControll
         val i = (this.width - this.xSize) / 2
         val j = (this.height - this.ySize) / 2
         if (tile.progressTicks > 0) {
-            val k = this.getBarScaled(36, tile.progressTicks, tile.getModifiedProcessTime())
+            val k = this.getBarScaled(36, tile.progressTicks, tile.recipeTime)
             this.drawTexturedModalRect(i + 70, j + 75, 175, 0, k, 16)
         }
     }

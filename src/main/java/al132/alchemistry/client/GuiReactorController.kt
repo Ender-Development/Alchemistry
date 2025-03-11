@@ -1,5 +1,6 @@
 package al132.alchemistry.client
 
+import al132.alchemistry.ConfigHandler
 import al132.alchemistry.tiles.AbstractReactorController
 import al132.alchemistry.tiles.ReactorType
 import al132.alib.client.CapabilityEnergyDisplayWrapper
@@ -13,7 +14,7 @@ import java.awt.Color
 import kotlin.math.ceil
 
 abstract class GuiReactorController<T>(container: Container, tile: T, textureLocation: ResourceLocation) :
-    GuiBase<T>(container, tile, textureLocation) where T : AbstractReactorController, T : IGuiTile {
+    GuiBase<T>(container, tile, textureLocation) where T : AbstractReactorController<*>, T : IGuiTile {
 
     val infoHeight = 102.0f
     val infoX = 12.0f
@@ -110,11 +111,16 @@ abstract class GuiReactorController<T>(container: Container, tile: T, textureLoc
             }
 
             offset + 10 <= mouseY && mouseY <= offset + 10 + fontHeight -> {
+                val defaultTime = if (tile.reactorType == ReactorType.FISSION) {
+                    ConfigHandler.FISSION.processingTicks
+                } else {
+                    ConfigHandler.FUSION.processingTicks
+                }
                 drawHoveringText(
                     listOf(
                         I18n.format("tooltip.speed.title"),
-                        I18n.format("tooltip.speed.default", tile.defaultProcessTime),
-                        I18n.format("tooltip.speed.current", tile.getModifiedProcessTime())
+                        I18n.format("tooltip.speed.default", defaultTime),
+                        I18n.format("tooltip.speed.current", tile.recipeTime)
                     ),
                     mouseX,
                     mouseY
@@ -122,11 +128,16 @@ abstract class GuiReactorController<T>(container: Container, tile: T, textureLoc
             }
 
             offset + 20 <= mouseY && mouseY <= offset + 20 + fontHeight -> {
+                val defaultEnergy = if (tile.reactorType == ReactorType.FISSION) {
+                    ConfigHandler.FISSION.energyPerTick
+                } else {
+                    ConfigHandler.FUSION.energyPerTick
+                }
                 drawHoveringText(
                     listOf(
                         I18n.format("tooltip.energy.title"),
-                        I18n.format("tooltip.energy.default", tile.defaultEnergyPerTick),
-                        I18n.format("tooltip.energy.current", tile.getModifiedEnergyCost())
+                        I18n.format("tooltip.energy.default", defaultEnergy),
+                        I18n.format("tooltip.energy.current", tile.energyPerTick)
                     ),
                     mouseX,
                     mouseY

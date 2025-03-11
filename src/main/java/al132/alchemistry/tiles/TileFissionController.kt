@@ -6,26 +6,30 @@ import al132.alchemistry.blocks.ModBlocks
 import al132.alchemistry.blocks.PropertyPowerStatus.*
 import al132.alchemistry.chemistry.ElementRegistry
 import al132.alchemistry.items.ModItems
-import al132.alib.tiles.*
+import al132.alchemistry.recipes.FissionRecipe
+import al132.alchemistry.recipes.register.FissionRegister
+import al132.alib.tiles.ALTileStackHandler
+import al132.alib.tiles.EnergyTileImpl
+import al132.alib.tiles.IEnergyTile
 import al132.alib.utils.extensions.get
 import al132.alib.utils.extensions.toStack
 import net.minecraft.item.ItemStack
-import net.minecraft.util.ITickable
 import kotlin.math.floor
 
 /**
  * Created by al132 on 4/29/2017.
  */
-class TileFissionController(reactorType: ReactorType = ReactorType.FISSION,
-                            override val defaultEnergyPerTick: Int = ConfigHandler.FISSION.energyPerTick,
-                            override val defaultEnergyCapacity: Int = ConfigHandler.FISSION.energyCapacity,
-                            override val defaultProcessTime: Int = ConfigHandler.FISSION.processingTicks
-) : AbstractReactorController(reactorType),
-    IGuiTile, ITickable, IItemTile,
-    IEnergyTile by EnergyTileImpl(capacity = defaultEnergyCapacity) {
+class TileFissionController : AbstractReactorController<FissionRecipe>(ReactorType.FISSION, FissionRegister.INSTANCE),
+    IEnergyTile by EnergyTileImpl(ConfigHandler.FISSION.energyCapacity) {
 
     var recipeOutput1: ItemStack = ItemStack.EMPTY
     var recipeOutput2: ItemStack = ItemStack.EMPTY
+
+    override val energyPerTick: Int
+        get() = getModifiedEnergyCost(ConfigHandler.FISSION.energyPerTick)
+
+    override val recipeTime: Int
+        get() = getModifiedProcessTime(ConfigHandler.FISSION.processingTicks)
 
     init {
         initInventoryCapability(1, 2)
@@ -39,16 +43,12 @@ class TileFissionController(reactorType: ReactorType = ReactorType.FISSION,
                     return super.insertItem(slot, stack, simulate)
                 } else return stack
             }
-
-            override fun onContentsChanged(slot: Int) {
-                (tile as TileFissionController).refreshRecipe()
-                super.onContentsChanged(slot)
-            }
         }
     }
 
-    override fun refreshRecipe() {
+    override fun updateRecipe() {
         val meta = this.input[0].metadata
+        recipeRegister.firstOrNull() { it.inputMeta == meta }?.let { currentRecipe = it }
         if (meta != 0) {
             if (meta % 2 == 0) {
                 if (ElementRegistry[meta / 2] != null) {
@@ -68,66 +68,64 @@ class TileFissionController(reactorType: ReactorType = ReactorType.FISSION,
         recipeOutput2 = ItemStack.EMPTY
     }
 
-
-    override fun update() {
-        if (!world.isRemote) {
-            val isActive = !this.input[0].isEmpty && energyStorage.energyStored >= getModifiedEnergyCost()
-            checkMultiblockTicks++
-            if (checkMultiblockTicks >= 20) {
-                updateMultiblock()
-                checkMultiblockTicks = 0
-            }
-            val state = this.world.getBlockState(this.pos)
-            if (state.block != ModBlocks.fissionController) return;
-            val currentStatus = state.getValue(STATUS)
-            if (this.isMultiblockValid) {
-                if (isActive) {
-                    if (currentStatus != ON) this.world.setBlockState(this.pos, state.withProperty(STATUS, ON))
-                } else if (currentStatus != STANDBY) world.setBlockState(pos, state.withProperty(STATUS, STANDBY))
-                updateModifiers()
-            } else if (currentStatus != OFF) world.setBlockState(pos, state.withProperty(STATUS, OFF))
-
-            if (canProcess()) process() else progressTicks = 0
-            this.markDirtyClientEvery(5)
+    override fun onProcessComplete() {
+        var stacksize1 = recipeOutput1.count
+        val staticMultiplier = floor(productivityModifier).toInt()
+        val randomMultiplier = if (productivityModifier - staticMultiplier > Math.random()) 1 else 0
+        if (staticMultiplier != 0 || randomMultiplier != 0) {
+            stacksize1 *= staticMultiplier + randomMultiplier
         }
+        val outputStack1 = recipeOutput1.copy()
+        outputStack1.count = if (stacksize1 > outputStack1.maxStackSize) outputStack1.maxStackSize else stacksize1
+        output.setOrIncrement(0, outputStack1)
+        if (!recipeOutput2.isEmpty) {
+            var stacksize2 = recipeOutput2.count
+            if (staticMultiplier != 0 || randomMultiplier != 0) {
+                stacksize2 *= staticMultiplier + randomMultiplier
+            }
+            val outputStack2 = recipeOutput2.copy()
+            outputStack2.count =
+                if (stacksize2 > outputStack2.maxStackSize) outputStack2.maxStackSize else stacksize2
+            output.setOrIncrement(1, outputStack2)
+        }
+        input.decrementSlot(0, 1) //Will refresh the recipe, clearing the recipeOutputs if only 1 stack is left
     }
 
-    override fun canProcess(): Boolean {
+    override fun onWorkTick() {
+        this.energyStorage.extractEnergy(energyPerTick, false)
+    }
+
+    override fun shouldTick(): Boolean {
+        return true
+    }
+
+    override fun shouldProcess(): Boolean {
         return this.isMultiblockValid
                 && !recipeOutput1.isEmpty
                 && (ItemStack.areItemsEqual(output[0], recipeOutput1) || output[0].isEmpty)
                 && (ItemStack.areItemsEqual(output[1], recipeOutput2) || output[1].isEmpty)
                 && output[0].count + recipeOutput1.count <= recipeOutput1.maxStackSize
                 && output[1].count + recipeOutput2.count <= recipeOutput2.maxStackSize
-                && energyStorage.energyStored >= getModifiedEnergyCost()
+                && energyStorage.energyStored >= energyPerTick
     }
 
-    override fun process() {
-        if (progressTicks < getModifiedProcessTime()) {
-            progressTicks++
-        } else {
-            progressTicks = 0
+    override fun onIdleTick() {
+        super.onIdleTick()
 
-            var stacksize1 = recipeOutput1.count
-            val staticMultiplier = floor(productivityModifier).toInt()
-            val randomMultiplier = if (productivityModifier - staticMultiplier > Math.random()) 1 else 0
-            if (staticMultiplier != 0 || randomMultiplier != 0) {
-                stacksize1 *= staticMultiplier + randomMultiplier
-            }
-            val outputStack1 = recipeOutput1.copy()
-            outputStack1.count = if (stacksize1 > outputStack1.maxStackSize) outputStack1.maxStackSize else stacksize1
-            output.setOrIncrement(0, outputStack1)
-            if (!recipeOutput2.isEmpty) {
-                var stacksize2 = recipeOutput2.count
-                if (staticMultiplier != 0 || randomMultiplier != 0) {
-                    stacksize2 *= staticMultiplier + randomMultiplier
-                }
-                val outputStack2 = recipeOutput2.copy()
-                outputStack2.count = if (stacksize2 > outputStack2.maxStackSize) outputStack2.maxStackSize else stacksize2
-                output.setOrIncrement(1, outputStack2)
-            }
-            input.decrementSlot(0, 1) //Will refresh the recipe, clearing the recipeOutputs if only 1 stack is left
+        val isActive = !this.input[0].isEmpty && energyStorage.energyStored >= energyPerTick
+        checkMultiblockTicks++
+        if (checkMultiblockTicks >= 20) {
+            updateMultiblock()
+            checkMultiblockTicks = 0
         }
-        this.energyStorage.extractEnergy(getModifiedEnergyCost(), false)
+        val state = this.world.getBlockState(this.pos)
+        if (state.block != ModBlocks.fissionController) return;
+        val currentStatus = state.getValue(STATUS)
+        if (this.isMultiblockValid) {
+            if (isActive) {
+                if (currentStatus != ON) this.world.setBlockState(this.pos, state.withProperty(STATUS, ON))
+            } else if (currentStatus != STANDBY) world.setBlockState(pos, state.withProperty(STATUS, STANDBY))
+            updateModifiers()
+        } else if (currentStatus != OFF) world.setBlockState(pos, state.withProperty(STATUS, OFF))
     }
 }

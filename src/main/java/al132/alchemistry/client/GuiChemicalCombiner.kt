@@ -62,7 +62,7 @@ class GuiChemicalCombiner(
             Translator.translateToLocal("tile.combiner.unlock_recipe")
         else toggleRecipeLock.displayString = Translator.translateToLocal("tile.combiner.lock_recipe")
 
-        if (tile.paused) pauseButton.displayString = Translator.translateToLocal("tile.combiner.resume")
+        if (tile.isPaused) pauseButton.displayString = Translator.translateToLocal("tile.combiner.resume")
         else pauseButton.displayString = Translator.translateToLocal("tile.combiner.pause")
     }
 

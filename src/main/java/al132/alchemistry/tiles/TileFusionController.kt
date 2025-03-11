@@ -7,26 +7,30 @@ import al132.alchemistry.blocks.PropertyPowerStatus
 import al132.alchemistry.chemistry.ChemicalElement
 import al132.alchemistry.chemistry.ElementRegistry
 import al132.alchemistry.items.ModItems
-import al132.alib.tiles.*
+import al132.alchemistry.recipes.FusionRecipe
+import al132.alchemistry.recipes.register.FusionRegister
+import al132.alib.tiles.ALTileStackHandler
+import al132.alib.tiles.EnergyTileImpl
+import al132.alib.tiles.IEnergyTile
 import al132.alib.utils.extensions.get
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
-import net.minecraft.util.ITickable
 import kotlin.math.floor
 
 /**
  * Created by al132 on 4/29/2017.
  */
-class TileFusionController(reactorType: ReactorType = ReactorType.FUSION,
-                           override val defaultEnergyPerTick: Int = ConfigHandler.FUSION.energyPerTick,
-                           override val defaultEnergyCapacity: Int = ConfigHandler.FUSION.energyCapacity,
-                           override val defaultProcessTime: Int = ConfigHandler.FUSION.processingTicks
-) : AbstractReactorController(reactorType),
-    IGuiTile, ITickable, IItemTile,
-    IEnergyTile by EnergyTileImpl(capacity = defaultEnergyCapacity) {
+class TileFusionController : AbstractReactorController<FusionRecipe>(ReactorType.FUSION, FusionRegister.INSTANCE),
+    IEnergyTile by EnergyTileImpl(ConfigHandler.FUSION.energyCapacity) {
 
     var recipeOutput: ItemStack = ItemStack.EMPTY
     var singleMode: Boolean = false
+
+    override val energyPerTick: Int
+        get() = getModifiedEnergyCost(ConfigHandler.FUSION.energyPerTick)
+
+    override val recipeTime: Int
+        get() = getModifiedProcessTime(ConfigHandler.FUSION.processingTicks)
 
     init {
         initInventoryCapability(2, 1)
@@ -44,86 +48,79 @@ class TileFusionController(reactorType: ReactorType = ReactorType.FUSION,
                     super.insertItem(slot, stack, simulate)
                 } else stack
             }
-
-            override fun onContentsChanged(slot: Int) {
-                (tile as TileFusionController).refreshRecipe()
-                super.onContentsChanged(slot)
-            }
         }
     }
 
-    override fun refreshRecipe() {
+    override fun updateRecipe() {
         val meta1 = this.input[0].metadata
         val meta2 = this.input[1].metadata
+        recipeRegister.firstOrNull() { it.inputMeta1 == meta1 && it.inputMeta2 == meta2 }?.let { currentRecipe = it }
         val outputElement: ChemicalElement? = ElementRegistry[meta1 + meta2]
         if (outputElement != null) recipeOutput = outputElement.toItemStack(1)
         else recipeOutput = ItemStack.EMPTY
     }
 
-    override fun update() {
-        if (!world.isRemote) {
-            checkMultiblockTicks++
-            if (checkMultiblockTicks >= 20) {
-                updateMultiblock()
-                checkMultiblockTicks = 0
-            }
-            val isActive = !this.input[0].isEmpty && !this.input[1].isEmpty && energyStorage.energyStored >= getModifiedEnergyCost()
-            val state = this.world.getBlockState(this.pos)
-            if (state.block != ModBlocks.fusionController) return;
-            val currentStatus = state.getValue(STATUS)
-            if (this.isMultiblockValid) {
-                if (isActive) {
-                    if (currentStatus != PropertyPowerStatus.ON) this.world.setBlockState(
-                        this.pos,
-                        state.withProperty(STATUS, PropertyPowerStatus.ON)
-                    )
-                } else if (currentStatus != PropertyPowerStatus.STANDBY) world.setBlockState(
-                    pos,
-                    state.withProperty(STATUS, PropertyPowerStatus.STANDBY)
-                )
-                updateModifiers()
-            } else if (currentStatus != PropertyPowerStatus.OFF) world.setBlockState(
-                pos,
-                state.withProperty(STATUS, PropertyPowerStatus.OFF)
-            )
-
-            if (canProcess()) process() else progressTicks = 0
-            this.markDirtyClientEvery(5)
+    override fun onProcessComplete() {
+        var stacksize = recipeOutput.count
+        val staticMultiplier = floor(productivityModifier).toInt()
+        val randomMultiplier = if (productivityModifier - staticMultiplier > Math.random()) 1 else 0
+        if (staticMultiplier != 0 || randomMultiplier != 0) {
+            stacksize *= staticMultiplier + randomMultiplier
         }
+        val outputStack = recipeOutput.copy()
+        outputStack.count = stacksize
+        output.setOrIncrement(0, outputStack)
+
+        input.decrementSlot(0, 1) //Will refresh the recipe, clearing the recipeOutputs if only 1 stack is left
+        input.decrementSlot(1, 1) //Will refresh the recipe, clearing the recipeOutputs if only 1 stack is left
     }
 
+    override fun onWorkTick() {
+        this.energyStorage.extractEnergy(energyPerTick, false)
+    }
 
-    override fun canProcess(): Boolean {
+    override fun shouldTick(): Boolean {
+        return true
+    }
+
+    override fun shouldProcess(): Boolean {
         return this.isMultiblockValid
                 && !input[0].isEmpty
                 && !input[1].isEmpty
                 && !recipeOutput.isEmpty
                 && (ItemStack.areItemsEqual(output[0], recipeOutput) || output[0].isEmpty)
                 && output[0].count + recipeOutput.count <= recipeOutput.maxStackSize
-                && energyStorage.energyStored >= getModifiedEnergyCost()
-
+                && energyStorage.energyStored >= energyPerTick
     }
 
-    override fun process() {
-        if (progressTicks < getModifiedProcessTime()) {
-            progressTicks++
-        } else {
-            progressTicks = 0
+    override fun onIdleTick() {
+        super.onIdleTick()
 
-            var stacksize = recipeOutput.count
-            val staticMultiplier = floor(productivityModifier).toInt()
-            val randomMultiplier = if (productivityModifier - staticMultiplier > Math.random()) 1 else 0
-            if (staticMultiplier != 0 || randomMultiplier != 0) {
-                stacksize *= staticMultiplier + randomMultiplier
-            }
-            val outputStack = recipeOutput.copy()
-            outputStack.count = stacksize
-            output.setOrIncrement(0, outputStack)
-
-            input.decrementSlot(0, 1) //Will refresh the recipe, clearing the recipeOutputs if only 1 stack is left
-            input.decrementSlot(1, 1) //Will refresh the recipe, clearing the recipeOutputs if only 1 stack is left
+        checkMultiblockTicks++
+        if (checkMultiblockTicks >= 20) {
+            updateMultiblock()
+            checkMultiblockTicks = 0
         }
-        this.energyStorage.extractEnergy(getModifiedEnergyCost(), false)
+        val isActive =
+            !this.input[0].isEmpty && !this.input[1].isEmpty && energyStorage.energyStored >= energyPerTick
+        val state = this.world.getBlockState(this.pos)
+        if (state.block != ModBlocks.fusionController) return;
+        val currentStatus = state.getValue(STATUS)
+        if (this.isMultiblockValid) {
+            if (isActive) {
+                if (currentStatus != PropertyPowerStatus.ON) this.world.setBlockState(
+                    this.pos,
+                    state.withProperty(STATUS, PropertyPowerStatus.ON)
+                )
+            } else if (currentStatus != PropertyPowerStatus.STANDBY) world.setBlockState(
+                pos,
+                state.withProperty(STATUS, PropertyPowerStatus.STANDBY)
+            )
+            updateModifiers()
+        } else if (currentStatus != PropertyPowerStatus.OFF) world.setBlockState(
+            pos,
+            state.withProperty(STATUS, PropertyPowerStatus.OFF)
+        )
     }
 
     override fun writeToNBT(compound: NBTTagCompound): NBTTagCompound {

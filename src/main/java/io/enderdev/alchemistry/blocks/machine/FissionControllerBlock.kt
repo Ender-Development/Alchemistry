@@ -1,10 +1,9 @@
 package io.enderdev.alchemistry.blocks.machine
 
+import al132.alib.utils.Translator
 import io.enderdev.alchemistry.ConfigHandler
-import io.enderdev.alchemistry.blocks.BaseTileBlock
 import io.enderdev.alchemistry.blocks.PropertyPowerStatus
 import io.enderdev.alchemistry.items.TooltipItemBlock
-import al132.alib.utils.Translator
 import net.minecraft.block.properties.IProperty
 import net.minecraft.block.properties.PropertyDirection
 import net.minecraft.block.properties.PropertyEnum
@@ -22,7 +21,7 @@ import net.minecraftforge.event.RegistryEvent
 class FissionControllerBlock(name: String,
                              tileClass: Class<out TileEntity>,
                              guiID: Int)
-    : BaseTileBlock(name, tileClass, guiID) {
+    : BaseMachineBlock(name, tileClass, guiID) {
 
     init {
         this.defaultState = this.blockState.baseState.withProperty(FACING, EnumFacing.NORTH)

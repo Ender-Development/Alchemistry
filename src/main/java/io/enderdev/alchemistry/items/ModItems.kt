@@ -1,8 +1,8 @@
 package io.enderdev.alchemistry.items
 
-import io.enderdev.alchemistry.Reference
 import al132.alib.items.ALItem
 import al132.alib.utils.extensions.translate
+import io.enderdev.alchemistry.Reference
 import net.minecraft.client.Minecraft
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.item.Item
@@ -16,11 +16,6 @@ object ModItems {
 
     val items = ArrayList<ALItem>()
 
-    var MILK = object : ItemBase("milk") {
-        override fun addInformation(stack: ItemStack, worldIn: World?, tooltip: MutableList<String>, flagIn: ITooltipFlag) {
-            tooltip.add("item.alchemistry:milk.tooltip".translate())
-        }
-    }
     var mineralSalt = ItemBase("mineral_salt")
     var condensedMilk = ItemBase("condensed_milk")
     var fertilizer = ItemFertilizer()

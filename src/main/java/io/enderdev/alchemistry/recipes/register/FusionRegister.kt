@@ -11,10 +11,8 @@ class FusionRegister : AbstractRecipeRegister<FusionRecipe>() {
     override fun registerRecipes() {
         ElementRegistry.getAllElements().forEach { element1 ->
             ElementRegistry.getAllElements().forEach { element2 ->
-                // if (recipes.any { it.inputMeta1 == element2.meta && it.inputMeta2 == element1.meta }) return@forEach
-                if (ElementRegistry[element1.meta + element2.meta] != null) {
+                if(element2.meta >= element1.meta && ElementRegistry[element1.meta + element2.meta] != null)
                     recipes.add(FusionRecipe(element1.meta, element2.meta))
-                }
             }
         }
     }

@@ -22,7 +22,7 @@ class LiquifierRecipeCategory(guiHelper: IGuiHelper)
         val guiFluidStacks = recipeLayout.fluidStacks
 
 
-        var x = 44 - u
+        var x = 43 - u
         var y = 117 - v
         guiItemStacks.init(INPUT_ONE, true, x, y)
         guiItemStacks.set(INPUT_ONE, ingredients.getInputs(VanillaTypes.ITEM)[0])

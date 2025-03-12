@@ -1,5 +1,6 @@
 package al132.alchemistry.client
 
+import al132.alchemistry.client.container.ContainerFissionController
 import al132.alchemistry.tiles.TileFissionController
 import net.minecraft.entity.player.InventoryPlayer
 import net.minecraft.util.ResourceLocation

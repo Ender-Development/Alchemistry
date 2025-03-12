@@ -1,6 +1,7 @@
 package al132.alchemistry.client
 
 import al132.alchemistry.client.button.SingleButton
+import al132.alchemistry.client.container.ContainerFusionController
 import al132.alchemistry.network.FusionModePacket
 import al132.alchemistry.network.PacketHandler
 import al132.alchemistry.tiles.TileFusionController

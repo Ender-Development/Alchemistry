@@ -1,4 +1,4 @@
-package al132.alchemistry.client
+package al132.alchemistry.client.container
 
 import al132.alchemistry.tiles.TileFissionController
 import net.minecraft.entity.player.InventoryPlayer

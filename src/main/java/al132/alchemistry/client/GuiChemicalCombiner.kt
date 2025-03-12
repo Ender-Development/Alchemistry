@@ -2,13 +2,13 @@ package al132.alchemistry.client
 
 import al132.alchemistry.ConfigHandler
 import al132.alchemistry.client.button.LockButton
+import al132.alchemistry.client.container.ContainerChemicalCombiner
 import al132.alchemistry.network.ChemicalCombinerPacket
 import al132.alchemistry.network.PacketHandler
 import al132.alchemistry.tiles.TileChemicalCombiner
 import al132.alib.client.CapabilityEnergyDisplayWrapper
 import al132.alib.utils.Translator
 import al132.alib.utils.extensions.get
-import al132.alib.utils.extensions.translate
 import net.minecraft.client.gui.GuiButton
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.RenderHelper

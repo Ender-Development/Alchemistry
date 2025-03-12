@@ -1,5 +1,6 @@
 package al132.alchemistry.client
 
+import al132.alchemistry.client.container.ContainerEvaporator
 import al132.alchemistry.tiles.TileEvaporator
 import al132.alib.client.CapabilityFluidDisplayWrapper
 import al132.alib.utils.Translator

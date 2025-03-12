@@ -1,6 +1,7 @@
 package al132.alchemistry.client
 
 import al132.alchemistry.ConfigHandler
+import al132.alchemistry.client.container.ContainerLiquifier
 import al132.alchemistry.tiles.TileLiquifier
 import al132.alib.client.CapabilityEnergyDisplayWrapper
 import al132.alib.client.CapabilityFluidDisplayWrapper

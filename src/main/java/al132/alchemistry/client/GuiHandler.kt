@@ -1,5 +1,13 @@
 package al132.alchemistry.client
 
+import al132.alchemistry.client.container.ContainerAtomizer
+import al132.alchemistry.client.container.ContainerChemicalCombiner
+import al132.alchemistry.client.container.ContainerChemicalDissolver
+import al132.alchemistry.client.container.ContainerElectrolyzer
+import al132.alchemistry.client.container.ContainerEvaporator
+import al132.alchemistry.client.container.ContainerFissionController
+import al132.alchemistry.client.container.ContainerFusionController
+import al132.alchemistry.client.container.ContainerLiquifier
 import al132.alchemistry.tiles.*
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.util.math.BlockPos

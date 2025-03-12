@@ -1,6 +1,6 @@
 package al132.alchemistry.compat.jei.combiner
 
-import al132.alchemistry.client.ContainerChemicalCombiner
+import al132.alchemistry.client.container.ContainerChemicalCombiner
 import al132.alchemistry.network.ChemicalCombinerTransferPacket
 import al132.alchemistry.network.PacketHandler
 import mezz.jei.api.gui.IRecipeLayout

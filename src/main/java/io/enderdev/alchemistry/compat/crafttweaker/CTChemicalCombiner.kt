@@ -1,4 +1,4 @@
-package io.enderdev.alchemistry.compat.ct
+package io.enderdev.alchemistry.compat.crafttweaker
 
 import io.enderdev.alchemistry.Alchemistry
 import io.enderdev.alchemistry.recipes.CombinerRecipe

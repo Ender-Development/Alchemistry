@@ -1,9 +1,8 @@
-package io.enderdev.alchemistry.compat.ct
-
+package io.enderdev.alchemistry.compat.crafttweaker
 
 import io.enderdev.alchemistry.Alchemistry
-import io.enderdev.alchemistry.recipes.EvaporatorRecipe
-import io.enderdev.alchemistry.recipes.register.EvaporatorRegister
+import io.enderdev.alchemistry.recipes.AtomizerRecipe
+import io.enderdev.alchemistry.recipes.register.AtomizerRegister
 import crafttweaker.IAction
 import crafttweaker.annotations.ModOnly
 import crafttweaker.annotations.ZenRegister
@@ -14,21 +13,21 @@ import net.minecraftforge.fluids.FluidStack
 import stanhebben.zenscript.annotations.ZenClass
 import stanhebben.zenscript.annotations.ZenMethod
 
-@ZenClass("mods.alchemistry.Evaporator")
+@ZenClass("mods.alchemistry.Atomizer")
 @ModOnly("alchemistry")
 @ZenRegister
-object CTEvaporator {
+object CTAtomizer {
 
     @ZenMethod
     @JvmStatic
     fun addRecipe(output: IItemStack, input: ILiquidStack) {
         Alchemistry.LATE_ADDITIONS.add(object : IAction {
-            override fun describe() = "Added Evaporator recipe for [$input] -> [$output]"
+            override fun describe() = "Added Atomizer recipe for [$input] -> [$output]"
 
             override fun apply() {
                 val inputStack = input.internal as FluidStack
                 val outputStack = output.internal as ItemStack
-                EvaporatorRegister.Companion.INSTANCE.recipes.add(EvaporatorRecipe(inputStack, outputStack))
+                AtomizerRegister.Companion.INSTANCE.recipes.add(AtomizerRecipe(false, inputStack, outputStack))
             }
         })
     }
@@ -37,11 +36,11 @@ object CTEvaporator {
     @JvmStatic
     fun removeRecipe(input: ILiquidStack) {
         Alchemistry.LATE_REMOVALS.add(object : IAction {
-            override fun describe() = "Removed Evaporator recipe for [$input]"
+            override fun describe() = "Added Atomizer recipe for [$input]"
 
             override fun apply() {
                 val inputStack = input.internal as FluidStack
-                EvaporatorRegister.Companion.INSTANCE.recipes.removeIf { it.input.isFluidEqual(inputStack) }
+                AtomizerRegister.Companion.INSTANCE.recipes.removeIf { it.input.isFluidEqual(inputStack) }
             }
         })
     }
@@ -50,9 +49,9 @@ object CTEvaporator {
     @JvmStatic
     fun removeAllRecipes() {
         Alchemistry.LATE_REMOVALS.add(object : IAction {
-            override fun describe() = "Removed ALL Evaporator recipes"
+            override fun describe() = "Removed ALL Atomizer recipes"
 
-            override fun apply() = EvaporatorRegister.Companion.INSTANCE.recipes.clear()
+            override fun apply() = AtomizerRegister.Companion.INSTANCE.recipes.clear()
         })
     }
 }

@@ -1,4 +1,4 @@
-package io.enderdev.alchemistry.compat.ct
+package io.enderdev.alchemistry.compat.crafttweaker
 
 import io.enderdev.alchemistry.chemistry.CompoundPair
 import io.enderdev.alchemistry.chemistry.CompoundRegistry

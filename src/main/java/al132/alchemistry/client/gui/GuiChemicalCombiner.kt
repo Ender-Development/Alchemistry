@@ -3,7 +3,7 @@ package al132.alchemistry.client.gui
 import al132.alchemistry.ConfigHandler
 import al132.alchemistry.client.button.LockButton
 import al132.alchemistry.client.container.ContainerChemicalCombiner
-import al132.alchemistry.network.ChemicalCombinerPacket
+import al132.alchemistry.network.ButtonPacket
 import al132.alchemistry.network.PacketHandler
 import al132.alchemistry.tiles.TileChemicalCombiner
 import al132.alib.client.CapabilityEnergyDisplayWrapper
@@ -40,7 +40,7 @@ class GuiChemicalCombiner(
     override fun actionPerformed(guibutton: GuiButton) {
         super.actionPerformed(guibutton)
         if (guibutton.id == toggleRecipeLock.id) {
-            PacketHandler.INSTANCE!!.sendToServer(ChemicalCombinerPacket(tile.pos, lock = true))
+            PacketHandler.INSTANCE!!.sendToServer(ButtonPacket(tile.pos, lock = true))
         }
     }
 

@@ -2,7 +2,7 @@ package al132.alchemistry.client.gui
 
 import al132.alchemistry.client.button.SingleButton
 import al132.alchemistry.client.container.ContainerFusionController
-import al132.alchemistry.network.FusionModePacket
+import al132.alchemistry.network.ButtonPacket
 import al132.alchemistry.network.PacketHandler
 import al132.alchemistry.tiles.TileFusionController
 import al132.alib.utils.Translator
@@ -31,7 +31,7 @@ class GuiFusionController(playerInv: InventoryPlayer, tile: TileFusionController
     override fun actionPerformed(guibutton: GuiButton) {
         super.actionPerformed(guibutton)
         if (guibutton.id == modeButton.id) {
-            PacketHandler.INSTANCE!!.sendToServer(FusionModePacket(tile.pos, singleMode = true))
+            PacketHandler.INSTANCE!!.sendToServer(ButtonPacket(tile.pos, single = true))
         }
     }
 

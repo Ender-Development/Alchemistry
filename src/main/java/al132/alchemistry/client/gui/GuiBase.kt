@@ -2,7 +2,7 @@ package al132.alchemistry.client.gui
 
 
 import al132.alchemistry.client.button.PauseButton
-import al132.alchemistry.network.ChemicalCombinerPacket
+import al132.alchemistry.network.ButtonPacket
 import al132.alchemistry.network.PacketHandler
 import al132.alchemistry.tiles.AbstractMachine
 import al132.alib.client.ALGuiBase
@@ -70,7 +70,7 @@ abstract class GuiBase<T>(container: Container, tile: T, textureLocation: Resour
 
     override fun actionPerformed(button: GuiButton) {
         if (button.id == pauseButton.id) {
-            PacketHandler.INSTANCE!!.sendToServer(ChemicalCombinerPacket(tile.pos, pause = true))
+            PacketHandler.INSTANCE!!.sendToServer(ButtonPacket(tile.pos, pause = true))
         }
     }
 

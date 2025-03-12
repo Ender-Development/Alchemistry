@@ -1,9 +1,9 @@
 package io.enderdev.alchemistry.compat.jei.fusion
 
+import al132.alib.utils.Translator
 import io.enderdev.alchemistry.client.gui.GuiFusionController
 import io.enderdev.alchemistry.compat.jei.AlchemistryRecipeCategory
 import io.enderdev.alchemistry.compat.jei.AlchemistryRecipeUID
-import al132.alib.utils.Translator
 import mezz.jei.api.IGuiHelper
 import mezz.jei.api.gui.IRecipeLayout
 import mezz.jei.api.ingredients.IIngredients
@@ -13,7 +13,7 @@ class FusionRecipeCategory(guiHelper: IGuiHelper)
     : AlchemistryRecipeCategory<FusionRecipeWrapper>(guiHelper.createDrawable(guiTexture, u, v, 115, 26),
         "jei.fusion_controller.name") {
 
-    override fun getTitle(): String = Translator.translateToLocal("jei.fission_controller.name")
+    override fun getTitle(): String = Translator.translateToLocal("jei.fusion_controller.name")
 
     override fun getUid(): String = AlchemistryRecipeUID.FUSION
 

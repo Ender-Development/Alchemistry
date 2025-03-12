@@ -11,6 +11,8 @@ import io.enderdev.alchemistry.chemistry.ElementRegistry
 import io.enderdev.alchemistry.compat.groovyscript.parser.Compound
 import io.enderdev.alchemistry.compat.groovyscript.parser.Element
 import io.enderdev.alchemistry.compat.groovyscript.register.Atomizer
+import io.enderdev.alchemistry.compat.groovyscript.register.Combiner
+import io.enderdev.alchemistry.compat.groovyscript.register.Dissolver
 import io.enderdev.alchemistry.compat.groovyscript.register.Electrolyzer
 import io.enderdev.alchemistry.compat.groovyscript.register.Evaporator
 import io.enderdev.alchemistry.compat.groovyscript.register.Liquifier
@@ -18,12 +20,16 @@ import net.minecraft.item.ItemStack
 
 class GSContainer : GroovyPropertyContainer() {
     val atomizer: Atomizer = Atomizer()
+    val combiner: Combiner = Combiner()
+    val dissolver: Dissolver = Dissolver()
     val electrolyzer: Electrolyzer = Electrolyzer()
     val evaporator: Evaporator = Evaporator()
     val liquifier: Liquifier = Liquifier()
 
     init {
         addProperty(atomizer)
+        addProperty(combiner)
+        addProperty(dissolver)
         addProperty(electrolyzer)
         addProperty(evaporator)
         addProperty(liquifier)

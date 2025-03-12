@@ -20,6 +20,7 @@ import io.enderdev.alchemistry.recipes.ElectrolyzerRecipe
 import io.enderdev.alchemistry.recipes.register.ElectrolyzerRegister
 import net.minecraft.item.crafting.Ingredient
 import net.minecraftforge.fluids.FluidStack
+import org.jetbrains.annotations.Nullable
 
 @RegistryDescription(linkGenerator = Tags.MOD_ID)
 class Electrolyzer : VirtualizedRegistry<ElectrolyzerRecipe>() {
@@ -49,7 +50,7 @@ class Electrolyzer : VirtualizedRegistry<ElectrolyzerRecipe>() {
     @MethodDescription(type = MethodDescription.Type.REMOVAL, example = [Example("element('chlorine')")])
     fun removeByOutput(output: IIngredient): Boolean {
         return ElectrolyzerRegister.INSTANCE.recipes.removeIf { r ->
-            if (r.outputs.any { o -> output.test(o) }) {
+            if (r.outputs.any { output.test(it) }) {
                 addBackup(r)
                 return@removeIf true
             }
@@ -68,7 +69,7 @@ class Electrolyzer : VirtualizedRegistry<ElectrolyzerRecipe>() {
         }
     }
 
-    @MethodDescription(example = [Example(value = "fluid('water')", commented = true)])
+    @MethodDescription(type = MethodDescription.Type.REMOVAL, example = [Example(value = "fluid('water')", commented = true)])
     fun removeByInput(input: FluidStack): Boolean {
         return ElectrolyzerRegister.INSTANCE.recipes.removeIf { r ->
             if (r.input.isFluidEqual(input)) {
@@ -144,23 +145,24 @@ class Electrolyzer : VirtualizedRegistry<ElectrolyzerRecipe>() {
             return "An error occurred while building an Alchemistry Electrolyzer recipe."
         }
 
-        override fun validate(msg: GroovyLog.Msg?) {
+        override fun validate(msg: GroovyLog.Msg) {
             validateItems(msg, 0, 1, 1, 4);
             validateFluids(msg, 1, 1, 0, 0);
             validateCustom(msg, chance, 0, 2, "chance");
-            msg?.add(
+            msg.add(
                 !chance.isEmpty() && chance.size > (output.size - 2),
                 "chance only applies to output items after the second, cannot have more chance than output items above 2, had {} chance and {} output",
                 chance.size,
                 output.size
             );
-            msg?.add(
+            msg.add(
                 consumptionChance < 0 || consumptionChance > 100,
                 "consumption chance must be between 0 and 100, yet it was {}",
                 consumptionChance
             );
         }
 
+        @Nullable
         @RecipeBuilderRegistrationMethod
         override fun register(): ElectrolyzerRecipe? {
             if (!validate()) return null;

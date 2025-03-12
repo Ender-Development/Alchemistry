@@ -1,5 +1,6 @@
-package al132.alchemistry.blocks
+package al132.alchemistry.blocks.machine
 
+import al132.alchemistry.blocks.BaseTileBlock
 import net.minecraft.block.state.IBlockState
 import net.minecraft.tileentity.TileEntity
 import net.minecraft.util.math.BlockPos

@@ -1,7 +1,7 @@
 package al132.alchemistry.tiles
 
-import al132.alchemistry.blocks.FissionControllerBlock
-import al132.alchemistry.blocks.FusionControllerBlock
+import al132.alchemistry.blocks.machine.FissionControllerBlock
+import al132.alchemistry.blocks.machine.FusionControllerBlock
 import al132.alchemistry.recipes.IRecipe
 import al132.alchemistry.recipes.register.AbstractRecipeRegister
 import al132.alib.tiles.IEnergyTile

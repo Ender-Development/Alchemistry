@@ -1,9 +1,8 @@
-package al132.alchemistry.blocks
+package al132.alchemistry.blocks.machine
 
-import al132.alchemistry.client.TESREvaporator
+import al132.alchemistry.ConfigHandler
 import al132.alchemistry.items.TooltipItemBlock
-import al132.alchemistry.tiles.TileEvaporator
-import al132.alib.utils.extensions.translate
+import al132.alib.utils.Translator
 import net.minecraft.block.state.IBlockState
 import net.minecraft.entity.Entity
 import net.minecraft.item.Item
@@ -14,27 +13,19 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 import net.minecraftforge.event.RegistryEvent
-import net.minecraftforge.fml.client.registry.ClientRegistry
 
-/**
- * Created by al132 on 6/21/2017.
- */
-
-class EvaporatorBlock(name: String,
-                      tileClass: Class<out TileEntity>,
-                      guiID: Int)
+class AtomizerBlock(name: String,
+                    tileClass: Class<out TileEntity>,
+                    guiID: Int)
     : BaseMachineBlock(name, tileClass, guiID) {
 
-    val boundingBox = AxisAlignedBB(0.0625, 0.0625, 0.0625, 0.9375, 0.75, 0.9375)
-    val boundingBox2 = AxisAlignedBB(0.25, 0.0, 0.25, 0.75, 0.0625, 0.75)
-
-    override fun registerModel() {
-        super.registerModel()
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEvaporator::class.java, TESREvaporator())
-    }
+    val boundingBox = AxisAlignedBB(0.0, 0.0, 0.0, 1.0, 1.0, 1.0)
 
     override fun registerItemBlock(event: RegistryEvent.Register<Item>) {
-        event.registry.register(TooltipItemBlock(this, "tile.evaporator.tooltip".translate())
+        event.registry.register(TooltipItemBlock(this,
+                Translator.translateToLocalFormatted("tooltip.alchemistry.energy_requirement",
+                        ConfigHandler.ATOMIZER.energyPerTick))
+                //.translate() + " " + ConfigHandler.atomizerEnergyPerTick + " FE/t")
                 .setRegistryName(this.registryName))
     }
 
@@ -54,6 +45,5 @@ class EvaporatorBlock(name: String,
                                        entityIn: Entity?, mysteryboolean: Boolean) {
 
         addCollisionBoxToList(pos, entityBox, collidingBoxes, boundingBox)
-        addCollisionBoxToList(pos, entityBox, collidingBoxes, boundingBox2)
     }
 }

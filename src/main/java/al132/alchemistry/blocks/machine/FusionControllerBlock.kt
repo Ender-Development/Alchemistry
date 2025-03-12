@@ -1,6 +1,8 @@
-package al132.alchemistry.blocks
+package al132.alchemistry.blocks.machine
 
 import al132.alchemistry.ConfigHandler
+import al132.alchemistry.blocks.BaseTileBlock
+import al132.alchemistry.blocks.PropertyPowerStatus
 import al132.alchemistry.items.TooltipItemBlock
 import al132.alib.utils.Translator
 import net.minecraft.block.properties.IProperty

@@ -1,4 +1,4 @@
-package al132.alchemistry.blocks
+package al132.alchemistry.blocks.machine
 
 import al132.alchemistry.ConfigHandler
 import al132.alchemistry.items.TooltipItemBlock
@@ -13,21 +13,22 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 import net.minecraftforge.event.RegistryEvent
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler
+import kotlin.math.roundToInt
 
-class AtomizerBlock(name: String,
-                    tileClass: Class<out TileEntity>,
-                    guiID: Int)
+class LiquifierBlock(name: String,
+                     tileClass: Class<out TileEntity>,
+                     guiID: Int)
     : BaseMachineBlock(name, tileClass, guiID) {
-
-    val boundingBox = AxisAlignedBB(0.0, 0.0, 0.0, 1.0, 1.0, 1.0)
 
     override fun registerItemBlock(event: RegistryEvent.Register<Item>) {
         event.registry.register(TooltipItemBlock(this,
                 Translator.translateToLocalFormatted("tooltip.alchemistry.energy_requirement",
-                        ConfigHandler.ATOMIZER.energyPerTick))
-                //.translate() + " " + ConfigHandler.atomizerEnergyPerTick + " FE/t")
+                        ConfigHandler.LIQUIFIER.energyPerTick))
                 .setRegistryName(this.registryName))
     }
+
+    val boundingBox = AxisAlignedBB(0.0, 0.0, 0.0, 1.0, 1.0, 1.0)
 
     override fun getRenderType(state: IBlockState): EnumBlockRenderType = EnumBlockRenderType.MODEL
 
@@ -45,5 +46,22 @@ class AtomizerBlock(name: String,
                                        entityIn: Entity?, mysteryboolean: Boolean) {
 
         addCollisionBoxToList(pos, entityBox, collidingBoxes, boundingBox)
+    }
+
+    @Deprecated("")
+    override fun getComparatorInputOverride(state: IBlockState, world: World, pos: BlockPos): Int {
+        val te = world.getTileEntity(pos)
+        if(te == null)
+            return 0
+
+        val cap = te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)
+        if(cap == null)
+            return 0
+
+        val properties = cap.tankProperties[0]
+        if(properties.contents == null || properties.contents!!.amount == 0)
+            return 0
+
+        return (properties.contents!!.amount.toFloat() / properties.capacity * 15).roundToInt()
     }
 }

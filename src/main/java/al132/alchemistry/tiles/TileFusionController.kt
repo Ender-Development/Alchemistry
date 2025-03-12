@@ -1,7 +1,7 @@
 package al132.alchemistry.tiles
 
 import al132.alchemistry.ConfigHandler
-import al132.alchemistry.blocks.FusionControllerBlock.Companion.STATUS
+import al132.alchemistry.blocks.machine.FusionControllerBlock.Companion.STATUS
 import al132.alchemistry.blocks.ModBlocks
 import al132.alchemistry.blocks.PropertyPowerStatus
 import al132.alchemistry.chemistry.ChemicalElement

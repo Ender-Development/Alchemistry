@@ -1,6 +1,6 @@
 package al132.alchemistry.compat.jei.evaporator
 
-import al132.alchemistry.client.GuiEvaporator
+import al132.alchemistry.client.gui.GuiEvaporator
 import al132.alchemistry.compat.jei.AlchemistryRecipeCategory
 import al132.alchemistry.compat.jei.AlchemistryRecipeUID
 import al132.alib.utils.Translator

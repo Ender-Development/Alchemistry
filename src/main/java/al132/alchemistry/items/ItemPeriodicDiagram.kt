@@ -1,6 +1,6 @@
 package al132.alchemistry.items
 
-import al132.alchemistry.client.GuiPeriodicTable
+import al132.alchemistry.client.gui.GuiPeriodicTable
 import al132.alib.utils.extensions.translate
 import net.minecraft.client.Minecraft
 import net.minecraft.client.util.ITooltipFlag

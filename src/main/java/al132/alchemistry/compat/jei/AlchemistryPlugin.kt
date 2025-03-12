@@ -2,12 +2,19 @@ package al132.alchemistry.compat.jei
 
 import al132.alchemistry.Reference
 import al132.alchemistry.blocks.ModBlocks
-import al132.alchemistry.client.*
 import al132.alchemistry.client.container.ContainerChemicalDissolver
 import al132.alchemistry.client.container.ContainerElectrolyzer
 import al132.alchemistry.client.container.ContainerFissionController
 import al132.alchemistry.client.container.ContainerFusionController
 import al132.alchemistry.client.container.ContainerLiquifier
+import al132.alchemistry.client.gui.GuiAtomizer
+import al132.alchemistry.client.gui.GuiChemicalCombiner
+import al132.alchemistry.client.gui.GuiChemicalDissolver
+import al132.alchemistry.client.gui.GuiElectrolyzer
+import al132.alchemistry.client.gui.GuiEvaporator
+import al132.alchemistry.client.gui.GuiFissionController
+import al132.alchemistry.client.gui.GuiFusionController
+import al132.alchemistry.client.gui.GuiLiquifier
 import al132.alchemistry.compat.jei.AlchemistryRecipeUID.ATOMIZER
 import al132.alchemistry.compat.jei.AlchemistryRecipeUID.COMBINER
 import al132.alchemistry.compat.jei.AlchemistryRecipeUID.DISSOLVER

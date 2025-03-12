@@ -1,4 +1,4 @@
-package al132.alchemistry.client
+package al132.alchemistry.client.gui
 
 import al132.alchemistry.client.container.ContainerFissionController
 import al132.alchemistry.tiles.TileFissionController

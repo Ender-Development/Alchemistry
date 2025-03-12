@@ -1,8 +1,8 @@
-package al132.alchemistry.client
+package al132.alchemistry.client.gui
 
 import al132.alchemistry.ConfigHandler
-import al132.alchemistry.client.container.ContainerElectrolyzer
-import al132.alchemistry.tiles.TileElectrolyzer
+import al132.alchemistry.client.container.ContainerAtomizer
+import al132.alchemistry.tiles.TileAtomizer
 import al132.alib.client.CapabilityEnergyDisplayWrapper
 import al132.alib.client.CapabilityFluidDisplayWrapper
 import al132.alib.utils.Translator
@@ -12,14 +12,14 @@ import net.minecraft.util.ResourceLocation
 /**
  * Created by al132 on 1/16/2017.
  */
-class GuiElectrolyzer(playerInv: InventoryPlayer, tile: TileElectrolyzer, override val displayNameOffset: Int = 51)
-    : GuiBase<TileElectrolyzer>(ContainerElectrolyzer(playerInv, tile), tile, textureLocation) {
+class GuiAtomizer(playerInv: InventoryPlayer, tile: TileAtomizer, override val displayNameOffset: Int = 51) :
+    GuiBase<TileAtomizer>(ContainerAtomizer(playerInv, tile), tile, textureLocation) {
 
     companion object {
-        val textureLocation = ResourceLocation(root + "electrolyzer_gui.png")
+        val textureLocation = ResourceLocation(root + "atomizer_gui.png")
     }
 
-    override val displayName = Translator.translateToLocal("tile.electrolyzer.name")
+    override val displayName = Translator.translateToLocal("tile.atomizer.name")
 
     init {
         this.displayData.add(CapabilityEnergyDisplayWrapper(8, 64, 16, 70, tile::energyStorage))
@@ -32,8 +32,8 @@ class GuiElectrolyzer(playerInv: InventoryPlayer, tile: TileElectrolyzer, overri
         val i = (this.width - this.xSize) / 2
         val j = (this.height - this.ySize) / 2
         if (tile.progressTicks > 0) {
-            val k = this.getBarScaled(36, tile.progressTicks, ConfigHandler.ELECTROLYZER.processingTicks)
-            this.drawTexturedModalRect(i + 70, j+99, 175, 0, k, 36)
+            val k = this.getBarScaled(36, tile.progressTicks, ConfigHandler.ATOMIZER.processingTicks)
+            this.drawTexturedModalRect(i + 70, j + 118, 175, 0, k, 16)
         }
     }
 }

@@ -1,7 +1,7 @@
 package al132.alchemistry.blocks
 
 import al132.alchemistry.Reference
-import al132.alchemistry.client.GuiHandler
+import al132.alchemistry.client.gui.GuiHandler
 import al132.alchemistry.tiles.*
 import al132.alib.blocks.ALBlock
 import net.minecraft.block.Block

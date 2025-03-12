@@ -4,7 +4,7 @@ import al132.alchemistry.capability.AlchemistryDrugDispatcher
 import al132.alchemistry.capability.CapabilityDrugInfo
 import al132.alchemistry.chemistry.CompoundRegistry
 import al132.alchemistry.chemistry.ElementRegistry
-import al132.alchemistry.client.GuiPeriodicTable
+import al132.alchemistry.client.gui.GuiPeriodicTable
 import al132.alchemistry.items.DankMolecule
 import al132.alchemistry.items.ItemCompound
 import al132.alchemistry.items.ModItems

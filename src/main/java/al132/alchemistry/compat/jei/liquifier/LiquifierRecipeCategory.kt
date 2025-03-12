@@ -1,6 +1,6 @@
 package al132.alchemistry.compat.jei.liquifier
 
-import al132.alchemistry.client.GuiLiquifier
+import al132.alchemistry.client.gui.GuiLiquifier
 import al132.alchemistry.compat.jei.AlchemistryRecipeCategory
 import al132.alchemistry.compat.jei.AlchemistryRecipeUID
 import al132.alib.utils.Translator

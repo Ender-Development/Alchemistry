@@ -3,7 +3,7 @@ package al132.alchemistry
 import al132.alchemistry.capability.AlchemistryDrugInfo
 import al132.alchemistry.chemistry.CompoundRegistry
 import al132.alchemistry.chemistry.ElementRegistry
-import al132.alchemistry.client.GuiHandler
+import al132.alchemistry.client.gui.GuiHandler
 import al132.alchemistry.network.PacketHandler
 import al132.alchemistry.recipes.ModRecipes
 import al132.alchemistry.recipes.XMLRecipeParser

@@ -1,6 +1,6 @@
 package al132.alchemistry.compat.jei.fission
 
-import al132.alchemistry.client.GuiFissionController
+import al132.alchemistry.client.gui.GuiFissionController
 import al132.alchemistry.compat.jei.AlchemistryRecipeCategory
 import al132.alchemistry.compat.jei.AlchemistryRecipeUID
 import al132.alib.utils.Translator

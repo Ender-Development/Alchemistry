@@ -1,6 +1,6 @@
 package al132.alchemistry.compat.jei.electrolyzer
 
-import al132.alchemistry.client.GuiElectrolyzer
+import al132.alchemistry.client.gui.GuiElectrolyzer
 import al132.alchemistry.compat.jei.AlchemistryRecipeCategory
 import al132.alchemistry.compat.jei.AlchemistryRecipeUID
 import al132.alib.utils.Translator

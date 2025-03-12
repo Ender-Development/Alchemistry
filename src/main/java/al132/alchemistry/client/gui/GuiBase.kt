@@ -1,4 +1,4 @@
-package al132.alchemistry.client
+package al132.alchemistry.client.gui
 
 
 import al132.alchemistry.client.button.PauseButton
@@ -8,7 +8,6 @@ import al132.alchemistry.tiles.AbstractMachine
 import al132.alib.client.ALGuiBase
 import al132.alib.client.CapabilityEnergyDisplayWrapper
 import al132.alib.client.CapabilityFluidDisplayWrapper
-import al132.alib.tiles.ALTile
 import al132.alib.tiles.IGuiTile
 import al132.alib.utils.Translator
 import net.minecraft.client.gui.GuiButton

@@ -1,4 +1,4 @@
-package al132.alchemistry.client
+package al132.alchemistry.client.gui
 
 import al132.alchemistry.Reference
 import al132.alchemistry.chemistry.ChemicalElement

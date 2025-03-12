@@ -1,0 +1,19 @@
+{
+	"ctm": {
+		"ctm_version": 1,
+		"type": "ctm",
+		"layer": "TRANSLUCENT",
+		"textures": [
+			"alchemistry:blocks/neon_light_ctm"
+		],
+		"extra": {
+			"connect_to": [
+				{"block": "alchemistry:argon_light"},
+				{"block": "alchemistry:helium_light"},
+				{"block": "alchemistry:krypton_light"},
+				{"block": "alchemistry:neon_light"},
+				{"block": "alchemistry:xenon_light"}
+			]
+		}
+	}
+}

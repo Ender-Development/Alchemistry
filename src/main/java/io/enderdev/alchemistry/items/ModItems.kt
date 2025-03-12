@@ -24,7 +24,6 @@ object ModItems {
             tooltip.add("item.alchemistry:obsidian_breaker.tooltip".translate())
         }
     }
-    var slotFiller = ItemSlotFiller()
 
     var elements = ItemElement("element")
     var compounds = ItemCompound("compound")

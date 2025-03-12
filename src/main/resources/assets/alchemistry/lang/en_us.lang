@@ -25,7 +25,6 @@ tile.wet_sand.name=Wet Sand
 item.alchemistry:mineral_salt.name=Mineral Salt
 item.alchemistry:fertilizer.name=Fertilizer
 item.alchemistry:obsidian_breaker.name=Obsidian Breaker
-item.alchemistry:slot_filler.name=Slot Filler
 item.alchemistry:periodic_table.name=Periodic Table
 
 item.alchemistry:element_hydrogen.name=Hydrogen

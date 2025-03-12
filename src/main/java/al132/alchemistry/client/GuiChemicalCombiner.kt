@@ -1,12 +1,14 @@
 package al132.alchemistry.client
 
 import al132.alchemistry.ConfigHandler
+import al132.alchemistry.client.button.LockButton
 import al132.alchemistry.network.ChemicalCombinerPacket
 import al132.alchemistry.network.PacketHandler
 import al132.alchemistry.tiles.TileChemicalCombiner
 import al132.alib.client.CapabilityEnergyDisplayWrapper
 import al132.alib.utils.Translator
 import al132.alib.utils.extensions.get
+import al132.alib.utils.extensions.translate
 import net.minecraft.client.gui.GuiButton
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.RenderHelper
@@ -18,14 +20,10 @@ import net.minecraft.util.ResourceLocation
  * Created by al132 on 1/16/2017.
  */
 class GuiChemicalCombiner(
-    playerInv: InventoryPlayer, tile: TileChemicalCombiner,
-    override val displayNameOffset: Int = 51
-) :
-    GuiBase<TileChemicalCombiner>(
-        ContainerChemicalCombiner(playerInv, tile),
-        tile,
-        textureLocation
-    ) {
+    playerInv: InventoryPlayer, tile: TileChemicalCombiner, override val displayNameOffset: Int = 51
+) : GuiBase<TileChemicalCombiner>(
+    ContainerChemicalCombiner(playerInv, tile), tile, textureLocation
+) {
 
     companion object {
         val textureLocation = ResourceLocation(root + "chemical_combiner_gui.png")
@@ -33,47 +31,52 @@ class GuiChemicalCombiner(
 
     override val displayName = Translator.translateToLocal("tile.chemical_combiner.name")
 
-    lateinit var toggleRecipeLock: GuiButton
-    lateinit var pauseButton: GuiButton
-
+    lateinit var toggleRecipeLock: LockButton
 
     init {
         this.displayData.add(CapabilityEnergyDisplayWrapper(8, 64, 16, 70, tile::energyStorage))
     }
 
     override fun actionPerformed(guibutton: GuiButton) {
-        when (guibutton.id) {
-            toggleRecipeLock.id -> PacketHandler.INSTANCE!!.sendToServer(ChemicalCombinerPacket(tile.pos, lock = true))
-            pauseButton.id -> PacketHandler.INSTANCE!!.sendToServer(ChemicalCombinerPacket(tile.pos, pause = true))
+        super.actionPerformed(guibutton)
+        if (guibutton.id == toggleRecipeLock.id) {
+            PacketHandler.INSTANCE!!.sendToServer(ChemicalCombinerPacket(tile.pos, lock = true))
         }
     }
 
     override fun initGui() {
         super.initGui()
-        toggleRecipeLock = GuiButton(0, this.guiLeft + 7, this.guiTop + 19, 80, 20, "Test")
+        toggleRecipeLock = LockButton(1, this.guiLeft + 175 - 20, this.guiTop + displayNameOffset - 4 + 18)
         this.buttonList.add(toggleRecipeLock)
-
-        pauseButton = GuiButton(1, this.guiLeft + 89, this.guiTop + 19, 80, 20, "Test")
-        this.buttonList.add(pauseButton)
-    }
-
-    fun updateButtonStrings() {
-        if (tile.recipeIsLocked) toggleRecipeLock.displayString =
-            Translator.translateToLocal("tile.combiner.unlock_recipe")
-        else toggleRecipeLock.displayString = Translator.translateToLocal("tile.combiner.lock_recipe")
-
-        if (tile.isPaused) pauseButton.displayString = Translator.translateToLocal("tile.combiner.resume")
-        else pauseButton.displayString = Translator.translateToLocal("tile.combiner.pause")
     }
 
     override fun drawGuiContainerForegroundLayer(mouseX: Int, mouseY: Int) {
         super.drawGuiContainerForegroundLayer(mouseX, mouseY)
-        updateButtonStrings()
-        toggleRecipeLock.drawButtonForegroundLayer(mouseX, mouseY)
-        pauseButton.drawButtonForegroundLayer(mouseX, mouseY)
 
+        if (tile.recipeIsLocked) {
+            toggleRecipeLock.isLocked = LockButton.State.LOCKED
+        } else {
+            toggleRecipeLock.isLocked = LockButton.State.UNLOCKED
+        }
+    }
+
+    override fun renderTooltips(mouseX: Int, mouseY: Int) {
+        super.renderTooltips(mouseX, mouseY)
+        if (isHovered(toggleRecipeLock.x, toggleRecipeLock.y, 16, 16, mouseX, mouseY)) {
+            if (tile.recipeIsLocked) {
+                this.drawHoveringText(listOf(Translator.translateToLocal("tooltip.locked")), mouseX, mouseY)
+            } else {
+                this.drawHoveringText(listOf(Translator.translateToLocal("tooltip.unlocked")), mouseX, mouseY)
+            }
+        }
         if (!tile.clientRecipeTarget.getStackInSlot(0).isEmpty) {
-            this.drawItemStack(tile.clientRecipeTarget[0], 152, 99, Translator.translateToLocal("tile.combiner.target"))
+            val output = tile.clientRecipeTarget[0]
+            val x = (this.width - this.xSize) / 2 + 152
+            val y = (this.height - this.ySize) / 2 + 99
+            this.drawItemStack(output, x, y, Translator.translateToLocal("tile.combiner.target"))
+            if (isHovered(x, y, 16, 16, mouseX, mouseY)) {
+                this.drawHoveringText(listOf(output.displayName), mouseX, mouseY)
+            }
         }
     }
 
@@ -84,7 +87,7 @@ class GuiChemicalCombiner(
         val j = (this.height - this.ySize) / 2
         if (tile.progressTicks > 0) {
             val k = this.getBarScaled(27, tile.progressTicks, ConfigHandler.COMBINER.processingTicks)
-            this.drawTexturedModalRect(i + 102, j+90, 175, 0, k, 36)
+            this.drawTexturedModalRect(i + 102, j + 90, 175, 0, k, 36)
         }
     }
 
@@ -99,5 +102,4 @@ class GuiChemicalCombiner(
         this.zLevel = 0.0f
         this.itemRender.zLevel = 0.0f
     }
-
 }

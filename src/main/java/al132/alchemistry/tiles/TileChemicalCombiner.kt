@@ -59,6 +59,7 @@ class TileChemicalCombiner : AbstractMachine<CombinerRecipe>(CombinerRegister.IN
     }
 
     override fun updateRecipe() {
+        if (recipeIsLocked) return
         currentRecipe = CombinerRecipe.matchInputs(this.input)
     }
 

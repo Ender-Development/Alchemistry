@@ -21,7 +21,6 @@ tile.argon_light.name=Argon Light
 
 tile.wet_sand.name=Wet Sand
 
-
 item.alchemistry:mineral_salt.name=Mineral Salt
 item.alchemistry:fertilizer.name=Fertilizer
 item.alchemistry:obsidian_breaker.name=Obsidian Breaker
@@ -248,9 +247,6 @@ item.alchemistry:ingot_livermorium.name=Livermorium Ingot
 item.alchemistry:ingot_tennessine.name=Tennessine Ingot
 item.alchemistry:ingot_oganesson.name=Oganesson Ingot
 
-
-
-
 item.alchemistry:compound_cellulose.name=Cellulose
 item.alchemistry:compound_aluminum_oxide.name=Aluminum Oxide
 item.alchemistry:compound_magnesium_oxide.name=Magnesium Oxide
@@ -349,8 +345,6 @@ tile.wet_sand.tooltip=Able to grow sugarcane without adjacent water blocks
 
 tile.combiner.unlock_recipe=Unlock Recipe
 tile.combiner.lock_recipe=Lock Recipe
-tile.combiner.pause=Pause
-tile.combiner.resume=Resume
 tile.combiner.target=Target
 tile.fission.invalid_multiblock=!!! Invalid Fission Multiblock !!!
 tile.fission.productivity=Production Bonus: %s
@@ -392,3 +386,8 @@ tooltip.speed.current=Current: §d%s§r ticks per operation
 tooltip.energy.title=§6Energy Consumption§r
 tooltip.energy.default=Default: §d%s§r FE/t
 tooltip.energy.current=Current: §d%s§r FE/t
+
+tooltip.running=Click to pause
+tooltip.paused=Click to resume
+tooltip.locked=Click to unlock
+tooltip.unlocked=Click to lock

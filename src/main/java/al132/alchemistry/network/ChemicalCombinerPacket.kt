@@ -1,6 +1,7 @@
 package al132.alchemistry.network
 
 
+import al132.alchemistry.tiles.AbstractMachine
 import al132.alchemistry.tiles.TileChemicalCombiner
 import io.netty.buffer.ByteBuf
 import net.minecraft.util.math.BlockPos
@@ -46,14 +47,12 @@ class ChemicalCombinerPacket() : IMessage {
             val playerEntity = ctx.serverHandler.player
 
             val tile = playerEntity.world.getTileEntity(message.blockPos!!)
-            if (tile is TileChemicalCombiner) {
-                if (message.lock) {
-                    tile.recipeIsLocked = !(tile.recipeIsLocked)
-                    if(!tile.recipeIsLocked) tile.currentRecipe = null
-                } else if (message.pause) {
-                    tile.isPaused = !(tile.isPaused)
-                }
+            if (tile is TileChemicalCombiner && message.lock) {
+                tile.recipeIsLocked = !(tile.recipeIsLocked)
+                if (!tile.recipeIsLocked) tile.currentRecipe = null
             }
+            if (tile is AbstractMachine<*> && message.pause)
+                tile.isPaused = !(tile.isPaused)
         }
     }
 }

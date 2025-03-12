@@ -1,4 +1,4 @@
-package io.enderdev.alchemistry.compat.groovyscript
+package io.enderdev.alchemistry.compat.groovyscript.register
 
 import com.cleanroommc.groovyscript.api.GroovyBlacklist
 import com.cleanroommc.groovyscript.api.GroovyLog
@@ -12,10 +12,13 @@ import com.cleanroommc.groovyscript.api.documentation.annotations.RecipeBuilderM
 import com.cleanroommc.groovyscript.api.documentation.annotations.RecipeBuilderRegistrationMethod
 import com.cleanroommc.groovyscript.api.documentation.annotations.RegistryDescription
 import com.cleanroommc.groovyscript.helper.SimpleObjectStream
+import com.cleanroommc.groovyscript.helper.ingredient.IngredientHelper
 import com.cleanroommc.groovyscript.helper.recipe.AbstractRecipeBuilder
 import com.cleanroommc.groovyscript.registry.VirtualizedRegistry
 import io.enderdev.alchemistry.Tags
+import io.enderdev.alchemistry.compat.groovyscript.GSPlugin
 import io.enderdev.alchemistry.recipes.AtomizerRecipe
+import io.enderdev.alchemistry.recipes.LiquifierRecipe
 import io.enderdev.alchemistry.recipes.register.AtomizerRegister
 import org.jetbrains.annotations.Nullable
 
@@ -47,7 +50,7 @@ class Atomizer : VirtualizedRegistry<AtomizerRecipe>() {
 
     @MethodDescription(
         type = MethodDescription.Type.REMOVAL,
-        example = [Example(value = "item('alchemistry:compound:7')", commented = true)]
+        example = [Example(value = "fluid('water')", commented = true)]
     )
     fun removeByInput(input: IIngredient): Boolean {
         return AtomizerRegister.INSTANCE.recipes.removeIf { r ->
@@ -125,7 +128,8 @@ class Atomizer : VirtualizedRegistry<AtomizerRecipe>() {
             if (!validate()) return null
             val recipe = AtomizerRecipe(false, fluidInput[0], output[0])
             if (reversible) {
-                //TODO("Implement reversible recipes")
+                val reverse = LiquifierRecipe(output[0], fluidInput[0])
+                GSPlugin.instance?.liquifier?.add(reverse)
             }
             GSPlugin.instance?.atomizer?.add(recipe)
             return recipe

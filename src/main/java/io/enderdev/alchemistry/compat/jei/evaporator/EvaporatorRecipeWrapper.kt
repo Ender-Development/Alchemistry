@@ -1,0 +1,14 @@
+package io.enderdev.alchemistry.compat.jei.evaporator
+
+import io.enderdev.alchemistry.compat.jei.AlchemistryRecipeWrapper
+import io.enderdev.alchemistry.recipes.EvaporatorRecipe
+import mezz.jei.api.ingredients.IIngredients
+import mezz.jei.api.ingredients.VanillaTypes
+
+class EvaporatorRecipeWrapper(recipe: EvaporatorRecipe) : AlchemistryRecipeWrapper<EvaporatorRecipe>(recipe) {
+
+    override fun getIngredients(ingredients: IIngredients) {
+        ingredients.setInput(VanillaTypes.FLUID, recipe.input)
+        ingredients.setOutputs(VanillaTypes.ITEM, listOf(recipe.output))
+    }
+}

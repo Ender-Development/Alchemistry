@@ -18,6 +18,7 @@ import com.cleanroommc.groovyscript.registry.VirtualizedRegistry
 import io.enderdev.alchemistry.Tags
 import io.enderdev.alchemistry.compat.groovyscript.GSPlugin
 import io.enderdev.alchemistry.recipes.AtomizerRecipe
+import io.enderdev.alchemistry.recipes.ElectrolyzerRecipe
 import io.enderdev.alchemistry.recipes.LiquifierRecipe
 import io.enderdev.alchemistry.recipes.register.AtomizerRegister
 import org.jetbrains.annotations.Nullable
@@ -87,10 +88,12 @@ class Atomizer : VirtualizedRegistry<AtomizerRecipe>() {
         return SimpleObjectStream(AtomizerRegister.INSTANCE.recipes).setRemover { r -> remove(r) }
     }
 
-    @RecipeBuilderDescription(example = [
-        Example(".fluidInput(fluid('water') * 125).output(item('minecraft:clay'))"),
-        Example(".fluidInput(fluid('lava') * 500).output(item('minecraft:gold_ingot')).reversible()")
-    ])
+    @RecipeBuilderDescription(
+        example = [
+            Example(".fluidInput(fluid('water') * 125).output(item('minecraft:clay'))"),
+            Example(".fluidInput(fluid('lava') * 500).output(item('minecraft:gold_ingot')).reversible()")
+        ]
+    )
     fun recipeBuilder(): RecipeBuilder {
         return RecipeBuilder()
     }

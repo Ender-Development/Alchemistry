@@ -14,12 +14,13 @@ import com.cleanroommc.groovyscript.helper.SimpleObjectStream
 import com.cleanroommc.groovyscript.helper.ingredient.IngredientHelper
 import com.cleanroommc.groovyscript.helper.recipe.AbstractRecipeBuilder
 import com.cleanroommc.groovyscript.registry.VirtualizedRegistry
+import io.enderdev.alchemistry.Tags
 import io.enderdev.alchemistry.compat.groovyscript.GSPlugin
 import io.enderdev.alchemistry.recipes.LiquifierRecipe
 import io.enderdev.alchemistry.recipes.register.LiquifierRegister
 import org.jetbrains.annotations.Nullable
 
-@RegistryDescription
+@RegistryDescription(linkGenerator = Tags.MOD_ID)
 class Liquifier : VirtualizedRegistry<LiquifierRecipe>() {
 
     @GroovyBlacklist

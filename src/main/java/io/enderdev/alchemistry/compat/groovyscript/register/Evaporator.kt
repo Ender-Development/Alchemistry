@@ -7,11 +7,13 @@ import com.cleanroommc.groovyscript.api.documentation.annotations.*
 import com.cleanroommc.groovyscript.helper.SimpleObjectStream
 import com.cleanroommc.groovyscript.helper.recipe.AbstractRecipeBuilder
 import com.cleanroommc.groovyscript.registry.VirtualizedRegistry
+import io.enderdev.alchemistry.Tags
 import io.enderdev.alchemistry.compat.groovyscript.GSPlugin
 import io.enderdev.alchemistry.recipes.EvaporatorRecipe
 import io.enderdev.alchemistry.recipes.register.EvaporatorRegister
 import org.jetbrains.annotations.Nullable
 
+@RegistryDescription(linkGenerator = Tags.MOD_ID)
 class Evaporator: VirtualizedRegistry<EvaporatorRecipe>() {
     @GroovyBlacklist
     override fun onReload() {

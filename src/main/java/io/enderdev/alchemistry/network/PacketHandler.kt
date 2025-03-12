@@ -20,7 +20,5 @@ object PacketHandler {
                 ButtonPacket.Handler::class.java, ButtonPacket::class.java, nextID(), Side.SERVER)
         INSTANCE!!.registerMessage(
                 ChemicalCombinerTransferPacket.Handler::class.java, ChemicalCombinerTransferPacket::class.java, nextID(), Side.SERVER)
-        INSTANCE!!.registerMessage(
-                BoomPacket.Handler::class.java, BoomPacket::class.java,nextID(), Side.CLIENT)
     }
 }

@@ -3,7 +3,7 @@ package al132.alchemistry.client.button
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.GlStateManager
 
-class LockButton(buttonId: Int, x: Int, y: Int) : AbstractButton(buttonId, x, y) {
+class LockButton(x: Int, y: Int) : AbstractButton(ButtonID.LOCK, x, y) {
     enum class State {
         LOCKED, UNLOCKED
     }

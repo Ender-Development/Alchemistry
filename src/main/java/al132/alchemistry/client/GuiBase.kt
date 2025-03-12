@@ -32,7 +32,7 @@ abstract class GuiBase<T>(container: Container, tile: T, textureLocation: Resour
 
     override fun initGui() {
         super.initGui()
-        pauseButton = PauseButton(0, this.guiLeft + 175 - 20, this.guiTop + displayNameOffset - 4)
+        pauseButton = PauseButton(this.guiLeft + 175 - 20, this.guiTop + displayNameOffset - 4)
         this.buttonList.add(pauseButton)
     }
 

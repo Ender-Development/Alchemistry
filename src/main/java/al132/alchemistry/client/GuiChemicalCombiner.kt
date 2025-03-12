@@ -46,7 +46,7 @@ class GuiChemicalCombiner(
 
     override fun initGui() {
         super.initGui()
-        toggleRecipeLock = LockButton(1, this.guiLeft + 175 - 20, this.guiTop + displayNameOffset - 4 + 18)
+        toggleRecipeLock = LockButton(this.guiLeft + 175 - 20, this.guiTop + displayNameOffset - 4 + 18)
         this.buttonList.add(toggleRecipeLock)
     }
 

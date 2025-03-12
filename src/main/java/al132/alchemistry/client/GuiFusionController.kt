@@ -1,6 +1,6 @@
 package al132.alchemistry.client
 
-import al132.alchemistry.ConfigHandler
+import al132.alchemistry.client.button.SingleButton
 import al132.alchemistry.network.FusionModePacket
 import al132.alchemistry.network.PacketHandler
 import al132.alchemistry.tiles.TileFusionController
@@ -19,17 +19,18 @@ class GuiFusionController(playerInv: InventoryPlayer, tile: TileFusionController
         val textureLocation = ResourceLocation(root + "fusion_controller_gui.png")
     }
 
-    lateinit var modeButton: GuiButton
+    lateinit var modeButton: SingleButton
 
     override fun initGui() {
         super.initGui()
-        modeButton = GuiButton(0, this.guiLeft + 150 - 80, this.guiTop + 25, 80, 20, "Test")
+        modeButton = SingleButton(this.guiLeft + 175 - 20, this.guiTop + displayNameOffset - 4 + 18)
         this.buttonList.add(modeButton)
     }
 
     override fun actionPerformed(guibutton: GuiButton) {
-        when (guibutton.id) {
-            modeButton.id -> PacketHandler.INSTANCE!!.sendToServer(FusionModePacket(tile.pos, singleMode = true))
+        super.actionPerformed(guibutton)
+        if (guibutton.id == modeButton.id) {
+            PacketHandler.INSTANCE!!.sendToServer(FusionModePacket(tile.pos, singleMode = true))
         }
     }
 
@@ -46,11 +47,25 @@ class GuiFusionController(playerInv: InventoryPlayer, tile: TileFusionController
 
     override fun drawGuiContainerForegroundLayer(mouseX: Int, mouseY: Int) {
         super.drawGuiContainerForegroundLayer(mouseX, mouseY)
-        updateButtonStrings()
+        if (tile.singleMode) modeButton.isSingle = SingleButton.State.SINGLE
+        else modeButton.isSingle = SingleButton.State.REGULAR
     }
 
-    private fun updateButtonStrings() {
-        if (tile.singleMode) modeButton.displayString = Translator.translateToLocal("tile.fusion.single_mode")
-        else modeButton.displayString = Translator.translateToLocal("tile.fusion.regular_mode")
+    override fun renderTooltips(mouseX: Int, mouseY: Int) {
+        super.renderTooltips(mouseX, mouseY)
+        if (isHovered(modeButton.x, modeButton.y, 16, 16, mouseX, mouseY)) {
+            if (tile.singleMode)
+                this.drawHoveringText(listOf(
+                    Translator.translateToLocal("tooltip.single"),
+                    Translator.translateToLocal("tooltip.single.1"),
+                    Translator.translateToLocal("tooltip.single.2")
+                ), mouseX, mouseY)
+            else
+                this.drawHoveringText(listOf(
+                    Translator.translateToLocal("tooltip.regular"),
+                    Translator.translateToLocal("tooltip.regular.1"),
+                    Translator.translateToLocal("tooltip.regular.2")
+                ), mouseX, mouseY)
+        }
     }
 }

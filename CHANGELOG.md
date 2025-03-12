@@ -8,6 +8,11 @@
 - tweaked reactor validation to respect glass
 - ported back the interactive periodic table
 - ported back the periodic table painting (needs [JSON Paintings](https://modrinth.com/mod/json-paintings))
+- overhauled most of the GUIs
+- added more buttons / button textures
+- the Fusion Reactor now has JEI integration
+- removed useless items
+- general code cleanup
 
 ## [1.0.41]
 - Reverted the Fusion multiblock sided-input changes introduced in v39, now instead there is a button to toggle between 'single mode' and 'regular mode'.

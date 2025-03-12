@@ -38,9 +38,7 @@ data class CombinerRecipe(val output: ItemStack, private val objsIn: List<Any?>,
 
         for ((index: Int, recipeStack: ItemStack) in this.inputs.withIndex()) {
             val handlerStack = handler[index]
-            if ((handlerStack.item == ModItems.slotFiller
-                        || handlerStack.isEmpty) && recipeStack.isEmpty
-            ) matchingStacks++
+            if (handlerStack.isEmpty && recipeStack.isEmpty) matchingStacks++
             else if (handlerStack.isEmpty || recipeStack.isEmpty) continue
             else if (areItemsEqualIgnoreMeta(handlerStack, recipeStack)
                 && handlerStack.count >= recipeStack.count
@@ -66,7 +64,7 @@ data class CombinerRecipe(val output: ItemStack, private val objsIn: List<Any?>,
             outer@ for (recipe in CombinerRegister.Companion.INSTANCE.recipes) {
                 inner@ for ((index: Int, recipeStack: ItemStack) in recipe.inputs.withIndex()) {
                     val inputStack: ItemStack = inputStacks[index]
-                    if ((inputStack.item == ModItems.slotFiller || inputStack.isEmpty) && recipeStack.isEmpty) {
+                    if (inputStack.isEmpty && recipeStack.isEmpty) {
                         continue@inner
                     } else if (!(areItemsEqualIgnoreMeta(inputStack, recipeStack)
                                 && inputStack.count >= recipeStack.count

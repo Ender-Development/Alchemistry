@@ -387,6 +387,8 @@ tooltip.energy.current=Current: §d%s§r FE/t
 
 tooltip.running=Click to pause
 tooltip.paused=Click to resume
+tooltip.redstone_high=Works with a redstone signal
+tooltip.redstone_low=Works without a redstone signal
 tooltip.locked=Click to unlock
 tooltip.unlocked=Click to lock
 tooltip.single=Click to switch to regular mode

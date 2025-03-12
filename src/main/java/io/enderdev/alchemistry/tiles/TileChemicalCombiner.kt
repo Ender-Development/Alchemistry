@@ -68,9 +68,6 @@ class TileChemicalCombiner : AbstractMachine<CombinerRecipe>(CombinerRegister.Co
             if (!stack.isEmpty) {
                 (input.decrementSlot(index, stack.count))
             }
-            if (input.getStackInSlot(index).item == ModItems.slotFiller) {
-                input.decrementSlot(index, 1)
-            }
         }
     }
 

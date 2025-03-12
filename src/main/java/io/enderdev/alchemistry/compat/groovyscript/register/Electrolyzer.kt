@@ -9,6 +9,7 @@ import com.cleanroommc.groovyscript.api.documentation.annotations.MethodDescript
 import com.cleanroommc.groovyscript.api.documentation.annotations.Property
 import com.cleanroommc.groovyscript.api.documentation.annotations.RecipeBuilderDescription
 import com.cleanroommc.groovyscript.api.documentation.annotations.RecipeBuilderMethodDescription
+import com.cleanroommc.groovyscript.api.documentation.annotations.RecipeBuilderRegistrationMethod
 import com.cleanroommc.groovyscript.api.documentation.annotations.RegistryDescription
 import com.cleanroommc.groovyscript.helper.SimpleObjectStream
 import com.cleanroommc.groovyscript.helper.recipe.AbstractRecipeBuilder
@@ -160,6 +161,7 @@ class Electrolyzer : VirtualizedRegistry<ElectrolyzerRecipe>() {
             );
         }
 
+        @RecipeBuilderRegistrationMethod
         override fun register(): ElectrolyzerRecipe? {
             if (!validate()) return null;
             val recipe = ElectrolyzerRecipe(

@@ -11,8 +11,9 @@ abstract class AbstractButton(buttonId: ButtonID, val x: Int, val y: Int): GuiBu
 
     enum class ButtonID(i: Int) {
         PAUSE(0),
-        LOCK(1),
-        SINGLE(2);
+        REDSTONE(1),
+        LOCK(2),
+        SINGLE(3);
     }
 
     abstract override fun drawButton(mc: Minecraft, mouseX: Int, mouseY: Int, partialTicks: Float)

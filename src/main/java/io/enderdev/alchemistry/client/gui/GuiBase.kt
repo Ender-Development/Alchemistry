@@ -10,6 +10,7 @@ import al132.alib.client.CapabilityEnergyDisplayWrapper
 import al132.alib.client.CapabilityFluidDisplayWrapper
 import al132.alib.tiles.IGuiTile
 import al132.alib.utils.Translator
+import io.enderdev.alchemistry.client.button.RedstoneButton
 import net.minecraft.client.gui.GuiButton
 import net.minecraft.inventory.Container
 import net.minecraft.util.ResourceLocation
@@ -24,6 +25,7 @@ abstract class GuiBase<T>(container: Container, tile: T, textureLocation: Resour
     override var powerBarTexture: ResourceLocation? = ResourceLocation(root + "template.png")
 
     lateinit var pauseButton: PauseButton
+    lateinit var redstoneButton: RedstoneButton
 
     companion object {
         val root = "alchemistry:textures/gui/container/"
@@ -33,6 +35,8 @@ abstract class GuiBase<T>(container: Container, tile: T, textureLocation: Resour
         super.initGui()
         pauseButton = PauseButton(this.guiLeft + 175 - 20, this.guiTop + displayNameOffset - 4)
         this.buttonList.add(pauseButton)
+        redstoneButton = RedstoneButton(this.guiLeft + 175 - 38, this.guiTop + displayNameOffset - 4)
+        this.buttonList.add(redstoneButton)
     }
 
     override fun drawScreen(mouseX: Int, mouseY: Int, partialTicks: Float) {
@@ -48,6 +52,12 @@ abstract class GuiBase<T>(container: Container, tile: T, textureLocation: Resour
                 this.drawHoveringText(listOf(Translator.translateToLocal("tooltip.paused")), mouseX, mouseY)
             else
                 this.drawHoveringText(listOf(Translator.translateToLocal("tooltip.running")), mouseX, mouseY)
+        }
+        if (isHovered(redstoneButton.x, redstoneButton.y, 16, 16, mouseX, mouseY)) {
+            if (tile.needsPower)
+                this.drawHoveringText(listOf(Translator.translateToLocal("tooltip.redstone_high")), mouseX, mouseY)
+            else
+                this.drawHoveringText(listOf(Translator.translateToLocal("tooltip.redstone_low")), mouseX, mouseY)
         }
     }
 
@@ -72,6 +82,9 @@ abstract class GuiBase<T>(container: Container, tile: T, textureLocation: Resour
         if (button.id == pauseButton.id) {
             PacketHandler.INSTANCE!!.sendToServer(ButtonPacket(tile.pos, pause = true))
         }
+        if (button.id == redstoneButton.id) {
+            PacketHandler.INSTANCE!!.sendToServer(ButtonPacket(tile.pos, redstone = true))
+        }
     }
 
     override fun drawFluidTank(wrapper: CapabilityFluidDisplayWrapper, i: Int, j: Int, width: Int, height: Int) {
@@ -86,6 +99,10 @@ abstract class GuiBase<T>(container: Container, tile: T, textureLocation: Resour
     override fun drawGuiContainerForegroundLayer(mouseX: Int, mouseY: Int) {
         if (tile.isPaused) pauseButton.isPaused = PauseButton.State.PAUSED
         else pauseButton.isPaused = PauseButton.State.RUNNING
+
+        if (tile.needsPower) redstoneButton.needsPower = RedstoneButton.State.ON
+        else redstoneButton.needsPower = RedstoneButton.State.OFF
+
         if (this.displayName.isNotEmpty()) {
             this.fontRenderer.drawString(
                 this.displayName,

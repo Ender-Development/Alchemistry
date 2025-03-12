@@ -13,12 +13,14 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext
 class ButtonPacket() : IMessage {
     private var blockPos: BlockPos? = null
     private var pause = false
+    private var redstone = false
     private var lock = false
     private var single = false
 
     override fun fromBytes(buf: ByteBuf) {
         this.blockPos = BlockPos(buf.readInt(), buf.readInt(), buf.readInt())
         this.pause = buf.readBoolean()
+        this.redstone = buf.readBoolean()
         this.lock = buf.readBoolean()
         this.single = buf.readBoolean()
     }
@@ -28,13 +30,15 @@ class ButtonPacket() : IMessage {
         buf.writeInt(blockPos!!.y)
         buf.writeInt(blockPos!!.z)
         buf.writeBoolean(this.pause)
+        buf.writeBoolean(this.redstone)
         buf.writeBoolean(this.lock)
         buf.writeBoolean(this.single)
     }
 
-    constructor(pos: BlockPos, pause: Boolean = false, lock: Boolean = false, single: Boolean = false) : this() {
+    constructor(pos: BlockPos, pause: Boolean = false, redstone: Boolean = false, lock: Boolean = false, single: Boolean = false) : this() {
         this.blockPos = pos
         this.pause = pause
+        this.redstone = redstone
         this.lock = lock
         this.single = single
     }
@@ -51,6 +55,9 @@ class ButtonPacket() : IMessage {
 
             if (tile is AbstractMachine<*> && message.pause) {
                 tile.isPaused = !(tile.isPaused)
+            }
+            if (tile is AbstractMachine<*> && message.redstone) {
+                tile.needsPower = !(tile.needsPower)
             }
             if (tile is TileChemicalCombiner && message.lock) {
                 tile.recipeIsLocked = !(tile.recipeIsLocked)

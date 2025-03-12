@@ -16,6 +16,7 @@ abstract class AbstractMachine<T : IRecipe>(recipeRegister: AbstractRecipeRegist
 
     var progressTicks: Int = 0
     var isPaused: Boolean = false
+    var needsPower: Boolean = false
     var currentRecipe: T? = null
 
     /**
@@ -54,7 +55,7 @@ abstract class AbstractMachine<T : IRecipe>(recipeRegister: AbstractRecipeRegist
         if (world.isRemote) return
         markDirtyGUIEvery(5)
 
-        if (isPaused) return
+        if (isPaused || (needsPower xor this.world.isBlockPowered(this.pos))) return
         if (shouldTick()) {
             onIdleTick()
             if (currentRecipe != null && shouldProcess()) {
@@ -76,6 +77,7 @@ abstract class AbstractMachine<T : IRecipe>(recipeRegister: AbstractRecipeRegist
     override fun writeToNBT(compound: NBTTagCompound): NBTTagCompound {
         super.writeToNBT(compound)
         compound.setBoolean("IsPaused", isPaused)
+        compound.setBoolean("NeedsPower", needsPower)
         compound.setInteger("ProgressTicks", progressTicks)
         return compound
     }
@@ -83,6 +85,7 @@ abstract class AbstractMachine<T : IRecipe>(recipeRegister: AbstractRecipeRegist
     override fun readFromNBT(compound: NBTTagCompound) {
         super.readFromNBT(compound)
         this.isPaused = compound.getBoolean("IsPaused")
+        this.needsPower = compound.getBoolean("NeedsPower")
         this.progressTicks = compound.getInteger("ProgressTicks")
     }
 }

@@ -4,7 +4,7 @@
 		"type": "ctm",
 		"layer": "TRANSLUCENT",
 		"textures": [
-			"alchemistry:blocks/krypton_light_ctm"
+			"alchemistry:blocks/radon_light_ctm"
 		],
 		"extra": {
 			"connect_to": [

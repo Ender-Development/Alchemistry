@@ -1,24 +1,10 @@
 package io.enderdev.alchemistry.blocks
 
-import io.enderdev.alchemistry.Reference
-import io.enderdev.alchemistry.blocks.machine.AtomizerBlock
-import io.enderdev.alchemistry.blocks.machine.ChemicalCombinerBlock
-import io.enderdev.alchemistry.blocks.machine.ChemicalDissolverBlock
-import io.enderdev.alchemistry.blocks.machine.ElectrolyzerBlock
-import io.enderdev.alchemistry.blocks.machine.EvaporatorBlock
-import io.enderdev.alchemistry.blocks.machine.FissionControllerBlock
-import io.enderdev.alchemistry.blocks.machine.FusionControllerBlock
-import io.enderdev.alchemistry.blocks.machine.LiquifierBlock
-import io.enderdev.alchemistry.client.gui.GuiHandler
 import al132.alib.blocks.ALBlock
-import io.enderdev.alchemistry.tiles.TileAtomizer
-import io.enderdev.alchemistry.tiles.TileChemicalCombiner
-import io.enderdev.alchemistry.tiles.TileChemicalDissolver
-import io.enderdev.alchemistry.tiles.TileElectrolyzer
-import io.enderdev.alchemistry.tiles.TileEvaporator
-import io.enderdev.alchemistry.tiles.TileFissionController
-import io.enderdev.alchemistry.tiles.TileFusionController
-import io.enderdev.alchemistry.tiles.TileLiquifier
+import io.enderdev.alchemistry.Reference
+import io.enderdev.alchemistry.blocks.machine.*
+import io.enderdev.alchemistry.client.gui.GuiHandler
+import io.enderdev.alchemistry.tiles.*
 import net.minecraft.block.Block
 import net.minecraft.block.material.Material
 import net.minecraft.item.Item
@@ -71,6 +57,7 @@ object ModBlocks {
     val argonLight = LightBlock("argon_light") //purple-blue
     val kryptonLight = LightBlock("krypton_light") //light yellow or green
     val xenonLight = LightBlock("xenon_light") //gray-blue
+    val radonLight = LightBlock("radon_light") //green
 
     val wetSand = WetSandBlock()
 

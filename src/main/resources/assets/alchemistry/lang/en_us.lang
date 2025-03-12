@@ -18,6 +18,7 @@ tile.krypton_light.name=Krypton Light
 tile.xenon_light.name=Xenon Light
 tile.helium_light.name=Helium Light
 tile.argon_light.name=Argon Light
+tile.radon_light.name=Radon Light
 
 tile.wet_sand.name=Wet Sand
 

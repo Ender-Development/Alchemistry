@@ -12,7 +12,8 @@
 				{"block": "alchemistry:helium_light"},
 				{"block": "alchemistry:krypton_light"},
 				{"block": "alchemistry:neon_light"},
-				{"block": "alchemistry:xenon_light"}
+				{"block": "alchemistry:xenon_light"},
+				{"block": "alchemistry:radon_light"}
 			]
 		}
 	}

@@ -1,11 +1,11 @@
 package io.enderdev.alchemistry.blocks
 
-import io.enderdev.alchemistry.items.TooltipItemBlock
 import al132.alib.utils.extensions.translate
+import io.enderdev.alchemistry.items.TooltipItemBlock
 import net.minecraft.block.Block
 import net.minecraft.block.BlockCactus
-import net.minecraft.block.BlockFalling.fallInstantly
 import net.minecraft.block.BlockReed
+import net.minecraft.block.SoundType
 import net.minecraft.block.material.Material
 import net.minecraft.block.state.IBlockState
 import net.minecraft.entity.item.EntityFallingBlock
@@ -25,7 +25,8 @@ import java.util.*
 class WetSandBlock : BaseBlock("wet_sand", Material.SAND) {
     init {
         this.setHardness(.5f)
-        this.setResistance(1.0f)
+        this.setResistance(1f)
+        this.setSoundType(SoundType.SAND)
     }
 
     override fun registerItemBlock(event: RegistryEvent.Register<Item>) {
@@ -64,33 +65,24 @@ class WetSandBlock : BaseBlock("wet_sand", Material.SAND) {
     }
 
     private fun checkFallable(worldIn: World, pos: BlockPos) {
-        if ((worldIn.isAirBlock(pos.down()) || canFallThrough(worldIn.getBlockState(pos.down()))) && pos.y >= 0) {
-            val i = 32
+        if(!(worldIn.isAirBlock(pos.down()) || canFallThrough(worldIn.getBlockState(pos.down()))) || pos.y < 0)
+            return
 
-            if (!fallInstantly && worldIn.isAreaLoaded(pos.add(-32, -32, -32), pos.add(32, 32, 32))) {
-                if (!worldIn.isRemote) {
-                    val entityfallingblock = EntityFallingBlock(worldIn, pos.x.toDouble() + 0.5, pos.y.toDouble(), pos.z.toDouble() + 0.5, worldIn.getBlockState(pos))
-                    this.onStartFalling(entityfallingblock)
-                    worldIn.spawnEntity(entityfallingblock)
-                }
-            } else {
-                val state = worldIn.getBlockState(pos)
-                worldIn.setBlockToAir(pos)
-                var blockpos: BlockPos
+        if (worldIn.isAreaLoaded(pos.add(-32, -32, -32), pos.add(32, 32, 32))) {
+            if (!worldIn.isRemote)
+                worldIn.spawnEntity(EntityFallingBlock(worldIn, pos.x.toDouble() + 0.5, pos.y.toDouble(), pos.z.toDouble() + 0.5, worldIn.getBlockState(pos)))
+        } else {
+            val state = worldIn.getBlockState(pos)
+            worldIn.setBlockToAir(pos)
+            var blockpos: BlockPos = pos.down()
 
-                blockpos = pos.down()
-                while ((worldIn.isAirBlock(blockpos) || canFallThrough(worldIn.getBlockState(blockpos))) && blockpos.y > 0) {
-                    blockpos = blockpos.down()
-                }
+            while ((worldIn.isAirBlock(blockpos) || canFallThrough(worldIn.getBlockState(blockpos))) && blockpos.y > 0)
+                blockpos = blockpos.down()
 
-                if (blockpos.y > 0) {
-                    worldIn.setBlockState(blockpos.up(), state) //Forge: Fix loss of state information during world gen.
-                }
-            }
+            if (blockpos.y > 0)
+                worldIn.setBlockState(blockpos.up(), state) //Forge: Fix loss of state information during world gen.
         }
     }
-
-    protected fun onStartFalling(fallingEntity: EntityFallingBlock) {}
 
     /**
      * How many world ticks before ticking
@@ -102,10 +94,6 @@ class WetSandBlock : BaseBlock("wet_sand", Material.SAND) {
         val material = state.material
         return block === Blocks.FIRE || material === Material.AIR || material === Material.WATER || material === Material.LAVA
     }
-
-    fun onEndFalling(worldIn: World, pos: BlockPos, p_176502_3_: IBlockState, p_176502_4_: IBlockState) {}
-
-    fun onBroken(worldIn: World, pos: BlockPos) {}
 
     @SideOnly(Side.CLIENT)
     override fun randomDisplayTick(stateIn: IBlockState, worldIn: World, pos: BlockPos, rand: Random) {
@@ -119,10 +107,5 @@ class WetSandBlock : BaseBlock("wet_sand", Material.SAND) {
                 worldIn.spawnParticle(EnumParticleTypes.FALLING_DUST, d0, d1, d2, 0.0, 0.0, 0.0, getStateId(stateIn))
             }
         }
-    }
-
-    @SideOnly(Side.CLIENT)
-    fun getDustColor(state: IBlockState): Int {
-        return -16777216
     }
 }

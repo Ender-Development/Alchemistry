@@ -1,13 +1,13 @@
 package io.enderdev.alchemistry.recipes.register
 
+import al132.alib.utils.Utils.firstOre
+import al132.alib.utils.extensions.toDict
+import al132.alib.utils.extensions.toStack
 import io.enderdev.alchemistry.chemistry.CompoundRegistry
 import io.enderdev.alchemistry.items.ModItems
 import io.enderdev.alchemistry.recipes.CombinerRecipe
 import io.enderdev.alchemistry.utils.areStacksEqualIgnoreQuantity
 import io.enderdev.alchemistry.utils.extensions.toStack
-import al132.alib.utils.Utils.firstOre
-import al132.alib.utils.extensions.toDict
-import al132.alib.utils.extensions.toStack
 import net.minecraft.init.Blocks
 import net.minecraft.init.Items
 import net.minecraft.item.Item

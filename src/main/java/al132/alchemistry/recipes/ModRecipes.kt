@@ -35,7 +35,7 @@ object ModRecipes {
     fun initOredict() {
         (1 until 119).filterNot { ItemElementIngot.invalidIngots.contains(it) }.forEach { i ->
             val elementName: String =
-                ElementRegistry[i]!!.name[1].uppercaseChar() + ElementRegistry[i]!!.name.substring(2)
+                ElementRegistry[i]!!.name[0].uppercaseChar() + ElementRegistry[i]!!.name.substring(1)
             OreDictionary.registerOre("ingot$elementName", ModItems.ingots.toStack(meta = i))
         }
     }

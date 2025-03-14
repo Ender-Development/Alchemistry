@@ -60,7 +60,7 @@ class FissionControllerBlock(name: String,
             0 -> PropertyPowerStatus.OFF
             1 -> PropertyPowerStatus.STANDBY
             2 -> PropertyPowerStatus.ON
-            else -> TODO() // never happens
+            else -> PropertyPowerStatus.OFF
         }
         /* var enumfacing = EnumFacing.byIndex(meta)
          if (enumfacing.axis == EnumFacing.Axis.Y) {

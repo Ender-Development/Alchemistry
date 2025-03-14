@@ -1,34 +1,26 @@
 package io.enderdev.alchemistry.tiles
 
+import al132.alib.tiles.IEnergyTile
 import io.enderdev.alchemistry.blocks.machine.FissionControllerBlock
-import io.enderdev.alchemistry.blocks.machine.FusionControllerBlock
 import io.enderdev.alchemistry.recipes.IRecipe
 import io.enderdev.alchemistry.recipes.register.AbstractRecipeRegister
-import al132.alib.tiles.IEnergyTile
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.util.EnumFacing
 import net.minecraftforge.common.capabilities.Capability
 import net.minecraftforge.fluids.Fluid
 import net.minecraftforge.fluids.FluidRegistry
-import kotlin.math.floor
 
 abstract class AbstractReactorController<T: IRecipe>(val reactorType: ReactorType, recipeRegister: AbstractRecipeRegister<T>) : AbstractMachine<T>(recipeRegister), IEnergyTile {
 
-    val shapeHandler = ReactorShapeHandler(this, reactorType)
+    val shapeHandler = ReactorShapeHandler(this)
     var fluidModifiers = mutableMapOf<Fluid, List<Double>>() //List<Productivity, Speed, Energy>
-    var productivityModifier: Double = 1.0
-    var speedModifier: Double = 1.0
-    var energyModifier: Double = 1.0
+    var productivityModifier: Double = .0
+    var speedModifier: Double = .0
+    var energyModifier: Double = .0
     var isMultiblockValid: Boolean = false
     var checkMultiblockTicks: Int = 0
 
-    fun getFacing(): EnumFacing? {
-        val state = this.world?.getBlockState(this.pos)
-        return when (reactorType) {
-            ReactorType.FISSION -> state?.getValue(FissionControllerBlock.Companion.FACING)
-            ReactorType.FUSION -> state?.getValue(FusionControllerBlock.Companion.FACING)
-        }
-    }
+    fun getFacing() = this.world?.getBlockState(this.pos)?.getValue(FissionControllerBlock.Companion.FACING)
 
     fun updateMultiblock() {
         isMultiblockValid = validateMultiblock()
@@ -37,14 +29,18 @@ abstract class AbstractReactorController<T: IRecipe>(val reactorType: ReactorTyp
     fun validateMultiblock(): Boolean = shapeHandler.validate()
 
     fun updateModifiers() {
-        val updateModifier: List<List<Double>> = fluidModifiers.map { fluid ->
-            val valueList = fluid.value.toMutableList()
-            val count = shapeHandler.countFluid(fluid.key)
-            valueList.map { it.times(count) }
+        val fluids = shapeHandler.countFluid()
+        productivityModifier = .0
+        speedModifier = .0
+        energyModifier = .0
+        fluids.map { (fluid: Fluid, cnt: Int) ->
+            val modifiers = fluidModifiers[fluid]
+            if(modifiers == null)
+                return@map
+            productivityModifier += modifiers[0] * cnt
+            speedModifier += modifiers[1] * cnt
+            energyModifier += modifiers[2] * cnt
         }
-        productivityModifier = updateModifier.sumOf { it[0] }
-        speedModifier = updateModifier.sumOf { it[1] }
-        energyModifier = updateModifier.sumOf { it[2] }
     }
 
     fun loadConfig(configValue: Array<String>) {
@@ -61,21 +57,17 @@ abstract class AbstractReactorController<T: IRecipe>(val reactorType: ReactorTyp
         }
     }
 
-    fun getModifiedProcessTime(default: Int): Int {
-        return floor(default * (1 - speedModifier)).toInt()
-    }
+    fun getModifiedProcessTime(default: Int) = (default * (1 - speedModifier)).toInt()
 
-    fun getModifiedEnergyCost(default: Int): Int {
-        return floor(default * (1 + energyModifier)).toInt()
-    }
+    fun getModifiedEnergyCost(default: Int) = (default * (1 + energyModifier)).toInt()
 
     override fun hasCapability(capability: Capability<*>, facing: EnumFacing?): Boolean {
-        return if (shapeHandler.validate()) super.hasCapability(capability, facing)
+        return if(isMultiblockValid) super.hasCapability(capability, facing)
         else false
     }
 
     override fun <T : Any> getCapability(capability: Capability<T>, facing: EnumFacing?): T? {
-        return if (shapeHandler.validate()) super.getCapability(capability, facing)
+        return if(isMultiblockValid) super.getCapability(capability, facing)
         else null
     }
 

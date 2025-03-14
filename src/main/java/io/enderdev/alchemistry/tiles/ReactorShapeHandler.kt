@@ -1,25 +1,30 @@
 package io.enderdev.alchemistry.tiles
 
+import al132.alib.utils.Translator
+import al132.alib.utils.extensions.translate
 import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.blocks.ModBlocks
 import net.minecraft.block.Block
 import net.minecraft.block.BlockLiquid
+import net.minecraft.init.Blocks
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.math.BlockPos
 import net.minecraftforge.fluids.Fluid
 
-class ReactorShapeHandler(val controller: AbstractReactorController<*>, reactorType: ReactorType) {
+class ReactorShapeHandler(val controller: AbstractReactorController<*>) {
 
     var multiblockDirection: EnumFacing? = controller.getFacing()
 
-    var casingBlock: Block? = null
-    var glassBlock: Block? = null
-    var controllerBlock: Block? = null
-    var coreBlock: Block? = null
-    var compactEnabled: Boolean = false
+    val casingBlock: Block
+    val glassBlock: Block
+    val controllerBlock: Block
+    val coreBlock: Block
+    val compactEnabled: Boolean
+
+    var failReason: () -> Pair<String, String>? = { null }
 
     init {
-        when (reactorType) {
+        when(controller.reactorType) {
             ReactorType.FUSION -> {
                 casingBlock = ModBlocks.fusionCasing
                 glassBlock = ModBlocks.fusionGlass
@@ -43,8 +48,21 @@ class ReactorShapeHandler(val controller: AbstractReactorController<*>, reactorT
         if (multiblockDirection == null) return false
         val corePos: BlockPos = controller.pos.offsetBack(3).offsetUp(2)
         val checkOuterCasing = getOuterCasings().all { isCasing(it) }
+        if(!checkOuterCasing)
+            return false
+
         val checkInnerCasing = getInnerCasings().all { isFilling(it) }
+        if(!checkInnerCasing)
+            return false
+
         val checkCompact = compactEnabled || getOutside() == 0
+        if(!checkCompact) {
+            failReason = {
+                "tile.reactor.non_compact_touching".translate().to("tile.reactor.non_compact_touching_line2".translate())
+            }
+            return false
+        }
+
         val checkCore = (getCoreZ(corePos).all { isCore(it) }
                     && isNonCore(corePos.offsetForward())
                     && isNonCore(corePos.offsetBack())
@@ -60,11 +78,18 @@ class ReactorShapeHandler(val controller: AbstractReactorController<*>, reactorT
                     && isNonCore(corePos.offsetRight())
                     && isNonCore(corePos.offsetUp())
                     && isNonCore(corePos.offsetDown()))
-        return checkOuterCasing && checkInnerCasing && checkCompact && checkCore
+
+        return checkCore
     }
 
-    fun countFluid(fluid: Fluid): Int {
-        return getInnerVolume().count { controller.world.getBlockState(it).block == fluid.block }
+    fun countFluid(): Map<Fluid, Int> {
+        val ret = mutableMapOf<Fluid, Int>()
+        getInnerVolume().forEach {
+            val block = controller.world.getBlockState(it)
+            if(block is Fluid)
+                ret.compute(block) { _: Fluid, cnt: Int? -> (cnt ?: 0) + 1 }
+        }
+        return ret
     }
 
     private fun getOuterCasings(): Set<BlockPos> {
@@ -232,8 +257,7 @@ class ReactorShapeHandler(val controller: AbstractReactorController<*>, reactorT
             if (it.y == outsideCorner1.y || it.y == outsideCorner2.y) sharedAxes++
             if (it.z == outsideCorner1.z || it.z == outsideCorner2.z) sharedAxes++
             sharedAxes >= 1
-        }.filterNot(controller.pos::equals)
-            .count(this::isReactorPart)
+        }.count { isReactorPart(it) && controller.pos != it }
         return borderingParts
     }
 
@@ -245,25 +269,38 @@ class ReactorShapeHandler(val controller: AbstractReactorController<*>, reactorT
         return innerVolume
     }
 
-    private fun isAir(pos: BlockPos): Boolean = controller.world.isAirBlock(pos)
-    private fun isLiquid(pos: BlockPos): Boolean = controller.world.getBlockState(pos).block is BlockLiquid
-    private fun isCore(pos: BlockPos): Boolean = (controller.world.getBlockState(pos).block == coreBlock)
-    private fun isCasing(pos: BlockPos): Boolean = (controller.world.getBlockState(pos).block == casingBlock)
-    private fun isFilling(pos: BlockPos): Boolean =
-        (controller.world.getBlockState(pos).block == glassBlock) || isCasing(pos)
+    private fun isAnything(pos: BlockPos, check: Boolean, expected: Block): Boolean {
+        if(check)
+            return true
+
+        failReason = {
+            Translator.translateToLocalFormatted("tile.reactor.structure_incomplete", expected.localizedName)
+                .to(Translator.translateToLocalFormatted("tile.reactor.structure_incomplete_coordinates", pos.x, pos.y, pos.z))
+        }
+
+        return false
+    }
+
+    private fun isAir(pos: BlockPos) = isAnything(pos, controller.world.isAirBlock(pos), Blocks.AIR)
+    private fun isLiquid(pos: BlockPos) = controller.world.getBlockState(pos).block is BlockLiquid
+    private fun isCore(pos: BlockPos) = isAnything(pos, controller.world.getBlockState(pos).block == coreBlock, coreBlock)
+    private fun isCasing(pos: BlockPos) = isAnything(pos, controller.world.getBlockState(pos).block == casingBlock, casingBlock)
+    private fun isFilling(pos: BlockPos): Boolean {
+        val block = controller.world.getBlockState(pos).block
+        return isAnything(pos, block == glassBlock || block == casingBlock, casingBlock)
+    }
 
     private fun isReactorPart(pos: BlockPos): Boolean {
-        return isCore(pos) || isFilling(pos) || (controller.world.getBlockState(pos).block == controllerBlock)
+        val block = controller.world.getBlockState(pos).block
+        return block == coreBlock || block == glassBlock || block == casingBlock || block == controllerBlock
     }
 
-    private fun isNonCore(pos: BlockPos): Boolean {
-        return isAir(pos) || isLiquid(pos)
-    }
+    private fun isNonCore(pos: BlockPos) = isAir(pos) || isLiquid(pos)
 
     private fun BlockPos.offsetUp(amt: Int = 1) = this.offset(EnumFacing.UP, amt)
     private fun BlockPos.offsetLeft(amt: Int = 1) = this.offset(multiblockDirection!!.rotateY(), amt)
-    private fun BlockPos.offsetRight(amt: Int = 1) = this.offset(multiblockDirection!!.rotateY(), -1 * amt)
+    private fun BlockPos.offsetRight(amt: Int = 1) = this.offset(multiblockDirection!!.rotateY(), -amt)
     private fun BlockPos.offsetBack(amt: Int = 1) = this.offset(multiblockDirection!!, amt)
-    private fun BlockPos.offsetForward(amt: Int = 1) = this.offset(multiblockDirection!!, -1 * amt)
+    private fun BlockPos.offsetForward(amt: Int = 1) = this.offset(multiblockDirection!!, -amt)
     private fun BlockPos.offsetDown(amt: Int = 1) = this.offset(EnumFacing.DOWN, amt)
 }

@@ -1,12 +1,11 @@
 package io.enderdev.alchemistry.client.gui
 
+import al132.alib.client.CapabilityEnergyDisplayWrapper
+import al132.alib.tiles.IGuiTile
+import al132.alib.utils.extensions.translate
 import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.tiles.AbstractReactorController
 import io.enderdev.alchemistry.tiles.ReactorType
-import al132.alib.client.CapabilityEnergyDisplayWrapper
-import al132.alib.tiles.IGuiTile
-import al132.alib.utils.Translator
-import al132.alib.utils.extensions.translate
 import net.minecraft.client.resources.I18n
 import net.minecraft.inventory.Container
 import net.minecraft.util.ResourceLocation
@@ -16,8 +15,8 @@ import kotlin.math.ceil
 abstract class GuiReactorController<T>(container: Container, tile: T, textureLocation: ResourceLocation) :
     GuiBase<T>(container, tile, textureLocation) where T : AbstractReactorController<*>, T : IGuiTile {
 
-    val infoHeight = 102.0f
-    val infoX = 12.0f
+    val infoHeight = 102f
+    val infoX = 12f
 
     override val displayNameOffset: Int = 8
     override var displayName: String = ""
@@ -66,10 +65,20 @@ abstract class GuiReactorController<T>(container: Container, tile: T, textureLoc
                 false
             )
         } else {
-            val invalid = Translator.translateToLocal(textInvalid)
+            val (text, coords) = tile.shapeHandler.failReason()!!
             fontRenderer.drawString(
-                invalid, ((xSize / 2 - fontRenderer.getStringWidth(invalid) / 2).toFloat()),
-                infoHeight + 12, Color(170, 0, 0).rgb, false
+                text,
+                (xSize - fontRenderer.getStringWidth(text)) / 2f,
+                infoHeight,
+                Color(170, 0, 0).rgb,
+                false
+            )
+            fontRenderer.drawString(
+                coords,
+                (xSize - fontRenderer.getStringWidth(coords)) / 2f,
+                infoHeight + 10,
+                Color(170, 0, 0).rgb,
+                false
             )
         }
     }
@@ -80,11 +89,13 @@ abstract class GuiReactorController<T>(container: Container, tile: T, textureLoc
     }
 
     private fun getColorFromValue(value: Double, invert: Boolean = false): Int {
+        val green = Color(27, 155, 27).rgb
+        val red = Color(198, 26, 26).rgb
         return when {
-            !invert && value > 0 -> Color(27, 155, 27).rgb
-            !invert && value < 0 -> Color(198, 26, 26).rgb
-            invert && value > 0 -> Color(198, 26, 26).rgb
-            invert && value < 0 -> Color(27, 155, 27).rgb
+            !invert && value > 0 -> green
+            !invert && value < 0 -> red
+            invert && value > 0 -> red
+            invert && value < 0 -> green
             else -> Color.GRAY.rgb
         }
     }

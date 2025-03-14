@@ -1,18 +1,18 @@
 package io.enderdev.alchemistry.tiles
 
+import al132.alib.tiles.ALTileStackHandler
+import al132.alib.tiles.EnergyTileImpl
+import al132.alib.tiles.IEnergyTile
+import al132.alib.utils.extensions.get
 import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.blocks.ModBlocks
 import io.enderdev.alchemistry.blocks.PropertyPowerStatus
+import io.enderdev.alchemistry.blocks.machine.FusionControllerBlock
 import io.enderdev.alchemistry.chemistry.ChemicalElement
 import io.enderdev.alchemistry.chemistry.ElementRegistry
 import io.enderdev.alchemistry.items.ModItems
 import io.enderdev.alchemistry.recipes.FusionRecipe
 import io.enderdev.alchemistry.recipes.register.FusionRegister
-import al132.alib.tiles.ALTileStackHandler
-import al132.alib.tiles.EnergyTileImpl
-import al132.alib.tiles.IEnergyTile
-import al132.alib.utils.extensions.get
-import io.enderdev.alchemistry.blocks.machine.FusionControllerBlock
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
 import kotlin.math.floor
@@ -44,9 +44,9 @@ class TileFusionController : AbstractReactorController<FusionRecipe>(ReactorType
                     return if (this.getStackInSlot(slot).isEmpty) super.insertItem(slot, stack, simulate)
                     else stack
                 }
-                return if (stack.item == ModItems.elements) {
+                return if (stack.item == ModItems.elements)
                     super.insertItem(slot, stack, simulate)
-                } else stack
+                else stack
             }
         }
     }
@@ -54,7 +54,7 @@ class TileFusionController : AbstractReactorController<FusionRecipe>(ReactorType
     override fun updateRecipe() {
         val meta1 = this.input[0].metadata
         val meta2 = this.input[1].metadata
-        recipeRegister.firstOrNull() { it.inputMeta1 == meta1 && it.inputMeta2 == meta2 }?.let { currentRecipe = it }
+        recipeRegister.firstOrNull { it.inputMeta1 == meta1 && it.inputMeta2 == meta2 }?.let { currentRecipe = it }
         val outputElement: ChemicalElement? = ElementRegistry[meta1 + meta2]
         if (outputElement != null) recipeOutput = outputElement.toItemStack(1)
         else recipeOutput = ItemStack.EMPTY
@@ -79,25 +79,21 @@ class TileFusionController : AbstractReactorController<FusionRecipe>(ReactorType
         this.energyStorage.extractEnergy(energyPerTick, false)
     }
 
-    override fun shouldTick(): Boolean {
-        return true
-    }
+    override fun shouldTick() = true
 
-    override fun shouldProcess(): Boolean {
-        return this.isMultiblockValid
+    override fun shouldProcess() =
+        this.isMultiblockValid
                 && !input[0].isEmpty
                 && !input[1].isEmpty
                 && !recipeOutput.isEmpty
                 && (ItemStack.areItemsEqual(output[0], recipeOutput) || output[0].isEmpty)
                 && output[0].count + recipeOutput.count <= recipeOutput.maxStackSize
                 && energyStorage.energyStored >= energyPerTick
-    }
 
     override fun onIdleTick() {
         super.onIdleTick()
 
-        checkMultiblockTicks++
-        if (checkMultiblockTicks >= 20) {
+        if(++checkMultiblockTicks == 20) {
             updateMultiblock()
             checkMultiblockTicks = 0
         }

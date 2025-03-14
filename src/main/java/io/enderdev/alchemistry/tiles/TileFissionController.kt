@@ -1,18 +1,18 @@
 package io.enderdev.alchemistry.tiles
 
-import io.enderdev.alchemistry.ConfigHandler
-import io.enderdev.alchemistry.blocks.ModBlocks
-import io.enderdev.alchemistry.chemistry.ElementRegistry
-import io.enderdev.alchemistry.items.ModItems
-import io.enderdev.alchemistry.recipes.FissionRecipe
-import io.enderdev.alchemistry.recipes.register.FissionRegister
 import al132.alib.tiles.ALTileStackHandler
 import al132.alib.tiles.EnergyTileImpl
 import al132.alib.tiles.IEnergyTile
 import al132.alib.utils.extensions.get
 import al132.alib.utils.extensions.toStack
+import io.enderdev.alchemistry.ConfigHandler
+import io.enderdev.alchemistry.blocks.ModBlocks
 import io.enderdev.alchemistry.blocks.PropertyPowerStatus
 import io.enderdev.alchemistry.blocks.machine.FissionControllerBlock
+import io.enderdev.alchemistry.chemistry.ElementRegistry
+import io.enderdev.alchemistry.items.ModItems
+import io.enderdev.alchemistry.recipes.FissionRecipe
+import io.enderdev.alchemistry.recipes.register.FissionRegister
 import net.minecraft.item.ItemStack
 import kotlin.math.floor
 
@@ -39,16 +39,16 @@ class TileFissionController : AbstractReactorController<FissionRecipe>(ReactorTy
     override fun initInventoryInputCapability() {
         input = object : ALTileStackHandler(inputSlots, this) {
             override fun insertItem(slot: Int, stack: ItemStack, simulate: Boolean): ItemStack {
-                if (stack.item == ModItems.elements && stack.metadata > 1) {
-                    return super.insertItem(slot, stack, simulate)
-                } else return stack
+                return if (stack.item == ModItems.elements && stack.metadata > 1)
+                    super.insertItem(slot, stack, simulate)
+                else stack
             }
         }
     }
 
     override fun updateRecipe() {
         val meta = this.input[0].metadata
-        recipeRegister.firstOrNull() { it.inputMeta == meta }?.let { currentRecipe = it }
+        recipeRegister.firstOrNull { it.inputMeta == meta }?.let { currentRecipe = it }
         if (meta != 0) {
             if (meta % 2 == 0) {
                 if (ElementRegistry[meta / 2] != null) {
@@ -95,26 +95,22 @@ class TileFissionController : AbstractReactorController<FissionRecipe>(ReactorTy
         this.energyStorage.extractEnergy(energyPerTick, false)
     }
 
-    override fun shouldTick(): Boolean {
-        return true
-    }
+    override fun shouldTick(): Boolean = true
 
-    override fun shouldProcess(): Boolean {
-        return this.isMultiblockValid
+    override fun shouldProcess() =
+        this.isMultiblockValid
                 && !recipeOutput1.isEmpty
                 && (ItemStack.areItemsEqual(output[0], recipeOutput1) || output[0].isEmpty)
                 && (ItemStack.areItemsEqual(output[1], recipeOutput2) || output[1].isEmpty)
                 && output[0].count + recipeOutput1.count <= recipeOutput1.maxStackSize
                 && output[1].count + recipeOutput2.count <= recipeOutput2.maxStackSize
                 && energyStorage.energyStored >= energyPerTick
-    }
 
     override fun onIdleTick() {
         super.onIdleTick()
 
         val isActive = !this.input[0].isEmpty && energyStorage.energyStored >= energyPerTick
-        checkMultiblockTicks++
-        if (checkMultiblockTicks >= 20) {
+        if (++checkMultiblockTicks == 20) {
             updateMultiblock()
             checkMultiblockTicks = 0
         }

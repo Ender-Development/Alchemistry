@@ -1,11 +1,11 @@
 {
-  "name": "Fission Overview",
+  "name": "Fission Reactor",
   "icon": "alchemistry:fission_controller",
   "category": "fission_category",
   "pages": [
     {
       "type": "text",
-      "text": "The Fission Multiblock allows you to split apart the very fabric that holds elements together to form new elements. All elements except for Hydrogen can be split with the fission multiblock. See JEI for recipes"
+      "text": "The Fission Multiblock allows you to split apart the very fabric that holds elements together to form new elements. All elements except for Hydrogen can be split. The outputs will be decided by whichever elements' atomic numbers add up to the input element's atomic number. Example: Uranium (92) -> Iron (26) + Dysprosium (66)"
     },
     {
       "type": "crafting",

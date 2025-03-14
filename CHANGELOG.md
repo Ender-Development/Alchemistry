@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.1.1] - improved Reactor Tooltip
+- added a tooltip to the reactor controllers that shows what part of the multiblock is missing
+- improved patchouli guide
+
 ## [1.1.0] - Ender-Development Takeover
 - ported the buildscript to RFG
 - adapted to forgelin Continuous

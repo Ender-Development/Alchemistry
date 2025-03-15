@@ -65,7 +65,7 @@ You can contact us on our [Discord](https://discord.gg/JF7x2vG).
 ## Contributing
 
 Feel free to contribute to the project. We are always happy about pull requests.
-If you want to help us, you can find potential tasks in the [issue tracker](https://github.com/Ender-Development/EnderModpackTweaks/issues).
+If you want to help us, you can find potential tasks in the [issue tracker](https://github.com/Ender-Development/Alchemistry/issues).
 Of course, you can also create new issues if you find a bug or have a suggestion for a new feature.
 Should you have any questions, feel free to ask us on [Discord](https://discord.gg/JF7x2vG).
 

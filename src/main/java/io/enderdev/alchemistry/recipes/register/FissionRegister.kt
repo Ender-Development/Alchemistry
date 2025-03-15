@@ -9,12 +9,16 @@ class FissionRegister: AbstractRecipeRegister<FissionRecipe>() {
     }
 
     override fun registerRecipes() {
-        for (i in ElementRegistry.keys().filterNot { it == 1 }) {
-            val output1 = if (i % 2 == 0) i / 2 else (i / 2) + 1
-            val output2 = if (i % 2 == 0) 0 else i / 2
-            if (ElementRegistry[output1] != null && (output2 == 0 || ElementRegistry[output2] != null)) {
-                recipes.add(FissionRecipe(i, output1, output2))
-            }
+        ElementRegistry.getAllElements().forEach {
+            if(it.meta == 1)
+                return@forEach
+
+            val even = it.meta and 1 == 0 // x & 1 == x % 2
+            val half = it.meta ushr 1 // x >> 1 == floor(x / 2)
+            val out1 = if(even) half else half + 1
+            val out2 = if(even) 0 else half
+            if(ElementRegistry[out1] != null && (even || ElementRegistry[out2] != null))
+                recipes.add(FissionRecipe(it.meta, out1, out2))
         }
     }
 }

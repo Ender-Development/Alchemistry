@@ -58,7 +58,7 @@ class ReactorShapeHandler(val controller: AbstractReactorController<*>) {
         val checkCompact = compactEnabled || getOutside() == 0
         if(!checkCompact) {
             failReason = {
-                "tile.reactor.non_compact_touching".translate().to("tile.reactor.non_compact_touching_line2".translate())
+                "tile.reactor.non_compact_touching".translate() to "tile.reactor.non_compact_touching_line2".translate()
             }
             return false
         }
@@ -274,8 +274,8 @@ class ReactorShapeHandler(val controller: AbstractReactorController<*>) {
             return true
 
         failReason = {
-            Translator.translateToLocalFormatted("tile.reactor.structure_incomplete", expected.localizedName)
-                .to(Translator.translateToLocalFormatted("tile.reactor.structure_incomplete_coordinates", pos.x, pos.y, pos.z))
+            Translator.translateToLocalFormatted("tile.reactor.structure_incomplete", expected.localizedName) to
+                    Translator.translateToLocalFormatted("tile.reactor.structure_incomplete_coordinates", pos.x, pos.y, pos.z)
         }
 
         return false

@@ -1,17 +1,10 @@
 package io.enderdev.alchemistry.recipes
 
+import al132.alib.utils.extensions.toStack
 import io.enderdev.alchemistry.chemistry.ElementRegistry
 import io.enderdev.alchemistry.items.ItemElementIngot
 import io.enderdev.alchemistry.items.ModItems
-import al132.alib.utils.extensions.toStack
-import io.enderdev.alchemistry.recipes.register.AtomizerRegister
-import io.enderdev.alchemistry.recipes.register.CombinerRegister
-import io.enderdev.alchemistry.recipes.register.DissolverRegister
-import io.enderdev.alchemistry.recipes.register.ElectrolyzerRegister
-import io.enderdev.alchemistry.recipes.register.EvaporatorRegister
-import io.enderdev.alchemistry.recipes.register.FissionRegister
-import io.enderdev.alchemistry.recipes.register.FusionRegister
-import io.enderdev.alchemistry.recipes.register.LiquifierRegister
+import io.enderdev.alchemistry.recipes.register.*
 import net.minecraftforge.oredict.OreDictionary
 
 /**
@@ -41,8 +34,7 @@ object ModRecipes {
 
     fun initOredict() {
         (1 until 119).filterNot { ItemElementIngot.Companion.invalidIngots.contains(it) }.forEach { i ->
-            val elementName: String =
-                ElementRegistry[i]!!.name[0].uppercaseChar() + ElementRegistry[i]!!.name.substring(1)
+            val elementName: String = ElementRegistry[i]!!.name.replaceFirstChar(Char::uppercaseChar)
             OreDictionary.registerOre("ingot$elementName", ModItems.ingots.toStack(meta = i))
         }
     }

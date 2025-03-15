@@ -25,16 +25,16 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
         recipes.add(CombinerRecipe(Items.COAL.toStack(), listOf(null, "carbon".toStack(8))))
         recipes.add(CombinerRecipe(Blocks.GLOWSTONE.toStack(), listOf(null, "phosphorus".toStack(16))))
 
-        listOf(0, 1, 2).forEach {
-            val input = (0 until it).mapTo(ArrayList<ItemStack>()) { ItemStack.EMPTY }.toMutableList()
+        // every quartz block variant
+        (0..2).forEach {
+            val input: MutableList<Any?> = (0..it).map { null }.toMutableList()
+            input.add("barium".toStack(32))
+            input.add("silicon_dioxide".toStack(64))
             recipes.add(
                 CombinerRecipe(
                     Blocks.QUARTZ_BLOCK.toStack(meta = it),
-                    input.apply {
-                        add(0, ItemStack.EMPTY);
-                        add("barium".toStack(32));
-                        add("silicon_dioxide".toStack(64))
-                    })
+                    input
+                )
             )
         }
 
@@ -75,8 +75,9 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
 
         val saltOutputs = ArrayList<ItemStack>()
         listOf("lumpSalt", "materialSalt", "salt", "itemSalt", "dustSalt", "foodSalt")
-            .filter { oreNotEmpty(it) }
             .forEachIndexed { i, name ->
+                if(!oreNotEmpty(name))
+                    return@forEachIndexed
                 val input = (0 until i).mapTo(ArrayList<ItemStack>()) { ItemStack.EMPTY }.toMutableList()
                 if (saltOutputs.none { it.areStacksEqualIgnoreQuantity(firstOre(name)) }) {
                     recipes.add(
@@ -90,8 +91,9 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
 
         val saltpeterOutputs = ArrayList<ItemStack>()
         listOf("dustSaltpeter", "nitrate", "nitre")
-            .filter { oreNotEmpty(it) }
             .forEachIndexed { i, name ->
+                if(!oreNotEmpty(name))
+                    return@forEachIndexed
                 val input = (0 until i).mapTo(ArrayList<ItemStack>()) { ItemStack.EMPTY }.toMutableList()
                 if (saltpeterOutputs.none { it.areStacksEqualIgnoreQuantity(firstOre(name)) }) {
                     recipes.add(
@@ -125,25 +127,22 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
             )
         )
 
-        CompoundRegistry.compounds()
-            .filter { it.autoCombinerRecipe }
-            .forEach { compound ->
-                if (compound.shiftedSlots > 0) {
-                    val inputList: List<Any> = compound.toItemStackList().toMutableList().also { list ->
-                        (0 until compound.shiftedSlots).forEach { list.add(0, ItemStack.EMPTY) }
-                    }
-                    assert(inputList.size <= 9)
-                    recipes.add(CombinerRecipe(compound.toItemStack(1), inputList))
-                } else recipes.add(CombinerRecipe(compound.toItemStack(1), compound.toItemStackList()))
+        CompoundRegistry.compounds().forEach { compound ->
+            if(!compound.autoCombinerRecipe)
+                return@forEach
+
+            var list = compound.toItemStackList()
+            if(compound.shiftedSlots != 0) {
+                list = list.toMutableList()
+                list.addAll(0, (0 until compound.shiftedSlots).map { _ -> ItemStack.EMPTY })
             }
 
-        DissolverRegister.INSTANCE.recipes.filter { it.reversible }.forEach { recipe ->
-            if (recipe.inputs.isNotEmpty()) recipes.add(
-                CombinerRecipe(
-                    recipe.inputs[0],
-                    recipe.outputs.toStackList()
-                )
-            )
+            recipes.add(CombinerRecipe(compound.toItemStack(1), list))
+        }
+
+        DissolverRegister.INSTANCE.recipes.forEach { recipe ->
+            if(recipe.reversible && recipe.inputs.isNotEmpty())
+                recipes.add(CombinerRecipe(recipe.inputs[0], recipe.outputs.toStackList()))
         }
 
         val carbon = "carbon".toStack(quantity = 64)
@@ -189,7 +188,7 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
         recipes.add(
             CombinerRecipe(
                 Blocks.STONE.toStack(),
-                listOf(ItemStack.EMPTY, "silicon_dioxide".toStack())
+                listOf(null, "silicon_dioxide".toStack())
             )
         )
 
@@ -206,7 +205,7 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
         recipes.add(
             CombinerRecipe(
                 Blocks.CLAY.toStack(),
-                listOf(ItemStack.EMPTY, "kaolinite".toStack(4))
+                listOf(null, "kaolinite".toStack(4))
             )
         )
 
@@ -265,7 +264,7 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
         recipes.add(
             CombinerRecipe(
                 Blocks.GRAVEL.toStack(),
-                listOf(null, null, "silicon_dioxide".toStack(1))
+                listOf(null, null, "silicon_dioxide".toStack())
             )
         )
 
@@ -372,15 +371,13 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
             )
         )
 
-        if (oreNotEmpty("itemSilicon")) {
-            val rubyStack = firstOre("itemSilicon")
+        if(oreNotEmpty("itemSilicon"))
             recipes.add(
                 CombinerRecipe(
-                    rubyStack,
+                    firstOre("itemSilicon"),
                     listOf(null, "silicon".toStack(16))
                 )
             )
-        }
 
         recipes.add(
             CombinerRecipe(
@@ -431,15 +428,13 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
             )
         )
 
-        if (oreNotEmpty("gemRuby")) {
-            val rubyStack = firstOre("gemRuby")
+        if(oreNotEmpty("gemRuby"))
             recipes.add(
                 CombinerRecipe(
-                    rubyStack,
+                    firstOre("gemRuby"),
                     listOf("aluminum_oxide".toStack(16), "chromium".toStack(8))
                 )
             )
-        }
 
         if (oreNotEmpty("gemSapphire")) {
             recipes.add(
@@ -461,11 +456,12 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
             Items.BEETROOT_SEEDS.toStack()
         )
 
-        seeds.withIndex().forEach { (index: Int, stack: ItemStack) ->
+        seeds.forEachIndexed { index: Int, stack: ItemStack ->
             val inputs = mutableListOf(null, "triglyceride".toStack(), null)
-            (0 until index).forEach { inputs.add(null) }
+            inputs.addAll((0 until index).map { null })
             inputs.add("sucrose".toStack())
-            if (stack.item == Items.BEETROOT_SEEDS) inputs.add("iron_oxide".toStack())
+            if (stack.item == Items.BEETROOT_SEEDS)
+                inputs.add("iron_oxide".toStack())
             recipes.add(CombinerRecipe(stack, inputs))
         }
 
@@ -492,15 +488,17 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
         }
 
 
+        // all saplings
         (0..5).forEach { i ->
-            val input = (0 until i).mapTo(ArrayList<ItemStack>(), { ItemStack.EMPTY })
+            val input: MutableList<Any?> = mutableListOf((0 until i).map { null })
             input.add("oxygen".toStack())
             input.add("cellulose".toStack(2))
             recipes.add(CombinerRecipe(Blocks.SAPLING.toStack(quantity = 4, meta = i), input))
         }
 
-        (0 until 6).forEach { i ->
-            val input = (0 until i).mapTo(ArrayList<ItemStack>()) { ItemStack.EMPTY }
+        // all logs
+        (0 ..5).forEach { i ->
+            val input: MutableList<Any?> = mutableListOf((0 until i).map { null })
             input.add("cellulose".toStack())
 
             //y u gotta do dis mojang

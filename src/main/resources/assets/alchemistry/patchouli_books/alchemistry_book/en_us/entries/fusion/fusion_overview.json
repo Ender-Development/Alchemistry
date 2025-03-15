@@ -14,7 +14,12 @@
     },
     {
       "type": "crafting",
-      "recipe": "alchemistry:fusion_casing"
+      "recipe": "alchemistry:fusion_casing",
+      "recipe2": "alchemistry:fusion_glass"
+    },
+    {
+      "type": "text",
+      "text": "You can also put liquids inside to influence the $(thing)productivity, speed and energy$() bonuses of the reactor. See the config for more info, or just try it and see ;p."
     }
   ]
 }

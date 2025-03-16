@@ -1,20 +1,11 @@
 package io.enderdev.alchemistry.compat.jei
 
+import al132.alib.utils.extensions.toStack
+import al132.alib.utils.extensions.translate
 import io.enderdev.alchemistry.Reference
 import io.enderdev.alchemistry.blocks.ModBlocks
-import io.enderdev.alchemistry.client.container.ContainerChemicalDissolver
-import io.enderdev.alchemistry.client.container.ContainerElectrolyzer
-import io.enderdev.alchemistry.client.container.ContainerFissionController
-import io.enderdev.alchemistry.client.container.ContainerFusionController
-import io.enderdev.alchemistry.client.container.ContainerLiquifier
-import io.enderdev.alchemistry.client.gui.GuiAtomizer
-import io.enderdev.alchemistry.client.gui.GuiChemicalCombiner
-import io.enderdev.alchemistry.client.gui.GuiChemicalDissolver
-import io.enderdev.alchemistry.client.gui.GuiElectrolyzer
-import io.enderdev.alchemistry.client.gui.GuiEvaporator
-import io.enderdev.alchemistry.client.gui.GuiFissionController
-import io.enderdev.alchemistry.client.gui.GuiFusionController
-import io.enderdev.alchemistry.client.gui.GuiLiquifier
+import io.enderdev.alchemistry.client.container.*
+import io.enderdev.alchemistry.client.gui.*
 import io.enderdev.alchemistry.compat.jei.atomizer.AtomizerRecipeCategory
 import io.enderdev.alchemistry.compat.jei.atomizer.AtomizerRecipeWrapper
 import io.enderdev.alchemistry.compat.jei.combiner.CombinerRecipeCategory
@@ -32,30 +23,15 @@ import io.enderdev.alchemistry.compat.jei.fusion.FusionRecipeCategory
 import io.enderdev.alchemistry.compat.jei.fusion.FusionRecipeWrapper
 import io.enderdev.alchemistry.compat.jei.liquifier.LiquifierRecipeCategory
 import io.enderdev.alchemistry.compat.jei.liquifier.LiquifierRecipeWrapper
-import al132.alib.utils.extensions.toStack
-import al132.alib.utils.extensions.translate
-import io.enderdev.alchemistry.recipes.AtomizerRecipe
-import io.enderdev.alchemistry.recipes.CombinerRecipe
-import io.enderdev.alchemistry.recipes.DissolverRecipe
-import io.enderdev.alchemistry.recipes.ElectrolyzerRecipe
-import io.enderdev.alchemistry.recipes.EvaporatorRecipe
-import io.enderdev.alchemistry.recipes.FissionRecipe
-import io.enderdev.alchemistry.recipes.FusionRecipe
-import io.enderdev.alchemistry.recipes.LiquifierRecipe
-import io.enderdev.alchemistry.recipes.register.AtomizerRegister
-import io.enderdev.alchemistry.recipes.register.CombinerRegister
-import io.enderdev.alchemistry.recipes.register.DissolverRegister
-import io.enderdev.alchemistry.recipes.register.ElectrolyzerRegister
-import io.enderdev.alchemistry.recipes.register.EvaporatorRegister
-import io.enderdev.alchemistry.recipes.register.FissionRegister
-import io.enderdev.alchemistry.recipes.register.FusionRegister
-import io.enderdev.alchemistry.recipes.register.LiquifierRegister
+import io.enderdev.alchemistry.recipes.*
+import io.enderdev.alchemistry.recipes.register.*
 import mezz.jei.api.*
-import mezz.jei.api.gui.IDrawable
+import mezz.jei.api.gui.IDrawableStatic
 import mezz.jei.api.recipe.IRecipeCategory
 import mezz.jei.api.recipe.IRecipeCategoryRegistration
 import mezz.jei.api.recipe.IRecipeWrapper
 import mezz.jei.api.recipe.transfer.IRecipeTransferRegistry
+import net.minecraft.util.ResourceLocation
 
 
 @JEIPlugin
@@ -201,24 +177,34 @@ class AlchemistryPlugin : IModPlugin {
 }
 
 object AlchemistryRecipeUID {
-    val COMBINER = Reference.MODID + ".combiner"
-    val DISSOLVER = Reference.MODID + ".dissolver"
-    val ELECTROLYZER = Reference.MODID + ".electrolyzer"
-    val EVAPORATOR = Reference.MODID + ".evaporator"
-    val ATOMIZER = Reference.MODID + ".atomizer"
-    val LIQUIFIER = Reference.MODID + ".liquifier"
-    val FISSION = Reference.MODID + ".fission"
-    val FUSION = Reference.MODID + ".fusion"
+    const val COMBINER = Reference.MODID + ".combiner"
+    const val DISSOLVER = Reference.MODID + ".dissolver"
+    const val ELECTROLYZER = Reference.MODID + ".electrolyzer"
+    const val EVAPORATOR = Reference.MODID + ".evaporator"
+    const val ATOMIZER = Reference.MODID + ".atomizer"
+    const val LIQUIFIER = Reference.MODID + ".liquifier"
+    const val FISSION = Reference.MODID + ".fission"
+    const val FUSION = Reference.MODID + ".fusion"
 }
 
 abstract class AlchemistryRecipeWrapper<out R>(val recipe: R) : IRecipeWrapper
 
-abstract class AlchemistryRecipeCategory<T : IRecipeWrapper>(private val background: IDrawable, unlocalizedName: String) :
-        IRecipeCategory<T> {
+abstract class AlchemistryRecipeCategory<T : IRecipeWrapper>(val guiHelper: IGuiHelper, guiName: String) : IRecipeCategory<T> {
+    val localizedName: String = "jei.$guiName.name".translate()
 
-    val localizedName: String = unlocalizedName.translate()
+    open val guiTexture = ResourceLocation(Reference.MODID, "textures/gui/container/${guiName}_gui_redox.png")
+    abstract val u: Int
+    abstract val v: Int
+    abstract val width: Int
+    abstract val height: Int
+    private var backgroundDrawable: IDrawableStatic? = null
 
-    override fun getBackground(): IDrawable = background
+    override fun getTitle() = localizedName
 
     override fun getModName() = Reference.MODID
+
+    override fun getBackground(): IDrawableStatic {
+        backgroundDrawable = backgroundDrawable ?: guiHelper.createDrawable(guiTexture, u, v, width, height)
+        return backgroundDrawable!!
+    }
 }

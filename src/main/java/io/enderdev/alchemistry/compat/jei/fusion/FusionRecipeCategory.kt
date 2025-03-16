@@ -1,7 +1,5 @@
 package io.enderdev.alchemistry.compat.jei.fusion
 
-import al132.alib.utils.Translator
-import io.enderdev.alchemistry.client.gui.GuiFusionController
 import io.enderdev.alchemistry.compat.jei.AlchemistryRecipeCategory
 import io.enderdev.alchemistry.compat.jei.AlchemistryRecipeUID
 import mezz.jei.api.IGuiHelper
@@ -9,11 +7,17 @@ import mezz.jei.api.gui.IRecipeLayout
 import mezz.jei.api.ingredients.IIngredients
 import mezz.jei.api.ingredients.VanillaTypes
 
-class FusionRecipeCategory(guiHelper: IGuiHelper)
-    : AlchemistryRecipeCategory<FusionRecipeWrapper>(guiHelper.createDrawable(guiTexture, u, v, 115, 26),
-        "jei.fusion_controller.name") {
+class FusionRecipeCategory(guiHelper: IGuiHelper) : AlchemistryRecipeCategory<FusionRecipeWrapper>(guiHelper,"fusion_controller") {
+    companion object {
+        private const val INPUT_ONE = 0
+        private const val INPUT_TWO = 1
+        private const val OUTPUT_ONE = 2
+    }
 
-    override fun getTitle(): String = Translator.translateToLocal("jei.fusion_controller.name")
+    override val u = 39
+    override val v = 70
+    override val width = 115
+    override val height = 26
 
     override fun getUid(): String = AlchemistryRecipeUID.FUSION
 
@@ -21,7 +25,7 @@ class FusionRecipeCategory(guiHelper: IGuiHelper)
         val guiItemStacks = recipeLayout.itemStacks
 
         var x = 43 - u
-        var y = 74 - v
+        val y = 74 - v
 
         val input1 = ingredients.getInputs(VanillaTypes.ITEM)[0]
         guiItemStacks.init(INPUT_ONE, true, x, y)
@@ -36,17 +40,5 @@ class FusionRecipeCategory(guiHelper: IGuiHelper)
         val output1 = ingredients.getOutputs(VanillaTypes.ITEM)[0]
         guiItemStacks.init(OUTPUT_ONE, false, x, y)
         guiItemStacks.set(OUTPUT_ONE, output1)
-    }
-
-    companion object {
-
-        private val INPUT_ONE = 0
-        private val INPUT_TWO = 1
-        private val OUTPUT_ONE = 2
-
-        private val u = 39
-        private val v = 70
-
-        private val guiTexture = GuiFusionController.Companion.textureLocation
     }
 }

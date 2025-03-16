@@ -1,21 +1,27 @@
 package io.enderdev.alchemistry.compat.jei.electrolyzer
 
-import io.enderdev.alchemistry.client.gui.GuiElectrolyzer
+import al132.alib.utils.Translator
 import io.enderdev.alchemistry.compat.jei.AlchemistryRecipeCategory
 import io.enderdev.alchemistry.compat.jei.AlchemistryRecipeUID
-import al132.alib.utils.Translator
 import mezz.jei.api.IGuiHelper
 import mezz.jei.api.gui.IRecipeLayout
-import mezz.jei.api.gui.ITooltipCallback
 import mezz.jei.api.ingredients.IIngredients
 import mezz.jei.api.ingredients.VanillaTypes
-import net.minecraft.item.ItemStack
 
-class ElectrolyzerRecipeCategory(guiHelper: IGuiHelper)
-    : AlchemistryRecipeCategory<ElectrolyzerRecipeWrapper>(guiHelper.createDrawable(guiTexture, u, v, 116, 80),
-        "jei.electrolyzer.name") {
+class ElectrolyzerRecipeCategory(guiHelper: IGuiHelper) : AlchemistryRecipeCategory<ElectrolyzerRecipeWrapper>(guiHelper, "electrolyzer") {
+    companion object {
+        private const val INPUT_ONE = 0
+        private const val OUTPUT_ONE = 1
+        private const val OUTPUT_TWO = 2
+        private const val OUTPUT_THREE = 3
+        private const val OUTPUT_FOUR = 4
+        private const val FLUID_ONE = 1
+    }
 
-    override fun getTitle(): String = Translator.translateToLocal("jei.electrolyzer.name")
+    override val u = 39
+    override val v = 59
+    override val width = 116
+    override val height = 80
 
     override fun getUid(): String = AlchemistryRecipeUID.ELECTROLYZER
 
@@ -52,28 +58,11 @@ class ElectrolyzerRecipeCategory(guiHelper: IGuiHelper)
         guiFluidStacks.init(FLUID_ONE, true, x, y, 16, 70, inputStack.amount, false, null)
         guiFluidStacks.set(FLUID_ONE, inputStack)
 
-        guiItemStacks.addTooltipCallback(object : ITooltipCallback<ItemStack> {
-            override fun onTooltip(slotIndex: Int, input: Boolean, ingredient: ItemStack?, tooltip: MutableList<String>?) {
-                if (input) {
-                    tooltip?.add(Translator.translateToLocal("jei.electrolyzer.electrolyte"))
-                    tooltip?.add(Translator.translateToLocal("jei.electrolyzer.consumption_probability") + ": ${recipeWrapper.recipe.electrolyteConsumptionChance}%")
-                }
+        guiItemStacks.addTooltipCallback { slotIndex, input, ingredient, tooltip ->
+            if(input) {
+                tooltip.add(Translator.translateToLocal("jei.electrolyzer.electrolyte"))
+                tooltip.add(Translator.translateToLocal("jei.electrolyzer.consumption_probability") + ": ${recipeWrapper.recipe.electrolyteConsumptionChance}%")
             }
-        })
-    }
-
-    companion object {
-
-        private val INPUT_ONE = 0
-        private val OUTPUT_ONE = 1
-        private val OUTPUT_TWO = 2
-        private val OUTPUT_THREE = 3
-        private val OUTPUT_FOUR = 4
-        private val FLUID_ONE = 1
-
-        private val u = 39
-        private val v = 59
-
-        private val guiTexture = GuiElectrolyzer.Companion.textureLocation
+        }
     }
 }

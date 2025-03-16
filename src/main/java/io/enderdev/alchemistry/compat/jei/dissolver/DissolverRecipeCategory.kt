@@ -1,29 +1,25 @@
 package io.enderdev.alchemistry.compat.jei.dissolver
 
+import io.enderdev.alchemistry.Reference
 import io.enderdev.alchemistry.compat.jei.AlchemistryRecipeCategory
 import io.enderdev.alchemistry.compat.jei.AlchemistryRecipeUID
-import al132.alib.utils.Translator
 import mezz.jei.api.IGuiHelper
 import mezz.jei.api.gui.IRecipeLayout
 import mezz.jei.api.ingredients.IIngredients
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ResourceLocation
 
-class DissolverRecipeCategory(guiHelper: IGuiHelper)
-    : AlchemistryRecipeCategory<DissolverRecipeWrapper>(guiHelper.createDrawable(guiTexture, u, v, width, height),
-        "jei.dissolver.name") {
-
+class DissolverRecipeCategory(guiHelper: IGuiHelper) : AlchemistryRecipeCategory<DissolverRecipeWrapper>(guiHelper, "chemical_dissolver") {
     companion object {
-        val INPUT_ONE = 2
-        val OUTPUT_STARTING_INDEX = 3
-        val u = 5
-        val v = 5
-        val width = 180
-        val height = 256
-        val guiTexture = ResourceLocation("alchemistry:textures/gui/container/chemical_dissolver_jei.png")
+        private const val INPUT_ONE = 2
+        private const val OUTPUT_STARTING_INDEX = 3
     }
 
-    override fun getTitle() = Translator.translateToLocal("jei.dissolver.name")
+    override val guiTexture = ResourceLocation(Reference.MODID, "textures/gui/container/chemical_dissolver_jei_redox.png")
+    override val u = 5
+    override val v = 5
+    override val width = 180
+    override val height = 256
 
     override fun getUid(): String = AlchemistryRecipeUID.DISSOLVER
 

@@ -2,24 +2,21 @@ package io.enderdev.alchemistry.client.gui
 
 import al132.alib.client.CapabilityEnergyDisplayWrapper
 import al132.alib.tiles.IGuiTile
-import al132.alib.utils.extensions.translate
 import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.tiles.AbstractReactorController
 import io.enderdev.alchemistry.tiles.ReactorType
 import net.minecraft.client.resources.I18n
 import net.minecraft.inventory.Container
-import net.minecraft.util.ResourceLocation
 import java.awt.Color
 import kotlin.math.ceil
 
-abstract class GuiReactorController<T>(container: Container, tile: T, textureLocation: ResourceLocation) :
-    GuiBase<T>(container, tile, textureLocation) where T : AbstractReactorController<*>, T : IGuiTile {
+abstract class GuiReactorController<T>(container: Container, tile: T, guiName: String) :
+    GuiBase<T>(container, tile, guiName) where T : AbstractReactorController<*>, T : IGuiTile {
 
     val infoHeight = 102f
     val infoX = 12f
 
     override val displayNameOffset: Int = 8
-    override var displayName: String = ""
     val textProductivity: String
     val textSpeed: String
     val textEnergy: String
@@ -29,7 +26,6 @@ abstract class GuiReactorController<T>(container: Container, tile: T, textureLoc
     init {
         this.displayData.add(CapabilityEnergyDisplayWrapper(8, 21, 16, 70, tile::energyStorage))
         val type = if(tile.reactorType == ReactorType.FISSION) "fission" else "fusion"
-        displayName = "tile.${type}_controller.name".translate()
         textProductivity = "tile.$type.productivity"
         textSpeed = "tile.$type.speed"
         textEnergy = "tile.$type.energy"

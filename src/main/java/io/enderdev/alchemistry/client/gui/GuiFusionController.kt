@@ -1,24 +1,19 @@
 package io.enderdev.alchemistry.client.gui
 
+import al132.alib.utils.Translator
 import io.enderdev.alchemistry.client.button.SingleButton
 import io.enderdev.alchemistry.client.container.ContainerFusionController
 import io.enderdev.alchemistry.network.ButtonPacket
 import io.enderdev.alchemistry.network.PacketHandler
 import io.enderdev.alchemistry.tiles.TileFusionController
-import al132.alib.utils.Translator
 import net.minecraft.client.gui.GuiButton
 import net.minecraft.entity.player.InventoryPlayer
-import net.minecraft.util.ResourceLocation
 
 /**
  * Created by al132 on 1/16/2017.
  */
 class GuiFusionController(playerInv: InventoryPlayer, tile: TileFusionController) :
-        GuiReactorController<TileFusionController>(ContainerFusionController(playerInv, tile), tile, textureLocation) {
-
-    companion object {
-        val textureLocation = ResourceLocation(root + "fusion_controller_gui.png")
-    }
+        GuiReactorController<TileFusionController>(ContainerFusionController(playerInv, tile), tile, "fusion_controller") {
 
     lateinit var modeButton: SingleButton
 

@@ -1,20 +1,19 @@
 package io.enderdev.alchemistry.client.gui
 
+import al132.alib.client.CapabilityEnergyDisplayWrapper
+import al132.alib.utils.Translator
+import al132.alib.utils.extensions.get
 import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.client.button.LockButton
 import io.enderdev.alchemistry.client.container.ContainerChemicalCombiner
 import io.enderdev.alchemistry.network.ButtonPacket
 import io.enderdev.alchemistry.network.PacketHandler
 import io.enderdev.alchemistry.tiles.TileChemicalCombiner
-import al132.alib.client.CapabilityEnergyDisplayWrapper
-import al132.alib.utils.Translator
-import al132.alib.utils.extensions.get
 import net.minecraft.client.gui.GuiButton
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.RenderHelper
 import net.minecraft.entity.player.InventoryPlayer
 import net.minecraft.item.ItemStack
-import net.minecraft.util.ResourceLocation
 
 /**
  * Created by al132 on 1/16/2017.
@@ -22,14 +21,8 @@ import net.minecraft.util.ResourceLocation
 class GuiChemicalCombiner(
     playerInv: InventoryPlayer, tile: TileChemicalCombiner, override val displayNameOffset: Int = 51
 ) : GuiBase<TileChemicalCombiner>(
-    ContainerChemicalCombiner(playerInv, tile), tile, textureLocation
+    ContainerChemicalCombiner(playerInv, tile), tile, "chemical_combiner"
 ) {
-
-    companion object {
-        val textureLocation = ResourceLocation(root + "chemical_combiner_gui.png")
-    }
-
-    override val displayName = Translator.translateToLocal("tile.chemical_combiner.name")
 
     lateinit var toggleRecipeLock: LockButton
 

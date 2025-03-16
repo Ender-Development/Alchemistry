@@ -321,8 +321,8 @@ element_ingot.name=Ingot
 
 
 
-jei.combiner.name=Chemical Combiner
-jei.dissolver.name=Chemical Dissolver
+jei.chemical_combiner.name=Chemical Combiner
+jei.chemical_dissolver.name=Chemical Dissolver
 jei.electrolyzer.name=Electrolyzer
 jei.evaporator.name=Evaporator
 jei.atomizer.name=Atomizer

@@ -3,17 +3,12 @@ package io.enderdev.alchemistry.client.gui
 import io.enderdev.alchemistry.client.container.ContainerFissionController
 import io.enderdev.alchemistry.tiles.TileFissionController
 import net.minecraft.entity.player.InventoryPlayer
-import net.minecraft.util.ResourceLocation
 
 /**
  * Created by al132 on 1/16/2017.
  */
 class GuiFissionController(playerInv: InventoryPlayer, tile: TileFissionController) :
-        GuiReactorController<TileFissionController>(ContainerFissionController(playerInv, tile), tile, textureLocation) {
-
-    companion object {
-        val textureLocation = ResourceLocation(root + "fission_controller_gui.png")
-    }
+        GuiReactorController<TileFissionController>(ContainerFissionController(playerInv, tile), tile, "fission_controller") {
 
     override fun drawGuiContainerBackgroundLayer(partialTicks: Float, mouseX: Int, mouseY: Int) {
         super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY)

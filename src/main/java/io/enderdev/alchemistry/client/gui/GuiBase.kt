@@ -1,35 +1,34 @@
 package io.enderdev.alchemistry.client.gui
 
 
-import io.enderdev.alchemistry.client.button.PauseButton
-import io.enderdev.alchemistry.network.ButtonPacket
-import io.enderdev.alchemistry.network.PacketHandler
-import io.enderdev.alchemistry.tiles.AbstractMachine
 import al132.alib.client.ALGuiBase
 import al132.alib.client.CapabilityEnergyDisplayWrapper
 import al132.alib.client.CapabilityFluidDisplayWrapper
 import al132.alib.tiles.IGuiTile
 import al132.alib.utils.Translator
+import al132.alib.utils.extensions.translate
+import io.enderdev.alchemistry.Reference
+import io.enderdev.alchemistry.client.button.PauseButton
 import io.enderdev.alchemistry.client.button.RedstoneButton
+import io.enderdev.alchemistry.network.ButtonPacket
+import io.enderdev.alchemistry.network.PacketHandler
+import io.enderdev.alchemistry.tiles.AbstractMachine
 import net.minecraft.client.gui.GuiButton
 import net.minecraft.inventory.Container
 import net.minecraft.util.ResourceLocation
 import java.awt.Color
 
 
-abstract class GuiBase<T>(container: Container, tile: T, textureLocation: ResourceLocation) :
-    ALGuiBase<T>(container, tile, textureLocation) where T : AbstractMachine<*>, T : IGuiTile {
+abstract class GuiBase<T>(container: Container, tile: T, guiName: String) :
+    ALGuiBase<T>(container, tile, ResourceLocation(Reference.MODID, "textures/gui/container/${guiName}_gui_redox.png")) where T : AbstractMachine<*>, T : IGuiTile {
 
     abstract val displayNameOffset: Int
 
-    override var powerBarTexture: ResourceLocation? = ResourceLocation(root + "template.png")
+    override var powerBarTexture: ResourceLocation? = ResourceLocation(Reference.MODID, "textures/gui/container/template_redox.png")
+    override val displayName = "tile.$guiName.name".translate()
 
     lateinit var pauseButton: PauseButton
     lateinit var redstoneButton: RedstoneButton
-
-    companion object {
-        val root = "alchemistry:textures/gui/container/"
-    }
 
     override fun initGui() {
         super.initGui()

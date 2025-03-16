@@ -1,12 +1,10 @@
 package io.enderdev.alchemistry.client.gui
 
+import al132.alib.client.CapabilityEnergyDisplayWrapper
+import al132.alib.utils.extensions.get
 import io.enderdev.alchemistry.client.container.ContainerChemicalDissolver
 import io.enderdev.alchemistry.tiles.TileChemicalDissolver
-import al132.alib.client.CapabilityEnergyDisplayWrapper
-import al132.alib.utils.Translator
-import al132.alib.utils.extensions.get
 import net.minecraft.entity.player.InventoryPlayer
-import net.minecraft.util.ResourceLocation
 
 /**
  * Created by al132 on 1/16/2017.
@@ -15,13 +13,7 @@ class GuiChemicalDissolver(
     playerInv: InventoryPlayer, tile: TileChemicalDissolver,
     override val displayNameOffset: Int = 51
 ) :
-    GuiBase<TileChemicalDissolver>(ContainerChemicalDissolver(playerInv, tile), tile, textureLocation) {
-
-    companion object {
-        val textureLocation = ResourceLocation(root + "chemical_dissolver_gui.png")
-    }
-
-    override val displayName = Translator.translateToLocal("tile.chemical_dissolver.name")
+    GuiBase<TileChemicalDissolver>(ContainerChemicalDissolver(playerInv, tile), tile, "chemical_dissolver") {
 
     init {
         this.displayData.add(CapabilityEnergyDisplayWrapper(8, 64, 16, 70, tile::energyStorage))

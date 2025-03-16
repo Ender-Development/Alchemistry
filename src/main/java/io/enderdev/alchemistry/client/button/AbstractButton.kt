@@ -1,12 +1,13 @@
 package io.enderdev.alchemistry.client.button
 
+import io.enderdev.alchemistry.Reference
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiButton
 import net.minecraft.util.ResourceLocation
 
 abstract class AbstractButton(buttonId: ButtonID, val x: Int, val y: Int): GuiButton(buttonId.ordinal, x, y, 16, 16, "") {
     companion object {
-        val textureLocation = ResourceLocation("alchemistry:textures/gui/container/template.png")
+        val textureLocation = ResourceLocation(Reference.MODID, "textures/gui/container/template_redox.png")
     }
 
     enum class ButtonID(i: Int) {

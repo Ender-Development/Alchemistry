@@ -1,24 +1,16 @@
 package io.enderdev.alchemistry.client.gui
 
+import al132.alib.client.CapabilityFluidDisplayWrapper
 import io.enderdev.alchemistry.client.container.ContainerEvaporator
 import io.enderdev.alchemistry.tiles.TileEvaporator
-import al132.alib.client.CapabilityFluidDisplayWrapper
-import al132.alib.utils.Translator
 import net.minecraft.entity.player.InventoryPlayer
-import net.minecraft.util.ResourceLocation
 
 /**
  * Created by al132 on 4/29/2017.
  */
 
 class GuiEvaporator(playerInv: InventoryPlayer, tile: TileEvaporator, override val displayNameOffset: Int = 51)
-    : GuiBase<TileEvaporator>(ContainerEvaporator(playerInv, tile),tile, textureLocation) {
-
-    companion object {
-        val textureLocation = ResourceLocation(root + "evaporator_gui.png")
-    }
-
-    override val displayName = Translator.translateToLocal("tile.evaporator.name")
+    : GuiBase<TileEvaporator>(ContainerEvaporator(playerInv, tile),tile, "evaporator") {
 
     init {
         this.displayData.add(CapabilityFluidDisplayWrapper(44, 64, 16, 70, tile::inputTank))

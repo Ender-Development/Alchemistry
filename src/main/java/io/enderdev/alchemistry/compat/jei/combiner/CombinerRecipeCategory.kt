@@ -1,7 +1,5 @@
 package io.enderdev.alchemistry.compat.jei.combiner
 
-import al132.alib.utils.Translator
-import io.enderdev.alchemistry.client.gui.GuiChemicalCombiner
 import io.enderdev.alchemistry.compat.jei.AlchemistryRecipeCategory
 import io.enderdev.alchemistry.compat.jei.AlchemistryRecipeUID
 import mezz.jei.api.IGuiHelper
@@ -9,22 +7,16 @@ import mezz.jei.api.gui.IRecipeLayout
 import mezz.jei.api.ingredients.IIngredients
 import mezz.jei.api.ingredients.VanillaTypes
 
-class CombinerRecipeCategory(guiHelper: IGuiHelper) :
-        AlchemistryRecipeCategory<CombinerRecipeWrapper>
-        (guiHelper.createDrawable(guiTexture, u, v, 116, 62), "jei.combiner.name") {
-
+class CombinerRecipeCategory(guiHelper: IGuiHelper) : AlchemistryRecipeCategory<CombinerRecipeWrapper>(guiHelper, "chemical_combiner") {
     companion object {
-
         private const val INPUT_SIZE = 9
         private const val OUTPUT_SLOT = 9
-
-        private const val u = 39
-        private const val v = 77
-
-        private val guiTexture = GuiChemicalCombiner.Companion.textureLocation
     }
 
-    override fun getTitle() = Translator.translateToLocal("jei.combiner.name")
+    override val u = 39
+    override val v = 77
+    override val width = 116
+    override val height = 62
 
     override fun getUid(): String = AlchemistryRecipeUID.COMBINER
 

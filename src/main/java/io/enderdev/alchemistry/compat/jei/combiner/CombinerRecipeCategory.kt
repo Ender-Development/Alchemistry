@@ -1,9 +1,9 @@
 package io.enderdev.alchemistry.compat.jei.combiner
 
+import al132.alib.utils.Translator
 import io.enderdev.alchemistry.client.gui.GuiChemicalCombiner
 import io.enderdev.alchemistry.compat.jei.AlchemistryRecipeCategory
 import io.enderdev.alchemistry.compat.jei.AlchemistryRecipeUID
-import al132.alib.utils.Translator
 import mezz.jei.api.IGuiHelper
 import mezz.jei.api.gui.IRecipeLayout
 import mezz.jei.api.ingredients.IIngredients
@@ -30,7 +30,7 @@ class CombinerRecipeCategory(guiHelper: IGuiHelper) :
 
     override fun setRecipe(recipeLayout: IRecipeLayout, recipeWrapper: CombinerRecipeWrapper, ingredients: IIngredients) {
         val guiItemStacks = recipeLayout.itemStacks
-        val startX = 42 - u
+        val startX = 43 - u
         var x = startX
         var y = 81 - v
         var index = 0

@@ -4,6 +4,7 @@ import al132.alib.utils.Translator
 import al132.alib.utils.extensions.translate
 import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.blocks.ModBlocks
+import io.enderdev.alchemistry.client.BlockHighlighter
 import net.minecraft.block.Block
 import net.minecraft.block.BlockLiquid
 import net.minecraft.init.Blocks
@@ -22,6 +23,11 @@ class ReactorShapeHandler(val controller: AbstractReactorController<*>) {
     val compactEnabled: Boolean
 
     var failReason: () -> Pair<String, String>? = { null }
+        private set
+    var failPos: BlockPos? = null
+        private set
+    var failRed: Boolean = false
+        private set
 
     init {
         when(controller.reactorType) {
@@ -44,6 +50,9 @@ class ReactorShapeHandler(val controller: AbstractReactorController<*>) {
     }
 
     fun validate(): Boolean {
+        failReason = { null }
+        failPos = null
+        failRed = false
         multiblockDirection = controller.getFacing()?.opposite
         if (multiblockDirection == null) return false
         val corePos: BlockPos = controller.pos.offsetBack(3).offsetUp(2)
@@ -55,12 +64,16 @@ class ReactorShapeHandler(val controller: AbstractReactorController<*>) {
         if(!checkInnerCasing)
             return false
 
-        val checkCompact = compactEnabled || getOutside() == 0
-        if(!checkCompact) {
-            failReason = {
-                "tile.reactor.non_compact_touching".translate() to "tile.reactor.non_compact_touching_line2".translate()
+        if(!compactEnabled) {
+            val other = touchesOtherReactorPart()
+            if(other != null) {
+                failReason = {
+                    "tile.reactor.non_compact_touching".translate() to "tile.reactor.non_compact_touching_line2".translate()
+                }
+                failPos = other
+                failRed = true
+                return false
             }
-            return false
         }
 
         val checkCore = (getCoreZ(corePos).all { isCore(it) }
@@ -78,8 +91,12 @@ class ReactorShapeHandler(val controller: AbstractReactorController<*>) {
                     && isNonCore(corePos.offsetRight())
                     && isNonCore(corePos.offsetUp())
                     && isNonCore(corePos.offsetDown()))
+        if(!checkCore)
+            return false
 
-        return checkCore
+        // this is not perfect but it's good enough
+        val checkInside = getInnerVolume().all { isNonCore(it) || isCore(it) }
+        return checkInside
     }
 
     fun countFluid(): Map<Fluid, Int> {
@@ -248,17 +265,17 @@ class ReactorShapeHandler(val controller: AbstractReactorController<*>) {
         return core
     }
 
-    private fun getOutside(): Int {
+    private fun touchesOtherReactorPart(): BlockPos? {
         val outsideCorner1 = controller.pos.offsetLeft(3).offsetDown()
         val outsideCorner2 = outsideCorner1.offsetRight(6).offsetUp(6).offsetBack(6)
-        val borderingParts = BlockPos.getAllInBox(outsideCorner1, outsideCorner2).filter {
-            var sharedAxes = 0
-            if (it.x == outsideCorner1.x || it.x == outsideCorner2.x) sharedAxes++
-            if (it.y == outsideCorner1.y || it.y == outsideCorner2.y) sharedAxes++
-            if (it.z == outsideCorner1.z || it.z == outsideCorner2.z) sharedAxes++
-            sharedAxes >= 1
-        }.count { isReactorPart(it) && controller.pos != it }
-        return borderingParts
+        BlockPos.getAllInBox(outsideCorner1, outsideCorner2).forEach {
+            val sharesAxis = (it.x == outsideCorner1.x || it.x == outsideCorner2.x) ||
+            (it.y == outsideCorner1.y || it.y == outsideCorner2.y) ||
+            (it.z == outsideCorner1.z || it.z == outsideCorner2.z)
+            if(sharesAxis && isReactorPart(it) && controller.pos != it)
+                return it
+        }
+        return null
     }
 
     private fun getInnerVolume(): Set<BlockPos> {
@@ -269,7 +286,7 @@ class ReactorShapeHandler(val controller: AbstractReactorController<*>) {
         return innerVolume
     }
 
-    private fun isAnything(pos: BlockPos, check: Boolean, expected: Block): Boolean {
+    private fun isAnything(pos: BlockPos, check: Boolean, expected: Block, red: Boolean = false): Boolean {
         if(check)
             return true
 
@@ -277,11 +294,13 @@ class ReactorShapeHandler(val controller: AbstractReactorController<*>) {
             Translator.translateToLocalFormatted("tile.reactor.structure_incomplete", expected.localizedName) to
                     Translator.translateToLocalFormatted("tile.reactor.structure_incomplete_coordinates", pos.x, pos.y, pos.z)
         }
+        failPos = pos
+        failRed = red
 
         return false
     }
 
-    private fun isAir(pos: BlockPos) = isAnything(pos, controller.world.isAirBlock(pos), Blocks.AIR)
+    private fun isAir(pos: BlockPos) = isAnything(pos, controller.world.isAirBlock(pos), Blocks.AIR, true)
     private fun isLiquid(pos: BlockPos) = controller.world.getBlockState(pos).block is BlockLiquid
     private fun isCore(pos: BlockPos) = isAnything(pos, controller.world.getBlockState(pos).block == coreBlock, coreBlock)
     private fun isCasing(pos: BlockPos) = isAnything(pos, controller.world.getBlockState(pos).block == casingBlock, casingBlock)
@@ -296,6 +315,25 @@ class ReactorShapeHandler(val controller: AbstractReactorController<*>) {
     }
 
     private fun isNonCore(pos: BlockPos) = isAir(pos) || isLiquid(pos)
+
+    fun highlightIncorrect() {
+        if(failPos == null)
+            return
+
+        val r: Float
+        val g: Float
+        val b: Float
+        if(failRed) {
+            r = .8f
+            g = .1f
+            b = .1f
+        } else {
+            r = .1f
+            g = .7f
+            b = .6f
+        }
+        BlockHighlighter.highlightBlock(failPos!!, r, g, b, 5000)
+    }
 
     private fun BlockPos.offsetUp(amt: Int = 1) = this.offset(EnumFacing.UP, amt)
     private fun BlockPos.offsetLeft(amt: Int = 1) = this.offset(multiblockDirection!!.rotateY(), amt)

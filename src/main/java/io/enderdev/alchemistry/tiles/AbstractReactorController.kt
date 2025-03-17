@@ -2,6 +2,7 @@ package io.enderdev.alchemistry.tiles
 
 import al132.alib.tiles.IEnergyTile
 import io.enderdev.alchemistry.blocks.machine.FissionControllerBlock
+import io.enderdev.alchemistry.client.BlockHighlighter
 import io.enderdev.alchemistry.recipes.IRecipe
 import io.enderdev.alchemistry.recipes.register.AbstractRecipeRegister
 import net.minecraft.nbt.NBTTagCompound
@@ -11,7 +12,6 @@ import net.minecraftforge.fluids.Fluid
 import net.minecraftforge.fluids.FluidRegistry
 
 abstract class AbstractReactorController<T: IRecipe>(val reactorType: ReactorType, recipeRegister: AbstractRecipeRegister<T>) : AbstractMachine<T>(recipeRegister), IEnergyTile {
-
     val shapeHandler = ReactorShapeHandler(this)
     var fluidModifiers = mutableMapOf<Fluid, List<Double>>() //List<Productivity, Speed, Energy>
     var productivityModifier: Double = .0
@@ -23,7 +23,12 @@ abstract class AbstractReactorController<T: IRecipe>(val reactorType: ReactorTyp
     fun getFacing() = this.world?.getBlockState(this.pos)?.getValue(FissionControllerBlock.Companion.FACING)
 
     fun updateMultiblock() {
+        val highlight = !isMultiblockValid && world?.isRemote == true && shapeHandler.failPos != null && BlockHighlighter.pos == shapeHandler.failPos
+
         isMultiblockValid = validateMultiblock()
+
+        if(!isMultiblockValid && highlight && BlockHighlighter.pos != shapeHandler.failPos)
+            shapeHandler.highlightIncorrect()
     }
 
     fun validateMultiblock(): Boolean = shapeHandler.validate()

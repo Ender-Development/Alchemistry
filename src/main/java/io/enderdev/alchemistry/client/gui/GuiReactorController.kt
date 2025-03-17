@@ -76,6 +76,8 @@ abstract class GuiReactorController<T>(container: Container, tile: T, guiName: S
                 Color(170, 0, 0).rgb,
                 false
             )
+            if(tile.shapeHandler.failPos != null)
+                tile.shapeHandler.highlightIncorrect()
         }
     }
 

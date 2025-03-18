@@ -1,8 +1,9 @@
 # Changelog
 
-## [1.1.1] - improved Reactor Tooltip
+## [1.2.0] - improved Reactor Tooltip
 - added a tooltip to the reactor controllers that shows what part of the multiblock is missing
 - improved patchouli guide
+- renamed GUI textures to add compatibility with the [A Dark Mode](https://www.curseforge.com/minecraft/texture-packs/minecraft-dark-mode-mod-support) Resource Packs
 
 ## [1.1.0] - Ender-Development Takeover
 - ported the buildscript to RFG

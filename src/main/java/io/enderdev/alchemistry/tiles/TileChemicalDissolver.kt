@@ -1,16 +1,17 @@
 package io.enderdev.alchemistry.tiles
 
+import al132.alib.tiles.ALTileStackHandler
+import al132.alib.tiles.EnergyTileImpl
+import al132.alib.tiles.IEnergyTile
+import al132.alib.utils.Utils.canStacksMerge
+import al132.alib.utils.extensions.get
 import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.recipes.DissolverRecipe
 import io.enderdev.alchemistry.recipes.register.DissolverRegister
-import al132.alib.tiles.*
-import al132.alib.utils.Utils.canStacksMerge
-import al132.alib.utils.extensions.get
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.nbt.NBTTagList
 import net.minecraftforge.common.util.Constants
-import java.util.*
 
 /**
  * Created by al132 on 1/16/2017.
@@ -46,12 +47,7 @@ class TileChemicalDissolver : AbstractMachine<DissolverRecipe>(DissolverRegister
         this.currentRecipe = DissolverRecipe.Companion.match(input[0], true)
     }
 
-    override fun onProcessComplete() {
-        //if no output buffer, set the buffer to recipe outputs
-        if (outputBuffer.isEmpty()) {
-            outputBuffer = currentRecipe!!.outputs.calculateOutput().toMutableList()
-            input.decrementSlot(0, currentRecipe!!.inputs[0].count)
-        }
+    fun tryOutput() {
         //If output didn't happen or didn't fail last tick, queue up next output single stack
         if (outputSuccessful) {
             if (outputBuffer.isNotEmpty()) outputThisTick = outputBuffer[0].splitStack(ConfigHandler.DISSOLVER.speed)
@@ -82,6 +78,21 @@ class TileChemicalDissolver : AbstractMachine<DissolverRecipe>(DissolverRegister
         if (outputSuccessful) {
             outputThisTick = ItemStack.EMPTY
         }
+    }
+
+    override fun onProcessComplete() {
+        //if no output buffer, set the buffer to recipe outputs
+        if (outputBuffer.isEmpty()) {
+            outputBuffer = currentRecipe!!.outputs.calculateOutput().toMutableList()
+            input.decrementSlot(0, currentRecipe!!.inputs[0].count)
+        }
+
+        tryOutput()
+    }
+
+    override fun onIdleTick() {
+        super.onIdleTick()
+        tryOutput()
     }
 
     override fun onWorkTick() {

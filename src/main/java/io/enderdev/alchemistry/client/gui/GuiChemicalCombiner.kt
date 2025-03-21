@@ -62,15 +62,6 @@ class GuiChemicalCombiner(
                 this.drawHoveringText(listOf(Translator.translateToLocal("tooltip.unlocked")), mouseX, mouseY)
             }
         }
-        if (!tile.clientRecipeTarget.getStackInSlot(0).isEmpty) {
-            val output = tile.clientRecipeTarget[0]
-            val x = (this.width - this.xSize) / 2 + 152
-            val y = (this.height - this.ySize) / 2 + 99
-            this.drawItemStack(output, x, y, Translator.translateToLocal("tile.combiner.target"))
-            if (isHovered(x, y, 16, 16, mouseX, mouseY)) {
-                this.drawHoveringText(listOf(output.displayName), mouseX, mouseY)
-            }
-        }
     }
 
     override fun drawGuiContainerBackgroundLayer(partialTicks: Float, mouseX: Int, mouseY: Int) {
@@ -81,6 +72,15 @@ class GuiChemicalCombiner(
         if (tile.progressTicks > 0) {
             val k = this.getBarScaled(27, tile.progressTicks, ConfigHandler.COMBINER.processingTicks)
             this.drawTexturedModalRect(i + 102, j + 90, 175, 0, k, 36)
+        }
+
+        if(!tile.clientRecipeTarget.getStackInSlot(0).isEmpty) {
+            val output = tile.clientRecipeTarget[0]
+            val x = (width - xSize) / 2 + 152
+            val y = (height - ySize) / 2 + 99
+            drawItemStack(output, x, y, Translator.translateToLocal("tile.combiner.target"))
+            if(isHovered(x, y, 16, 16, mouseX, mouseY))
+                drawHoveringText(listOf(output.displayName), mouseX, mouseY)
         }
     }
 

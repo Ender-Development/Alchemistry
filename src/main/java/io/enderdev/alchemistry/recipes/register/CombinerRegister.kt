@@ -375,7 +375,7 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
             recipes.add(
                 CombinerRecipe(
                     firstOre("itemSilicon"),
-                    listOf(null, "silicon".toStack(16))
+                    listOf(null, null, "silicon".toStack(16))
                 )
             )
 

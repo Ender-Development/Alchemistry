@@ -61,6 +61,7 @@ object ConfigHandler {
         var processingTicks = 40
 
         @JvmField
+        @Config.RequiresMcRestart
         @Config.Name("Compact Fission Reactor")
         @Config.Comment(
             "If true, Fission Reactors can share casing blocks with adjacent reactors",
@@ -70,6 +71,7 @@ object ConfigHandler {
         var compactFissionReactor = false
 
         @JvmField
+        @Config.RequiresMcRestart
         @Config.Name("Fission Reactor Modifiers")
         @Config.Comment("List of fluid modifiers for the Fission Reactor. Syntax: fluidName;productivity;speed;energy")
         var fissionReactorModifiers = arrayOf(
@@ -106,6 +108,7 @@ object ConfigHandler {
         var processingTicks = 40
 
         @JvmField
+        @Config.RequiresMcRestart
         @Config.Name("Compact Fusion Reactor")
         @Config.Comment(
             "If true, Fusion Reactors can share casing blocks with adjacent reactors",
@@ -115,6 +118,7 @@ object ConfigHandler {
         var compactFusionReactor = false
 
         @JvmField
+        @Config.RequiresMcRestart
         @Config.Name("Fusion Reactor Modifiers")
         @Config.Comment("List of fluid modifiers for the Fusion Reactor. Syntax: fluidName;productivity;speed;energy")
         var fusionReactorModifiers = arrayOf(

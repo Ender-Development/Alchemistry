@@ -23,7 +23,16 @@ import java.util.*
 
 open class CommonProxy {
 
+    companion object {
+        private var stage: LoadingStage = LoadingStage.PRE_INIT
+
+        fun getStage(): LoadingStage {
+            return stage
+        }
+    }
+
     open fun preInit(e: FMLPreInitializationEvent) {
+        stage = LoadingStage.PRE_INIT
         Alchemistry.logger = e.modLog
         Reference.configPath = e.suggestedConfigurationFile.parent
         Reference.configDir = File(e.modConfigurationDirectory, "alchemistry")
@@ -38,14 +47,21 @@ open class CommonProxy {
         }
         registerCapabilities()
         SoundHandler.init()
-        ElementRegistry.init()
-        CompoundRegistry.init()
+        if (ElementRegistry.getAllElements().isEmpty()) {
+            Alchemistry.logger.info("ElementRegistry isn't initialized yet, initializing")
+            ElementRegistry.init()
+        }
+        if (CompoundRegistry.compounds().isEmpty()) {
+            Alchemistry.logger.info("CompoundRegistry isn't initialized yet, initializing")
+            CompoundRegistry.init()
+        }
         PacketHandler.registerMessages(Reference.MODID)
 
         if (Loader.isModLoaded("crafttweaker")) CraftTweakerAPI.tweaker.loadScript(false, "alchemistry")
     }
 
     open fun init(e: FMLInitializationEvent) {
+        stage = LoadingStage.INIT
         ModRecipes.initOredict()
         Reference.configDir
             .listFiles { it.extension.lowercase(Locale.getDefault()) == "xml" }
@@ -55,20 +71,36 @@ open class CommonProxy {
     }
 
     open fun postInit(e: FMLPostInitializationEvent) {
+        stage = LoadingStage.POST_INIT
         ModRecipes.init()
     }
 
     private fun registerCapabilities() {
-        CapabilityManager.INSTANCE.register(AlchemistryDrugInfo::class.java, object : Capability.IStorage<AlchemistryDrugInfo> {
+        CapabilityManager.INSTANCE.register(
+            AlchemistryDrugInfo::class.java,
+            object : Capability.IStorage<AlchemistryDrugInfo> {
 
-            override fun writeNBT(capability: Capability<AlchemistryDrugInfo>, instance: AlchemistryDrugInfo, side: EnumFacing): NBTBase? {
-                throw UnsupportedOperationException()
-            }
+                override fun writeNBT(
+                    capability: Capability<AlchemistryDrugInfo>,
+                    instance: AlchemistryDrugInfo,
+                    side: EnumFacing
+                ): NBTBase? {
+                    throw UnsupportedOperationException()
+                }
 
-            override fun readNBT(capability: Capability<AlchemistryDrugInfo>, instance: AlchemistryDrugInfo, side: EnumFacing, nbt: NBTBase) {
-                throw UnsupportedOperationException()
-            }
+                override fun readNBT(
+                    capability: Capability<AlchemistryDrugInfo>,
+                    instance: AlchemistryDrugInfo,
+                    side: EnumFacing,
+                    nbt: NBTBase
+                ) {
+                    throw UnsupportedOperationException()
+                }
 
-        }) { throw UnsupportedOperationException() }
+            }) { throw UnsupportedOperationException() }
+    }
+
+    enum class LoadingStage {
+        PRE_INIT, INIT, POST_INIT
     }
 }

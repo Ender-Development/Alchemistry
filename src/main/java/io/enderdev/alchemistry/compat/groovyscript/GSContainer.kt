@@ -8,6 +8,7 @@ import io.enderdev.alchemistry.chemistry.ChemicalCompound
 import io.enderdev.alchemistry.chemistry.ChemicalElement
 import io.enderdev.alchemistry.chemistry.CompoundRegistry
 import io.enderdev.alchemistry.chemistry.ElementRegistry
+import io.enderdev.alchemistry.compat.groovyscript.content.Content
 import io.enderdev.alchemistry.compat.groovyscript.parser.Compound
 import io.enderdev.alchemistry.compat.groovyscript.parser.Element
 import io.enderdev.alchemistry.compat.groovyscript.register.Atomizer
@@ -25,6 +26,7 @@ class GSContainer : GroovyPropertyContainer() {
     val electrolyzer: Electrolyzer = Electrolyzer()
     val evaporator: Evaporator = Evaporator()
     val liquifier: Liquifier = Liquifier()
+    val content: Content = Content()
 
     init {
         addProperty(atomizer)
@@ -33,6 +35,7 @@ class GSContainer : GroovyPropertyContainer() {
         addProperty(electrolyzer)
         addProperty(evaporator)
         addProperty(liquifier)
+        addProperty(content)
     }
 
     override fun initialize(owner: GroovyContainer<*>) {

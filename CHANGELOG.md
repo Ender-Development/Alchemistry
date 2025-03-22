@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1] - bugfixes
+- fixed weird dissolver behavior, when outputting items
+- fixed dissolver rendering locked output above the tooltip
+- improved the check if the compact reactor setting is disabled, added a few more edge cases
+- fixed a recipe conflict with silicon related items
+- fixed lapis dupe bug
+
 ## [1.2.0] - improved Reactor Tooltip
 - added a tooltip to the reactor controllers that shows what part of the multiblock is missing
 - improved patchouli guide

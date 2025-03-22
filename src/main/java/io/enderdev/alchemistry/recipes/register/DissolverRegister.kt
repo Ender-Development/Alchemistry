@@ -526,7 +526,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
         })
 
         recipes.add(dissolverRecipe {
-            input = Items.DYE.toIngredient(4, 4)
+            input = Items.DYE.toIngredient(3, 4)
             output {
                 reversible = true
                 addGroup {
@@ -544,12 +544,12 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
             input = Blocks.LAPIS_ORE.toIngredient()
             output {
                 addGroup {
-                    addStack { "sodium".toStack(6 * 4) }
-                    addStack { "calcium".toStack(2 * 4) }
-                    addStack { "aluminum".toStack(6 * 4) }
-                    addStack { "silicon".toStack(6 * 4) }
-                    addStack { "oxygen".toStack(24 * 4) }
-                    addStack { "sulfur".toStack(2 * 4) }
+                    addStack { "sodium".toStack(6 * 2) }
+                    addStack { "calcium".toStack(2 * 2) }
+                    addStack { "aluminum".toStack(6 * 2) }
+                    addStack { "silicon".toStack(6 * 2) }
+                    addStack { "oxygen".toStack(24 * 2) }
+                    addStack { "sulfur".toStack(2 * 2) }
                 }
             }
         })
@@ -559,12 +559,12 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
                 input = Blocks.LAPIS_BLOCK.toIngredient()
                 output {
                     addGroup {
-                        addStack { "sodium".toStack(6 * 9) }
-                        addStack { "calcium".toStack(2 * 9) }
-                        addStack { "aluminum".toStack(6 * 9) }
-                        addStack { "silicon".toStack(6 * 9) }
-                        addStack { "oxygen".toStack(24 * 9) }
-                        addStack { "sulfur".toStack(2 * 9) }
+                        addStack { "sodium".toStack(6 * 3) }
+                        addStack { "calcium".toStack(2 * 3) }
+                        addStack { "aluminum".toStack(6 * 3) }
+                        addStack { "silicon".toStack(6 * 3) }
+                        addStack { "oxygen".toStack(24 * 3) }
+                        addStack { "sulfur".toStack(2 * 3) }
                     }
                 }
             })

@@ -1,9 +1,5 @@
 package io.enderdev.alchemistry.tiles
 
-import al132.alib.tiles.ALTileStackHandler
-import al132.alib.tiles.EnergyTileImpl
-import al132.alib.tiles.IEnergyTile
-import al132.alib.utils.extensions.get
 import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.blocks.ModBlocks
 import io.enderdev.alchemistry.blocks.PropertyPowerStatus
@@ -13,9 +9,11 @@ import io.enderdev.alchemistry.chemistry.ElementRegistry
 import io.enderdev.alchemistry.items.ModItems
 import io.enderdev.alchemistry.recipes.FusionRecipe
 import io.enderdev.alchemistry.recipes.register.FusionRegister
+import io.enderdev.alchemistry.tiles.tags.EnergyTileImpl
+import io.enderdev.alchemistry.tiles.tags.IEnergyTile
+import io.enderdev.alchemistry.utils.extensions.get
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
-import kotlin.math.floor
 
 /**
  * Created by al132 on 4/29/2017.
@@ -38,7 +36,7 @@ class TileFusionController : AbstractReactorController<FusionRecipe>(ReactorType
     }
 
     override fun initInventoryInputCapability() {
-        input = object : ALTileStackHandler(inputSlots, this) {
+        input = object : TileStackHandler(inputSlots, this) {
             override fun insertItem(slot: Int, stack: ItemStack, simulate: Boolean): ItemStack {
                 if (singleMode) {
                     return if (this.getStackInSlot(slot).isEmpty) super.insertItem(slot, stack, simulate)
@@ -62,7 +60,7 @@ class TileFusionController : AbstractReactorController<FusionRecipe>(ReactorType
 
     override fun onProcessComplete() {
         var stacksize = recipeOutput.count
-        val staticMultiplier = floor(productivityModifier).toInt()
+        val staticMultiplier = productivityModifier.toInt()
         val randomMultiplier = if (productivityModifier - staticMultiplier > Math.random()) 1 else 0
         if (staticMultiplier != 0 || randomMultiplier != 0) {
             stacksize *= staticMultiplier + randomMultiplier

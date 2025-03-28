@@ -1,7 +1,8 @@
 package io.enderdev.alchemistry.blocks
 
-import al132.alib.utils.extensions.translate
+import io.enderdev.alchemistry.BaseBlock
 import io.enderdev.alchemistry.items.TooltipItemBlock
+import io.enderdev.alchemistry.utils.extensions.translate
 import net.minecraft.block.Block
 import net.minecraft.block.BlockCactus
 import net.minecraft.block.BlockReed

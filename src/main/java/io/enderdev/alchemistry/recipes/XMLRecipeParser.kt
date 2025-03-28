@@ -2,18 +2,10 @@ package io.enderdev.alchemistry.recipes
 
 import io.enderdev.alchemistry.Alchemistry
 import io.enderdev.alchemistry.Reference
-import io.enderdev.alchemistry.recipes.register.AtomizerRegister
-import io.enderdev.alchemistry.recipes.register.CombinerRegister
-import io.enderdev.alchemistry.recipes.register.DissolverRegister
-import io.enderdev.alchemistry.recipes.register.ElectrolyzerRegister
-import io.enderdev.alchemistry.recipes.register.EvaporatorRegister
-import io.enderdev.alchemistry.recipes.register.LiquifierRegister
+import io.enderdev.alchemistry.recipes.register.*
+import io.enderdev.alchemistry.utils.extensions.toIngredient
 import io.enderdev.alchemistry.utils.extensions.toOre
 import io.enderdev.alchemistry.utils.extensions.toStack
-import al132.alib.utils.extensions.areItemStacksEqual
-import al132.alib.utils.extensions.areItemsEqual
-import al132.alib.utils.extensions.toIngredient
-import al132.alib.utils.extensions.toStack
 import net.minecraft.item.ItemStack
 import net.minecraft.item.crafting.Ingredient
 import net.minecraftforge.fluids.Fluid
@@ -26,9 +18,6 @@ import org.xml.sax.SAXParseException
 import java.io.File
 import java.util.*
 import javax.xml.parsers.DocumentBuilderFactory
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
-import kotlin.text.iterator
 
 /**
  * Created by al132 on 5/10/2018.
@@ -164,7 +153,7 @@ class XMLRecipeParser {
         } else if (actionType == "remove") {
             recipeCheck@ for (recipe in CombinerRegister.Companion.INSTANCE.recipes) {
                 for (i in recipe.inputs.indices) {
-                    if (!recipe.inputs[i].areItemStacksEqual(inputs[i])) {
+                    if (!ItemStack.areItemStacksEqual(recipe.inputs[i], inputs[i])) {
                         continue@recipeCheck
                     }
                 }
@@ -257,7 +246,7 @@ class XMLRecipeParser {
         } else if (actionType == "remove") {
             if (!inputStack.isEmpty) {
                 DissolverRegister.Companion.INSTANCE.recipes
-                    .filter { it.inputs.count() == 1 && it.inputs[0].areItemStacksEqual(inputStack) }
+                    .filter { it.inputs.count() == 1 && ItemStack.areItemStacksEqual(it.inputs[0], inputStack) }
                     .forEach {
                         DissolverRegister.Companion.INSTANCE.recipes.remove(it)
                         Alchemistry.logger.info("Removed Chemical Dissolver recipe: $it")
@@ -329,7 +318,7 @@ class XMLRecipeParser {
         } else if (actionType == "remove") {
             LiquifierRegister.Companion.INSTANCE.recipes
                 .filter {
-                    it.input.areItemsEqual(inputStack)
+                    ItemStack.areItemsEqual(it.input, inputStack)
                 }
                 .forEach {
                     LiquifierRegister.Companion.INSTANCE.recipes.remove(it)

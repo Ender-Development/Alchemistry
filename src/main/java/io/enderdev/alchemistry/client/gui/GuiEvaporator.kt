@@ -1,7 +1,7 @@
 package io.enderdev.alchemistry.client.gui
 
-import al132.alib.client.CapabilityFluidDisplayWrapper
 import io.enderdev.alchemistry.client.container.ContainerEvaporator
+import io.enderdev.alchemistry.client.gui.wrappers.CapabilityFluidDisplayWrapper
 import io.enderdev.alchemistry.tiles.TileEvaporator
 import net.minecraft.entity.player.InventoryPlayer
 

@@ -1,13 +1,12 @@
 package io.enderdev.alchemistry.compat.crafttweaker
 
-import io.enderdev.alchemistry.Alchemistry
-import io.enderdev.alchemistry.recipes.CombinerRecipe
-import io.enderdev.alchemistry.recipes.register.CombinerRegister
-import al132.alib.utils.extensions.areItemStacksEqual
 import crafttweaker.IAction
 import crafttweaker.annotations.ModOnly
 import crafttweaker.annotations.ZenRegister
 import crafttweaker.api.item.IItemStack
+import io.enderdev.alchemistry.Alchemistry
+import io.enderdev.alchemistry.recipes.CombinerRecipe
+import io.enderdev.alchemistry.recipes.register.CombinerRegister
 import net.minecraft.item.ItemStack
 import stanhebben.zenscript.annotations.ZenClass
 import stanhebben.zenscript.annotations.ZenMethod
@@ -65,7 +64,7 @@ object CTChemicalCombiner {
             override fun apply() {
                 val outputStack: ItemStack? = output?.internal as? ItemStack
                 if (outputStack != null) {
-                    val matchingRecipe = CombinerRegister.Companion.INSTANCE.recipes.filter { it.output.areItemStacksEqual(outputStack) }
+                    val matchingRecipe = CombinerRegister.Companion.INSTANCE.recipes.filter { ItemStack.areItemStacksEqual(it.output, outputStack) }
                     matchingRecipe.forEach { it.gamestage = stage }
                 } else Alchemistry.logger.info("Unable to set crafttweaker recipe stage")
             }

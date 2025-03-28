@@ -3,7 +3,7 @@ package io.enderdev.alchemistry.blocks.machine
 import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.items.TooltipItemBlock
 import io.enderdev.alchemistry.tiles.TileChemicalCombiner
-import al132.alib.utils.Translator
+import io.enderdev.alchemistry.utils.extensions.translate
 import net.minecraft.block.state.IBlockState
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityLivingBase
@@ -33,10 +33,7 @@ class ChemicalCombinerBlock(name: String,
         event.registry.register(
             TooltipItemBlock(
                 this,
-                Translator.translateToLocalFormatted(
-                    "tooltip.alchemistry.energy_requirement",
-                    ConfigHandler.COMBINER.energyPerTick
-                )
+                "tooltip.alchemistry.energy_requirement".translate(ConfigHandler.COMBINER.energyPerTick)
             )
                 .setRegistryName(this.registryName))
     }
@@ -59,9 +56,9 @@ class ChemicalCombinerBlock(name: String,
         addCollisionBoxToList(pos, entityBox, collidingBoxes, boundingBox)
     }
 
-    override fun onBlockPlacedBy(world: World?, pos: BlockPos?, state: IBlockState?, placer: EntityLivingBase?, stack: ItemStack?) {
+    override fun onBlockPlacedBy(world: World, pos: BlockPos, state: IBlockState, placer: EntityLivingBase, stack: ItemStack) {
         super.onBlockPlacedBy(world, pos, state, placer, stack)
-        val tile = world?.getTileEntity(pos) as? TileChemicalCombiner
-        tile?.owner = placer?.name ?: ""
+        val tile = world.getTileEntity(pos) as? TileChemicalCombiner
+        tile?.owner = placer.name ?: ""
     }
 }

@@ -1,10 +1,10 @@
 package io.enderdev.alchemistry.client.gui
 
-import al132.alib.client.CapabilityEnergyDisplayWrapper
-import al132.alib.tiles.IGuiTile
 import io.enderdev.alchemistry.ConfigHandler
+import io.enderdev.alchemistry.client.gui.wrappers.CapabilityEnergyDisplayWrapper
 import io.enderdev.alchemistry.tiles.AbstractReactorController
 import io.enderdev.alchemistry.tiles.ReactorType
+import io.enderdev.alchemistry.tiles.tags.IGuiTile
 import net.minecraft.client.resources.I18n
 import net.minecraft.inventory.Container
 import java.awt.Color

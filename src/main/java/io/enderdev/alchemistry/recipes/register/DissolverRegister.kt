@@ -1,12 +1,11 @@
 package io.enderdev.alchemistry.recipes.register
 
-import al132.alib.utils.extensions.toIngredient
-import al132.alib.utils.extensions.toStack
 import io.enderdev.alchemistry.chemistry.CompoundRegistry
 import io.enderdev.alchemistry.chemistry.ElementRegistry
 import io.enderdev.alchemistry.items.ModItems
 import io.enderdev.alchemistry.recipes.DissolverRecipe
 import io.enderdev.alchemistry.recipes.dissolverRecipe
+import io.enderdev.alchemistry.utils.extensions.toIngredient
 import io.enderdev.alchemistry.utils.extensions.toOre
 import io.enderdev.alchemistry.utils.extensions.toStack
 import net.minecraft.block.Block

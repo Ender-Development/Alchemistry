@@ -3,12 +3,10 @@ package io.enderdev.alchemistry.tiles
 import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.recipes.LiquifierRecipe
 import io.enderdev.alchemistry.recipes.register.LiquifierRegister
-import al132.alib.tiles.ALTileStackHandler
-import al132.alib.tiles.EnergyTileImpl
-import al132.alib.tiles.IEnergyTile
-import al132.alib.tiles.IFluidTile
-import al132.alib.utils.extensions.areItemsEqual
-import al132.alib.utils.extensions.get
+import io.enderdev.alchemistry.tiles.tags.EnergyTileImpl
+import io.enderdev.alchemistry.tiles.tags.IEnergyTile
+import io.enderdev.alchemistry.tiles.tags.IFluidTile
+import io.enderdev.alchemistry.utils.extensions.get
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraftforge.fluids.Fluid
@@ -51,7 +49,7 @@ class TileLiquifier : AbstractMachine<LiquifierRecipe>(LiquifierRegister.Compani
     }
 
     override fun initInventoryInputCapability() {
-        input = object : ALTileStackHandler(inputSlots, this) {
+        input = object : TileStackHandler(inputSlots, this) {
             override fun insertItem(slot: Int, stack: ItemStack, simulate: Boolean): ItemStack {
                 return if (recipeRegister.any { it.input.isItemEqual(stack) }) super.insertItem(slot, stack, simulate)
                 else stack
@@ -67,7 +65,7 @@ class TileLiquifier : AbstractMachine<LiquifierRecipe>(LiquifierRegister.Compani
         val inputStack = this.input.getStackInSlot(0)
         if (!inputStack.isEmpty
             && (currentRecipe == null || !ItemStack.areItemStacksEqual(currentRecipe!!.input, inputStack))) {
-            this.currentRecipe = recipeRegister.firstOrNull { it.input.areItemsEqual(inputStack) }
+            this.currentRecipe = recipeRegister.firstOrNull { ItemStack.areItemsEqual(it.input, inputStack) }
         }
         if (inputStack.isEmpty) currentRecipe = null
     }

@@ -1,8 +1,8 @@
 package io.enderdev.alchemistry.client.gui
 
-import al132.alib.client.CapabilityEnergyDisplayWrapper
-import al132.alib.utils.extensions.get
+import io.enderdev.alchemistry.utils.extensions.get
 import io.enderdev.alchemistry.client.container.ContainerChemicalDissolver
+import io.enderdev.alchemistry.client.gui.wrappers.CapabilityEnergyDisplayWrapper
 import io.enderdev.alchemistry.tiles.TileChemicalDissolver
 import net.minecraft.entity.player.InventoryPlayer
 

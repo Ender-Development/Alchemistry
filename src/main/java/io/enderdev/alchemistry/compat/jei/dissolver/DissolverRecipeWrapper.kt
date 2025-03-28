@@ -3,7 +3,7 @@ package io.enderdev.alchemistry.compat.jei.dissolver
 import io.enderdev.alchemistry.Reference
 import io.enderdev.alchemistry.compat.jei.AlchemistryRecipeWrapper
 import io.enderdev.alchemistry.recipes.DissolverRecipe
-import al132.alib.utils.Translator
+import io.enderdev.alchemistry.utils.extensions.translate
 import mezz.jei.api.ingredients.IIngredients
 import mezz.jei.api.ingredients.VanillaTypes
 import net.minecraft.client.Minecraft
@@ -28,11 +28,11 @@ class DissolverRecipeWrapper(recipe: DissolverRecipe) : AlchemistryRecipeWrapper
         }
 
         var probabilityType = ""
-        probabilityType = if (recipe.outputs.relativeProbability) Translator.translateToLocal("jei.dissolver.relative")
-        else Translator.translateToLocal("jei.dissolver.absolute")
+        probabilityType = if (recipe.outputs.relativeProbability) "jei.dissolver.relative".translate()
+        else "jei.dissolver.absolute".translate()
 
-        fontRenderer.drawString("${Translator.translateToLocal("jei.dissolver.type")}: $probabilityType", 0, 4, Color.BLACK.rgb)
-        fontRenderer.drawString("${Translator.translateToLocal("jei.dissolver.rolls")}: ${recipe.outputs.rolls}", 0, 16, Color.BLACK.rgb)
+        fontRenderer.drawString("${"jei.dissolver.type".translate()}: $probabilityType", 0, 4, Color.BLACK.rgb)
+        fontRenderer.drawString("${"jei.dissolver.rolls".translate()}: ${recipe.outputs.rolls}", 0, 16, Color.BLACK.rgb)
     }
 
     override fun getIngredients(ingredients: IIngredients) {

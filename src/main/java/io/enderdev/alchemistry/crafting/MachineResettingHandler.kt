@@ -2,7 +2,7 @@ package io.enderdev.alchemistry.crafting
 
 import io.enderdev.alchemistry.Reference
 import io.enderdev.alchemistry.blocks.ModBlocks
-import al132.alib.utils.extensions.toStack
+import io.enderdev.alchemistry.utils.extensions.toStack
 import net.minecraft.inventory.InventoryCrafting
 import net.minecraft.item.ItemStack
 import net.minecraft.item.crafting.IRecipe

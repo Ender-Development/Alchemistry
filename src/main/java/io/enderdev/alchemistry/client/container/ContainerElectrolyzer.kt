@@ -1,7 +1,7 @@
 package io.enderdev.alchemistry.client.container
 
 import io.enderdev.alchemistry.tiles.TileElectrolyzer
-import al132.alib.tiles.ALTileStackHandler
+import io.enderdev.alchemistry.tiles.TileStackHandler
 import net.minecraft.entity.player.InventoryPlayer
 import net.minecraftforge.items.SlotItemHandler
 
@@ -13,7 +13,7 @@ class ContainerElectrolyzer(playerInv: InventoryPlayer, tile: TileElectrolyzer) 
 
     override fun addOwnSlots() {
         if (tile.input.slots < 1) {
-            tile.input = ALTileStackHandler(1, tile)
+            tile.input = TileStackHandler(1, tile)
         }
         addSlotToContainer(SlotItemHandler(tile.input, 0, 80, 82))
         addSlotArray(x_start = 116, y_start = 100, rows = 2, columns = 2, handler = tile.output)

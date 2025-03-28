@@ -2,8 +2,7 @@ package io.enderdev.alchemistry.recipes.register
 
 import io.enderdev.alchemistry.chemistry.ElementRegistry
 import io.enderdev.alchemistry.recipes.IRecipe
-import al132.alib.utils.Utils.oreExists
-import al132.alib.utils.extensions.toImmutable
+import io.enderdev.alchemistry.utils.extensions.toImmutable
 import net.minecraftforge.fluids.FluidRegistry
 import net.minecraftforge.oredict.OreDictionary
 
@@ -24,5 +23,5 @@ abstract class AbstractRecipeRegister<T : IRecipe> {
 
     fun fluidExists(name: String): Boolean = FluidRegistry.isFluidRegistered(name)
 
-    fun oreNotEmpty(ore: String) = oreExists(ore) && OreDictionary.getOres(ore).isNotEmpty()
+    fun oreNotEmpty(ore: String) = OreDictionary.doesOreNameExist(ore) && OreDictionary.getOres(ore).isNotEmpty()
 }

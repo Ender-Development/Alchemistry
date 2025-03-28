@@ -1,9 +1,9 @@
 package io.enderdev.alchemistry.client.gui
 
-import al132.alib.client.CapabilityEnergyDisplayWrapper
-import al132.alib.client.CapabilityFluidDisplayWrapper
 import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.client.container.ContainerAtomizer
+import io.enderdev.alchemistry.client.gui.wrappers.CapabilityEnergyDisplayWrapper
+import io.enderdev.alchemistry.client.gui.wrappers.CapabilityFluidDisplayWrapper
 import io.enderdev.alchemistry.tiles.TileAtomizer
 import net.minecraft.entity.player.InventoryPlayer
 

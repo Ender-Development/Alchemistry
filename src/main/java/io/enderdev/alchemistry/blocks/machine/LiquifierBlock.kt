@@ -2,7 +2,7 @@ package io.enderdev.alchemistry.blocks.machine
 
 import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.items.TooltipItemBlock
-import al132.alib.utils.Translator
+import io.enderdev.alchemistry.utils.extensions.translate
 import net.minecraft.block.state.IBlockState
 import net.minecraft.entity.Entity
 import net.minecraft.item.Item
@@ -25,10 +25,7 @@ class LiquifierBlock(name: String,
         event.registry.register(
             TooltipItemBlock(
                 this,
-                Translator.translateToLocalFormatted(
-                    "tooltip.alchemistry.energy_requirement",
-                    ConfigHandler.LIQUIFIER.energyPerTick
-                )
+                "tooltip.alchemistry.energy_requirement".translate(ConfigHandler.LIQUIFIER.energyPerTick)
             )
                 .setRegistryName(this.registryName))
     }

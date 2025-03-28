@@ -3,8 +3,8 @@ package io.enderdev.alchemistry.tiles
 import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.recipes.EvaporatorRecipe
 import io.enderdev.alchemistry.recipes.register.EvaporatorRegister
-import al132.alib.tiles.IFluidTile
-import al132.alib.utils.extensions.get
+import io.enderdev.alchemistry.tiles.tags.IFluidTile
+import io.enderdev.alchemistry.utils.extensions.get
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraftforge.common.BiomeDictionary
 import net.minecraftforge.fluids.Fluid

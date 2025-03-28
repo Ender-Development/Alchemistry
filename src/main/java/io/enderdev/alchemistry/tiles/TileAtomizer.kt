@@ -3,10 +3,10 @@ package io.enderdev.alchemistry.tiles
 import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.recipes.AtomizerRecipe
 import io.enderdev.alchemistry.recipes.register.AtomizerRegister
-import al132.alib.tiles.EnergyTileImpl
-import al132.alib.tiles.IEnergyTile
-import al132.alib.tiles.IFluidTile
-import al132.alib.utils.extensions.get
+import io.enderdev.alchemistry.tiles.tags.EnergyTileImpl
+import io.enderdev.alchemistry.tiles.tags.IEnergyTile
+import io.enderdev.alchemistry.tiles.tags.IFluidTile
+import io.enderdev.alchemistry.utils.extensions.get
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraftforge.fluids.Fluid

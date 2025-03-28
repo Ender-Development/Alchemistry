@@ -1,7 +1,6 @@
 package io.enderdev.alchemistry.compat.jei
 
-import al132.alib.utils.extensions.toStack
-import al132.alib.utils.extensions.translate
+
 import io.enderdev.alchemistry.Reference
 import io.enderdev.alchemistry.blocks.ModBlocks
 import io.enderdev.alchemistry.client.container.*
@@ -25,6 +24,8 @@ import io.enderdev.alchemistry.compat.jei.liquifier.LiquifierRecipeCategory
 import io.enderdev.alchemistry.compat.jei.liquifier.LiquifierRecipeWrapper
 import io.enderdev.alchemistry.recipes.*
 import io.enderdev.alchemistry.recipes.register.*
+import io.enderdev.alchemistry.utils.extensions.toStack
+import io.enderdev.alchemistry.utils.extensions.translate
 import mezz.jei.api.*
 import mezz.jei.api.gui.IDrawableStatic
 import mezz.jei.api.recipe.IRecipeCategory

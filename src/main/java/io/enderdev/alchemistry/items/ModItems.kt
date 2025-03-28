@@ -1,8 +1,6 @@
 package io.enderdev.alchemistry.items
 
-import al132.alib.items.ALItem
-import al132.alib.utils.extensions.translate
-import io.enderdev.alchemistry.Reference
+import io.enderdev.alchemistry.utils.extensions.translate
 import net.minecraft.client.Minecraft
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.item.Item
@@ -13,8 +11,7 @@ import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 
 object ModItems {
-
-    val items = ArrayList<ALItem>()
+    val items = ArrayList<ItemBase>()
 
     var mineralSalt = ItemBase("mineral_salt")
     var condensedMilk = ItemBase("condensed_milk")
@@ -43,18 +40,5 @@ object ModItems {
         itemColors.registerItemColorHandler(colorHandler, compounds)
         itemColors.registerItemColorHandler(colorHandler, ingots)
         itemColors.registerItemColorHandler(colorHandler, elements)
-    }
-}
-
-open class ItemBase(name: String) : ALItem(name, Reference.creativeTab) {
-    init {
-        ModItems.items.add(this)
-    }
-}
-
-abstract class ItemMetaBase(name: String) : ItemBase(name) {
-
-    init {
-        this.hasSubtypes = true
     }
 }

@@ -5,11 +5,14 @@ import io.enderdev.alchemistry.chemistry.ChemicalElement
 import io.enderdev.alchemistry.chemistry.CompoundRegistry
 import io.enderdev.alchemistry.chemistry.ElementRegistry
 import net.minecraft.block.Block
+import net.minecraft.client.resources.I18n
 import net.minecraft.init.Blocks
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
+import net.minecraft.item.crafting.Ingredient
 import net.minecraft.potion.Potion
 import net.minecraft.util.ResourceLocation
+import net.minecraftforge.oredict.OreDictionary
 import net.minecraftforge.oredict.OreIngredient
 
 /**
@@ -41,3 +44,11 @@ fun String.toStack(quantity: Int = 1, meta: Int = 0): ItemStack {
     }
     return outputStack
 }
+
+fun String.toIngredient(quantity: Int = 1, meta: Int = 0): Ingredient = Ingredient.fromStacks(toStack(quantity, meta))
+
+fun String.toDict(prefix: String) = "$prefix${replaceFirstChar(Char::uppercaseChar)}"
+
+fun String.firstOre(): ItemStack = OreDictionary.getOres(this).firstOrNull() ?: ItemStack.EMPTY
+
+fun String.translate(vararg format: Any): String = I18n.format(this, *format)

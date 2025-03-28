@@ -1,11 +1,11 @@
 package io.enderdev.alchemistry.client.gui
 
-import al132.alib.utils.Translator
 import io.enderdev.alchemistry.client.button.SingleButton
 import io.enderdev.alchemistry.client.container.ContainerFusionController
 import io.enderdev.alchemistry.network.ButtonPacket
 import io.enderdev.alchemistry.network.PacketHandler
 import io.enderdev.alchemistry.tiles.TileFusionController
+import io.enderdev.alchemistry.utils.extensions.translate
 import net.minecraft.client.gui.GuiButton
 import net.minecraft.entity.player.InventoryPlayer
 
@@ -52,15 +52,15 @@ class GuiFusionController(playerInv: InventoryPlayer, tile: TileFusionController
         if (isHovered(modeButton.x, modeButton.y, 16, 16, mouseX, mouseY)) {
             if (tile.singleMode)
                 this.drawHoveringText(listOf(
-                    Translator.translateToLocal("tooltip.single"),
-                    Translator.translateToLocal("tooltip.single.1"),
-                    Translator.translateToLocal("tooltip.single.2")
+                    "tooltip.single".translate(),
+                    "tooltip.single.1".translate(),
+                    "tooltip.single.2".translate()
                 ), mouseX, mouseY)
             else
                 this.drawHoveringText(listOf(
-                    Translator.translateToLocal("tooltip.regular"),
-                    Translator.translateToLocal("tooltip.regular.1"),
-                    Translator.translateToLocal("tooltip.regular.2")
+                    "tooltip.regular".translate(),
+                    "tooltip.regular.1".translate(),
+                    "tooltip.regular.2".translate()
                 ), mouseX, mouseY)
         }
     }

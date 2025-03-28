@@ -1,14 +1,14 @@
 package io.enderdev.alchemistry.client.gui
 
-import al132.alib.client.CapabilityEnergyDisplayWrapper
-import al132.alib.utils.Translator
-import al132.alib.utils.extensions.get
 import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.client.button.LockButton
 import io.enderdev.alchemistry.client.container.ContainerChemicalCombiner
+import io.enderdev.alchemistry.client.gui.wrappers.CapabilityEnergyDisplayWrapper
 import io.enderdev.alchemistry.network.ButtonPacket
 import io.enderdev.alchemistry.network.PacketHandler
 import io.enderdev.alchemistry.tiles.TileChemicalCombiner
+import io.enderdev.alchemistry.utils.extensions.get
+import io.enderdev.alchemistry.utils.extensions.translate
 import net.minecraft.client.gui.GuiButton
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.RenderHelper
@@ -57,9 +57,9 @@ class GuiChemicalCombiner(
         super.renderTooltips(mouseX, mouseY)
         if (isHovered(toggleRecipeLock.x, toggleRecipeLock.y, 16, 16, mouseX, mouseY)) {
             if (tile.recipeIsLocked) {
-                this.drawHoveringText(listOf(Translator.translateToLocal("tooltip.locked")), mouseX, mouseY)
+                this.drawHoveringText(listOf("tooltip.locked".translate()), mouseX, mouseY)
             } else {
-                this.drawHoveringText(listOf(Translator.translateToLocal("tooltip.unlocked")), mouseX, mouseY)
+                this.drawHoveringText(listOf("tooltip.unlocked".translate()), mouseX, mouseY)
             }
         }
     }
@@ -78,7 +78,7 @@ class GuiChemicalCombiner(
             val output = tile.clientRecipeTarget[0]
             val x = (width - xSize) / 2 + 152
             val y = (height - ySize) / 2 + 99
-            drawItemStack(output, x, y, Translator.translateToLocal("tile.combiner.target"))
+            drawItemStack(output, x, y, "tile.combiner.target".translate())
             if(isHovered(x, y, 16, 16, mouseX, mouseY))
                 drawHoveringText(listOf(output.displayName), mouseX, mouseY)
         }

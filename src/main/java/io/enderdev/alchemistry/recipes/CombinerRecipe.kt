@@ -1,12 +1,10 @@
 package io.enderdev.alchemistry.recipes
 
-import io.enderdev.alchemistry.items.ModItems
 import io.enderdev.alchemistry.recipes.register.CombinerRegister
-import al132.alib.tiles.ALTileStackHandler
-import al132.alib.utils.Utils.areItemsEqualIgnoreMeta
-import al132.alib.utils.extensions.areItemStacksEqual
-import al132.alib.utils.extensions.get
-import al132.alib.utils.extensions.toStackList
+import io.enderdev.alchemistry.tiles.TileStackHandler
+import io.enderdev.alchemistry.utils.extensions.equalsIgnoreMeta
+import io.enderdev.alchemistry.utils.extensions.get
+import io.enderdev.alchemistry.utils.extensions.toStackList
 import net.minecraft.block.Block
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
@@ -33,14 +31,14 @@ data class CombinerRecipe(val output: ItemStack, private val objsIn: List<Any?>,
         }
     }
 
-    fun matchesHandlerStacks(handler: ALTileStackHandler): Boolean {
+    fun matchesHandlerStacks(handler: TileStackHandler): Boolean {
         var matchingStacks = 0
 
         for ((index: Int, recipeStack: ItemStack) in this.inputs.withIndex()) {
             val handlerStack = handler[index]
             if (handlerStack.isEmpty && recipeStack.isEmpty) matchingStacks++
             else if (handlerStack.isEmpty || recipeStack.isEmpty) continue
-            else if (areItemsEqualIgnoreMeta(handlerStack, recipeStack)
+            else if (handlerStack.equalsIgnoreMeta(recipeStack)
                 && handlerStack.count >= recipeStack.count
                 && (handlerStack.itemDamage == recipeStack.itemDamage
                         || recipeStack.itemDamage == OreDictionary.WILDCARD_VALUE)
@@ -66,7 +64,7 @@ data class CombinerRecipe(val output: ItemStack, private val objsIn: List<Any?>,
                     val inputStack: ItemStack = inputStacks[index]
                     if (inputStack.isEmpty && recipeStack.isEmpty) {
                         continue@inner
-                    } else if (!(areItemsEqualIgnoreMeta(inputStack, recipeStack)
+                    } else if (!(inputStack.equalsIgnoreMeta(recipeStack)
                                 && inputStack.count >= recipeStack.count
                                 && (inputStack.itemDamage == recipeStack.itemDamage || recipeStack.itemDamage == OreDictionary.WILDCARD_VALUE))
                     ) {
@@ -83,7 +81,7 @@ data class CombinerRecipe(val output: ItemStack, private val objsIn: List<Any?>,
         fun matchOutput(stack: ItemStack): CombinerRecipe? {
             return CombinerRegister.Companion.INSTANCE.recipes
                 .filter { it.output.item == stack.item }
-                .firstOrNull { it.output.areItemStacksEqual(stack) }
+                .firstOrNull { ItemStack.areItemStacksEqual(it.output, stack) }
         }
     }
 }

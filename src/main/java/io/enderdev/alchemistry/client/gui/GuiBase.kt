@@ -1,34 +1,46 @@
 package io.enderdev.alchemistry.client.gui
 
-
-import al132.alib.client.ALGuiBase
-import al132.alib.client.CapabilityEnergyDisplayWrapper
-import al132.alib.client.CapabilityFluidDisplayWrapper
-import al132.alib.tiles.IGuiTile
-import al132.alib.utils.Translator
-import al132.alib.utils.extensions.translate
 import io.enderdev.alchemistry.Reference
 import io.enderdev.alchemistry.client.button.PauseButton
 import io.enderdev.alchemistry.client.button.RedstoneButton
+import io.enderdev.alchemistry.client.gui.wrappers.CapabilityDisplayWrapper
+import io.enderdev.alchemistry.client.gui.wrappers.CapabilityEnergyDisplayWrapper
+import io.enderdev.alchemistry.client.gui.wrappers.CapabilityFluidDisplayWrapper
 import io.enderdev.alchemistry.network.ButtonPacket
 import io.enderdev.alchemistry.network.PacketHandler
 import io.enderdev.alchemistry.tiles.AbstractMachine
+import io.enderdev.alchemistry.tiles.tags.IGuiTile
+import io.enderdev.alchemistry.utils.RenderUtils
+import io.enderdev.alchemistry.utils.extensions.translate
 import net.minecraft.client.gui.GuiButton
+import net.minecraft.client.gui.inventory.GuiContainer
+import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.inventory.Container
 import net.minecraft.util.ResourceLocation
 import java.awt.Color
 
 
-abstract class GuiBase<T>(container: Container, tile: T, guiName: String) :
-    ALGuiBase<T>(container, tile, ResourceLocation(Reference.MODID, "textures/gui/container/${guiName}_gui_redox.png")) where T : AbstractMachine<*>, T : IGuiTile {
+abstract class GuiBase<T>(container: Container, val tile: T, guiName: String) :
+    GuiContainer(container) where T : AbstractMachine<*>, T : IGuiTile {
+
+    open val textureLocation = ResourceLocation(Reference.MODID, "textures/gui/container/${guiName}_gui_redox.png")
+
+    val displayData = mutableListOf<CapabilityDisplayWrapper>()
+
+    open var powerBarX = 0
+    open var powerBarY = 0
+    open val powerBarTexture = ResourceLocation(Reference.MODID, "textures/gui/container/template_redox.png")
 
     abstract val displayNameOffset: Int
-
-    override var powerBarTexture: ResourceLocation? = ResourceLocation(Reference.MODID, "textures/gui/container/template_redox.png")
-    override val displayName = "tile.$guiName.name".translate()
+    open val displayName = "tile.$guiName.name".translate()
 
     lateinit var pauseButton: PauseButton
     lateinit var redstoneButton: RedstoneButton
+
+    init {
+    	xSize = tile.guiWidth
+        ySize = tile.guiHeight
+    }
 
     override fun initGui() {
         super.initGui()
@@ -38,29 +50,26 @@ abstract class GuiBase<T>(container: Container, tile: T, guiName: String) :
         this.buttonList.add(redstoneButton)
     }
 
-    override fun drawScreen(mouseX: Int, mouseY: Int, partialTicks: Float) {
-        this.drawDefaultBackground()
-        super.drawScreen(mouseX, mouseY, partialTicks)
-        this.renderHoveredToolTip(mouseX, mouseY)
-        this.renderTooltips(mouseX, mouseY)
-    }
-
     open fun renderTooltips(mouseX: Int, mouseY: Int) {
         if (isHovered(pauseButton.x, pauseButton.y, 16, 16, mouseX, mouseY)) {
             if (tile.isPaused)
-                this.drawHoveringText(listOf(Translator.translateToLocal("tooltip.paused")), mouseX, mouseY)
+                this.drawHoveringText(listOf("tooltip.paused".translate()), mouseX, mouseY)
             else
-                this.drawHoveringText(listOf(Translator.translateToLocal("tooltip.running")), mouseX, mouseY)
+                this.drawHoveringText(listOf("tooltip.running".translate()), mouseX, mouseY)
         }
         if (isHovered(redstoneButton.x, redstoneButton.y, 16, 16, mouseX, mouseY)) {
             if (tile.needsPower)
-                this.drawHoveringText(listOf(Translator.translateToLocal("tooltip.redstone_high")), mouseX, mouseY)
+                this.drawHoveringText(listOf("tooltip.redstone_high".translate()), mouseX, mouseY)
             else
-                this.drawHoveringText(listOf(Translator.translateToLocal("tooltip.redstone_low")), mouseX, mouseY)
+                this.drawHoveringText(listOf("tooltip.redstone_low".translate()), mouseX, mouseY)
         }
     }
 
-    override fun drawPowerBar(
+    open fun getBarScaled(pixels: Int, count: Int, max: Int): Int {
+        return if(count > 0 && max > 0) count * pixels / max else 0
+    }
+
+    open fun drawPowerBar(
         storage: CapabilityEnergyDisplayWrapper,
         texture: ResourceLocation,
         textureX: Int,
@@ -77,6 +86,22 @@ abstract class GuiBase<T>(container: Container, tile: T, guiName: String) :
         this.mc.textureManager.bindTexture(this.textureLocation)
     }
 
+    override fun drawScreen(mouseX: Int, mouseY: Int, f: Float) {
+        drawDefaultBackground()
+        super.drawScreen(mouseX, mouseY, f)
+        renderHoveredToolTip(mouseX, mouseY)
+        renderTooltips(mouseX, mouseY)
+
+        val x = (this.width - this.xSize) / 2
+        val y = (this.height - this.ySize) / 2
+        this.displayData.filter { data ->
+            (mouseX >= data.x + x
+                    && mouseX <= data.x + x + data.width
+                    && mouseY >= data.y + y
+                    && mouseY <= data.y + y + data.height)
+        }.forEach { drawHoveringText(it.toStringList(), mouseX, mouseY, fontRenderer) }
+    }
+
     override fun actionPerformed(button: GuiButton) {
         if (button.id == pauseButton.id) {
             PacketHandler.INSTANCE!!.sendToServer(ButtonPacket(tile.pos, pause = true))
@@ -86,14 +111,40 @@ abstract class GuiBase<T>(container: Container, tile: T, guiName: String) :
         }
     }
 
-    override fun drawFluidTank(wrapper: CapabilityFluidDisplayWrapper, i: Int, j: Int, width: Int, height: Int) {
-        super.drawFluidTank(wrapper, i, j, width = 16, height = 70)
+    fun drawFluidTank(wrapper: CapabilityFluidDisplayWrapper, i: Int, j: Int, width: Int = 16, height: Int = 70) {
+        if (wrapper.getStored() > 5) {
+            RenderUtils.bindBlockTexture()
+            RenderUtils.renderGuiTank(wrapper.getFluid(), wrapper.getCapacity(),
+                wrapper.getStored(), i.toDouble(), j.toDouble(), zLevel.toDouble(), width.toDouble(), height.toDouble())
+        }
         val i = wrapper.x + ((this.width - this.xSize) / 2)
         val j = wrapper.y + ((this.height - this.ySize) / 2)
-        mc.textureManager.bindTexture(powerBarTexture!!)
+        mc.textureManager.bindTexture(powerBarTexture)
         this.drawTexturedModalRect(i, j, 32, 0, 16, 70)
         this.mc.textureManager.bindTexture(this.textureLocation)
     }
+
+    override fun drawGuiContainerBackgroundLayer(partialTicks: Float, mouseX: Int, mouseY: Int) {
+        GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f)
+        this.mc.textureManager.bindTexture(this.textureLocation)
+
+        this.drawTexturedModalRect(guiLeft, guiTop, 0, 0, this.xSize, this.ySize)
+        val i = (this.width - this.xSize) / 2
+        val j = (this.height - this.ySize) / 2
+
+        displayData.forEach { data ->
+            when (data) {
+                is CapabilityEnergyDisplayWrapper -> {
+                    drawPowerBar(storage = data,
+                        texture = powerBarTexture,
+                        textureX = powerBarX,
+                        textureY = powerBarY)
+                }
+                is CapabilityFluidDisplayWrapper -> drawFluidTank(data, i + data.x, j + data.y)
+            }
+        }
+    }
+
 
     override fun drawGuiContainerForegroundLayer(mouseX: Int, mouseY: Int) {
         if (tile.isPaused) pauseButton.isPaused = PauseButton.State.PAUSED
@@ -112,7 +163,6 @@ abstract class GuiBase<T>(container: Container, tile: T, guiName: String) :
         }
     }
 
-    fun isHovered(x: Int, y: Int, width: Int, height: Int, mouseX: Int, mouseY: Int): Boolean {
-        return mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height
-    }
+    fun isHovered(x: Int, y: Int, width: Int, height: Int, mouseX: Int, mouseY: Int) =
+        mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height
 }

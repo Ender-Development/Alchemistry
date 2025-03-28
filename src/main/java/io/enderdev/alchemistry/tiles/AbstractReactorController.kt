@@ -1,10 +1,10 @@
 package io.enderdev.alchemistry.tiles
 
-import al132.alib.tiles.IEnergyTile
 import io.enderdev.alchemistry.blocks.machine.FissionControllerBlock
 import io.enderdev.alchemistry.client.BlockHighlighter
 import io.enderdev.alchemistry.recipes.IRecipe
 import io.enderdev.alchemistry.recipes.register.AbstractRecipeRegister
+import io.enderdev.alchemistry.tiles.tags.IEnergyTile
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.util.EnumFacing
 import net.minecraftforge.common.capabilities.Capability

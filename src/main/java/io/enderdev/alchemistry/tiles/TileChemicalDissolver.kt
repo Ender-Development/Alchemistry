@@ -1,13 +1,12 @@
 package io.enderdev.alchemistry.tiles
 
-import al132.alib.tiles.ALTileStackHandler
-import al132.alib.tiles.EnergyTileImpl
-import al132.alib.tiles.IEnergyTile
-import al132.alib.utils.Utils.canStacksMerge
-import al132.alib.utils.extensions.get
 import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.recipes.DissolverRecipe
 import io.enderdev.alchemistry.recipes.register.DissolverRegister
+import io.enderdev.alchemistry.tiles.tags.EnergyTileImpl
+import io.enderdev.alchemistry.tiles.tags.IEnergyTile
+import io.enderdev.alchemistry.utils.extensions.canMergeWith
+import io.enderdev.alchemistry.utils.extensions.get
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.nbt.NBTTagList
@@ -34,7 +33,7 @@ class TileChemicalDissolver : AbstractMachine<DissolverRecipe>(DissolverRegister
     }
 
     override fun initInventoryInputCapability() {
-        input = object : ALTileStackHandler(inputSlots, this) {
+        input = object : TileStackHandler(inputSlots, this) {
             override fun insertItem(slot: Int, stack: ItemStack, simulate: Boolean): ItemStack {
                 return if(!this.getStackInSlot(slot).isEmpty) super.insertItem(slot, stack, simulate)
                 else if (DissolverRecipe.Companion.match(stack, false) != null) super.insertItem(slot, stack, simulate)
@@ -58,7 +57,7 @@ class TileChemicalDissolver : AbstractMachine<DissolverRecipe>(DissolverRegister
         }
         //Try to stack output with existing stacks in output, if possible
         for (i in 0 until output.slots) {
-            if (canStacksMerge(outputThisTick, output[i], stacksCanbeEmpty = false)) {
+            if (outputThisTick.canMergeWith(output[i], false)) {
                 output.setOrIncrement(i, outputThisTick)
                 outputSuccessful = true
                 break
@@ -67,7 +66,7 @@ class TileChemicalDissolver : AbstractMachine<DissolverRecipe>(DissolverRegister
         //Otherwise try the empty stacks
         if (!outputSuccessful) {
             for (i in 0 until output.slots) {
-                if (canStacksMerge(outputThisTick, output[i], stacksCanbeEmpty = true)) {
+                if (outputThisTick.canMergeWith(output[i], true)) {
                     output.setOrIncrement(i, outputThisTick)
                     outputSuccessful = true
                     break

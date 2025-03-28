@@ -1,10 +1,5 @@
 package io.enderdev.alchemistry.tiles
 
-import al132.alib.tiles.ALTileStackHandler
-import al132.alib.tiles.EnergyTileImpl
-import al132.alib.tiles.IEnergyTile
-import al132.alib.utils.extensions.get
-import al132.alib.utils.extensions.toStack
 import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.blocks.ModBlocks
 import io.enderdev.alchemistry.blocks.PropertyPowerStatus
@@ -13,6 +8,10 @@ import io.enderdev.alchemistry.chemistry.ElementRegistry
 import io.enderdev.alchemistry.items.ModItems
 import io.enderdev.alchemistry.recipes.FissionRecipe
 import io.enderdev.alchemistry.recipes.register.FissionRegister
+import io.enderdev.alchemistry.tiles.tags.EnergyTileImpl
+import io.enderdev.alchemistry.tiles.tags.IEnergyTile
+import io.enderdev.alchemistry.utils.extensions.get
+import io.enderdev.alchemistry.utils.extensions.toStack
 import net.minecraft.item.ItemStack
 import kotlin.math.floor
 
@@ -37,7 +36,7 @@ class TileFissionController : AbstractReactorController<FissionRecipe>(ReactorTy
     }
 
     override fun initInventoryInputCapability() {
-        input = object : ALTileStackHandler(inputSlots, this) {
+        input = object : TileStackHandler(inputSlots, this) {
             override fun insertItem(slot: Int, stack: ItemStack, simulate: Boolean): ItemStack {
                 return if (stack.item == ModItems.elements && stack.metadata > 1)
                     super.insertItem(slot, stack, simulate)

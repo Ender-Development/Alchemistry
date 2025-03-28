@@ -1,6 +1,6 @@
 package io.enderdev.alchemistry.items
 
-import al132.alib.utils.extensions.translate
+import io.enderdev.alchemistry.utils.extensions.translate
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.ItemDye.applyBonemeal

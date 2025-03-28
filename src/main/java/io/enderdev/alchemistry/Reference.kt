@@ -11,7 +11,7 @@ object Reference {
     const val MODID = Tags.MOD_ID
     const val MODNAME = Tags.MOD_NAME
     const val VERSION = Tags.VERSION
-    const val DEPENDENCIES = "required-after:forgelin_continuous;required-after:alib;after:crafttweaker;before:jei;"
+    const val DEPENDENCIES = "required-after:forgelin_continuous;after:crafttweaker;before:jei;"
     val DECIMAL_FORMAT = DecimalFormat("#0.00")
 
     lateinit var configPath: String

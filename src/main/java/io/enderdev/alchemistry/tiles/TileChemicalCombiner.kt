@@ -1,13 +1,11 @@
 package io.enderdev.alchemistry.tiles
 
 import io.enderdev.alchemistry.ConfigHandler
-import io.enderdev.alchemistry.items.ModItems
 import io.enderdev.alchemistry.recipes.CombinerRecipe
 import io.enderdev.alchemistry.recipes.register.CombinerRegister
-import al132.alib.tiles.*
-import al132.alib.utils.extensions.areItemStacksEqual
-import al132.alib.utils.extensions.areItemsEqual
-import al132.alib.utils.extensions.get
+import io.enderdev.alchemistry.tiles.tags.EnergyTileImpl
+import io.enderdev.alchemistry.tiles.tags.IEnergyTile
+import io.enderdev.alchemistry.utils.extensions.get
 import net.darkhax.gamestages.GameStageHelper
 import net.minecraft.entity.player.EntityPlayerMP
 import net.minecraft.item.ItemStack
@@ -25,7 +23,7 @@ class TileChemicalCombiner : AbstractMachine<CombinerRecipe>(CombinerRegister.Co
     IEnergyTile by EnergyTileImpl(capacity = ConfigHandler.COMBINER.energyCapacity) {
 
     var recipeIsLocked = false
-    val clientRecipeTarget: ALTileStackHandler
+    val clientRecipeTarget: TileStackHandler
     var owner: String = ""
 
     override val energyPerTick: Int
@@ -36,18 +34,17 @@ class TileChemicalCombiner : AbstractMachine<CombinerRecipe>(CombinerRegister.Co
 
     init {
         initInventoryCapability(9, 1)
-        clientRecipeTarget = object : ALTileStackHandler(1, this) {
+        clientRecipeTarget = object : TileStackHandler(1, this) {
             override fun insertItem(slot: Int, stack: ItemStack, simulate: Boolean) = stack
             override fun extractItem(slot: Int, amount: Int, simulate: Boolean) = ItemStack.EMPTY
         }
     }
 
     override fun initInventoryInputCapability() {
-        input = object : ALTileStackHandler(inputSlots, this) {
+        input = object : TileStackHandler(inputSlots, this) {
             override fun insertItem(slot: Int, stack: ItemStack, simulate: Boolean): ItemStack {
-                return if (!recipeIsLocked || currentRecipe?.inputs?.get(slot)
-                        ?.areItemsEqual(stack) == true
-                ) super.insertItem(slot, stack, simulate)
+                return if (!recipeIsLocked || ItemStack.areItemsEqual(currentRecipe?.inputs?.get(slot) ?: ItemStack.EMPTY, stack))
+                    super.insertItem(slot, stack, simulate)
                 else return stack
             }
 
@@ -89,7 +86,7 @@ class TileChemicalCombiner : AbstractMachine<CombinerRecipe>(CombinerRegister.Co
                 && (currentRecipe!!.output.count + output[0].count <= currentRecipe!!.output.maxStackSize) //output quantities can stack
                 && (ItemStack.areItemsEqual(output[0], currentRecipe!!.output) || output[0].isEmpty) //output item types can stack
                 && currentRecipe!!.matchesHandlerStacks(this.input)
-                && (!recipeIsLocked || CombinerRecipe.Companion.matchInputs(input)?.output?.areItemStacksEqual(currentRecipe!!.output) == true)
+                && (!recipeIsLocked || ItemStack.areItemStacksEqual(CombinerRecipe.Companion.matchInputs(input)?.output ?: ItemStack.EMPTY, currentRecipe!!.output))
     }
 
     private fun hasCurrentRecipeStage(): Boolean {

@@ -3,7 +3,7 @@ package io.enderdev.alchemistry
 import io.enderdev.alchemistry.capability.CapabilityDrugInfo
 import io.enderdev.alchemistry.chemistry.CompoundRegistry
 import io.enderdev.alchemistry.items.ItemCompound
-import al132.alib.utils.extensions.translate
+import io.enderdev.alchemistry.utils.extensions.translate
 import net.minecraft.item.ItemFood
 import net.minecraftforge.client.event.FOVUpdateEvent
 import net.minecraftforge.event.entity.player.ItemTooltipEvent

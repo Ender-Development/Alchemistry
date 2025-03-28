@@ -1,20 +1,17 @@
 package io.enderdev.alchemistry.blocks
 
-import al132.alib.blocks.ALBlock
-import io.enderdev.alchemistry.Reference
+import io.enderdev.alchemistry.BaseBlock
 import io.enderdev.alchemistry.blocks.machine.*
 import io.enderdev.alchemistry.client.gui.GuiHandler
 import io.enderdev.alchemistry.tiles.*
 import net.minecraft.block.Block
-import net.minecraft.block.material.Material
 import net.minecraft.item.Item
 import net.minecraftforge.event.RegistryEvent
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 
 object ModBlocks {
-
-    val blocks = ArrayList<ALBlock>()
+    val blocks = ArrayList<BaseBlock>()
 
     val electrolyzer =
         ElectrolyzerBlock("electrolyzer", TileElectrolyzer::class.java, GuiHandler.Companion.ELECTROLYZER_ID)
@@ -67,10 +64,4 @@ object ModBlocks {
 
     @SideOnly(Side.CLIENT)
     fun registerModels() = blocks.forEach { it.registerModel() }
-}
-
-open class BaseBlock(name: String, material: Material = Material.ROCK) : ALBlock(name, Reference.creativeTab, material) {
-    init {
-        ModBlocks.blocks.add(this)
-    }
 }

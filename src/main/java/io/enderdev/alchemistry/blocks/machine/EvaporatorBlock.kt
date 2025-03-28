@@ -3,7 +3,7 @@ package io.enderdev.alchemistry.blocks.machine
 import io.enderdev.alchemistry.client.TESREvaporator
 import io.enderdev.alchemistry.items.TooltipItemBlock
 import io.enderdev.alchemistry.tiles.TileEvaporator
-import al132.alib.utils.extensions.translate
+import io.enderdev.alchemistry.utils.extensions.translate
 import net.minecraft.block.state.IBlockState
 import net.minecraft.entity.Entity
 import net.minecraft.item.Item

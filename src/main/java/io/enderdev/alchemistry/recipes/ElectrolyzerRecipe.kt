@@ -1,6 +1,5 @@
 package io.enderdev.alchemistry.recipes
 
-import al132.alib.utils.extensions.areItemStacksEqual
 import net.minecraft.item.ItemStack
 import net.minecraft.item.crafting.Ingredient
 import net.minecraftforge.fluids.FluidStack
@@ -38,5 +37,5 @@ data class ElectrolyzerRecipe(
     }
 
     fun matchesElectrolyte(target: ItemStack): Boolean =
-        this._electrolyte.matchingStacks.any { it.areItemStacksEqual(target) }
+        this._electrolyte.matchingStacks.any { ItemStack.areItemStacksEqual(it, target) }
 }

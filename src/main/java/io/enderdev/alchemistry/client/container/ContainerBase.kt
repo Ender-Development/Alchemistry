@@ -1,7 +1,7 @@
 package io.enderdev.alchemistry.client.container
 
 import io.enderdev.alchemistry.tiles.TileBase
-import al132.alib.tiles.IGuiTile
+import io.enderdev.alchemistry.tiles.tags.IGuiTile
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.inventory.Container
 import net.minecraft.inventory.IInventory
@@ -55,10 +55,9 @@ abstract class ContainerBase<T>(playerInv: IInventory,
         }
     }
 
-    override fun canInteractWith(playerIn: EntityPlayer): Boolean = tile.canInteractWith(playerIn)
+    override fun canInteractWith(player: EntityPlayer): Boolean = tile.canInteractWith(player)
 
-
-    override fun transferStackInSlot(playerIn: EntityPlayer?, index: Int): ItemStack {
+    override fun transferStackInSlot(player: EntityPlayer, index: Int): ItemStack {
         var itemstack = ItemStack.EMPTY
         val slot = this.inventorySlots[index]
         if (slot != null && slot.hasStack) {

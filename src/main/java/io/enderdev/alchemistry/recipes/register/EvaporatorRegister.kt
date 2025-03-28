@@ -2,7 +2,7 @@ package io.enderdev.alchemistry.recipes.register
 
 import io.enderdev.alchemistry.items.ModItems
 import io.enderdev.alchemistry.recipes.EvaporatorRecipe
-import al132.alib.utils.extensions.toStack
+import io.enderdev.alchemistry.utils.extensions.toStack
 import net.minecraft.init.Blocks
 import net.minecraftforge.fluids.FluidRegistry
 

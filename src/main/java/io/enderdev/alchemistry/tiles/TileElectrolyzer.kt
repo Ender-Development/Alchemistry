@@ -3,9 +3,11 @@ package io.enderdev.alchemistry.tiles
 import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.recipes.ElectrolyzerRecipe
 import io.enderdev.alchemistry.recipes.register.ElectrolyzerRegister
-import al132.alib.tiles.*
-import al132.alib.utils.extensions.containsItem
-import al132.alib.utils.extensions.get
+import io.enderdev.alchemistry.tiles.tags.EnergyTileImpl
+import io.enderdev.alchemistry.tiles.tags.IEnergyTile
+import io.enderdev.alchemistry.tiles.tags.IFluidTile
+import io.enderdev.alchemistry.utils.extensions.containsItem
+import io.enderdev.alchemistry.utils.extensions.get
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraftforge.fluids.Fluid
@@ -88,7 +90,7 @@ class TileElectrolyzer : AbstractMachine<ElectrolyzerRecipe>(ElectrolyzerRegiste
     }
 
     override fun initInventoryInputCapability() {
-        input = object : ALTileStackHandler(inputSlots, this) {
+        input = object : TileStackHandler(inputSlots, this) {
             override fun insertItem(slot: Int, stack: ItemStack, simulate: Boolean): ItemStack {
                 return if (recipeRegister.any { it.electrolytes.containsItem(stack) })
                     super.insertItem(slot, stack, simulate)

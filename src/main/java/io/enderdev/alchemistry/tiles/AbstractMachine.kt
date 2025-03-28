@@ -2,8 +2,8 @@ package io.enderdev.alchemistry.tiles
 
 import io.enderdev.alchemistry.recipes.IRecipe
 import io.enderdev.alchemistry.recipes.register.AbstractRecipeRegister
-import al132.alib.tiles.IGuiTile
-import al132.alib.tiles.IItemTile
+import io.enderdev.alchemistry.tiles.tags.IGuiTile
+import io.enderdev.alchemistry.tiles.tags.IItemTile
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.util.ITickable
 

@@ -2,7 +2,7 @@ package io.enderdev.alchemistry.blocks.machine
 
 import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.items.TooltipItemBlock
-import al132.alib.utils.Translator
+import io.enderdev.alchemistry.utils.extensions.translate
 import net.minecraft.block.properties.IProperty
 import net.minecraft.block.properties.PropertyDirection
 import net.minecraft.block.state.BlockStateContainer
@@ -38,13 +38,13 @@ class ElectrolyzerBlock(name: String,
     }
 
     override fun registerItemBlock(event: RegistryEvent.Register<Item>) {
+        println("ASNDJKASHDKASDHKASHDKAHSD")
+        println(registryName)
+        println("ASNDJKASHDKASDHKASHDKAHSD")
         event.registry.register(
             TooltipItemBlock(
                 this,
-                Translator.translateToLocalFormatted(
-                    "tooltip.alchemistry.energy_requirement",
-                    ConfigHandler.ELECTROLYZER.energyPerTick
-                )
+                "tooltip.alchemistry.energy_requirement".translate(ConfigHandler.ELECTROLYZER.energyPerTick)
             )
                 .setRegistryName(this.registryName))
     }

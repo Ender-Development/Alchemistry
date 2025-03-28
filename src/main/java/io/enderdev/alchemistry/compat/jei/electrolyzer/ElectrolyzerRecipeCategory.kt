@@ -1,8 +1,8 @@
 package io.enderdev.alchemistry.compat.jei.electrolyzer
 
-import al132.alib.utils.Translator
 import io.enderdev.alchemistry.compat.jei.AlchemistryRecipeCategory
 import io.enderdev.alchemistry.compat.jei.AlchemistryRecipeUID
+import io.enderdev.alchemistry.utils.extensions.translate
 import mezz.jei.api.IGuiHelper
 import mezz.jei.api.gui.IRecipeLayout
 import mezz.jei.api.ingredients.IIngredients
@@ -60,8 +60,8 @@ class ElectrolyzerRecipeCategory(guiHelper: IGuiHelper) : AlchemistryRecipeCateg
 
         guiItemStacks.addTooltipCallback { slotIndex, input, ingredient, tooltip ->
             if(input) {
-                tooltip.add(Translator.translateToLocal("jei.electrolyzer.electrolyte"))
-                tooltip.add(Translator.translateToLocal("jei.electrolyzer.consumption_probability") + ": ${recipeWrapper.recipe.electrolyteConsumptionChance}%")
+                tooltip.add("jei.electrolyzer.electrolyte".translate())
+                tooltip.add("jei.electrolyzer.consumption_probability".translate() + ": ${recipeWrapper.recipe.electrolyteConsumptionChance}%")
             }
         }
     }

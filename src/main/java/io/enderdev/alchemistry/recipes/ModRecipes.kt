@@ -1,10 +1,10 @@
 package io.enderdev.alchemistry.recipes
 
-import al132.alib.utils.extensions.toStack
 import io.enderdev.alchemistry.chemistry.ElementRegistry
 import io.enderdev.alchemistry.items.ItemElementIngot
 import io.enderdev.alchemistry.items.ModItems
 import io.enderdev.alchemistry.recipes.register.*
+import io.enderdev.alchemistry.utils.extensions.toStack
 import net.minecraftforge.oredict.OreDictionary
 
 /**

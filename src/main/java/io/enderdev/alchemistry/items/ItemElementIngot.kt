@@ -1,7 +1,7 @@
 package io.enderdev.alchemistry.items
 
 import io.enderdev.alchemistry.chemistry.ElementRegistry
-import al132.alib.utils.extensions.translate
+import io.enderdev.alchemistry.utils.extensions.translate
 import net.minecraft.client.renderer.block.model.ModelResourceLocation
 import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.item.ItemStack

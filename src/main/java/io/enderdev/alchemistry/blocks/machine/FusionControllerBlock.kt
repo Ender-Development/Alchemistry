@@ -1,9 +1,9 @@
 package io.enderdev.alchemistry.blocks.machine
 
-import al132.alib.utils.Translator
 import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.blocks.PropertyPowerStatus
 import io.enderdev.alchemistry.items.TooltipItemBlock
+import io.enderdev.alchemistry.utils.extensions.translate
 import net.minecraft.block.properties.IProperty
 import net.minecraft.block.properties.PropertyDirection
 import net.minecraft.block.properties.PropertyEnum
@@ -33,12 +33,8 @@ class FusionControllerBlock(name: String,
         event.registry.register(
             TooltipItemBlock(
                 this,
-                Translator.translateToLocalFormatted(
-                    "tooltip.alchemistry.energy_requirement",
-                    ConfigHandler.FUSION.energyPerTick
-                )
-            )
-                .setRegistryName(this.registryName))
+                "tooltip.alchemistry.energy_requirement".translate(ConfigHandler.FUSION.energyPerTick)
+            ).setRegistryName(this.registryName))
     }
 
     override fun createBlockState() = BlockStateContainer(this, *PROPERTIES)

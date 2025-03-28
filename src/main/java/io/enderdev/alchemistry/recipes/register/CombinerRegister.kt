@@ -1,12 +1,11 @@
 package io.enderdev.alchemistry.recipes.register
 
-import al132.alib.utils.Utils.firstOre
-import al132.alib.utils.extensions.toDict
-import al132.alib.utils.extensions.toStack
 import io.enderdev.alchemistry.chemistry.CompoundRegistry
 import io.enderdev.alchemistry.items.ModItems
 import io.enderdev.alchemistry.recipes.CombinerRecipe
-import io.enderdev.alchemistry.utils.areStacksEqualIgnoreQuantity
+import io.enderdev.alchemistry.utils.extensions.areStacksEqualIgnoreQuantity
+import io.enderdev.alchemistry.utils.extensions.firstOre
+import io.enderdev.alchemistry.utils.extensions.toDict
 import io.enderdev.alchemistry.utils.extensions.toStack
 import net.minecraft.init.Blocks
 import net.minecraft.init.Items
@@ -39,7 +38,7 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
         }
 
         metals.forEach { entry ->
-            val dustOutput: ItemStack? = firstOre(entry.toDict("dust"))
+            val dustOutput: ItemStack? = entry.toDict("dust").firstOre()
             if (dustOutput != null && !dustOutput.isEmpty) {
                 recipes.add(
                     CombinerRecipe(
@@ -56,7 +55,7 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
                 )
             }
 
-            val ingotOutput: ItemStack? = firstOre(entry.toDict("ingot"))
+            val ingotOutput: ItemStack? = entry.toDict("ingot").firstOre()
             if (ingotOutput != null && !ingotOutput.isEmpty) {
                 recipes.add(
                     CombinerRecipe(
@@ -79,13 +78,13 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
                 if(!oreNotEmpty(name))
                     return@forEachIndexed
                 val input = (0 until i).mapTo(ArrayList<ItemStack>()) { ItemStack.EMPTY }.toMutableList()
-                if (saltOutputs.none { it.areStacksEqualIgnoreQuantity(firstOre(name)) }) {
+                if (saltOutputs.none { it.areStacksEqualIgnoreQuantity(name.firstOre()) }) {
                     recipes.add(
                         CombinerRecipe(
-                            firstOre(name),
+                            name.firstOre(),
                             input.apply { add("sodium_chloride".toStack(8)) })
                     )
-                    saltOutputs.add(firstOre(name))
+                    saltOutputs.add(name.firstOre())
                 }
             }
 
@@ -95,13 +94,13 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
                 if(!oreNotEmpty(name))
                     return@forEachIndexed
                 val input = (0 until i).mapTo(ArrayList<ItemStack>()) { ItemStack.EMPTY }.toMutableList()
-                if (saltpeterOutputs.none { it.areStacksEqualIgnoreQuantity(firstOre(name)) }) {
+                if (saltpeterOutputs.none { it.areStacksEqualIgnoreQuantity(name.firstOre()) }) {
                     recipes.add(
                         CombinerRecipe(
-                            firstOre(name),
+                            name.firstOre(),
                             input.apply { add("potassium_nitrate".toStack(8)) })
                     )
-                    saltpeterOutputs.add(firstOre(name))
+                    saltpeterOutputs.add(name.firstOre())
                 }
             }
 
@@ -374,7 +373,7 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
         if(oreNotEmpty("itemSilicon"))
             recipes.add(
                 CombinerRecipe(
-                    firstOre("itemSilicon"),
+                    "itemSilicon".firstOre(),
                     listOf(null, null, "silicon".toStack(16))
                 )
             )
@@ -431,7 +430,7 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
         if(oreNotEmpty("gemRuby"))
             recipes.add(
                 CombinerRecipe(
-                    firstOre("gemRuby"),
+                    "gemRuby".firstOre(),
                     listOf("aluminum_oxide".toStack(16), "chromium".toStack(8))
                 )
             )
@@ -439,7 +438,7 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
         if (oreNotEmpty("gemSapphire")) {
             recipes.add(
                 CombinerRecipe(
-                    firstOre("gemSapphire"),
+                    "gemSapphire".firstOre(),
                     listOf(
                         "aluminum_oxide".toStack(16),
                         "iron".toStack(4),

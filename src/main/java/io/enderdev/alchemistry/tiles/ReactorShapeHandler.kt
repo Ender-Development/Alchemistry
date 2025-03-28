@@ -1,10 +1,9 @@
 package io.enderdev.alchemistry.tiles
 
-import al132.alib.utils.Translator
-import al132.alib.utils.extensions.translate
 import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.blocks.ModBlocks
 import io.enderdev.alchemistry.client.BlockHighlighter
+import io.enderdev.alchemistry.utils.extensions.translate
 import net.minecraft.block.Block
 import net.minecraft.block.BlockLiquid
 import net.minecraft.init.Blocks
@@ -319,13 +318,8 @@ class ReactorShapeHandler(val controller: AbstractReactorController<*>) {
             return true
 
         failReason = {
-            Translator.translateToLocalFormatted("tile.reactor.structure_incomplete", expected.localizedName) to
-                    Translator.translateToLocalFormatted(
-                        "tile.reactor.structure_incomplete_coordinates",
-                        pos.x,
-                        pos.y,
-                        pos.z
-                    )
+            "tile.reactor.structure_incomplete".translate(expected.localizedName) to
+                    "tile.reactor.structure_incomplete_coordinates".translate(pos.x, pos.y, pos.z)
         }
         failPos = pos
         failRed = red

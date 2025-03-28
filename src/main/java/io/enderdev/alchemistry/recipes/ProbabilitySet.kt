@@ -1,8 +1,8 @@
 package io.enderdev.alchemistry.recipes
 
-import io.enderdev.alchemistry.utils.areStacksEqualIgnoreQuantity
-import al132.alib.utils.extensions.toImmutable
+import io.enderdev.alchemistry.utils.extensions.areStacksEqualIgnoreQuantity
 import com.google.common.collect.ImmutableList
+import io.enderdev.alchemistry.utils.extensions.toImmutable
 import net.minecraft.item.ItemStack
 import java.util.*
 

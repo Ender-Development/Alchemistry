@@ -2,8 +2,8 @@ package io.enderdev.alchemistry.items
 
 import io.enderdev.alchemistry.chemistry.ChemicalElement
 import io.enderdev.alchemistry.chemistry.ElementRegistry
+import io.enderdev.alchemistry.utils.extensions.translate
 import net.minecraft.client.renderer.block.model.ModelResourceLocation
-import net.minecraft.client.resources.I18n
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.item.ItemStack
@@ -46,7 +46,7 @@ class ItemElement(name: String) : ItemMetaBase(name) {
 
     override fun getItemStackDisplayName(stack: ItemStack): String {
         return if (stack.metadata > 118 && stack.item == ModItems.elements) {
-            I18n.format(getTranslationKey(stack) + ".name")
+            "${getTranslationKey(stack)}.name".translate()
         } else super.getItemStackDisplayName(stack)
     }
 

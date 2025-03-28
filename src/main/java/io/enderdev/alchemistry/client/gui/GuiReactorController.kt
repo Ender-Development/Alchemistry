@@ -5,7 +5,7 @@ import io.enderdev.alchemistry.client.gui.wrappers.CapabilityEnergyDisplayWrappe
 import io.enderdev.alchemistry.tiles.AbstractReactorController
 import io.enderdev.alchemistry.tiles.ReactorType
 import io.enderdev.alchemistry.tiles.tags.IGuiTile
-import net.minecraft.client.resources.I18n
+import io.enderdev.alchemistry.utils.extensions.translate
 import net.minecraft.inventory.Container
 import java.awt.Color
 import kotlin.math.ceil
@@ -40,21 +40,21 @@ abstract class GuiReactorController<T>(container: Container, tile: T, guiName: S
         val energy = tile.energyModifier * 100
         if (tile.isMultiblockValid) {
             fontRenderer.drawString(
-                I18n.format(textProductivity, "%.2f%%".format(productivity)),
+                textProductivity.translate("%.2f%%".format(productivity)),
                 infoX,
                 infoHeight,
                 getColorFromValue(productivity),
                 false
             )
             fontRenderer.drawString(
-                I18n.format(textSpeed, "%.2f%%".format(speed)),
+                textSpeed.translate("%.2f%%".format(speed)),
                 infoX,
                 infoHeight + 10,
                 getColorFromValue(speed),
                 false
             )
             fontRenderer.drawString(
-                I18n.format(textEnergy, "%.2f%%".format(energy)),
+                textEnergy.translate("%.2f%%".format(energy)),
                 infoX,
                 infoHeight + 20,
                 getColorFromValue(energy, invert = true),
@@ -107,10 +107,9 @@ abstract class GuiReactorController<T>(container: Container, tile: T, guiName: S
             offset <= mouseY && mouseY <= offset + fontHeight -> {
                 drawHoveringText(
                     listOf(
-                        I18n.format("tooltip.productivity.title"),
-                        I18n.format("tooltip.productivity.default"),
-                        I18n.format(
-                            "tooltip.productivity.current",
+                        "tooltip.productivity.title".translate(),
+                        "tooltip.productivity.default".translate(),
+                        "tooltip.productivity.current".translate(
                             if (ceil(tile.productivityModifier) == 0.0) 1 else ceil(tile.productivityModifier).toInt()
                         )
                     ),
@@ -127,9 +126,9 @@ abstract class GuiReactorController<T>(container: Container, tile: T, guiName: S
                 }
                 drawHoveringText(
                     listOf(
-                        I18n.format("tooltip.speed.title"),
-                        I18n.format("tooltip.speed.default", defaultTime),
-                        I18n.format("tooltip.speed.current", tile.recipeTime)
+                        "tooltip.speed.title".translate(),
+                        "tooltip.speed.default".translate(defaultTime),
+                        "tooltip.speed.current".translate(tile.recipeTime)
                     ),
                     mouseX,
                     mouseY
@@ -144,9 +143,9 @@ abstract class GuiReactorController<T>(container: Container, tile: T, guiName: S
                 }
                 drawHoveringText(
                     listOf(
-                        I18n.format("tooltip.energy.title"),
-                        I18n.format("tooltip.energy.default", defaultEnergy),
-                        I18n.format("tooltip.energy.current", tile.energyPerTick)
+                        "tooltip.energy.title".translate(),
+                        "tooltip.energy.default".translate(defaultEnergy),
+                        "tooltip.energy.current".translate(tile.energyPerTick)
                     ),
                     mouseX,
                     mouseY

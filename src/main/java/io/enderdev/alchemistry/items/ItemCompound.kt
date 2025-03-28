@@ -7,7 +7,6 @@ import io.enderdev.alchemistry.chemistry.CompoundRegistry
 import io.enderdev.alchemistry.utils.extensions.toPotion
 import io.enderdev.alchemistry.utils.extensions.translate
 import net.minecraft.client.renderer.block.model.ModelResourceLocation
-import net.minecraft.client.resources.I18n
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.entity.EntityLivingBase
@@ -88,7 +87,7 @@ class ItemCompound(name: String) : ItemMetaBase(name) {
     override fun getItemStackDisplayName(stack: ItemStack): String {
         val compound = CompoundRegistry[stack.metadata]
         return if (stack.item == ModItems.compounds && compound != null && !(compound.isInternalCompound)) {
-            I18n.format(getTranslationKey(stack) + ".name")
+            "${getTranslationKey(stack)}.name".translate()
         } else super.getItemStackDisplayName(stack)
     }
 

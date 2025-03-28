@@ -39,14 +39,19 @@ class EvaporatorBlock(name: String,
                 .setRegistryName(this.registryName))
     }
 
+    @Deprecated("")
     override fun getRenderType(state: IBlockState): EnumBlockRenderType = EnumBlockRenderType.MODEL
 
+    @Deprecated("")
     override fun isOpaqueCube(state: IBlockState) = false
 
-    override fun isFullCube(state: IBlockState?): Boolean = false
+    @Deprecated("")
+    override fun isFullCube(state: IBlockState) = false
 
+    @Deprecated("")
     override fun getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB = boundingBox
 
+    @Deprecated("")
     override fun addCollisionBoxToList(state: IBlockState,
                                        worldIn: World,
                                        pos: BlockPos,
@@ -54,7 +59,9 @@ class EvaporatorBlock(name: String,
                                        collidingBoxes: List<AxisAlignedBB>,
                                        entityIn: Entity?, mysteryboolean: Boolean) {
 
+        @Suppress("DEPRECATION")
         addCollisionBoxToList(pos, entityBox, collidingBoxes, boundingBox)
+        @Suppress("DEPRECATION")
         addCollisionBoxToList(pos, entityBox, collidingBoxes, boundingBox2)
     }
 }

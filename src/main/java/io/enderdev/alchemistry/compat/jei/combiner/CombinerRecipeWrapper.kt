@@ -11,12 +11,11 @@ import java.awt.Color
 
 class CombinerRecipeWrapper(recipe: CombinerRecipe) : AlchemistryRecipeWrapper<CombinerRecipe>(recipe) {
 
-    override fun drawInfo(minecraft: Minecraft?, recipeWidth: Int, recipeHeight: Int, mouseX: Int, mouseY: Int) {
-
-        var y = 62
+    override fun drawInfo(minecraft: Minecraft, recipeWidth: Int, recipeHeight: Int, mouseX: Int, mouseY: Int) {
+        val y = 62
         val stage = recipe.gamestage
         if (Loader.isModLoaded("gamestages") && stage.isNotEmpty()) {
-            val color = if (GameStageHelper.hasStage(minecraft!!.player, recipe.gamestage)) Color(0, 153, 51) else Color.RED
+            val color = if (GameStageHelper.hasStage(minecraft.player, recipe.gamestage)) Color(0, 153, 51) else Color.RED
             minecraft.fontRenderer?.drawString("Gamestage: $stage", 2, y, color.rgb)
         }
     }

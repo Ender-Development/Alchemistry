@@ -14,6 +14,7 @@ class LightBlock(name: String) : BaseBlock(name){
         this.soundType = SoundType.GLASS
     }
 
+    @Deprecated("")
     override fun isOpaqueCube(state: IBlockState) = false
 
     override fun getRenderLayer() = BlockRenderLayer.TRANSLUCENT

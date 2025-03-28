@@ -1,10 +1,12 @@
 package io.enderdev.alchemistry.recipes
 
-import io.enderdev.alchemistry.utils.extensions.areStacksEqualIgnoreQuantity
 import com.google.common.collect.ImmutableList
+import io.enderdev.alchemistry.utils.extensions.areStacksEqualIgnoreQuantity
 import io.enderdev.alchemistry.utils.extensions.toImmutable
 import net.minecraft.item.ItemStack
 import java.util.*
+import kotlin.collections.filterNot
+import kotlin.collections.indexOfFirst
 
 
 data class ProbabilityGroup(private val _output: List<ItemStack>,
@@ -30,8 +32,8 @@ data class ProbabilitySet(private var _set: List<ProbabilityGroup>? = ArrayList(
     }
 
     fun probabilityAtIndex(index: Int): Double {
-        if (relativeProbability) return (set[index].probability / set.sumByDouble { it.probability })
-        else return set[index].probability
+        return if (relativeProbability) (set[index].probability / set.sumOf { it.probability })
+        else set[index].probability
     }
 
 

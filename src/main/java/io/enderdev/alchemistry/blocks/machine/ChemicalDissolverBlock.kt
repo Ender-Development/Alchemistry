@@ -30,14 +30,19 @@ class ChemicalDissolverBlock(name: String,
 
     val boundingBox = AxisAlignedBB(0.0, 0.0, 0.0, 1.0, 0.875, 1.0)
 
+    @Deprecated("")
     override fun getRenderType(state: IBlockState): EnumBlockRenderType = EnumBlockRenderType.MODEL
 
+    @Deprecated("")
     override fun isOpaqueCube(state: IBlockState) = false
 
-    override fun isFullCube(state: IBlockState?): Boolean = false
+    @Deprecated("")
+    override fun isFullCube(state: IBlockState) = false
 
+    @Deprecated("")
     override fun getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB = boundingBox
 
+    @Deprecated("")
     override fun addCollisionBoxToList(state: IBlockState,
                                        worldIn: World,
                                        pos: BlockPos,
@@ -45,6 +50,7 @@ class ChemicalDissolverBlock(name: String,
                                        collidingBoxes: List<AxisAlignedBB>,
                                        entityIn: Entity?, mysteryboolean: Boolean) {
 
+        @Suppress("DEPRECATION")
         addCollisionBoxToList(pos, entityBox, collidingBoxes, boundingBox)
     }
 }

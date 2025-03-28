@@ -32,12 +32,11 @@ class MachineResettingHandler : IForgeRegistryEntry.Impl<IRecipe>(), IRecipe {
 
     override fun getRecipeOutput(): ItemStack = ItemStack.EMPTY
 
-    override fun getCraftingResult(inv: InventoryCrafting) = resultItem.copy()
+    override fun getCraftingResult(inv: InventoryCrafting): ItemStack = resultItem.copy()
 
     override fun isDynamic(): Boolean = true
 
-    override fun matches(inv: InventoryCrafting?, world: World?): Boolean {
-        if (world == null || inv == null) return false
+    override fun matches(inv: InventoryCrafting, world: World): Boolean {
         var machine = ItemStack.EMPTY
         var emptySlots = 0
 

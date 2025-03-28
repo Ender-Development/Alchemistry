@@ -56,6 +56,7 @@ class ElectrolyzerBlock(name: String,
         return state.withProperty(FACING, placer.horizontalFacing.opposite)
     }
 
+    @Deprecated("")
     override fun getStateFromMeta(meta: Int): IBlockState {
         var enumfacing = EnumFacing.byIndex(meta)
         if (enumfacing.axis == EnumFacing.Axis.Y) {
@@ -68,14 +69,19 @@ class ElectrolyzerBlock(name: String,
         return (state.getValue(FACING) as EnumFacing).index
     }
 
+    @Deprecated("")
     override fun getRenderType(state: IBlockState): EnumBlockRenderType = EnumBlockRenderType.MODEL
 
+    @Deprecated("")
     override fun isOpaqueCube(state: IBlockState) = false
 
-    override fun isFullCube(state: IBlockState?): Boolean = false
+    @Deprecated("")
+    override fun isFullCube(state: IBlockState) = false
 
+    @Deprecated("")
     override fun getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB = boundingBox
 
+    @Deprecated("")
     override fun addCollisionBoxToList(state: IBlockState,
                                        worldIn: World,
                                        pos: BlockPos,
@@ -83,11 +89,12 @@ class ElectrolyzerBlock(name: String,
                                        collidingBoxes: List<AxisAlignedBB>,
                                        entityIn: Entity?, mysteryboolean: Boolean) {
 
+        @Suppress("DEPRECATION")
         addCollisionBoxToList(pos, entityBox, collidingBoxes, boundingBox)
     }
 
     companion object {
-        val FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL)
+        val FACING: PropertyDirection = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL)
         val PROPERTIES = arrayOf<IProperty<*>>(FACING)
     }
 }

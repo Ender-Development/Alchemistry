@@ -44,6 +44,7 @@ class FissionControllerBlock(name: String,
         return state.withProperty(FACING, placer.horizontalFacing.opposite).withProperty(STATUS, PropertyPowerStatus.OFF)
     }
 
+    @Deprecated("")
     override fun getStateFromMeta(meta: Int): IBlockState {
         val facing = when (meta) {
             in 0 until 3  -> EnumFacing.NORTH
@@ -86,8 +87,8 @@ class FissionControllerBlock(name: String,
     }
 
     companion object {
-        val FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL)
-        val STATUS = PropertyEnum.create("status", PropertyPowerStatus::class.java)
+        val FACING: PropertyDirection = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL)
+        val STATUS: PropertyEnum<PropertyPowerStatus> = PropertyEnum.create("status", PropertyPowerStatus::class.java)
         val PROPERTIES = arrayOf<IProperty<*>>(FACING, STATUS)
     }
 }

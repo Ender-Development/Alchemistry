@@ -55,6 +55,7 @@ class WetSandBlock : BaseBlock("wet_sand", Material.SAND) {
      * change. Cases may include when redstone power is updated, cactus blocks popping off due to a neighboring solid
      * block, etc.
      */
+    @Deprecated("")
     override fun neighborChanged(state: IBlockState, worldIn: World, pos: BlockPos, blockIn: Block, fromPos: BlockPos) {
         worldIn.scheduleUpdate(pos, this, this.tickRate(worldIn))
     }

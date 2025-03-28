@@ -13,8 +13,11 @@ import java.awt.Color
 class DissolverRecipeWrapper(recipe: DissolverRecipe) : AlchemistryRecipeWrapper<DissolverRecipe>(recipe) {
 
     fun formatProbability(probability: Double): String {
-        if (recipe.outputs.relativeProbability) return Reference.DECIMAL_FORMAT.format(probability * 100) + "%"
-        else return Reference.DECIMAL_FORMAT.format(probability) + "%"
+        var prob = probability
+        if(recipe.outputs.relativeProbability)
+            prob *= 100
+
+        return "${Reference.DECIMAL_FORMAT.format(prob)}%"
     }
 
     override fun drawInfo(minecraft: Minecraft, recipeWidth: Int, recipeHeight: Int, mouseX: Int, mouseY: Int) {
@@ -27,9 +30,7 @@ class DissolverRecipeWrapper(recipe: DissolverRecipe) : AlchemistryRecipeWrapper
             y += 18
         }
 
-        var probabilityType = ""
-        probabilityType = if (recipe.outputs.relativeProbability) "jei.dissolver.relative".translate()
-        else "jei.dissolver.absolute".translate()
+        val probabilityType = "jei.dissolver.${if (recipe.outputs.relativeProbability) "relative" else "absolute"}".translate()
 
         fontRenderer.drawString("${"jei.dissolver.type".translate()}: $probabilityType", 0, 4, Color.BLACK.rgb)
         fontRenderer.drawString("${"jei.dissolver.rolls".translate()}: ${recipe.outputs.rolls}", 0, 16, Color.BLACK.rgb)

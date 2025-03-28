@@ -34,7 +34,7 @@ class ClientEventHandler {
             if (molecule != null) {
                 val compoundName = CompoundRegistry[molecule.meta]?.toItemStack(1)?.displayName
                         ?: "<Invalid Compound>"
-                e.toolTip.add("§b" + "spiked_food.tooltip".translate() + " " + compoundName + "§r")
+                e.toolTip.add("§b${"spiked_food.tooltip".translate()} $compoundName§r")
             }
         }
     }

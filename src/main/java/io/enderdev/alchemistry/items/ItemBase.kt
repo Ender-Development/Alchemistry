@@ -13,7 +13,7 @@ open class ItemBase(val name: String) : Item() {
 	init {
 		ModItems.items.add(this)
 		registryName = ResourceLocation(Reference.MODID, name)
-		translationKey = registryName.toString()
+		translationKey = "$registryName"
 		creativeTab = Reference.creativeTab
 	}
 

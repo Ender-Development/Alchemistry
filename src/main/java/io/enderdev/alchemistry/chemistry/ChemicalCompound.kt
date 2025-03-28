@@ -48,7 +48,7 @@ data class ChemicalCompound constructor(override var name: String = "",
         val builder = StringBuilder()
         for (component in components) {
             if (component.compound is ChemicalCompound) {
-                builder.append("(" + component.compound.toAbbreviatedString() + ")")
+                builder.append("(${component.compound.toAbbreviatedString()})")
             } else {
                 builder.append(component.compound.toAbbreviatedString())
             }
@@ -56,11 +56,11 @@ data class ChemicalCompound constructor(override var name: String = "",
                 //val subscriptZeroCodepoint is subscript 0 unicode char, adding 1-9 gives the subscript for that num
                 //i.e. ₀ + 3 = ₃
                 val subscriptZeroCodepoint: Int = Character.codePointAt("₀", 0)
-                component.quantity.toString().chars().forEach {
+                "${component.quantity}".chars().forEach {
                     builder.append(Character.toChars(subscriptZeroCodepoint + Character.getNumericValue(it)))
                 }
             }
         }
-        return builder.toString()
+        return "$builder"
     }
 }

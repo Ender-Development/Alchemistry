@@ -24,7 +24,7 @@ class DissolverCommand : CommandBase() {
                     val selection = StringSelection(stackToCTString(heldItem, recipe))
                     Toolkit.getDefaultToolkit().systemClipboard.setContents(selection, selection)
                     sender.send("Copied recipe to clipboard")
-                } else sender.send("No recipe for held itemstack ${heldItem.toString()}")
+                } else sender.send("No recipe for held itemstack ${heldItem}")
 
             }
         } else sender.send("Only available in single player")
@@ -48,7 +48,7 @@ fun stackToCTString(held: ItemStack, recipe: DissolverRecipe): String {
         if (index < recipe.outputs.set.count() - 1) builder.append(", \n")
     }
     builder.append("]);");
-    return builder.toString()
+    return "$builder"
 }
 
 fun formatStack(stack: ItemStack, ignoreQuantity: Boolean = false): String {
@@ -56,6 +56,6 @@ fun formatStack(stack: ItemStack, ignoreQuantity: Boolean = false): String {
     else {
         var quantityString = ""
         if (stack.count > 1 && !ignoreQuantity) quantityString = " * ${stack.count} "
-        return "<" + stack.item.registryName!!.toString() + ":" + stack.metadata + ">" + quantityString
+        return "<${stack.item.registryName}:${stack.metadata}>${quantityString}"
     }
 }

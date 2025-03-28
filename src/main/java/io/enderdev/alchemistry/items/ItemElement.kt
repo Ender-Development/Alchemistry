@@ -26,7 +26,7 @@ class ItemElement(name: String) : ItemMetaBase(name) {
             val elementName = element?.name?.lowercase(Locale.getDefault()) ?: ""
             val elementNumber = element?.meta ?: 0
             ModelLoader.setCustomModelResourceLocation(this, it,
-                    ModelResourceLocation(if (elementNumber <= 118) registryName.toString() + "_" + elementName else registryName.toString(), "inventory"))
+                    ModelResourceLocation(if (elementNumber <= 118) "${registryName}_$elementName" else "$registryName", "inventory"))
         }
     }
 
@@ -34,7 +34,7 @@ class ItemElement(name: String) : ItemMetaBase(name) {
     override fun addInformation(stack: ItemStack, playerIn: World?, tooltip: List<String>, advanced: ITooltipFlag) {
         val element: ChemicalElement? = ElementRegistry[stack.itemDamage]
         element?.let {
-            (tooltip as MutableList).add(element.abbreviation + " - " + element.meta)
+            (tooltip as MutableList).add("${element.abbreviation} - ${element.meta}")
         }
     }
 
@@ -54,7 +54,7 @@ class ItemElement(name: String) : ItemMetaBase(name) {
         var i = stack.itemDamage
         if (!ElementRegistry.keys().contains(i)) i = 1
         try {
-            return super.getTranslationKey() + "_" + ElementRegistry[i]!!.name.lowercase(Locale.getDefault())
+            return "${super.getTranslationKey()}_${ElementRegistry[i]!!.name.lowercase(Locale.getDefault())}"
         } catch (e: NullPointerException) {
             throw NullPointerException("Unable to find translation key for element #[$i]")
         }

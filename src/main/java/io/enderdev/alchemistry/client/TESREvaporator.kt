@@ -35,7 +35,7 @@ import org.lwjgl.opengl.GL11
 
     fun renderFluid(tess: Tessellator, fluid: Fluid, tile: TileEvaporator) {
         val buffer: BufferBuilder = tess.buffer
-        val sprite: TextureAtlasSprite = Minecraft.getMinecraft().textureMapBlocks.getAtlasSprite(fluid.getStill(tile.inputTank.fluid).toString())
+        val sprite: TextureAtlasSprite = Minecraft.getMinecraft().textureMapBlocks.getAtlasSprite("${fluid.getStill(tile.inputTank.fluid)}")
         val capacity: Double = tile.inputTank.capacity.toDouble()
         val amount: Double = tile.inputTank.fluidAmount.toDouble()
         buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR)

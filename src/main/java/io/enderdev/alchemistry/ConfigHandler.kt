@@ -11,7 +11,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
  * Created by al132 on 4/28/2017.
  */
 
-@Config(modid = Reference.MODID, name = Reference.MODID + "/" + Reference.MODID)
+@Config(modid = Reference.MODID, name = "${Reference.MODID}/${Reference.MODID}")
 object ConfigHandler {
 
     @JvmField

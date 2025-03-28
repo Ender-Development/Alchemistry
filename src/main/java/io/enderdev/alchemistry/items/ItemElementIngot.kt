@@ -17,7 +17,7 @@ class ItemElementIngot(name: String) : ItemMetaBase(name) {
                 .filter { it <= 118 && !invalidIngots.contains(it) }
                 .forEach {
                     ModelLoader.setCustomModelResourceLocation(this, it,
-                            ModelResourceLocation(registryName.toString(), "inventory"))
+                            ModelResourceLocation("$registryName", "inventory"))
                 }
     }
 

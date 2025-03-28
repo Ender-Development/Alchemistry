@@ -178,14 +178,14 @@ class AlchemistryPlugin : IModPlugin {
 }
 
 object AlchemistryRecipeUID {
-    const val COMBINER = Reference.MODID + ".combiner"
-    const val DISSOLVER = Reference.MODID + ".dissolver"
-    const val ELECTROLYZER = Reference.MODID + ".electrolyzer"
-    const val EVAPORATOR = Reference.MODID + ".evaporator"
-    const val ATOMIZER = Reference.MODID + ".atomizer"
-    const val LIQUIFIER = Reference.MODID + ".liquifier"
-    const val FISSION = Reference.MODID + ".fission"
-    const val FUSION = Reference.MODID + ".fusion"
+    const val COMBINER = "${Reference.MODID}.combiner"
+    const val DISSOLVER = "${Reference.MODID}.dissolver"
+    const val ELECTROLYZER = "${Reference.MODID}.electrolyzer"
+    const val EVAPORATOR = "${Reference.MODID}.evaporator"
+    const val ATOMIZER = "${Reference.MODID}.atomizer"
+    const val LIQUIFIER = "${Reference.MODID}.liquifier"
+    const val FISSION = "${Reference.MODID}.fission"
+    const val FUSION = "${Reference.MODID}.fusion"
 }
 
 abstract class AlchemistryRecipeWrapper<out R>(val recipe: R) : IRecipeWrapper

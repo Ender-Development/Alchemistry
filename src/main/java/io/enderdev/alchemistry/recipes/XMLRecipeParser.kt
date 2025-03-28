@@ -142,7 +142,7 @@ class XMLRecipeParser {
         (0 until 3).forEach { i ->
             val rowText = (rowsXML?.item(i)?.textContent ?: "").padEnd(3)
             for (c in rowText) {
-                inputs.add(ingredientMap[c.toString()] ?: ItemStack.EMPTY)
+                inputs.add(ingredientMap["$c"] ?: ItemStack.EMPTY)
             }
         }
         if (actionType != "remove") {

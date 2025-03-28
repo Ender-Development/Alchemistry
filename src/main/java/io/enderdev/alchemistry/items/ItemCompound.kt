@@ -62,7 +62,7 @@ class ItemCompound(name: String) : ItemMetaBase(name) {
         CompoundRegistry.keys().forEach {
             ModelLoader.setCustomModelResourceLocation(
                 this, it,
-                ModelResourceLocation(registryName.toString(), "inventory")
+                ModelResourceLocation("$registryName", "inventory")
             )
         }
     }
@@ -94,14 +94,15 @@ class ItemCompound(name: String) : ItemMetaBase(name) {
     override fun getTranslationKey(stack: ItemStack): String {
         var i = stack.itemDamage
         if (!CompoundRegistry.keys().contains(i)) i = 0
-        if (ConfigHandler.GENERAL.familyFriendlyMode
+        val key = "${super.getTranslationKey()}_${CompoundRegistry[i]!!.name}"
+        return if (ConfigHandler.GENERAL.familyFriendlyMode
             && (i == CompoundRegistry["cocaine"]!!.meta
                     || i == CompoundRegistry["psilocybin"]!!.meta
                     || i == CompoundRegistry["mescaline"]!!.meta)
-        ) {
-            return super.getTranslationKey() + "_" + CompoundRegistry[i]!!.name + "_family"
-        }
-        return super.getTranslationKey() + "_" + CompoundRegistry[i]!!.name
+        )
+            "${key}_family"
+        else
+            key
     }
 
     companion object {

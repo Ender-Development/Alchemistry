@@ -32,7 +32,7 @@ object RenderUtils {
 
 	fun getStillTexture(fluid: Fluid): TextureAtlasSprite? {
 		val iconKey = fluid.still ?: return null
-		return Minecraft.getMinecraft().textureMapBlocks.getTextureExtry(iconKey.toString())
+		return Minecraft.getMinecraft().textureMapBlocks.getTextureExtry("$iconKey")
 	}
 
 	fun renderGuiTank(tank: FluidTank, x: Double, y: Double, zLevel: Double, width: Double, height: Double) {

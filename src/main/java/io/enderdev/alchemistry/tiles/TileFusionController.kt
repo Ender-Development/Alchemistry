@@ -3,7 +3,7 @@ package io.enderdev.alchemistry.tiles
 import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.blocks.ModBlocks
 import io.enderdev.alchemistry.blocks.PropertyPowerStatus
-import io.enderdev.alchemistry.blocks.machine.FusionControllerBlock
+import io.enderdev.alchemistry.blocks.machine.ReactorControllerBlock
 import io.enderdev.alchemistry.chemistry.ChemicalElement
 import io.enderdev.alchemistry.chemistry.ElementRegistry
 import io.enderdev.alchemistry.items.ModItems
@@ -99,21 +99,21 @@ class TileFusionController : AbstractReactorController<FusionRecipe>(ReactorType
             !this.input[0].isEmpty && !this.input[1].isEmpty && energyStorage.energyStored >= energyPerTick
         val state = this.world.getBlockState(this.pos)
         if (state.block != ModBlocks.fusionController) return;
-        val currentStatus = state.getValue(FusionControllerBlock.Companion.STATUS)
+        val currentStatus = state.getValue(ReactorControllerBlock.Companion.STATUS)
         if (this.isMultiblockValid) {
             if (isActive) {
                 if (currentStatus != PropertyPowerStatus.ON) this.world.setBlockState(
                     this.pos,
-                    state.withProperty(FusionControllerBlock.Companion.STATUS, PropertyPowerStatus.ON)
+                    state.withProperty(ReactorControllerBlock.Companion.STATUS, PropertyPowerStatus.ON)
                 )
             } else if (currentStatus != PropertyPowerStatus.STANDBY) world.setBlockState(
                 pos,
-                state.withProperty(FusionControllerBlock.Companion.STATUS, PropertyPowerStatus.STANDBY)
+                state.withProperty(ReactorControllerBlock.Companion.STATUS, PropertyPowerStatus.STANDBY)
             )
             updateModifiers()
         } else if (currentStatus != PropertyPowerStatus.OFF) world.setBlockState(
             pos,
-            state.withProperty(FusionControllerBlock.Companion.STATUS, PropertyPowerStatus.OFF)
+            state.withProperty(ReactorControllerBlock.Companion.STATUS, PropertyPowerStatus.OFF)
         )
     }
 

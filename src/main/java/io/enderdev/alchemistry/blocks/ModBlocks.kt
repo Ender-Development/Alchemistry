@@ -1,6 +1,7 @@
 package io.enderdev.alchemistry.blocks
 
 import io.enderdev.alchemistry.BaseBlock
+import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.blocks.machine.*
 import io.enderdev.alchemistry.client.gui.GuiHandler
 import io.enderdev.alchemistry.tiles.*
@@ -13,15 +14,13 @@ import net.minecraftforge.fml.relauncher.SideOnly
 object ModBlocks {
     val blocks = ArrayList<BaseBlock>()
 
-    val electrolyzer =
-        ElectrolyzerBlock("electrolyzer", TileElectrolyzer::class.java, GuiHandler.Companion.ELECTROLYZER_ID)
+    val electrolyzer = ElectrolyzerBlock("electrolyzer", TileElectrolyzer::class.java, GuiHandler.Companion.ELECTROLYZER_ID)
     val chemical_dissolver = ChemicalDissolverBlock(
         "chemical_dissolver",
         TileChemicalDissolver::class.java,
         GuiHandler.Companion.CHEMICAL_DISSOLVER_ID
     )
-    val chemical_combiner =
-        ChemicalCombinerBlock(
+    val chemical_combiner = ChemicalCombinerBlock(
             "chemical_combiner",
             TileChemicalCombiner::class.java,
             GuiHandler.Companion.CHEMICAL_COMBINER_ID
@@ -33,21 +32,22 @@ object ModBlocks {
     val fissionCasing: BaseBlock = BaseBlock("fission_casing")
     val fissionGlass: BaseBlock = GlassBlock("fission_glass")
     val fissionCore: BaseBlock = CoreBlock("fission_core")
-    val fissionController = FissionControllerBlock(
+    val fissionController = ReactorControllerBlock(
         "fission_controller",
         TileFissionController::class.java,
-        GuiHandler.Companion.FISSION_CONTROLLER_ID
+        GuiHandler.Companion.FISSION_CONTROLLER_ID,
+        ConfigHandler.FISSION.energyPerTick
     )
 
     val fusionCasing: BaseBlock = BaseBlock("fusion_casing")
     val fusionGlass: BaseBlock = GlassBlock("fusion_glass")
     val fusionCore: BaseBlock = CoreBlock("fusion_core")
-    val fusionController =
-        FusionControllerBlock(
-            "fusion_controller",
-            TileFusionController::class.java,
-            GuiHandler.Companion.FUSION_CONTROLLER_ID
-        )
+    val fusionController = ReactorControllerBlock(
+        "fusion_controller",
+        TileFusionController::class.java,
+        GuiHandler.Companion.FUSION_CONTROLLER_ID,
+        ConfigHandler.FUSION.energyPerTick
+    )
 
     val neonLight = LightBlock("neon_light")//red-orange
     val heliumLight = LightBlock("helium_light") //red

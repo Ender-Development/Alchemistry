@@ -3,7 +3,7 @@ package io.enderdev.alchemistry.tiles
 import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.blocks.ModBlocks
 import io.enderdev.alchemistry.blocks.PropertyPowerStatus
-import io.enderdev.alchemistry.blocks.machine.FissionControllerBlock
+import io.enderdev.alchemistry.blocks.machine.ReactorControllerBlock
 import io.enderdev.alchemistry.chemistry.ElementRegistry
 import io.enderdev.alchemistry.items.ModItems
 import io.enderdev.alchemistry.recipes.FissionRecipe
@@ -115,20 +115,20 @@ class TileFissionController : AbstractReactorController<FissionRecipe>(ReactorTy
         }
         val state = this.world.getBlockState(this.pos)
         if (state.block != ModBlocks.fissionController) return;
-        val currentStatus = state.getValue(FissionControllerBlock.Companion.STATUS)
+        val currentStatus = state.getValue(ReactorControllerBlock.Companion.STATUS)
         if (this.isMultiblockValid) {
             if (isActive) {
                 if (currentStatus != PropertyPowerStatus.ON) this.world.setBlockState(this.pos, state.withProperty(
-                    FissionControllerBlock.Companion.STATUS,
+                    ReactorControllerBlock.Companion.STATUS,
                     PropertyPowerStatus.ON
                 ))
             } else if (currentStatus != PropertyPowerStatus.STANDBY) world.setBlockState(pos, state.withProperty(
-                FissionControllerBlock.Companion.STATUS,
+                ReactorControllerBlock.Companion.STATUS,
                 PropertyPowerStatus.STANDBY
             ))
             updateModifiers()
         } else if (currentStatus != PropertyPowerStatus.OFF) world.setBlockState(pos, state.withProperty(
-            FissionControllerBlock.Companion.STATUS,
+            ReactorControllerBlock.Companion.STATUS,
             PropertyPowerStatus.OFF
         ))
     }

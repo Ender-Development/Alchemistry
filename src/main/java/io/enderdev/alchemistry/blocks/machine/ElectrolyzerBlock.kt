@@ -7,16 +7,13 @@ import net.minecraft.block.properties.IProperty
 import net.minecraft.block.properties.PropertyDirection
 import net.minecraft.block.state.BlockStateContainer
 import net.minecraft.block.state.IBlockState
-import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityLivingBase
 import net.minecraft.item.Item
 import net.minecraft.tileentity.TileEntity
-import net.minecraft.util.EnumBlockRenderType
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.EnumHand
 import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
-import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 import net.minecraftforge.event.RegistryEvent
 
@@ -25,22 +22,13 @@ import net.minecraftforge.event.RegistryEvent
  * Created by al132 on 6/22/2017.
  */
 
-class ElectrolyzerBlock(name: String,
-                        tileClass: Class<out TileEntity>,
-                        guiID: Int)
-    : BaseMachineBlock(name, tileClass, guiID) {
-
-    val boundingBox = AxisAlignedBB(0.0, 0.0, 0.0, 1.0, 0.75, 1.0)
-
+class ElectrolyzerBlock(name: String, tileClass: Class<out TileEntity>, guiID: Int)
+    : ModelMachineBlock(name, tileClass, guiID, AxisAlignedBB(.0, .0, .0, 1.0, .75, 1.0)) {
     init {
         this.defaultState = this.blockState.baseState.withProperty(FACING, EnumFacing.NORTH)
-
     }
 
     override fun registerItemBlock(event: RegistryEvent.Register<Item>) {
-        println("ASNDJKASHDKASDHKASHDKAHSD")
-        println(registryName)
-        println("ASNDJKASHDKASDHKASHDKAHSD")
         event.registry.register(
             TooltipItemBlock(
                 this,
@@ -67,30 +55,6 @@ class ElectrolyzerBlock(name: String,
 
     override fun getMetaFromState(state: IBlockState): Int {
         return (state.getValue(FACING) as EnumFacing).index
-    }
-
-    @Deprecated("")
-    override fun getRenderType(state: IBlockState): EnumBlockRenderType = EnumBlockRenderType.MODEL
-
-    @Deprecated("")
-    override fun isOpaqueCube(state: IBlockState) = false
-
-    @Deprecated("")
-    override fun isFullCube(state: IBlockState) = false
-
-    @Deprecated("")
-    override fun getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB = boundingBox
-
-    @Deprecated("")
-    override fun addCollisionBoxToList(state: IBlockState,
-                                       worldIn: World,
-                                       pos: BlockPos,
-                                       entityBox: AxisAlignedBB,
-                                       collidingBoxes: List<AxisAlignedBB>,
-                                       entityIn: Entity?, mysteryboolean: Boolean) {
-
-        @Suppress("DEPRECATION")
-        addCollisionBoxToList(pos, entityBox, collidingBoxes, boundingBox)
     }
 
     companion object {

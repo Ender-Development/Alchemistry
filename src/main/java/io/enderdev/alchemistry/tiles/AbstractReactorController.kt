@@ -1,6 +1,6 @@
 package io.enderdev.alchemistry.tiles
 
-import io.enderdev.alchemistry.blocks.machine.FissionControllerBlock
+import io.enderdev.alchemistry.blocks.machine.ReactorControllerBlock
 import io.enderdev.alchemistry.client.BlockHighlighter
 import io.enderdev.alchemistry.recipes.IRecipe
 import io.enderdev.alchemistry.recipes.register.AbstractRecipeRegister
@@ -20,7 +20,7 @@ abstract class AbstractReactorController<T: IRecipe>(val reactorType: ReactorTyp
     var isMultiblockValid: Boolean = false
     var checkMultiblockTicks: Int = 0
 
-    fun getFacing() = this.world?.getBlockState(this.pos)?.getValue(FissionControllerBlock.Companion.FACING)
+    fun getFacing() = this.world?.getBlockState(this.pos)?.getValue(ReactorControllerBlock.Companion.FACING)
 
     fun updateMultiblock() {
         val highlight = !isMultiblockValid && world?.isRemote == true && shapeHandler.failPos != null && BlockHighlighter.pos == shapeHandler.failPos

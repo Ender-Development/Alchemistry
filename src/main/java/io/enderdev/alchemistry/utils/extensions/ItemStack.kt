@@ -15,7 +15,7 @@ fun ItemStack.canMergeWith(target: ItemStack, allowEmpty: Boolean): Boolean {
 	return item === target.item && count + target.count <= maxStackSize && itemDamage == target.itemDamage && tagCompound === target.tagCompound
 }
 
-fun ItemStack.toIngredient(quantity: Int = 1, meta: Int = 0): Ingredient = Ingredient.fromStacks(this)
+fun ItemStack.toIngredient(): Ingredient = Ingredient.fromStacks(this)
 
 fun ItemStack.equalsIgnoreMeta(other: ItemStack): Boolean {
 	return if(isEmpty && other.isEmpty) true

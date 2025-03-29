@@ -3,7 +3,6 @@ package io.enderdev.alchemistry.client.gui
 import io.enderdev.alchemistry.client.container.ContainerChemicalDissolver
 import io.enderdev.alchemistry.client.gui.wrappers.CapabilityEnergyDisplayWrapper
 import io.enderdev.alchemistry.tiles.TileChemicalDissolver
-import io.enderdev.alchemistry.utils.extensions.get
 import net.minecraft.entity.player.InventoryPlayer
 
 /**
@@ -18,15 +17,6 @@ class GuiChemicalDissolver(playerInv: InventoryPlayer, tile: TileChemicalDissolv
 
     override fun drawGuiContainerBackgroundLayer(partialTicks: Float, mouseX: Int, mouseY: Int) {
         super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY)
-        this.mc.textureManager.bindTexture(this.textureLocation)
-        val i = (this.width - this.xSize) / 2
-        val j = (this.height - this.ySize) / 2
-        if (tile.progressTicks > 0) {
-            val k = this.getBarScaled(32, tile.progressTicks, tile.recipeTime)
-            this.drawTexturedModalRect(i + 63, j + 43, 175, 0, k, 44)
-        }
-        if (tile.recipeTime == 0 && !tile.input[0].isEmpty) {
-            this.drawTexturedModalRect(i + 63, j + 43, 175, 0, 32, 44)
-        }
+        drawProgressBar(63, 43, 175, 0, 32, 44)
     }
 }

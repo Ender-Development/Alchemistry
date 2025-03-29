@@ -11,6 +11,7 @@ import io.enderdev.alchemistry.network.PacketHandler
 import io.enderdev.alchemistry.tiles.AbstractMachine
 import io.enderdev.alchemistry.tiles.tags.IGuiTile
 import io.enderdev.alchemistry.utils.RenderUtils
+import io.enderdev.alchemistry.utils.extensions.get
 import io.enderdev.alchemistry.utils.extensions.translate
 import net.minecraft.client.gui.GuiButton
 import net.minecraft.client.gui.inventory.GuiContainer
@@ -160,6 +161,18 @@ abstract class GuiBase<T>(container: Container, val tile: T, guiName: String) :
                 displayNameOffset,
                 Color.DARK_GRAY.rgb
             )
+        }
+    }
+
+    fun drawProgressBar(x: Int, y: Int, u: Int, v: Int, w: Int, h: Int) {
+        mc.textureManager.bindTexture(textureLocation)
+        val i = (width - xSize) shr 1
+        val j = (height - ySize) shr 1
+        if(tile.recipeTime == 0 && !tile.input[0].isEmpty) {
+            drawTexturedModalRect(x + i, y + j, u, v, w, h)
+        } else if(tile.progressTicks > 0) {
+            val k = getBarScaled(w, tile.progressTicks, tile.recipeTime)
+            drawTexturedModalRect(x + i, y + j, u, v, k, h)
         }
     }
 

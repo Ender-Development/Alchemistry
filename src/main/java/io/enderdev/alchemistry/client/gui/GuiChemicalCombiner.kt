@@ -1,6 +1,5 @@
 package io.enderdev.alchemistry.client.gui
 
-import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.client.button.LockButton
 import io.enderdev.alchemistry.client.container.ContainerChemicalCombiner
 import io.enderdev.alchemistry.client.gui.wrappers.CapabilityEnergyDisplayWrapper
@@ -63,13 +62,7 @@ class GuiChemicalCombiner(playerInv: InventoryPlayer, tile: TileChemicalCombiner
 
     override fun drawGuiContainerBackgroundLayer(partialTicks: Float, mouseX: Int, mouseY: Int) {
         super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY)
-        this.mc.textureManager.bindTexture(this.textureLocation)
-        val i = (this.width - this.xSize) / 2
-        val j = (this.height - this.ySize) / 2
-        if (tile.progressTicks > 0) {
-            val k = this.getBarScaled(27, tile.progressTicks, ConfigHandler.COMBINER.processingTicks)
-            this.drawTexturedModalRect(i + 102, j + 47, 175, 0, k, 36)
-        }
+        drawProgressBar(102, 47, 175, 0, 27, 36)
 
         if(!tile.clientRecipeTarget.getStackInSlot(0).isEmpty) {
             val output = tile.clientRecipeTarget[0]

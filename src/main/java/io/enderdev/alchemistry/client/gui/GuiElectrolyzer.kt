@@ -10,12 +10,12 @@ import net.minecraft.entity.player.InventoryPlayer
 /**
  * Created by al132 on 1/16/2017.
  */
-class GuiElectrolyzer(playerInv: InventoryPlayer, tile: TileElectrolyzer, override val displayNameOffset: Int = 51)
+class GuiElectrolyzer(playerInv: InventoryPlayer, tile: TileElectrolyzer)
     : GuiBase<TileElectrolyzer>(ContainerElectrolyzer(playerInv, tile), tile, "electrolyzer") {
 
     init {
-        this.displayData.add(CapabilityEnergyDisplayWrapper(8, 64, 16, 70, tile::energyStorage))
-        this.displayData.add(CapabilityFluidDisplayWrapper(44, 64, 16, 70, tile::inputTank))
+        this.displayData.add(CapabilityEnergyDisplayWrapper(8, 21, 16, 70, tile::energyStorage))
+        this.displayData.add(CapabilityFluidDisplayWrapper(44, 21, 16, 70, tile::inputTank))
     }
 
     override fun drawGuiContainerBackgroundLayer(partialTicks: Float, mouseX: Int, mouseY: Int) {

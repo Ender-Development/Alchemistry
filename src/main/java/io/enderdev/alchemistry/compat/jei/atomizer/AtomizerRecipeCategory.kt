@@ -14,7 +14,7 @@ class AtomizerRecipeCategory(guiHelper: IGuiHelper) : AlchemistryRecipeCategory<
     }
 
     override val u = 39
-    override val v = 59
+    override val v = 16
     override val width = 98
     override val height = 80
 
@@ -26,7 +26,7 @@ class AtomizerRecipeCategory(guiHelper: IGuiHelper) : AlchemistryRecipeCategory<
 
 
         var x = 115 - u
-        var y = 117 - v
+        var y = 74 - v
         guiItemStacks.init(OUTPUT_ONE, false, x, y)
         guiItemStacks.set(OUTPUT_ONE, ingredients.getOutputs(VanillaTypes.ITEM)[0])
 

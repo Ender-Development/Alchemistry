@@ -9,11 +9,11 @@ import net.minecraft.entity.player.InventoryPlayer
  * Created by al132 on 4/29/2017.
  */
 
-class GuiEvaporator(playerInv: InventoryPlayer, tile: TileEvaporator, override val displayNameOffset: Int = 51)
+class GuiEvaporator(playerInv: InventoryPlayer, tile: TileEvaporator)
     : GuiBase<TileEvaporator>(ContainerEvaporator(playerInv, tile),tile, "evaporator") {
 
     init {
-        this.displayData.add(CapabilityFluidDisplayWrapper(44, 64, 16, 70, tile::inputTank))
+        this.displayData.add(CapabilityFluidDisplayWrapper(44, 21, 16, 70, tile::inputTank))
     }
 
     override fun drawGuiContainerBackgroundLayer(partialTicks: Float, mouseX: Int, mouseY: Int) {

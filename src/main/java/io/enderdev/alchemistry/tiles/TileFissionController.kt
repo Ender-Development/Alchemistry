@@ -20,6 +20,8 @@ import kotlin.math.floor
  */
 class TileFissionController : AbstractReactorController<FissionRecipe>(ReactorType.FISSION, FissionRegister.Companion.INSTANCE),
     IEnergyTile by EnergyTileImpl(ConfigHandler.FISSION.energyCapacity) {
+    override val guiHeight: Int
+        get() = 222
 
     var recipeOutput1: ItemStack = ItemStack.EMPTY
     var recipeOutput2: ItemStack = ItemStack.EMPTY

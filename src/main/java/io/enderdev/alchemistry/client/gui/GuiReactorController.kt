@@ -16,7 +16,6 @@ abstract class GuiReactorController<T>(container: Container, tile: T, guiName: S
     val infoHeight = 102f
     val infoX = 12f
 
-    override val displayNameOffset: Int = 8
     val textProductivity: String
     val textSpeed: String
     val textEnergy: String

@@ -20,6 +20,8 @@ import net.minecraft.nbt.NBTTagCompound
  */
 class TileFusionController : AbstractReactorController<FusionRecipe>(ReactorType.FUSION, FusionRegister.Companion.INSTANCE),
     IEnergyTile by EnergyTileImpl(ConfigHandler.FUSION.energyCapacity) {
+    override val guiHeight: Int
+        get() = 222
 
     var recipeOutput: ItemStack = ItemStack.EMPTY
     var singleMode: Boolean = false

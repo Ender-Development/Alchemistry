@@ -10,12 +10,12 @@ import net.minecraft.entity.player.InventoryPlayer
 /**
  * Created by al132 on 1/16/2017.
  */
-class GuiLiquifier(playerInv: InventoryPlayer, tile: TileLiquifier, override val displayNameOffset: Int = 51) :
+class GuiLiquifier(playerInv: InventoryPlayer, tile: TileLiquifier) :
         GuiBase<TileLiquifier>(ContainerLiquifier(playerInv, tile), tile, "liquifier") {
 
     init {
-        this.displayData.add(CapabilityEnergyDisplayWrapper(8, 64, 16, 70, tile::energyStorage))
-        this.displayData.add(CapabilityFluidDisplayWrapper(116, 64, 16, 70, tile::outputTank))
+        this.displayData.add(CapabilityEnergyDisplayWrapper(8, 21, 16, 70, tile::energyStorage))
+        this.displayData.add(CapabilityFluidDisplayWrapper(116, 21, 16, 70, tile::outputTank))
     }
 
     override fun drawGuiContainerBackgroundLayer(partialTicks: Float, mouseX: Int, mouseY: Int) {

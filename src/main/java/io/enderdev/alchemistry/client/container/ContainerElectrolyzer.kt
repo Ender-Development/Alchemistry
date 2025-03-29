@@ -15,7 +15,7 @@ class ContainerElectrolyzer(playerInv: InventoryPlayer, tile: TileElectrolyzer) 
         if (tile.input.slots < 1) {
             tile.input = TileStackHandler(1, tile)
         }
-        addSlotToContainer(SlotItemHandler(tile.input, 0, 80, 82))
-        addSlotArray(x_start = 116, y_start = 100, rows = 2, columns = 2, handler = tile.output)
+        addSlotToContainer(SlotItemHandler(tile.input, 0, 80, 39))
+        addSlotArray(x_start = 116, y_start = 57, rows = 2, columns = 2, handler = tile.output)
     }
 }

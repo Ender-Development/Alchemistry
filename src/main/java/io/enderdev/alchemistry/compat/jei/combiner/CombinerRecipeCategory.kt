@@ -14,7 +14,7 @@ class CombinerRecipeCategory(guiHelper: IGuiHelper) : AlchemistryRecipeCategory<
     }
 
     override val u = 39
-    override val v = 77
+    override val v = 34
     override val width = 116
     override val height = 62
 
@@ -24,7 +24,7 @@ class CombinerRecipeCategory(guiHelper: IGuiHelper) : AlchemistryRecipeCategory<
         val guiItemStacks = recipeLayout.itemStacks
         val startX = 43 - u
         var x = startX
-        var y = 81 - v
+        var y = 38 - v
         var index = 0
         for (i in 0 until 3) {
             for (j in 0 until 3) {
@@ -42,7 +42,7 @@ class CombinerRecipeCategory(guiHelper: IGuiHelper) : AlchemistryRecipeCategory<
         }
 
         x = 133 - u
-        y = 99 - v
+        y = 56 - v
 
         guiItemStacks.init(OUTPUT_SLOT, false, x, y)
         //guiItemStacks.set(OUTPUT_SLOT, ingredients.getOutputs(ItemStack::class.java)[0])

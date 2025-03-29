@@ -7,12 +7,10 @@ import net.minecraftforge.items.SlotItemHandler
 /**
  * Created by al132 on 1/16/2017.
  */
-class ContainerAtomizer(playerInv: InventoryPlayer,
-                        tile: TileAtomizer
-) :
+class ContainerAtomizer(playerInv: InventoryPlayer, tile: TileAtomizer) :
         ContainerBase<TileAtomizer>(playerInv, tile) {
 
     override fun addOwnSlots() {
-        this.addSlotToContainer(SlotItemHandler(tile.output,0,116,118))
+        this.addSlotToContainer(SlotItemHandler(tile.output, 0, 116, 75))
     }
 }

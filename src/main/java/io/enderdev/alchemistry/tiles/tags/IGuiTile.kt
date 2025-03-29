@@ -1,9 +1,9 @@
 package io.enderdev.alchemistry.tiles.tags
 
 interface IGuiTile {
-	val guiHeight
-		get() = 222
+	val guiHeight: Int
+		get() = 179
 
-	val guiWidth
-		get() = 174
+	val guiWidth: Int
+		get() = 175
 }

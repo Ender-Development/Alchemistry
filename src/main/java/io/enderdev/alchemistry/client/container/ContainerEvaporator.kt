@@ -11,6 +11,6 @@ class ContainerEvaporator(playerInv: InventoryPlayer, tile: TileEvaporator) :
         ContainerBase<TileEvaporator>(playerInv, tile) {
 
     override fun addOwnSlots() {
-        this.addSlotToContainer(SlotItemHandler(tile.output,0,116,118))
+        this.addSlotToContainer(SlotItemHandler(tile.output, 0, 116, 75))
     }
 }

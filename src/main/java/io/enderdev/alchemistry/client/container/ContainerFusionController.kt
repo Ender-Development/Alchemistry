@@ -8,14 +8,12 @@ import net.minecraftforge.items.SlotItemHandler
 /**
  * Created by al132 on 1/16/2017.
  */
-class ContainerFusionController(playerInv: InventoryPlayer,
-                                tile: TileFusionController
-) :
+class ContainerFusionController(playerInv: InventoryPlayer, tile: TileFusionController) :
         ContainerBase<TileFusionController>(playerInv, tile) {
 
     override fun addOwnSlots() {
-        this.addSlotToContainer(FusionSlotHandler(tile, tile.input, 0, 44, 75))
-        this.addSlotToContainer(FusionSlotHandler(tile, tile.input, 1, 44 + 18, 75))
-        this.addSlotToContainer(SlotItemHandler(tile.output, 0, 134, 75))
+        this.addSlotToContainer(FusionSlotHandler(tile, tile.input, 0, 44, 32))
+        this.addSlotToContainer(FusionSlotHandler(tile, tile.input, 1, 44 + 18, 32))
+        this.addSlotToContainer(SlotItemHandler(tile.output, 0, 134, 32))
     }
 }

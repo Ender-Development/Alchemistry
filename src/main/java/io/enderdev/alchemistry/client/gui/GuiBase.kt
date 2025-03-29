@@ -31,7 +31,7 @@ abstract class GuiBase<T>(container: Container, val tile: T, guiName: String) :
     open var powerBarY = 0
     open val powerBarTexture = ResourceLocation(Reference.MODID, "textures/gui/container/template_redox.png")
 
-    abstract val displayNameOffset: Int
+    open val displayNameOffset = 8
     open val displayName = "tile.$guiName.name".translate()
 
     lateinit var pauseButton: PauseButton

@@ -10,12 +10,12 @@ import net.minecraft.entity.player.InventoryPlayer
 /**
  * Created by al132 on 1/16/2017.
  */
-class GuiAtomizer(playerInv: InventoryPlayer, tile: TileAtomizer, override val displayNameOffset: Int = 51) :
+class GuiAtomizer(playerInv: InventoryPlayer, tile: TileAtomizer) :
     GuiBase<TileAtomizer>(ContainerAtomizer(playerInv, tile), tile, "atomizer") {
 
     init {
-        this.displayData.add(CapabilityEnergyDisplayWrapper(8, 64, 16, 70, tile::energyStorage))
-        this.displayData.add(CapabilityFluidDisplayWrapper(44, 64, 16, 70, tile::inputTank))
+        this.displayData.add(CapabilityEnergyDisplayWrapper(8, 21, 16, 70, tile::energyStorage))
+        this.displayData.add(CapabilityFluidDisplayWrapper(44, 21, 16, 70, tile::inputTank))
     }
 
     override fun drawGuiContainerBackgroundLayer(partialTicks: Float, mouseX: Int, mouseY: Int) {
@@ -25,7 +25,7 @@ class GuiAtomizer(playerInv: InventoryPlayer, tile: TileAtomizer, override val d
         val j = (this.height - this.ySize) / 2
         if (tile.progressTicks > 0) {
             val k = this.getBarScaled(36, tile.progressTicks, ConfigHandler.ATOMIZER.processingTicks)
-            this.drawTexturedModalRect(i + 70, j + 118, 175, 0, k, 16)
+            this.drawTexturedModalRect(i + 70, j + 75, 175, 0, k, 16)
         }
     }
 }

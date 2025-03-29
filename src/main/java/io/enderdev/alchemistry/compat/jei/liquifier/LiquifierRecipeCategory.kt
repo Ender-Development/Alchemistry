@@ -14,7 +14,7 @@ class LiquifierRecipeCategory(guiHelper: IGuiHelper) : AlchemistryRecipeCategory
     }
 
     override val u = 39
-    override val v = 59
+    override val v = 16
     override val width = 98
     override val height = 80
 
@@ -26,12 +26,12 @@ class LiquifierRecipeCategory(guiHelper: IGuiHelper) : AlchemistryRecipeCategory
 
 
         var x = 43 - u
-        var y = 117 - v
+        var y = 74 - v
         guiItemStacks.init(INPUT_ONE, true, x, y)
         guiItemStacks.set(INPUT_ONE, ingredients.getInputs(VanillaTypes.ITEM)[0])
 
         x = 116 - u
-        y = 64 - v
+        y = 21 - v
         val outputFluidStack = ingredients.getOutputs(VanillaTypes.FLUID)[0][0]
         guiFluidStacks.init(FLUID_ONE, true, x, y, 16, 70, outputFluidStack.amount, false, null)
         guiFluidStacks.set(FLUID_ONE, outputFluidStack)

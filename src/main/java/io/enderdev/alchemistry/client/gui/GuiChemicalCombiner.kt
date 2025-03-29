@@ -18,16 +18,13 @@ import net.minecraft.item.ItemStack
 /**
  * Created by al132 on 1/16/2017.
  */
-class GuiChemicalCombiner(
-    playerInv: InventoryPlayer, tile: TileChemicalCombiner, override val displayNameOffset: Int = 51
-) : GuiBase<TileChemicalCombiner>(
-    ContainerChemicalCombiner(playerInv, tile), tile, "chemical_combiner"
-) {
+class GuiChemicalCombiner(playerInv: InventoryPlayer, tile: TileChemicalCombiner)
+    : GuiBase<TileChemicalCombiner>(ContainerChemicalCombiner(playerInv, tile), tile, "chemical_combiner") {
 
     lateinit var toggleRecipeLock: LockButton
 
     init {
-        this.displayData.add(CapabilityEnergyDisplayWrapper(8, 64, 16, 70, tile::energyStorage))
+        this.displayData.add(CapabilityEnergyDisplayWrapper(8, 21, 16, 70, tile::energyStorage))
     }
 
     override fun actionPerformed(guibutton: GuiButton) {

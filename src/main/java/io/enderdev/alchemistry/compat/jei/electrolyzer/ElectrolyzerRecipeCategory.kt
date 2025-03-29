@@ -19,7 +19,7 @@ class ElectrolyzerRecipeCategory(guiHelper: IGuiHelper) : AlchemistryRecipeCateg
     }
 
     override val u = 39
-    override val v = 59
+    override val v = 16
     override val width = 116
     override val height = 80
 
@@ -31,12 +31,12 @@ class ElectrolyzerRecipeCategory(guiHelper: IGuiHelper) : AlchemistryRecipeCateg
 
 
         var x = 79 - u
-        var y = 81 - v
+        var y = 38 - v
         guiItemStacks.init(INPUT_ONE, true, x, y)
         guiItemStacks.set(INPUT_ONE, recipeWrapper.recipe.electrolytes)
 
         x = 115 - u
-        y = 99 - v
+        y = 56 - v
         guiItemStacks.init(OUTPUT_ONE, false, x, y)
         x += 18
         guiItemStacks.init(OUTPUT_THREE, false, x, y)

@@ -21,7 +21,7 @@ class ReactorShapeHandler(val controller: AbstractReactorController<*>) {
     val coreBlock: Block
     val compactEnabled: Boolean
 
-    var failReason: () -> Pair<String, String>? = { null }
+    var failReason: () -> List<String>? = { null }
         private set
     var failPos: BlockPos? = null
         private set
@@ -67,7 +67,7 @@ class ReactorShapeHandler(val controller: AbstractReactorController<*>) {
             val other = touchesOtherReactorPart()
             if (other != null) {
                 failReason = {
-                    "tile.reactor.non_compact_touching".translate() to "tile.reactor.non_compact_touching_line2".translate()
+                    listOf("tile.reactor.non_compact_touching".translate(), "tile.reactor.non_compact_touching_line2".translate())
                 }
                 failPos = other
                 failRed = true
@@ -318,8 +318,8 @@ class ReactorShapeHandler(val controller: AbstractReactorController<*>) {
             return true
 
         failReason = {
-            "tile.reactor.structure_incomplete".translate(expected.localizedName) to
-                    "tile.reactor.structure_incomplete_coordinates".translate(pos.x, pos.y, pos.z)
+            listOf("tile.reactor.structure_incomplete".translate(expected.localizedName),
+                    "tile.reactor.structure_incomplete_coordinates".translate(pos.x, pos.y, pos.z))
         }
         failPos = pos
         failRed = red

@@ -60,21 +60,18 @@ abstract class GuiReactorController<T>(container: Container, tile: T, guiName: S
                 false
             )
         } else {
-            val (text, coords) = tile.shapeHandler.failReason()!!
-            fontRenderer.drawString(
-                text,
-                (xSize - fontRenderer.getStringWidth(text)) / 2f,
-                infoHeight,
-                Color(170, 0, 0).rgb,
-                false
-            )
-            fontRenderer.drawString(
-                coords,
-                (xSize - fontRenderer.getStringWidth(coords)) / 2f,
-                infoHeight + 10,
-                Color(170, 0, 0).rgb,
-                false
-            )
+            val reason = tile.shapeHandler.failReason()
+            if(reason == null || reason.isEmpty())
+                return
+            reason.forEachIndexed { idx, line ->
+                fontRenderer.drawString(
+                    line,
+                    (xSize - fontRenderer.getStringWidth(line)) / 2f,
+                    infoHeight + 10 * idx,
+                    Color(170, 0, 0).rgb,
+                    false
+                )
+            }
             if(tile.shapeHandler.failPos != null)
                 tile.shapeHandler.highlightIncorrect()
         }

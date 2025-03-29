@@ -23,10 +23,10 @@ class GuiChemicalDissolver(playerInv: InventoryPlayer, tile: TileChemicalDissolv
         val j = (this.height - this.ySize) / 2
         if (tile.progressTicks > 0) {
             val k = this.getBarScaled(32, tile.progressTicks, tile.recipeTime)
-            this.drawTexturedModalRect(i + 63, j + 86, 175, 0, k, 44)
+            this.drawTexturedModalRect(i + 63, j + 43, 175, 0, k, 44)
         }
         if (tile.recipeTime == 0 && !tile.input[0].isEmpty) {
-            this.drawTexturedModalRect(i + 63, j + 86, 175, 0, 32, 44)
+            this.drawTexturedModalRect(i + 63, j + 43, 175, 0, 32, 44)
         }
     }
 }

@@ -25,7 +25,7 @@ class GuiElectrolyzer(playerInv: InventoryPlayer, tile: TileElectrolyzer)
         val j = (this.height - this.ySize) / 2
         if (tile.progressTicks > 0) {
             val k = this.getBarScaled(36, tile.progressTicks, ConfigHandler.ELECTROLYZER.processingTicks)
-            this.drawTexturedModalRect(i + 70, j+99, 175, 0, k, 36)
+            this.drawTexturedModalRect(i + 70, j + 56, 175, 0, k, 36)
         }
     }
 }

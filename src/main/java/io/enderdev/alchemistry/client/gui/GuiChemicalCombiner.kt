@@ -68,7 +68,7 @@ class GuiChemicalCombiner(playerInv: InventoryPlayer, tile: TileChemicalCombiner
         val j = (this.height - this.ySize) / 2
         if (tile.progressTicks > 0) {
             val k = this.getBarScaled(27, tile.progressTicks, ConfigHandler.COMBINER.processingTicks)
-            this.drawTexturedModalRect(i + 102, j + 90, 175, 0, k, 36)
+            this.drawTexturedModalRect(i + 102, j + 47, 175, 0, k, 36)
         }
 
         if(!tile.clientRecipeTarget.getStackInSlot(0).isEmpty) {

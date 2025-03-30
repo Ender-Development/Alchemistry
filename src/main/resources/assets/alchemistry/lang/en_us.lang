@@ -315,7 +315,7 @@ item.alchemistry:compound_psilocybin_family.name=Psyllium
 item.alchemistry:compound_mescaline_family.name=Mesquite
 
 generic_potion_compound.tooltip=Has an effect when consumed
-spiked_food.tooltip=Spiked with
+spiked_food.tooltip=§bSpiked with %s§r
 
 element_ingot.name=Ingot
 
@@ -358,11 +358,12 @@ tile.reactor.non_compact_touching=Reactors cannot be touching
 tile.reactor.non_compact_touching_line2=if compact mode is disabled
 
 jei.electrolyzer.electrolyte=Electrolyte
-jei.electrolyzer.consumption_probability=Consumption Probability
+jei.electrolyzer.consumption_probability=Consumption Probability: %d%%
+jei.combiner.gamestage=Gamestage: %s
 jei.dissolver.relative=Relative
 jei.dissolver.absolute=Absolute
-jei.dissolver.type=Type
-jei.dissolver.rolls=Rolls
+jei.dissolver.type=Type: %s
+jei.dissolver.rolls=Rolls: %d
 
 guide.alchemistry.title=Alchemistry Guidebook
 guide.alchemistry.landing=Welcome to the Alchemistry Guidebook. This book will introduce you to some of the basics of the mod :)

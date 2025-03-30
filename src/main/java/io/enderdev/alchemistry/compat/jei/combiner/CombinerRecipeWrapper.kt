@@ -2,6 +2,7 @@ package io.enderdev.alchemistry.compat.jei.combiner
 
 import io.enderdev.alchemistry.compat.jei.AlchemistryRecipeWrapper
 import io.enderdev.alchemistry.recipes.CombinerRecipe
+import io.enderdev.alchemistry.utils.extensions.translate
 import mezz.jei.api.ingredients.IIngredients
 import mezz.jei.api.ingredients.VanillaTypes
 import net.darkhax.gamestages.GameStageHelper
@@ -16,7 +17,7 @@ class CombinerRecipeWrapper(recipe: CombinerRecipe) : AlchemistryRecipeWrapper<C
         val stage = recipe.gamestage
         if (Loader.isModLoaded("gamestages") && stage.isNotEmpty()) {
             val color = if (GameStageHelper.hasStage(minecraft.player, recipe.gamestage)) Color(0, 153, 51) else Color.RED
-            minecraft.fontRenderer?.drawString("Gamestage: $stage", 2, y, color.rgb)
+            minecraft.fontRenderer?.drawString("jei.combiner.gamestage".translate(stage), 2, y, color.rgb)
         }
     }
 

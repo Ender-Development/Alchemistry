@@ -32,8 +32,8 @@ class DissolverRecipeWrapper(recipe: DissolverRecipe) : AlchemistryRecipeWrapper
 
         val probabilityType = "jei.dissolver.${if (recipe.outputs.relativeProbability) "relative" else "absolute"}".translate()
 
-        fontRenderer.drawString("${"jei.dissolver.type".translate()}: $probabilityType", 0, 4, Color.BLACK.rgb)
-        fontRenderer.drawString("${"jei.dissolver.rolls".translate()}: ${recipe.outputs.rolls}", 0, 16, Color.BLACK.rgb)
+        fontRenderer.drawString("jei.dissolver.type".translate(probabilityType), 0, 4, Color.BLACK.rgb)
+        fontRenderer.drawString("jei.dissolver.rolls".translate(recipe.outputs.rolls), 0, 16, Color.BLACK.rgb)
     }
 
     override fun getIngredients(ingredients: IIngredients) {

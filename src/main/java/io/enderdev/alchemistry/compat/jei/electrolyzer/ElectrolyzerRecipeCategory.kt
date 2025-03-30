@@ -61,7 +61,7 @@ class ElectrolyzerRecipeCategory(guiHelper: IGuiHelper) : AlchemistryRecipeCateg
         guiItemStacks.addTooltipCallback { slotIndex, input, ingredient, tooltip ->
             if(input) {
                 tooltip.add("jei.electrolyzer.electrolyte".translate())
-                tooltip.add("${"jei.electrolyzer.consumption_probability".translate()}: ${recipeWrapper.recipe.electrolyteConsumptionChance}%")
+                tooltip.add("jei.electrolyzer.consumption_probability".translate(recipeWrapper.recipe.electrolyteConsumptionChance))
             }
         }
     }

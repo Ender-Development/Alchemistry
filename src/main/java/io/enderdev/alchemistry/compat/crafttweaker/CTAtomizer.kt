@@ -1,20 +1,21 @@
 package io.enderdev.alchemistry.compat.crafttweaker
 
-import io.enderdev.alchemistry.Alchemistry
-import io.enderdev.alchemistry.recipes.AtomizerRecipe
-import io.enderdev.alchemistry.recipes.register.AtomizerRegister
 import crafttweaker.IAction
 import crafttweaker.annotations.ModOnly
 import crafttweaker.annotations.ZenRegister
 import crafttweaker.api.item.IItemStack
 import crafttweaker.api.liquid.ILiquidStack
+import io.enderdev.alchemistry.Alchemistry
+import io.enderdev.alchemistry.Reference
+import io.enderdev.alchemistry.recipes.AtomizerRecipe
+import io.enderdev.alchemistry.recipes.register.AtomizerRegister
 import net.minecraft.item.ItemStack
 import net.minecraftforge.fluids.FluidStack
 import stanhebben.zenscript.annotations.ZenClass
 import stanhebben.zenscript.annotations.ZenMethod
 
-@ZenClass("mods.alchemistry.Atomizer")
-@ModOnly("alchemistry")
+@ZenClass("mods.${Reference.MODID}.Atomizer")
+@ModOnly(Reference.MODID)
 @ZenRegister
 object CTAtomizer {
 

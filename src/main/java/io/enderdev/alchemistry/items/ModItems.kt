@@ -1,5 +1,6 @@
 package io.enderdev.alchemistry.items
 
+import io.enderdev.alchemistry.Reference
 import io.enderdev.alchemistry.utils.extensions.translate
 import net.minecraft.client.Minecraft
 import net.minecraft.client.util.ITooltipFlag
@@ -18,7 +19,7 @@ object ModItems {
     var fertilizer = ItemFertilizer()
     var obsidianBreaker = object : ItemBase("obsidian_breaker") {
         override fun addInformation(stack: ItemStack, worldIn: World?, tooltip: MutableList<String>, flagIn: ITooltipFlag) {
-            tooltip.add("item.alchemistry:obsidian_breaker.tooltip".translate())
+            tooltip.add("item.${Reference.MODID}:obsidian_breaker.tooltip".translate())
         }
     }
 

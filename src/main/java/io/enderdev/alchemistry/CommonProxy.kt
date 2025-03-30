@@ -35,7 +35,7 @@ open class CommonProxy {
         stage = LoadingStage.PRE_INIT
         Alchemistry.logger = e.modLog
         Reference.configPath = e.suggestedConfigurationFile.parent
-        Reference.configDir = File(e.modConfigurationDirectory, "alchemistry")
+        Reference.configDir = File(e.modConfigurationDirectory, Reference.MODID)
         if (!Reference.configDir.exists()) Reference.configDir.mkdir()
         val exampleFile = File(Reference.configDir, "custom.xml")
         if (!exampleFile.exists()) {
@@ -56,7 +56,7 @@ open class CommonProxy {
         }
         PacketHandler.registerMessages(Reference.MODID)
 
-        if (Loader.isModLoaded("crafttweaker")) CraftTweakerAPI.tweaker.loadScript(false, "alchemistry")
+        if (Loader.isModLoaded("crafttweaker")) CraftTweakerAPI.tweaker.loadScript(false, Reference.MODID)
     }
 
     open fun init(e: FMLInitializationEvent) {

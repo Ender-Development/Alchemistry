@@ -1,22 +1,23 @@
 package io.enderdev.alchemistry.compat.crafttweaker
 
-import io.enderdev.alchemistry.chemistry.CompoundPair
-import io.enderdev.alchemistry.chemistry.CompoundRegistry
-import io.enderdev.alchemistry.chemistry.ElementRegistry
 import crafttweaker.CraftTweakerAPI
 import crafttweaker.IAction
 import crafttweaker.annotations.ModOnly
 import crafttweaker.annotations.ZenRegister
 import crafttweaker.api.item.IItemStack
 import crafttweaker.mc1120.item.MCItemStack
+import io.enderdev.alchemistry.Reference
+import io.enderdev.alchemistry.chemistry.CompoundPair
+import io.enderdev.alchemistry.chemistry.CompoundRegistry
+import io.enderdev.alchemistry.chemistry.ElementRegistry
 import net.minecraft.item.ItemStack
 import stanhebben.zenscript.annotations.ZenClass
 import stanhebben.zenscript.annotations.ZenMethod
 import java.awt.Color
 import java.util.*
 
-@ZenClass("mods.alchemistry.Util")
-@ModOnly("alchemistry")
+@ZenClass("mods.${Reference.MODID}.Util")
+@ModOnly(Reference.MODID)
 @ZenRegister
 object CTUtil {
 

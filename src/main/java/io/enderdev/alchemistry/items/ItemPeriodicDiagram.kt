@@ -1,5 +1,6 @@
 package io.enderdev.alchemistry.items
 
+import io.enderdev.alchemistry.Reference
 import io.enderdev.alchemistry.client.gui.GuiPeriodicTable
 import io.enderdev.alchemistry.utils.extensions.translate
 import net.minecraft.client.Minecraft
@@ -26,6 +27,6 @@ class ItemPeriodicDiagram : ItemBase("periodic_table") {
 
     @SideOnly(Side.CLIENT)
     override fun addInformation(stack: ItemStack, playerIn: World?, tooltip: List<String>, advanced: ITooltipFlag) {
-        (tooltip as MutableList).add("item.alchemistry:periodic_table.tooltip".translate())
+        (tooltip as MutableList).add("item.${Reference.MODID}:periodic_table.tooltip".translate())
     }
 }

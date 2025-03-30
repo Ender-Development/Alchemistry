@@ -7,6 +7,7 @@ import crafttweaker.api.item.IIngredient
 import crafttweaker.api.item.IItemStack
 import crafttweaker.api.oredict.IOreDictEntry
 import io.enderdev.alchemistry.Alchemistry
+import io.enderdev.alchemistry.Reference
 import io.enderdev.alchemistry.recipes.DissolverRecipe
 import io.enderdev.alchemistry.recipes.ProbabilityGroup
 import io.enderdev.alchemistry.recipes.ProbabilitySet
@@ -20,8 +21,8 @@ import net.minecraftforge.oredict.OreDictionary
 import stanhebben.zenscript.annotations.ZenClass
 import stanhebben.zenscript.annotations.ZenMethod
 
-@ZenClass("mods.alchemistry.Dissolver")
-@ModOnly("alchemistry")
+@ZenClass("mods.${Reference.MODID}.Dissolver")
+@ModOnly(Reference.MODID)
 @ZenRegister
 object CTChemicalDissolver {
 

@@ -1,21 +1,22 @@
 package io.enderdev.alchemistry.compat.crafttweaker
 
-import io.enderdev.alchemistry.Alchemistry
-import io.enderdev.alchemistry.recipes.ElectrolyzerRecipe
-import io.enderdev.alchemistry.recipes.register.ElectrolyzerRegister
 import crafttweaker.IAction
 import crafttweaker.annotations.ModOnly
 import crafttweaker.annotations.ZenRegister
 import crafttweaker.api.item.IItemStack
 import crafttweaker.api.liquid.ILiquidStack
+import io.enderdev.alchemistry.Alchemistry
+import io.enderdev.alchemistry.Reference
+import io.enderdev.alchemistry.recipes.ElectrolyzerRecipe
+import io.enderdev.alchemistry.recipes.register.ElectrolyzerRegister
 import net.minecraft.item.ItemStack
 import net.minecraft.item.crafting.Ingredient
 import net.minecraftforge.fluids.FluidStack
 import stanhebben.zenscript.annotations.ZenClass
 import stanhebben.zenscript.annotations.ZenMethod
 
-@ZenClass("mods.alchemistry.Electrolyzer")
-@ModOnly("alchemistry")
+@ZenClass("mods.${Reference.MODID}.Electrolyzer")
+@ModOnly(Reference.MODID)
 @ZenRegister
 object CTElectrolyzer {
 

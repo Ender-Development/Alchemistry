@@ -5,14 +5,15 @@ import crafttweaker.annotations.ModOnly
 import crafttweaker.annotations.ZenRegister
 import crafttweaker.api.item.IItemStack
 import io.enderdev.alchemistry.Alchemistry
+import io.enderdev.alchemistry.Reference
 import io.enderdev.alchemistry.recipes.CombinerRecipe
 import io.enderdev.alchemistry.recipes.register.CombinerRegister
 import net.minecraft.item.ItemStack
 import stanhebben.zenscript.annotations.ZenClass
 import stanhebben.zenscript.annotations.ZenMethod
 
-@ZenClass("mods.alchemistry.Combiner")
-@ModOnly("alchemistry")
+@ZenClass("mods.${Reference.MODID}.Combiner")
+@ModOnly(Reference.MODID)
 @ZenRegister
 object CTChemicalCombiner {
 

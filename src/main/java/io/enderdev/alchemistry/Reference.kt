@@ -17,7 +17,7 @@ object Reference {
     lateinit var configPath: String
     lateinit var configDir: File
 
-    val creativeTab: CreativeTabs = object : CreativeTabs("alchemistry") {
+    val creativeTab: CreativeTabs = object : CreativeTabs(MODID) {
         override fun createIcon(): ItemStack = ItemStack(ModBlocks.chemical_combiner, 1)
     }
 }

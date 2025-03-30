@@ -16,7 +16,7 @@ object ConfigHandler {
 
     @JvmField
     @Config.Name("General")
-    @Config.LangKey("config.alchemistry.general")
+    @Config.LangKey("config.${Reference.MODID}.general")
     val GENERAL = General()
 
     class General {
@@ -35,7 +35,7 @@ object ConfigHandler {
 
     @JvmField
     @Config.Name("Fission Reactor")
-    @Config.LangKey("config.alchemistry.fission")
+    @Config.LangKey("config.${Reference.MODID}.fission")
     val FISSION = Fission()
 
     class Fission {
@@ -82,7 +82,7 @@ object ConfigHandler {
 
     @JvmField
     @Config.Name("Fusion Reactor")
-    @Config.LangKey("config.alchemistry.fusion")
+    @Config.LangKey("config.${Reference.MODID}.fusion")
     val FUSION = Fusion()
 
     class Fusion {
@@ -129,7 +129,7 @@ object ConfigHandler {
 
     @JvmField
     @Config.Name("Combiner")
-    @Config.LangKey("config.alchemistry.combiner")
+    @Config.LangKey("config.${Reference.MODID}.combiner")
     val COMBINER = Combiner()
 
     class Combiner {
@@ -157,7 +157,7 @@ object ConfigHandler {
 
     @JvmField
     @Config.Name("Dissolver")
-    @Config.LangKey("config.alchemistry.dissolver")
+    @Config.LangKey("config.${Reference.MODID}.dissolver")
     val DISSOLVER = Dissolver()
 
     class Dissolver {
@@ -192,7 +192,7 @@ object ConfigHandler {
 
     @JvmField
     @Config.Name("Electrolyzer")
-    @Config.LangKey("config.alchemistry.electrolyzer")
+    @Config.LangKey("config.${Reference.MODID}.electrolyzer")
     val ELECTROLYZER = Electrolyzer()
 
     class Electrolyzer {
@@ -220,7 +220,7 @@ object ConfigHandler {
 
     @JvmField
     @Config.Name("Evaporator")
-    @Config.LangKey("config.alchemistry.evaporator")
+    @Config.LangKey("config.${Reference.MODID}.evaporator")
     val EVAPORATOR = Evaporator()
 
     class Evaporator {
@@ -234,7 +234,7 @@ object ConfigHandler {
 
     @JvmField
     @Config.Name("Atomizer")
-    @Config.LangKey("config.alchemistry.atomizer")
+    @Config.LangKey("config.${Reference.MODID}.atomizer")
     val ATOMIZER = Atomizer()
 
     class Atomizer {
@@ -262,7 +262,7 @@ object ConfigHandler {
 
     @JvmField
     @Config.Name("Liquifier")
-    @Config.LangKey("config.alchemistry.liquifier")
+    @Config.LangKey("config.${Reference.MODID}.liquifier")
     val LIQUIFIER = Liquifier()
 
     class Liquifier {

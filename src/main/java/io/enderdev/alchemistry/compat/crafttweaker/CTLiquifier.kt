@@ -1,20 +1,21 @@
 package io.enderdev.alchemistry.compat.crafttweaker
 
-import io.enderdev.alchemistry.Alchemistry
-import io.enderdev.alchemistry.recipes.LiquifierRecipe
-import io.enderdev.alchemistry.recipes.register.LiquifierRegister
 import crafttweaker.IAction
 import crafttweaker.annotations.ModOnly
 import crafttweaker.annotations.ZenRegister
 import crafttweaker.api.item.IItemStack
 import crafttweaker.api.liquid.ILiquidStack
+import io.enderdev.alchemistry.Alchemistry
+import io.enderdev.alchemistry.Reference
+import io.enderdev.alchemistry.recipes.LiquifierRecipe
+import io.enderdev.alchemistry.recipes.register.LiquifierRegister
 import net.minecraft.item.ItemStack
 import net.minecraftforge.fluids.FluidStack
 import stanhebben.zenscript.annotations.ZenClass
 import stanhebben.zenscript.annotations.ZenMethod
 
 @ZenClass("mods.alchemistry.Liquifier")
-@ModOnly("alchemistry")
+@ModOnly(Reference.MODID)
 @ZenRegister
 object CTLiquifier {
 

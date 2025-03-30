@@ -1,5 +1,6 @@
 package io.enderdev.alchemistry
 
+import crafttweaker.CraftTweakerAPI
 import io.enderdev.alchemistry.capability.AlchemistryDrugInfo
 import io.enderdev.alchemistry.chemistry.CompoundRegistry
 import io.enderdev.alchemistry.chemistry.ElementRegistry
@@ -7,7 +8,6 @@ import io.enderdev.alchemistry.client.gui.GuiHandler
 import io.enderdev.alchemistry.network.PacketHandler
 import io.enderdev.alchemistry.recipes.ModRecipes
 import io.enderdev.alchemistry.recipes.XMLRecipeParser
-import crafttweaker.CraftTweakerAPI
 import net.minecraft.nbt.NBTBase
 import net.minecraft.util.EnumFacing
 import net.minecraftforge.common.MinecraftForge
@@ -46,7 +46,6 @@ open class CommonProxy {
             }
         }
         registerCapabilities()
-        SoundHandler.init()
         if (ElementRegistry.getAllElements().isEmpty()) {
             Alchemistry.logger.info("ElementRegistry isn't initialized yet, initializing")
             ElementRegistry.init()

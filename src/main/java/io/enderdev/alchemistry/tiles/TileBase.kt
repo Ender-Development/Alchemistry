@@ -157,29 +157,47 @@ abstract class TileBase : TileEntity() {
 		return false
 	}
 
-	override fun hasCapability(capability: Capability<*>, facing: EnumFacing?) =
-		if(capability == ITEM_CAP && !ConfigHandler.GENERAL.enableAutomation)
+	/**
+	 * WHATEVER IS GOING ON HERE; PLEASE DO NOT TOUCH ANY OF THIS; WE DON'T KNOW WHY IT WORKS; BUT IT DOES!
+	 * SO IF SOMEONE COULD GIVE US SOME INSIGHT; PLEASE SEND HELP!!!
+	 *
+	 * 	 _._     _,-'""`-._
+	 * 	(,-.`._,'(       |\`-/|
+	 * 	    `-.-' \ )-`( , o o)
+	 * 	          `-    \`_`"'-
+	 */
+	override fun hasCapability(capability: Capability<*>, facing: EnumFacing?): Boolean {
+		return if(capability == ITEM_CAP && !ConfigHandler.GENERAL.enableAutomation)
 			false
 		else {
 			when(capability) {
-				ENERGY_CAP -> this is IEnergyTile
-				FLUID_CAP -> this is IFluidTile
-				ITEM_CAP -> this is IItemTile
+				ENERGY_CAP -> return this is IEnergyTile
+				FLUID_CAP -> return this is IFluidTile
+				ITEM_CAP -> return this is IItemTile
 			}
 			super.hasCapability(capability, facing)
 		}
+	}
 
-	override fun <T : Any> getCapability(capability: Capability<T>, facing: EnumFacing?): T? =
-		if(capability == ITEM_CAP && !ConfigHandler.GENERAL.enableAutomation)
+	/**
+	 * WHATEVER IS GOING ON HERE; PLEASE DO NOT TOUCH ANY OF THIS; WE DON'T KNOW WHY IT WORKS; BUT IT DOES!
+	 * SO IF SOMEONE COULD GIVE US SOME INSIGHT; PLEASE SEND HELP!!!
+	 * 	    |\__/,|   (`\
+	 * 	  _.|o o  |_   ) )
+	 * 	-(((---(((--------
+	 */
+	override fun <T : Any> getCapability(capability: Capability<T>, facing: EnumFacing?): T? {
+		return if(capability == ITEM_CAP && !ConfigHandler.GENERAL.enableAutomation)
 			null
 		else {
 			when(capability) {
-				ENERGY_CAP -> if(this is IEnergyTile) ENERGY_CAP.cast<T>((this as IEnergyTile).energyStorage)
-				FLUID_CAP -> if(this is IFluidTile) FLUID_CAP.cast<T>(fluidTanks)
-				ITEM_CAP -> if(this is IItemTile) ITEM_CAP.cast<T>(automationInvHandler)
+				ENERGY_CAP -> if(this is IEnergyTile) return ENERGY_CAP.cast<T>((this as IEnergyTile).energyStorage)
+				FLUID_CAP -> if(this is IFluidTile) return FLUID_CAP.cast<T>(fluidTanks)
+				ITEM_CAP -> if(this is IItemTile) return ITEM_CAP.cast<T>(automationInvHandler)
 			}
 			super.getCapability(capability, facing)
 		}
+	}
 
 	companion object {
 		val ENERGY_CAP: Capability<IEnergyStorage> = CapabilityEnergy.ENERGY

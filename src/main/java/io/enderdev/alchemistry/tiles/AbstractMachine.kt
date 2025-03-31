@@ -47,6 +47,10 @@ abstract class AbstractMachine<T : IRecipe>(recipeRegister: AbstractRecipeRegist
 	 */
 	abstract fun shouldProcess(): Boolean
 
+	/**
+	 * Called every tick when the machine is idle.
+	 * Used for updating the recipe, etc.
+	 */
 	open fun onIdleTick() = updateRecipe()
 
 	override fun update() {

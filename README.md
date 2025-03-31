@@ -66,6 +66,8 @@ If you want to help us, you can find potential tasks in the [issue tracker](http
 Of course, you can also create new issues if you find a bug or have a suggestion for a new feature.
 Should you have any questions, feel free to ask us on [Discord](https://discord.gg/JF7x2vG).
 
+An enormous thank you to [rozbrajaczpoziomow](https://github.com/rozbrajaczpoziomow) for helping us with the project. Without you, this project would not be possible. <3
+
 ## Partnership with Akliz
 
 > It's a pleasure to be partnered with Akliz. Besides being a fantastic server provider, which makes it incredibly easy to set up a server of your choice, they help me to push myself and the quality of my projects to the next level. Furthermore, you can click on the banner below to get a discount. :')

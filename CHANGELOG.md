@@ -1,9 +1,13 @@
 # Changelog
 
-## [1.3.0] - idk
-- removed AlchemyLib dependency
+## [1.3.0] - internal refactor
+- removed AlchemyLib dependency so we no longer need to fork it
 - shrink down the final mod jar by about 3MB
 - removed useless sound effects (yes, this does cause a warning upon loading into an older world)
+- refactored GUI textures and removed useless white space
+- removed the internal xml recipe system, use CraftTweaker or GroovyScript instead
+- moved the config file back to the main config folder (please delete the old one folder)
+- updated internal dependencies to the latest versions
 
 ## [1.2.1] - bugfixes
 - fixed weird dissolver behavior, when outputting items

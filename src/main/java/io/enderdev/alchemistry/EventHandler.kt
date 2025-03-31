@@ -62,7 +62,7 @@ class EventHandler {
     fun onEntityConstructing(event: AttachCapabilitiesEvent<Entity>) {
         if (event.getObject() is EntityPlayer) {
             if (!event.getObject().hasCapability(CapabilityDrugInfo.DRUG_INFO, null)) {
-                event.addCapability(ResourceLocation(Reference.MODID, "DrugInfo"), AlchemistryDrugDispatcher())
+                event.addCapability(ResourceLocation(Tags.MOD_ID, "DrugInfo"), AlchemistryDrugDispatcher())
             }
         }
     }

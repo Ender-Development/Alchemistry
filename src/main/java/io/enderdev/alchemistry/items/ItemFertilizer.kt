@@ -1,6 +1,6 @@
 package io.enderdev.alchemistry.items
 
-import io.enderdev.alchemistry.Reference
+import io.enderdev.alchemistry.Tags
 import io.enderdev.alchemistry.utils.extensions.translate
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.player.EntityPlayer
@@ -37,6 +37,6 @@ class ItemFertilizer : ItemBase("Fertilizer") {
 
     @SideOnly(Side.CLIENT)
     override fun addInformation(stack: ItemStack, playerIn: World?, tooltip: List<String>, advanced: ITooltipFlag) {
-        (tooltip as MutableList).add("item.${Reference.MODID}:fertilizer.tooltip".translate())
+        (tooltip as MutableList).add("item.${Tags.MOD_ID}:fertilizer.tooltip".translate())
     }
 }

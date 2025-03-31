@@ -4,7 +4,6 @@ import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.blocks.ModBlocks
 import io.enderdev.alchemistry.blocks.PropertyPowerStatus
 import io.enderdev.alchemistry.blocks.machine.ReactorControllerBlock
-import io.enderdev.alchemistry.chemistry.ChemicalElement
 import io.enderdev.alchemistry.chemistry.ElementRegistry
 import io.enderdev.alchemistry.items.ModItems
 import io.enderdev.alchemistry.recipes.FusionRecipe
@@ -24,7 +23,7 @@ class TileFusionController : AbstractReactorController<FusionRecipe>(ReactorType
         get() = 222
 
     var recipeOutput: ItemStack = ItemStack.EMPTY
-    var singleMode: Boolean = false
+    var singleMode = false
 
     override val energyPerTick: Int
         get() = getModifiedEnergyCost(ConfigHandler.FUSION.energyPerTick)
@@ -39,31 +38,27 @@ class TileFusionController : AbstractReactorController<FusionRecipe>(ReactorType
 
     override fun initInventoryInputCapability() {
         input = object : TileStackHandler(inputSlots, this) {
-            override fun insertItem(slot: Int, stack: ItemStack, simulate: Boolean): ItemStack {
-                if (singleMode) {
-                    return if (this.getStackInSlot(slot).isEmpty) super.insertItem(slot, stack, simulate)
+            override fun insertItem(slot: Int, stack: ItemStack, simulate: Boolean) =
+                if(singleMode) {
+                    if(getStackInSlot(slot).isEmpty) super.insertItem(slot, stack, simulate)
                     else stack
-                }
-                return if (stack.item == ModItems.elements)
+                } else if(stack.item == ModItems.elements)
                     super.insertItem(slot, stack, simulate)
                 else stack
-            }
         }
     }
 
     override fun updateRecipe() {
-        val meta1 = this.input[0].metadata
-        val meta2 = this.input[1].metadata
+        val meta1 = input[0].metadata
+        val meta2 = input[1].metadata
         recipeRegister.firstOrNull { it.inputMeta1 == meta1 && it.inputMeta2 == meta2 }?.let { currentRecipe = it }
-        val outputElement: ChemicalElement? = ElementRegistry[meta1 + meta2]
-        if (outputElement != null) recipeOutput = outputElement.toItemStack(1)
-        else recipeOutput = ItemStack.EMPTY
+        recipeOutput = ElementRegistry[meta1 + meta2]?.toItemStack(1) ?: ItemStack.EMPTY
     }
 
     override fun onProcessComplete() {
         var stacksize = recipeOutput.count
-        val staticMultiplier = productivityModifier.toInt()
-        val randomMultiplier = if (productivityModifier - staticMultiplier > Math.random()) 1 else 0
+        val staticMultiplier = currentModifier.productivity.toInt()
+        val randomMultiplier = if (currentModifier.productivity - staticMultiplier > world.rand.nextDouble()) 1 else 0
         if (staticMultiplier != 0 || randomMultiplier != 0) {
             stacksize *= staticMultiplier + randomMultiplier
         }
@@ -76,13 +71,13 @@ class TileFusionController : AbstractReactorController<FusionRecipe>(ReactorType
     }
 
     override fun onWorkTick() {
-        this.energyStorage.extractEnergy(energyPerTick, false)
+        energyStorage.extractEnergy(energyPerTick, false)
     }
 
     override fun shouldTick() = true
 
     override fun shouldProcess() =
-        this.isMultiblockValid
+        isMultiblockValid
                 && !input[0].isEmpty
                 && !input[1].isEmpty
                 && !recipeOutput.isEmpty
@@ -98,14 +93,14 @@ class TileFusionController : AbstractReactorController<FusionRecipe>(ReactorType
             checkMultiblockTicks = 0
         }
         val isActive =
-            !this.input[0].isEmpty && !this.input[1].isEmpty && energyStorage.energyStored >= energyPerTick
-        val state = this.world.getBlockState(this.pos)
+            !input[0].isEmpty && !input[1].isEmpty && energyStorage.energyStored >= energyPerTick
+        val state = world.getBlockState(pos)
         if (state.block != ModBlocks.fusionController) return;
         val currentStatus = state.getValue(ReactorControllerBlock.Companion.STATUS)
-        if (this.isMultiblockValid) {
+        if (isMultiblockValid) {
             if (isActive) {
-                if (currentStatus != PropertyPowerStatus.ON) this.world.setBlockState(
-                    this.pos,
+                if (currentStatus != PropertyPowerStatus.ON) world.setBlockState(
+                    pos,
                     state.withProperty(ReactorControllerBlock.Companion.STATUS, PropertyPowerStatus.ON)
                 )
             } else if (currentStatus != PropertyPowerStatus.STANDBY) world.setBlockState(
@@ -126,7 +121,7 @@ class TileFusionController : AbstractReactorController<FusionRecipe>(ReactorType
     }
 
     override fun readFromNBT(compound: NBTTagCompound) {
-        this.singleMode = compound.getBoolean("singleMode")
+        singleMode = compound.getBoolean("singleMode")
         super.readFromNBT(compound)
     }
 }

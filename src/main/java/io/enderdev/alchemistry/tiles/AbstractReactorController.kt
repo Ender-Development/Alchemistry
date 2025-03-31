@@ -13,14 +13,12 @@ import net.minecraftforge.fluids.FluidRegistry
 
 abstract class AbstractReactorController<T: IRecipe>(val reactorType: ReactorType, recipeRegister: AbstractRecipeRegister<T>) : AbstractMachine<T>(recipeRegister), IEnergyTile {
     val shapeHandler = ReactorShapeHandler(this)
-    var fluidModifiers = mutableMapOf<Fluid, List<Double>>() //List<Productivity, Speed, Energy>
-    var productivityModifier: Double = .0
-    var speedModifier: Double = .0
-    var energyModifier: Double = .0
-    var isMultiblockValid: Boolean = false
-    var checkMultiblockTicks: Int = 0
+    var fluidModifiers = mutableMapOf<Fluid, Modifier>()
+    var currentModifier = Modifier(.0, .0, .0)
+    var isMultiblockValid = false
+    var checkMultiblockTicks = 0
 
-    fun getFacing() = this.world?.getBlockState(this.pos)?.getValue(ReactorControllerBlock.Companion.FACING)
+    fun getFacing() = world?.getBlockState(pos)?.getValue(ReactorControllerBlock.Companion.FACING)
 
     fun updateMultiblock() {
         val highlight = !isMultiblockValid && world?.isRemote == true && shapeHandler.failPos != null && BlockHighlighter.pos == shapeHandler.failPos
@@ -31,20 +29,17 @@ abstract class AbstractReactorController<T: IRecipe>(val reactorType: ReactorTyp
             shapeHandler.highlightIncorrect()
     }
 
-    fun validateMultiblock(): Boolean = shapeHandler.validate()
+    fun validateMultiblock() = shapeHandler.validate()
 
     fun updateModifiers() {
         val fluids = shapeHandler.countFluid()
-        productivityModifier = .0
-        speedModifier = .0
-        energyModifier = .0
+        currentModifier.zero()
         fluids.map { (fluid: Fluid, cnt: Int) ->
-            val modifiers = fluidModifiers[fluid]
-            if(modifiers == null)
-                return@map
-            productivityModifier += modifiers[0] * cnt
-            speedModifier += modifiers[1] * cnt
-            energyModifier += modifiers[2] * cnt
+            fluidModifiers[fluid]?.let { (productivity, speed, energy) ->
+                currentModifier.productivity += productivity * cnt
+                currentModifier.speed += speed * cnt
+                currentModifier.energy += energy * cnt
+            }
         }
     }
 
@@ -58,39 +53,45 @@ abstract class AbstractReactorController<T: IRecipe>(val reactorType: ReactorTyp
             val productivity = split[1].toDouble()
             val speed = split[2].toDouble()
             val energy = split[3].toDouble()
-            fluidModifiers[fluid] = listOfNotNull(productivity, speed, energy)
+            fluidModifiers[fluid] = Modifier(productivity, speed, energy)
         }
     }
 
-    fun getModifiedProcessTime(default: Int) = (default * (1 - speedModifier)).toInt()
+    fun getModifiedProcessTime(default: Int) = (default * (1 - currentModifier.speed)).toInt()
 
-    fun getModifiedEnergyCost(default: Int) = (default * (1 + energyModifier)).toInt()
+    fun getModifiedEnergyCost(default: Int) = (default * (1 + currentModifier.energy)).toInt()
 
-    override fun hasCapability(capability: Capability<*>, facing: EnumFacing?): Boolean {
-        return if(isMultiblockValid) super.hasCapability(capability, facing)
-        else false
-    }
+    override fun hasCapability(capability: Capability<*>, facing: EnumFacing?) =
+        if(isMultiblockValid) super.hasCapability(capability, facing) else false
 
-    override fun <T : Any> getCapability(capability: Capability<T>, facing: EnumFacing?): T? {
-        return if(isMultiblockValid) super.getCapability(capability, facing)
-        else null
-    }
+    override fun <T : Any> getCapability(capability: Capability<T>, facing: EnumFacing?) =
+        if(isMultiblockValid) super.getCapability(capability, facing) else null
 
     override fun writeToNBT(compound: NBTTagCompound): NBTTagCompound {
         super.writeToNBT(compound)
         compound.setInteger("ProgressTicks", progressTicks)
-        compound.setDouble("speedModifier", speedModifier)
-        compound.setDouble("productivityModifier", productivityModifier)
-        compound.setDouble("energyModifier", energyModifier)
+        compound.setDouble("productivityModifier", currentModifier.productivity)
+        compound.setDouble("speedModifier", currentModifier.speed)
+        compound.setDouble("energyModifier", currentModifier.energy)
         return compound
     }
 
     override fun readFromNBT(compound: NBTTagCompound) {
         super.readFromNBT(compound)
-        this.progressTicks = compound.getInteger("ProgressTicks")
-        this.speedModifier = compound.getDouble("speedModifier")
-        this.productivityModifier = compound.getDouble("productivityModifier")
-        this.energyModifier = compound.getDouble("energyModifier")
-        this.updateMultiblock()
+        progressTicks = compound.getInteger("ProgressTicks")
+        currentModifier = Modifier(
+            compound.getDouble("productivityModifier"),
+            compound.getDouble("speedModifier"),
+            compound.getDouble("energyModifier")
+        )
+        updateMultiblock()
+    }
+
+    data class Modifier(var productivity: Double, var speed: Double, var energy: Double) {
+        fun zero() {
+            productivity = .0
+            speed = .0
+            energy = .0
+        }
     }
 }

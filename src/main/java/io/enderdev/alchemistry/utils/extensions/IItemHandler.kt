@@ -6,8 +6,8 @@ import net.minecraftforge.items.IItemHandler
 operator fun IItemHandler.get(idx: Int) = getStackInSlot(idx)
 
 fun IItemHandler.tryInsertInto(otherHandler: IItemHandler): Boolean {
-	for (i in 0 until otherHandler.slots) {
-		for (j in 0 until this.slots) {
+	for (i in 0..<otherHandler.slots) {
+		for (j in 0..<slots) {
 			if (!this.getStackInSlot(j).isEmpty) {
 				val stackSize = this.getStackInSlot(j).count
 				if (otherHandler.insertItem(i, this.extractItem(j, stackSize, true), true).isEmpty) {
@@ -21,7 +21,7 @@ fun IItemHandler.tryInsertInto(otherHandler: IItemHandler): Boolean {
 }
 
 fun IItemHandler.toStackList(): List<ItemStack> {
-	return (0 until slots).map {
+	return (0..<slots).map {
 		val stack = this[it]
 		if(stack.isEmpty) ItemStack.EMPTY else stack
 	}

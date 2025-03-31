@@ -1,6 +1,6 @@
 package io.enderdev.alchemistry.items
 
-import io.enderdev.alchemistry.Reference
+import io.enderdev.alchemistry.Tags
 import io.enderdev.alchemistry.utils.extensions.translate
 import net.minecraft.client.Minecraft
 import net.minecraft.client.util.ITooltipFlag
@@ -19,7 +19,7 @@ object ModItems {
     var fertilizer = ItemFertilizer()
     var obsidianBreaker = object : ItemBase("obsidian_breaker") {
         override fun addInformation(stack: ItemStack, worldIn: World?, tooltip: MutableList<String>, flagIn: ITooltipFlag) {
-            tooltip.add("item.${Reference.MODID}:obsidian_breaker.tooltip".translate())
+            tooltip.add("item.${Tags.MOD_ID}:obsidian_breaker.tooltip".translate())
         }
     }
 
@@ -35,11 +35,6 @@ object ModItems {
     fun registerModels() = items.forEach { it.registerModel() }
 
     @SideOnly(Side.CLIENT)
-    fun initColors() {
-        val colorHandler = ItemColorHandler()
-        val itemColors = Minecraft.getMinecraft().itemColors
-        itemColors.registerItemColorHandler(colorHandler, compounds)
-        itemColors.registerItemColorHandler(colorHandler, ingots)
-        itemColors.registerItemColorHandler(colorHandler, elements)
-    }
+    fun initColors() =
+        Minecraft.getMinecraft().itemColors.registerItemColorHandler(ItemColorHandler(), compounds, ingots, elements)
 }

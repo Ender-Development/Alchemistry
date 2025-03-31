@@ -29,21 +29,20 @@ class TileChemicalDissolver : AbstractMachine<DissolverRecipe>(DissolverRegister
         get() = ConfigHandler.DISSOLVER.processingTicks
 
     init {
-        this.initInventoryCapability(1, 12)
+        initInventoryCapability(1, 12)
     }
 
     override fun initInventoryInputCapability() {
         input = object : TileStackHandler(inputSlots, this) {
-            override fun insertItem(slot: Int, stack: ItemStack, simulate: Boolean): ItemStack {
-                return if(!this.getStackInSlot(slot).isEmpty) super.insertItem(slot, stack, simulate)
-                else if (DissolverRecipe.Companion.match(stack, false) != null) super.insertItem(slot, stack, simulate)
+            override fun insertItem(slot: Int, stack: ItemStack, simulate: Boolean) =
+                if(!getStackInSlot(slot).isEmpty || DissolverRecipe.Companion.match(stack, false) != null)
+                    super.insertItem(slot, stack, simulate)
                 else stack
-            }
         }
     }
 
-    override fun updateRecipe(){
-        this.currentRecipe = DissolverRecipe.Companion.match(input[0], true)
+    override fun updateRecipe() {
+        currentRecipe = DissolverRecipe.Companion.match(input[0], true)
     }
 
     fun tryOutput() {
@@ -56,7 +55,7 @@ class TileChemicalDissolver : AbstractMachine<DissolverRecipe>(DissolverRegister
             outputSuccessful = false
         }
         //Try to stack output with existing stacks in output, if possible
-        for (i in 0 until output.slots) {
+        for (i in 0..<output.slots) {
             if (outputThisTick.canMergeWith(output[i], false)) {
                 output.setOrIncrement(i, outputThisTick)
                 outputSuccessful = true
@@ -65,7 +64,7 @@ class TileChemicalDissolver : AbstractMachine<DissolverRecipe>(DissolverRegister
         }
         //Otherwise try the empty stacks
         if (!outputSuccessful) {
-            for (i in 0 until output.slots) {
+            for (i in 0..<output.slots) {
                 if (outputThisTick.canMergeWith(output[i], true)) {
                     output.setOrIncrement(i, outputThisTick)
                     outputSuccessful = true
@@ -74,9 +73,8 @@ class TileChemicalDissolver : AbstractMachine<DissolverRecipe>(DissolverRegister
             }
         }
         //consume single stack if successful, won't be designated as such until there's a "hit" above
-        if (outputSuccessful) {
+        if (outputSuccessful)
             outputThisTick = ItemStack.EMPTY
-        }
     }
 
     override fun onProcessComplete() {
@@ -95,31 +93,26 @@ class TileChemicalDissolver : AbstractMachine<DissolverRecipe>(DissolverRegister
     }
 
     override fun onWorkTick() {
-        this.energyStorage.extractEnergy(energyPerTick, false)
+        energyStorage.extractEnergy(energyPerTick, false)
     }
 
-    override fun shouldTick(): Boolean {
-        return !input[0].isEmpty || outputBuffer.isNotEmpty()
-    }
+    override fun shouldTick() = !input[0].isEmpty || outputBuffer.isNotEmpty()
 
-    override fun shouldProcess(): Boolean {
-        return energyStorage.energyStored >= energyPerTick
-                && (currentRecipe != null || !outputBuffer.isEmpty())
-    }
+    override fun shouldProcess() =
+        energyStorage.energyStored >= energyPerTick && (currentRecipe != null || !outputBuffer.isEmpty())
 
     override fun readFromNBT(compound: NBTTagCompound) {
         super.readFromNBT(compound)
-        this.outputSuccessful = compound.getBoolean("OutputSuccessful")
+        outputSuccessful = compound.getBoolean("OutputSuccessful")
 
         val outputBufferList = compound.getTagList("OutputBuffer", Constants.NBT.TAG_COMPOUND)
-        for (i in 0 until outputBufferList.tagCount()) {
+        for (i in 0..<outputBufferList.tagCount())
             outputBuffer.add(ItemStack(outputBufferList.getCompoundTagAt(i)))
-        }
     }
 
     override fun writeToNBT(compound: NBTTagCompound): NBTTagCompound {
         super.writeToNBT(compound)
-        compound.setBoolean("OutputSuccessful", this.outputSuccessful)
+        compound.setBoolean("OutputSuccessful", outputSuccessful)
 
         val outputBufferList = NBTTagList()
         for (i in outputBuffer.indices) {

@@ -14,6 +14,7 @@ import net.minecraftforge.fluids.Fluid
 class ReactorShapeHandler(val controller: AbstractReactorController<*>) {
 
     var multiblockDirection: EnumFacing? = controller.getFacing()
+        private set
 
     val casingBlock: Block
     val glassBlock: Block

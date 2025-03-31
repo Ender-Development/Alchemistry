@@ -1,6 +1,7 @@
-package io.enderdev.alchemistry
+package io.enderdev.alchemistry.blocks
 
-import io.enderdev.alchemistry.blocks.ModBlocks
+import io.enderdev.alchemistry.Alchemistry
+import io.enderdev.alchemistry.Tags
 import net.minecraft.block.Block
 import net.minecraft.block.material.Material
 import net.minecraft.client.renderer.block.model.ModelResourceLocation
@@ -16,9 +17,9 @@ open class BaseBlock(name: String, material: Material = Material.ROCK) : Block(m
 	init {
 		ModBlocks.blocks.add(this)
 		translationKey = name
-		registryName = ResourceLocation(Reference.MODID, name)
+		registryName = ResourceLocation(Tags.MOD_ID, name)
 		blockHardness = 3f
-		creativeTab = Reference.creativeTab
+		creativeTab = Alchemistry.creativeTab
 	}
 
 	open fun registerBlock(event: RegistryEvent.Register<Block>) {

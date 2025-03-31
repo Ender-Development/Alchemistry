@@ -37,20 +37,11 @@ class ElectrolyzerRecipeCategory(guiHelper: IGuiHelper) : AlchemistryRecipeCateg
 
         x = 115 - u
         y = 56 - v
-        guiItemStacks.init(OUTPUT_ONE, false, x, y)
-        x += 18
-        guiItemStacks.init(OUTPUT_THREE, false, x, y)
-        x -= 18
-        y += 18
-        guiItemStacks.init(OUTPUT_TWO, false, x, y)
-        x += 18
-        guiItemStacks.init(OUTPUT_FOUR, false, x, y)
-
-        guiItemStacks.set(OUTPUT_ONE, ingredients.getOutputs(VanillaTypes.ITEM)[0])
-        guiItemStacks.set(OUTPUT_TWO, ingredients.getOutputs(VanillaTypes.ITEM)[1])
-        guiItemStacks.set(OUTPUT_THREE, ingredients.getOutputs(VanillaTypes.ITEM)[2])
-        guiItemStacks.set(OUTPUT_FOUR, ingredients.getOutputs(VanillaTypes.ITEM)[3])
-
+        listOf(OUTPUT_ONE, OUTPUT_TWO, OUTPUT_THREE, OUTPUT_FOUR).forEachIndexed { index, num ->
+            // creates a 2x2 grid
+            guiItemStacks.init(num, false, x + 18 * (index and 1), y + 18 * (index shr 1))
+            guiItemStacks.set(num, ingredients.getOutputs(VanillaTypes.ITEM)[index])
+        }
 
         x = 44 - u
         y = 44 - u

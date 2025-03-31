@@ -1,7 +1,6 @@
 package io.enderdev.alchemistry.compat.jei
 
-
-import io.enderdev.alchemistry.Reference
+import io.enderdev.alchemistry.Tags
 import io.enderdev.alchemistry.blocks.ModBlocks
 import io.enderdev.alchemistry.client.container.*
 import io.enderdev.alchemistry.client.gui.*
@@ -33,7 +32,6 @@ import mezz.jei.api.recipe.IRecipeCategoryRegistration
 import mezz.jei.api.recipe.IRecipeWrapper
 import mezz.jei.api.recipe.transfer.IRecipeTransferRegistry
 import net.minecraft.util.ResourceLocation
-
 
 @JEIPlugin
 class AlchemistryPlugin : IModPlugin {
@@ -178,14 +176,14 @@ class AlchemistryPlugin : IModPlugin {
 }
 
 object AlchemistryRecipeUID {
-    const val COMBINER = "${Reference.MODID}.combiner"
-    const val DISSOLVER = "${Reference.MODID}.dissolver"
-    const val ELECTROLYZER = "${Reference.MODID}.electrolyzer"
-    const val EVAPORATOR = "${Reference.MODID}.evaporator"
-    const val ATOMIZER = "${Reference.MODID}.atomizer"
-    const val LIQUIFIER = "${Reference.MODID}.liquifier"
-    const val FISSION = "${Reference.MODID}.fission"
-    const val FUSION = "${Reference.MODID}.fusion"
+    const val COMBINER = "${Tags.MOD_ID}.combiner"
+    const val DISSOLVER = "${Tags.MOD_ID}.dissolver"
+    const val ELECTROLYZER = "${Tags.MOD_ID}.electrolyzer"
+    const val EVAPORATOR = "${Tags.MOD_ID}.evaporator"
+    const val ATOMIZER = "${Tags.MOD_ID}.atomizer"
+    const val LIQUIFIER = "${Tags.MOD_ID}.liquifier"
+    const val FISSION = "${Tags.MOD_ID}.fission"
+    const val FUSION = "${Tags.MOD_ID}.fusion"
 }
 
 abstract class AlchemistryRecipeWrapper<out R>(val recipe: R) : IRecipeWrapper
@@ -193,7 +191,7 @@ abstract class AlchemistryRecipeWrapper<out R>(val recipe: R) : IRecipeWrapper
 abstract class AlchemistryRecipeCategory<T : IRecipeWrapper>(val guiHelper: IGuiHelper, guiName: String) : IRecipeCategory<T> {
     val localizedName: String = "jei.$guiName.name".translate()
 
-    open val guiTexture = ResourceLocation(Reference.MODID, "textures/gui/container/${guiName}_gui_redox.png")
+    open val guiTexture = ResourceLocation(Tags.MOD_ID, "textures/gui/container/${guiName}_gui_redox.png")
     abstract val u: Int
     abstract val v: Int
     abstract val width: Int
@@ -202,7 +200,7 @@ abstract class AlchemistryRecipeCategory<T : IRecipeWrapper>(val guiHelper: IGui
 
     override fun getTitle() = localizedName
 
-    override fun getModName() = Reference.MODID
+    override fun getModName() = Tags.MOD_ID
 
     override fun getBackground(): IDrawableStatic {
         backgroundDrawable = backgroundDrawable ?: guiHelper.createDrawable(guiTexture, u, v, width, height)

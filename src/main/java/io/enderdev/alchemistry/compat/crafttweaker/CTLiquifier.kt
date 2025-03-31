@@ -6,7 +6,7 @@ import crafttweaker.annotations.ZenRegister
 import crafttweaker.api.item.IItemStack
 import crafttweaker.api.liquid.ILiquidStack
 import io.enderdev.alchemistry.Alchemistry
-import io.enderdev.alchemistry.Reference
+import io.enderdev.alchemistry.Tags
 import io.enderdev.alchemistry.recipes.LiquifierRecipe
 import io.enderdev.alchemistry.recipes.register.LiquifierRegister
 import net.minecraft.item.ItemStack
@@ -15,7 +15,7 @@ import stanhebben.zenscript.annotations.ZenClass
 import stanhebben.zenscript.annotations.ZenMethod
 
 @ZenClass("mods.alchemistry.Liquifier")
-@ModOnly(Reference.MODID)
+@ModOnly(Tags.MOD_ID)
 @ZenRegister
 object CTLiquifier {
 

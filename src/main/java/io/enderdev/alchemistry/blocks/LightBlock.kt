@@ -1,6 +1,6 @@
 package io.enderdev.alchemistry.blocks
 
-import io.enderdev.alchemistry.BaseBlock
+import io.enderdev.alchemistry.blocks.BaseBlock
 import net.minecraft.block.SoundType
 import net.minecraft.block.state.IBlockState
 import net.minecraft.util.BlockRenderLayer

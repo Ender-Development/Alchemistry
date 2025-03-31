@@ -11,12 +11,12 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
  * Created by al132 on 4/28/2017.
  */
 
-@Config(modid = Reference.MODID, name = "${Reference.MODID}/${Reference.MODID}")
+@Config(modid = Tags.MOD_ID, name = "${Tags.MOD_ID}/${Tags.MOD_ID}")
 object ConfigHandler {
 
     @JvmField
     @Config.Name("General")
-    @Config.LangKey("config.${Reference.MODID}.general")
+    @Config.LangKey("config.${Tags.MOD_ID}.general")
     val GENERAL = General()
 
     class General {
@@ -35,7 +35,7 @@ object ConfigHandler {
 
     @JvmField
     @Config.Name("Fission Reactor")
-    @Config.LangKey("config.${Reference.MODID}.fission")
+    @Config.LangKey("config.${Tags.MOD_ID}.fission")
     val FISSION = Fission()
 
     class Fission {
@@ -82,7 +82,7 @@ object ConfigHandler {
 
     @JvmField
     @Config.Name("Fusion Reactor")
-    @Config.LangKey("config.${Reference.MODID}.fusion")
+    @Config.LangKey("config.${Tags.MOD_ID}.fusion")
     val FUSION = Fusion()
 
     class Fusion {
@@ -129,7 +129,7 @@ object ConfigHandler {
 
     @JvmField
     @Config.Name("Combiner")
-    @Config.LangKey("config.${Reference.MODID}.combiner")
+    @Config.LangKey("config.${Tags.MOD_ID}.combiner")
     val COMBINER = Combiner()
 
     class Combiner {
@@ -157,7 +157,7 @@ object ConfigHandler {
 
     @JvmField
     @Config.Name("Dissolver")
-    @Config.LangKey("config.${Reference.MODID}.dissolver")
+    @Config.LangKey("config.${Tags.MOD_ID}.dissolver")
     val DISSOLVER = Dissolver()
 
     class Dissolver {
@@ -192,7 +192,7 @@ object ConfigHandler {
 
     @JvmField
     @Config.Name("Electrolyzer")
-    @Config.LangKey("config.${Reference.MODID}.electrolyzer")
+    @Config.LangKey("config.${Tags.MOD_ID}.electrolyzer")
     val ELECTROLYZER = Electrolyzer()
 
     class Electrolyzer {
@@ -220,7 +220,7 @@ object ConfigHandler {
 
     @JvmField
     @Config.Name("Evaporator")
-    @Config.LangKey("config.${Reference.MODID}.evaporator")
+    @Config.LangKey("config.${Tags.MOD_ID}.evaporator")
     val EVAPORATOR = Evaporator()
 
     class Evaporator {
@@ -234,7 +234,7 @@ object ConfigHandler {
 
     @JvmField
     @Config.Name("Atomizer")
-    @Config.LangKey("config.${Reference.MODID}.atomizer")
+    @Config.LangKey("config.${Tags.MOD_ID}.atomizer")
     val ATOMIZER = Atomizer()
 
     class Atomizer {
@@ -262,7 +262,7 @@ object ConfigHandler {
 
     @JvmField
     @Config.Name("Liquifier")
-    @Config.LangKey("config.${Reference.MODID}.liquifier")
+    @Config.LangKey("config.${Tags.MOD_ID}.liquifier")
     val LIQUIFIER = Liquifier()
 
     class Liquifier {
@@ -288,13 +288,13 @@ object ConfigHandler {
         var processingTicks = 100
     }
 
-    @Mod.EventBusSubscriber(modid = Reference.MODID)
+    @Mod.EventBusSubscriber(modid = Tags.MOD_ID)
     object ConfigEventHandler {
         @SubscribeEvent
         @JvmStatic
         fun onConfigChangedEvent(event: ConfigChangedEvent.OnConfigChangedEvent) {
-            if (event.modID == Reference.MODID) {
-                ConfigManager.sync(Reference.MODID, Config.Type.INSTANCE)
+            if (event.modID == Tags.MOD_ID) {
+                ConfigManager.sync(Tags.MOD_ID, Config.Type.INSTANCE)
             }
         }
     }

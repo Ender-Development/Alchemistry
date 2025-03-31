@@ -34,15 +34,11 @@ class TileLiquifier : AbstractMachine<LiquifierRecipe>(LiquifierRegister.Compani
     init {
         initInventoryCapability(1, 0)
         outputTank = object : FluidTank(Fluid.BUCKET_VOLUME * 10) {
-            override fun canFillFluidType(fluid: FluidStack?): Boolean {
-                return recipeRegister.any { it.output.fluid == fluid?.fluid }
-            }
+            override fun canFillFluidType(fluid: FluidStack?) = recipeRegister.any { it.output.fluid == fluid?.fluid }
 
-            override fun onContentsChanged() {
-                super.onContentsChanged()
-                markDirtyGUI()
-            }
+            override fun onContentsChanged() = markDirtyGUI()
         }
+
         outputTank.setTileEntity(this)
         outputTank.setCanFill(false)
         outputTank.setCanDrain(true)
@@ -50,22 +46,19 @@ class TileLiquifier : AbstractMachine<LiquifierRecipe>(LiquifierRegister.Compani
 
     override fun initInventoryInputCapability() {
         input = object : TileStackHandler(inputSlots, this) {
-            override fun insertItem(slot: Int, stack: ItemStack, simulate: Boolean): ItemStack {
-                return if (recipeRegister.any { it.input.isItemEqual(stack) }) super.insertItem(slot, stack, simulate)
+            override fun insertItem(slot: Int, stack: ItemStack, simulate: Boolean) =
+                if (recipeRegister.any { it.input.isItemEqual(stack) }) super.insertItem(slot, stack, simulate)
                 else stack
-            }
 
-            override fun onContentsChanged(slot: Int) {
-                markDirtyGUI()
-            }
+            override fun onContentsChanged(slot: Int) = markDirtyGUI()
         }
     }
 
     override fun updateRecipe() {
-        val inputStack = this.input.getStackInSlot(0)
+        val inputStack = input.getStackInSlot(0)
         if (!inputStack.isEmpty
             && (currentRecipe == null || !ItemStack.areItemStacksEqual(currentRecipe!!.input, inputStack))) {
-            this.currentRecipe = recipeRegister.firstOrNull { ItemStack.areItemsEqual(it.input, inputStack) }
+            currentRecipe = recipeRegister.firstOrNull { ItemStack.areItemsEqual(it.input, inputStack) }
         }
         if (inputStack.isEmpty) currentRecipe = null
     }
@@ -76,31 +69,27 @@ class TileLiquifier : AbstractMachine<LiquifierRecipe>(LiquifierRegister.Compani
     }
 
     override fun onWorkTick() {
-        this.energyStorage.extractEnergy(energyPerTick, false)
+        energyStorage.extractEnergy(energyPerTick, false)
     }
 
-    override fun shouldTick(): Boolean {
-        return !this.input[0].isEmpty
-    }
+    override fun shouldTick() = !input[0].isEmpty
 
     override fun shouldProcess(): Boolean {
         val recipeOutput = currentRecipe!!.output
         return (outputTank.capacity >= outputTank.fluidAmount + recipeOutput.amount
-                && this.energyStorage.energyStored >= energyPerTick
+                && energyStorage.energyStored >= energyPerTick
                 && input[0].count >= currentRecipe!!.input.count
                 && ((outputTank.fluid?.fluid == (recipeOutput.fluid?: false)) || outputTank.fluid == null))
     }
 
     override fun writeToNBT(compound: NBTTagCompound): NBTTagCompound {
         super.writeToNBT(compound)
-        val outputTankNBT = NBTTagCompound()
-        this.outputTank.writeToNBT(outputTankNBT)
-        compound.setTag("OutputTankNBT", outputTankNBT)
+        compound.setTag("OutputTankNBT", outputTank.writeToNBT(NBTTagCompound()))
         return compound
     }
 
     override fun readFromNBT(compound: NBTTagCompound) {
         super.readFromNBT(compound)
-        this.outputTank.readFromNBT(compound.getCompoundTag("OutputTankNBT"))
+        outputTank.readFromNBT(compound.getCompoundTag("OutputTankNBT"))
     }
 }

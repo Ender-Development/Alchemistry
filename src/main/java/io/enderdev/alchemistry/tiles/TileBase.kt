@@ -65,10 +65,8 @@ abstract class TileBase : TileEntity() {
         }
 
         automationOutput = object : WrappedItemHandler(output) {
-            override fun extractItem(slot: Int, amount: Int, simulate: Boolean): ItemStack {
-                return if (!getStackInSlot(slot).isEmpty) super.extractItem(slot, amount, simulate)
-                else ItemStack.EMPTY
-            }
+            override fun extractItem(slot: Int, amount: Int, simulate: Boolean) =
+                if(!getStackInSlot(slot).isEmpty) super.extractItem(slot, amount, simulate) else ItemStack.EMPTY
         }
     }
 
@@ -76,20 +74,16 @@ abstract class TileBase : TileEntity() {
         input = TileStackHandler(inputSlots, this)
     }
 
-    override fun getUpdateTag(): NBTTagCompound = writeToNBT(NBTTagCompound())
+    override fun getUpdateTag() = writeToNBT(NBTTagCompound())
 
-    override fun getUpdatePacket(): SPacketUpdateTileEntity = SPacketUpdateTileEntity(pos, 0, updateTag)
+    override fun getUpdatePacket() = SPacketUpdateTileEntity(pos, 0, updateTag)
 
-    override fun onDataPacket(net: NetworkManager, pkt: SPacketUpdateTileEntity) {
-        readFromNBT(pkt.nbtCompound)
-    }
+    override fun onDataPacket(net: NetworkManager, pkt: SPacketUpdateTileEntity) = readFromNBT(pkt.nbtCompound)
 
     fun markDirtyClient() {
         markDirty()
-        getWorld().let { world ->
-            val state = world.getBlockState(getPos())
-            world.notifyBlockUpdate(getPos(), state, state, 3)
-        }
+        val state = world.getBlockState(getPos())
+        world.notifyBlockUpdate(getPos(), state, state, 3)
     }
 
     fun markDirtyClientEvery(ticks: Int) {
@@ -139,9 +133,8 @@ abstract class TileBase : TileEntity() {
 
     override fun writeToNBT(compound: NBTTagCompound): NBTTagCompound {
         super.writeToNBT(compound)
-        if (this is IEnergyTile) {
+        if (this is IEnergyTile)
             compound.setInteger("EnergyStored", energyStorage.energyStored)
-        }
         if (this is IItemTile) {
             compound.setTag("input", input.serializeNBT())
             compound.setTag("output", output.serializeNBT())
@@ -162,31 +155,28 @@ abstract class TileBase : TileEntity() {
         return false
     }
 
-    override fun hasCapability(capability: Capability<*>, facing: EnumFacing?): Boolean {
-        return if (ITEM_CAP == capability && !ConfigHandler.GENERAL.enableAutomation)
+    override fun hasCapability(capability: Capability<*>, facing: EnumFacing?) =
+        if(capability == ITEM_CAP && !ConfigHandler.GENERAL.enableAutomation)
             false
-        else {
+        else
             when (capability) {
-                ENERGY_CAP -> return this is IEnergyTile
-                FLUID_CAP  -> return this is IFluidTile
-                ITEM_CAP   -> return this is IItemTile
+                ENERGY_CAP -> this is IEnergyTile
+                FLUID_CAP -> this is IFluidTile
+                ITEM_CAP -> this is IItemTile
+                else -> super.hasCapability(capability, facing)
             }
-            return super.hasCapability(capability, facing)
-        }
-    }
 
-    override fun <T : Any> getCapability(capability: Capability<T>, facing: EnumFacing?): T? {
-        return if (ITEM_CAP == capability && !ConfigHandler.GENERAL.enableAutomation)
+    override fun <T : Any> getCapability(capability: Capability<T>, facing: EnumFacing?) =
+        if(capability == ITEM_CAP && !ConfigHandler.GENERAL.enableAutomation)
             null
         else {
-            when (capability) {
-                ENERGY_CAP -> if (this is IEnergyTile) return ENERGY_CAP.cast<T>((this as IEnergyTile).energyStorage)
-                FLUID_CAP  -> if (this is IFluidTile) return FLUID_CAP.cast<T>(fluidTanks)
-                ITEM_CAP   -> if (this is IItemTile) return ITEM_CAP.cast<T>(automationInvHandler)
+            when(capability) {
+                ENERGY_CAP -> if(this is IEnergyTile) ENERGY_CAP.cast<T>(energyStorage)
+                FLUID_CAP -> if(this is IFluidTile) FLUID_CAP.cast<T>(fluidTanks)
+                ITEM_CAP -> if(this is IItemTile) ITEM_CAP.cast<T>(automationInvHandler)
             }
-            return super.getCapability(capability, facing)
+            super.getCapability(capability, facing)
         }
-    }
 
     companion object {
         val ENERGY_CAP: Capability<IEnergyStorage> = CapabilityEnergy.ENERGY

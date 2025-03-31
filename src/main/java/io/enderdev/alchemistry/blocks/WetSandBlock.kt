@@ -1,6 +1,6 @@
 package io.enderdev.alchemistry.blocks
 
-import io.enderdev.alchemistry.BaseBlock
+import io.enderdev.alchemistry.blocks.BaseBlock
 import io.enderdev.alchemistry.items.TooltipItemBlock
 import io.enderdev.alchemistry.utils.extensions.translate
 import net.minecraft.block.Block

@@ -43,10 +43,10 @@ class ReactorControllerBlock(name: String, tileClass: Class<out TileEntity>, gui
 	@Deprecated("")
 	override fun getStateFromMeta(meta: Int): IBlockState {
 		val facing = when (meta) {
-			in 0 until 3  -> EnumFacing.NORTH
-			in 3 until 6  -> EnumFacing.SOUTH
-			in 6 until 9  -> EnumFacing.WEST
-			in 9 until 12 -> EnumFacing.EAST
+			in 0..2  -> EnumFacing.NORTH
+			in 3..5  -> EnumFacing.SOUTH
+			in 6..8  -> EnumFacing.WEST
+			in 9..11 -> EnumFacing.EAST
 			else          -> EnumFacing.NORTH
 		}
 		val status = when(meta % 3) {

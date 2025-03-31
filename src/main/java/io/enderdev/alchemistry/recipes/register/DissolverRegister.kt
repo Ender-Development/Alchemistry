@@ -1327,7 +1327,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
         })
 
         metalOreData.forEach { data ->
-            (0 until data.size).forEach { index ->
+            (0..<data.size).forEach { index ->
                 val elementName = data.strs[index]
                 val oreName = data.toDictName(index)
                 val meta: Int = when (elementName) {

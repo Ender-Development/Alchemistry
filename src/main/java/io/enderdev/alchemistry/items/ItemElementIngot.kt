@@ -1,6 +1,6 @@
 package io.enderdev.alchemistry.items
 
-import io.enderdev.alchemistry.Reference
+import io.enderdev.alchemistry.Tags
 import io.enderdev.alchemistry.chemistry.ElementRegistry
 import io.enderdev.alchemistry.utils.extensions.translate
 import net.minecraft.client.renderer.block.model.ModelResourceLocation
@@ -35,7 +35,7 @@ class ItemElementIngot(name: String) : ItemMetaBase(name) {
         var i = stack.metadata
         if (!ElementRegistry.keys().contains(i)) i = 1
         // val elementName = ModItems.elements.toStack(meta = i)
-        return "item.${Reference.MODID}:ingot_${ElementRegistry[i]!!.name}.name".translate()
+        return "item.${Tags.MOD_ID}:ingot_${ElementRegistry[i]!!.name}.name".translate()
     }
 
     companion object {

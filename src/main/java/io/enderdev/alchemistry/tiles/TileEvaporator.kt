@@ -32,15 +32,12 @@ class TileEvaporator : AbstractMachine<EvaporatorRecipe>(EvaporatorRegister.Comp
         initInventoryCapability(0, 1)
 
         inputTank = object : FluidTank(Fluid.BUCKET_VOLUME * 10) {
-            override fun canFillFluidType(fluid: FluidStack?): Boolean {
-                return recipeRegister.any { it.input.fluid == fluid?.fluid }
-            }
+            override fun canFillFluidType(fluid: FluidStack?) = recipeRegister.any { it.input.fluid == fluid?.fluid }
 
-            override fun onContentsChanged() {
-                super.onContentsChanged()
+            override fun onContentsChanged() =
                 markDirtyClient()
-            }
         }
+
         inputTank.setTileEntity(this)
         inputTank.setCanFill(true)
         inputTank.setCanDrain(false)
@@ -48,9 +45,9 @@ class TileEvaporator : AbstractMachine<EvaporatorRecipe>(EvaporatorRegister.Comp
 
 
     override fun updateRecipe() {
-        val inputStack = this.inputTank.fluid
+        val inputStack = inputTank.fluid
         if ((inputStack != null) && (currentRecipe == null || currentRecipe!!.input.fluid == inputStack.fluid)) {
-            this.currentRecipe = recipeRegister.firstOrNull { it.input.fluid == inputStack.fluid }
+            currentRecipe = recipeRegister.firstOrNull { it.input.fluid == inputStack.fluid }
         }
         if (inputStack == null) currentRecipe = null
     }
@@ -60,13 +57,9 @@ class TileEvaporator : AbstractMachine<EvaporatorRecipe>(EvaporatorRegister.Comp
         inputTank.drainInternal(currentRecipe!!.input.amount, true)
     }
 
-    override fun onWorkTick() {
-        // NO-OP
-    }
+    override fun onWorkTick() {}
 
-    override fun shouldTick(): Boolean {
-        return inputTank.fluidAmount > 0
-    }
+    override fun shouldTick() = inputTank.fluidAmount > 0
 
     override fun shouldProcess(): Boolean {
         val recipeOutput = currentRecipe!!.output
@@ -78,21 +71,19 @@ class TileEvaporator : AbstractMachine<EvaporatorRecipe>(EvaporatorRegister.Comp
 
     override fun writeToNBT(compound: NBTTagCompound): NBTTagCompound {
         super.writeToNBT(compound)
-        val inputTankNBT = NBTTagCompound()
-        this.inputTank.writeToNBT(inputTankNBT)
-        compound.setTag("InputTankNBT", inputTankNBT)
+        compound.setTag("InputTankNBT", inputTank.writeToNBT(NBTTagCompound()))
         return compound
     }
 
     override fun readFromNBT(compound: NBTTagCompound) {
         super.readFromNBT(compound)
-        this.inputTank.readFromNBT(compound.getCompoundTag("InputTankNBT"))
+        inputTank.readFromNBT(compound.getCompoundTag("InputTankNBT"))
     }
 
     // TODO more elaborate calculation?
     private fun calculateProcessingTime(config: Int): Int {
         var temp = config
-        if (!BiomeDictionary.hasType(world.getBiomeForCoordsBody(this.pos), BiomeDictionary.Type.DRY)) {
+        if (!BiomeDictionary.hasType(world.getBiomeForCoordsBody(pos), BiomeDictionary.Type.DRY)) {
             temp += (config * .5).toInt()
         }
         return temp

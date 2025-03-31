@@ -13,7 +13,6 @@ import io.enderdev.alchemistry.tiles.tags.IEnergyTile
 import io.enderdev.alchemistry.utils.extensions.get
 import io.enderdev.alchemistry.utils.extensions.toStack
 import net.minecraft.item.ItemStack
-import kotlin.math.floor
 
 /**
  * Created by al132 on 4/29/2017.
@@ -39,40 +38,36 @@ class TileFissionController : AbstractReactorController<FissionRecipe>(ReactorTy
 
     override fun initInventoryInputCapability() {
         input = object : TileStackHandler(inputSlots, this) {
-            override fun insertItem(slot: Int, stack: ItemStack, simulate: Boolean): ItemStack {
-                return if (stack.item == ModItems.elements && stack.metadata > 1)
-                    super.insertItem(slot, stack, simulate)
+            override fun insertItem(slot: Int, stack: ItemStack, simulate: Boolean) =
+                if (stack.item == ModItems.elements && stack.metadata > 1) super.insertItem(slot, stack, simulate)
                 else stack
-            }
         }
     }
 
     override fun updateRecipe() {
-        val meta = this.input[0].metadata
+        val meta = input[0].metadata
         recipeRegister.firstOrNull { it.inputMeta == meta }?.let { currentRecipe = it }
-        if (meta != 0) {
-            if (meta % 2 == 0) {
-                if (ElementRegistry[meta / 2] != null) {
-                    recipeOutput1 = ModItems.elements.toStack(quantity = 2, meta = meta / 2)
-                    recipeOutput2 = ItemStack.EMPTY
-                    return
-                }
-            } else {
-                if (ElementRegistry[meta / 2] != null && ElementRegistry[(meta / 2) + 1] != null) {
-                    recipeOutput1 = ModItems.elements.toStack(meta = (meta / 2) + 1)
-                    recipeOutput2 = ModItems.elements.toStack(meta = meta / 2)
-                    return
-                }
-            }
-        }
         recipeOutput1 = ItemStack.EMPTY
         recipeOutput2 = ItemStack.EMPTY
+	    if(meta == 0)
+            return
+
+	    val half = meta ushr 1
+	    if(ElementRegistry[half] == null)
+	        return
+
+	    if(meta and 1 == 0)
+	        recipeOutput1 = ModItems.elements.toStack(2, half)
+	    else if(ElementRegistry[half + 1] != null) {
+	        recipeOutput1 = ModItems.elements.toStack(meta = half + 1)
+            recipeOutput2 = ModItems.elements.toStack(meta = half)
+	    }
     }
 
     override fun onProcessComplete() {
         var stacksize1 = recipeOutput1.count
-        val staticMultiplier = floor(productivityModifier).toInt()
-        val randomMultiplier = if (productivityModifier - staticMultiplier > Math.random()) 1 else 0
+        val staticMultiplier = currentModifier.productivity.toInt()
+        val randomMultiplier = if (currentModifier.productivity - staticMultiplier > world.rand.nextDouble()) 1 else 0
         if (staticMultiplier != 0 || randomMultiplier != 0) {
             stacksize1 *= staticMultiplier + randomMultiplier
         }
@@ -93,13 +88,13 @@ class TileFissionController : AbstractReactorController<FissionRecipe>(ReactorTy
     }
 
     override fun onWorkTick() {
-        this.energyStorage.extractEnergy(energyPerTick, false)
+        energyStorage.extractEnergy(energyPerTick, false)
     }
 
-    override fun shouldTick(): Boolean = true
+    override fun shouldTick() = true
 
     override fun shouldProcess() =
-        this.isMultiblockValid
+        isMultiblockValid
                 && !recipeOutput1.isEmpty
                 && (ItemStack.areItemsEqual(output[0], recipeOutput1) || output[0].isEmpty)
                 && (ItemStack.areItemsEqual(output[1], recipeOutput2) || output[1].isEmpty)
@@ -110,17 +105,17 @@ class TileFissionController : AbstractReactorController<FissionRecipe>(ReactorTy
     override fun onIdleTick() {
         super.onIdleTick()
 
-        val isActive = !this.input[0].isEmpty && energyStorage.energyStored >= energyPerTick
+        val isActive = !input[0].isEmpty && energyStorage.energyStored >= energyPerTick
         if (++checkMultiblockTicks == 20) {
             updateMultiblock()
             checkMultiblockTicks = 0
         }
-        val state = this.world.getBlockState(this.pos)
+        val state = world.getBlockState(pos)
         if (state.block != ModBlocks.fissionController) return;
         val currentStatus = state.getValue(ReactorControllerBlock.Companion.STATUS)
-        if (this.isMultiblockValid) {
+        if (isMultiblockValid) {
             if (isActive) {
-                if (currentStatus != PropertyPowerStatus.ON) this.world.setBlockState(this.pos, state.withProperty(
+                if (currentStatus != PropertyPowerStatus.ON) world.setBlockState(pos, state.withProperty(
                     ReactorControllerBlock.Companion.STATUS,
                     PropertyPowerStatus.ON
                 ))

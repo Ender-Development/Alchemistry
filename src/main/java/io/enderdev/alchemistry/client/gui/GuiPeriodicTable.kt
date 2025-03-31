@@ -1,6 +1,6 @@
 package io.enderdev.alchemistry.client.gui
 
-import io.enderdev.alchemistry.Reference
+import io.enderdev.alchemistry.Tags
 import io.enderdev.alchemistry.chemistry.ChemicalElement
 import io.enderdev.alchemistry.chemistry.ElementRegistry
 import net.minecraft.client.Minecraft
@@ -50,7 +50,7 @@ class GuiPeriodicTable : GuiScreen() {
         val hScale = h / IMAGE_HEIGHT.toFloat()
 
         GlStateManager.color(1f, 1f, 1f, 1f)
-        minecraft.textureManager.bindTexture(ResourceLocation(Reference.MODID, "textures/gui/periodic_table.png"))
+        minecraft.textureManager.bindTexture(ResourceLocation(Tags.MOD_ID, "textures/gui/periodic_table.png"))
         drawScaledCustomSizeModalRect(0, 0, 0f, 0f, w, h, w, h, w.toFloat(), h.toFloat())
 
         val boxWidth = BOX_WIDTH * wScale
@@ -92,7 +92,7 @@ class GuiPeriodicTable : GuiScreen() {
         val w = (h * TOOLTIP_WIDTH.toFloat() / TOOLTIP_HEIGHT).roundToInt()
 
         GlStateManager.color(1f, 1f, 1f, 1f)
-        minecraft.textureManager.bindTexture(ResourceLocation(Reference.MODID, "textures/gui/elements/${element.name}_tooltip.png"))
+        minecraft.textureManager.bindTexture(ResourceLocation(Tags.MOD_ID, "textures/gui/elements/${element.name}_tooltip.png"))
         drawScaledCustomSizeModalRect((boxWidth * 2).roundToInt(), 0, 0f, 0f, w, h,w, h, w.toFloat(), h.toFloat())
     }
 }

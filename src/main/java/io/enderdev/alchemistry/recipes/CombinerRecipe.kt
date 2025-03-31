@@ -20,7 +20,7 @@ data class CombinerRecipe(val output: ItemStack, private val objsIn: List<Any?>,
 
     init {
         val tempInputs = objsIn
-        (0 until INPUT_COUNT).forEach { index ->
+        (0..<INPUT_COUNT).forEach { index ->
             val tempInput = tempInputs.getOrNull(index)
             when (tempInput) {
                 is ItemStack -> inputs.add(tempInput)

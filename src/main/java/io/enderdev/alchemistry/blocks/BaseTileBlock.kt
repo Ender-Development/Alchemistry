@@ -1,8 +1,7 @@
 package io.enderdev.alchemistry.blocks
 
 import io.enderdev.alchemistry.Alchemistry
-import io.enderdev.alchemistry.BaseBlock
-import io.enderdev.alchemistry.Reference
+import io.enderdev.alchemistry.Tags
 import io.enderdev.alchemistry.tiles.TileBase
 import net.minecraft.block.ITileEntityProvider
 import net.minecraft.block.state.IBlockState
@@ -24,7 +23,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry
 
 open class BaseTileBlock(name: String, var tileClass: Class<out TileEntity>, val guiID: Int) : BaseBlock(name), ITileEntityProvider {
     init {
-        GameRegistry.registerTileEntity(tileClass, ResourceLocation(Reference.MODID, name))
+        GameRegistry.registerTileEntity(tileClass, ResourceLocation(Tags.MOD_ID, name))
     }
 
     override fun createNewTileEntity(worldIn: World, meta: Int): TileEntity = tileClass.newInstance()

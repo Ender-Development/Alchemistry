@@ -1,6 +1,6 @@
 package io.enderdev.alchemistry.compat.jei.electrolyzer
 
-import io.enderdev.alchemistry.Reference
+import io.enderdev.alchemistry.Alchemistry
 import io.enderdev.alchemistry.compat.jei.AlchemistryRecipeWrapper
 import io.enderdev.alchemistry.recipes.ElectrolyzerRecipe
 import mezz.jei.api.ingredients.IIngredients
@@ -12,8 +12,8 @@ class ElectrolyzerRecipeWrapper(recipe: ElectrolyzerRecipe) : AlchemistryRecipeW
 
     override fun drawInfo(minecraft: Minecraft, recipeWidth: Int, recipeHeight: Int, mouseX: Int, mouseY: Int) {
         //TODO localization support
-        val textFirst = "${Reference.DECIMAL_FORMAT.format(recipe.output3Probability)}%"
-        val textLast = "${Reference.DECIMAL_FORMAT.format(recipe.output4Probability)}%"
+        val textFirst = "${Alchemistry.DECIMAL_FORMAT.format(recipe.output3Probability)}%"
+        val textLast = "${Alchemistry.DECIMAL_FORMAT.format(recipe.output4Probability)}%"
 
         val x = 114
         var y = 50

@@ -33,9 +33,9 @@ class TileElectrolyzer : AbstractMachine<ElectrolyzerRecipe>(ElectrolyzerRegiste
         get() = ConfigHandler.ELECTROLYZER.energyPerTick
 
     override fun updateRecipe() {
-        val inputStack = this.inputTank.fluid
+        val inputStack = inputTank.fluid
         if ((inputStack != null) && (currentRecipe == null || currentRecipe!!.input.fluid == inputStack.fluid)) {
-            this.currentRecipe = recipeRegister.firstOrNull { it.input.fluid == inputStack.fluid }
+            currentRecipe = recipeRegister.firstOrNull { it.input.fluid == inputStack.fluid }
         }
         if (inputStack == null) currentRecipe = null
     }
@@ -47,41 +47,34 @@ class TileElectrolyzer : AbstractMachine<ElectrolyzerRecipe>(ElectrolyzerRegiste
             input.decrementSlot(0, currentRecipe!!.electrolytes[0].count)
         }
 
-        (0 until 4).forEach { output.setOrIncrement(it, currentRecipe!!.calculatedInSlot(it)) }
+        (0..3).forEach { output.setOrIncrement(it, currentRecipe!!.calculatedInSlot(it)) }
     }
 
     override fun onWorkTick() {
-        this.energyStorage.extractEnergy(ConfigHandler.ELECTROLYZER.energyPerTick, false)
+        energyStorage.extractEnergy(ConfigHandler.ELECTROLYZER.energyPerTick, false)
     }
 
-    override fun shouldTick(): Boolean {
-        return inputTank.fluidAmount > 0
-    }
+    override fun shouldTick() = inputTank.fluidAmount > 0
 
-    override fun shouldProcess(): Boolean {
-        return inputTank.fluidAmount >= currentRecipe!!.input.amount
+    override fun shouldProcess() =
+        inputTank.fluidAmount >= currentRecipe!!.input.amount
                 && input[0].count >= currentRecipe!!.electrolytes[0].count
-                && this.energyStorage.energyStored >= energyPerTick
-                && (0 until 4).all {
+                && energyStorage.energyStored >= energyPerTick
+                && (0..3).all {
             val outputStack = output[it]
             val recipeStack = currentRecipe!!.outputs[it].copy()
             (outputStack.isEmpty || ItemStack.areItemsEqual(outputStack, recipeStack))
                     && outputStack.count + recipeStack.count <= recipeStack.maxStackSize
         }
-    }
 
     init {
-        this.initInventoryCapability(1, 4)
+        initInventoryCapability(1, 4)
 
         inputTank = object : FluidTank(Fluid.BUCKET_VOLUME * 10) {
-            override fun canFillFluidType(fluid: FluidStack?): Boolean {
-                return recipeRegister.any { it.input.fluid == fluid?.fluid }
-            }
+            override fun canFillFluidType(fluid: FluidStack?) =
+                recipeRegister.any { it.input.fluid == fluid?.fluid }
 
-            override fun onContentsChanged() {
-                super.onContentsChanged()
-                markDirtyGUI()
-            }
+            override fun onContentsChanged() = markDirtyGUI()
         }
 
         inputTank.setTileEntity(this)
@@ -102,14 +95,12 @@ class TileElectrolyzer : AbstractMachine<ElectrolyzerRecipe>(ElectrolyzerRegiste
 
     override fun writeToNBT(compound: NBTTagCompound): NBTTagCompound {
         super.writeToNBT(compound)
-        val inputTankNBT = NBTTagCompound()
-        this.inputTank.writeToNBT(inputTankNBT)
-        compound.setTag("InputTankNBT", inputTankNBT)
+        compound.setTag("InputTankNBT", inputTank.writeToNBT(NBTTagCompound()))
         return compound
     }
 
     override fun readFromNBT(compound: NBTTagCompound) {
         super.readFromNBT(compound)
-        this.inputTank.readFromNBT(compound.getCompoundTag("InputTankNBT"))
+        inputTank.readFromNBT(compound.getCompoundTag("InputTankNBT"))
     }
 }

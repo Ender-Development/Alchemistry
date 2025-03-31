@@ -33,9 +33,11 @@ object ModRecipes {
     }
 
     fun initOredict() {
-        (1 until 119).filterNot { ItemElementIngot.Companion.invalidIngots.contains(it) }.forEach { i ->
-            val elementName: String = ElementRegistry[i]!!.name.replaceFirstChar(Char::uppercaseChar)
-            OreDictionary.registerOre("ingot$elementName", ModItems.ingots.toStack(meta = i))
+        (1..118).forEach { i ->
+            if(!ItemElementIngot.Companion.invalidIngots.contains(i)) {
+                val elementName: String = ElementRegistry[i]!!.name.replaceFirstChar(Char::uppercaseChar)
+                OreDictionary.registerOre("ingot$elementName", ModItems.ingots.toStack(meta = i))
+            }
         }
     }
 }

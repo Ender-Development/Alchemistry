@@ -1,7 +1,5 @@
 package io.enderdev.alchemistry.utils.extensions
 
-import io.enderdev.alchemistry.chemistry.ChemicalCompound
-import io.enderdev.alchemistry.chemistry.ChemicalElement
 import io.enderdev.alchemistry.chemistry.CompoundRegistry
 import io.enderdev.alchemistry.chemistry.ElementRegistry
 import net.minecraft.block.Block
@@ -24,25 +22,20 @@ fun String.toPotion(): Potion = Potion.getPotionFromResourceLocation(this)!!
 fun String.toOre(): OreIngredient = OreIngredient(this)
 
 fun String.toStack(quantity: Int = 1, meta: Int = 0): ItemStack {
-    val actualMeta = this.split(":").last().toIntOrNull() ?: meta
-    val resourceLocation =
-            if (this.count { it == ':' } == 2) ResourceLocation(this.dropLastWhile { it != ':' }.dropLast(1))
-            else ResourceLocation(this)
-    var outputStack: ItemStack = ItemStack.EMPTY
-    val outputItem: Item? = Item.REGISTRY.getObject(resourceLocation)
-    val outputBlock: Block? = Block.REGISTRY.getObject(resourceLocation)
-    val outputElement: ChemicalElement? = ElementRegistry[this]
-    val outputCompound: ChemicalCompound? = CompoundRegistry[this.replace(" ", "_")]
-    if (outputElement != null) {
-        outputStack = outputElement.toItemStack(quantity = quantity)
-    } else if (outputCompound != null) {
-        outputStack = outputCompound.toItemStack(quantity = quantity)
-    } else if (outputItem != null) {
-        outputStack = ItemStack(outputItem, quantity, actualMeta)
-    } else if (outputBlock != null && outputBlock != Blocks.AIR && outputBlock != Blocks.WATER) {
-        outputStack = ItemStack(outputBlock, quantity, actualMeta)
-    }
-    return outputStack
+    ElementRegistry[this]?.apply { return toItemStack(quantity) }
+    CompoundRegistry[this]?.apply { return toItemStack(quantity) }
+
+    val split = split(':')
+    val meta = split.getOrNull(2)?.toInt() ?: meta
+    val location = if(split.size == 1) ResourceLocation(this) else ResourceLocation(split[0], split[1])
+
+    Item.REGISTRY.getObject(location)?.apply { return toStack(quantity, meta) }
+
+    val block: Block? = Block.REGISTRY.getObject(location)
+    return if(block != null && block != Blocks.AIR && block != Blocks.WATER)
+        block.toStack(quantity, meta)
+    else
+        ItemStack.EMPTY
 }
 
 fun String.toIngredient(quantity: Int = 1, meta: Int = 0): Ingredient = Ingredient.fromStacks(toStack(quantity, meta))

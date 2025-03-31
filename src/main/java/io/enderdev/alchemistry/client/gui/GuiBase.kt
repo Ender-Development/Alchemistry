@@ -1,6 +1,6 @@
 package io.enderdev.alchemistry.client.gui
 
-import io.enderdev.alchemistry.Reference
+import io.enderdev.alchemistry.Tags
 import io.enderdev.alchemistry.client.button.PauseButton
 import io.enderdev.alchemistry.client.button.RedstoneButton
 import io.enderdev.alchemistry.client.gui.wrappers.CapabilityDisplayWrapper
@@ -20,17 +20,16 @@ import net.minecraft.inventory.Container
 import net.minecraft.util.ResourceLocation
 import java.awt.Color
 
-
 abstract class GuiBase<T>(container: Container, val tile: T, guiName: String) :
     GuiContainer(container) where T : AbstractMachine<*>, T : IGuiTile {
 
-    open val textureLocation = ResourceLocation(Reference.MODID, "textures/gui/container/${guiName}_gui_redox.png")
+    open val textureLocation = ResourceLocation(Tags.MOD_ID, "textures/gui/container/${guiName}_gui_redox.png")
 
     val displayData = mutableListOf<CapabilityDisplayWrapper>()
 
     open var powerBarX = 0
     open var powerBarY = 0
-    open val powerBarTexture = ResourceLocation(Reference.MODID, "textures/gui/container/template_redox.png")
+    open val powerBarTexture = ResourceLocation(Tags.MOD_ID, "textures/gui/container/template_redox.png")
 
     open val displayNameOffset = 8
     open val displayName = "tile.$guiName.name".translate()

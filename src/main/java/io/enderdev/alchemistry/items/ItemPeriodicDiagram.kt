@@ -1,6 +1,6 @@
 package io.enderdev.alchemistry.items
 
-import io.enderdev.alchemistry.Reference
+import io.enderdev.alchemistry.Tags
 import io.enderdev.alchemistry.client.gui.GuiPeriodicTable
 import io.enderdev.alchemistry.utils.extensions.translate
 import net.minecraft.client.Minecraft
@@ -17,16 +17,14 @@ import net.minecraftforge.fml.relauncher.SideOnly
 class ItemPeriodicDiagram : ItemBase("periodic_table") {
 
     override fun onItemRightClick(world: World, player: EntityPlayer, hand: EnumHand): ActionResult<ItemStack> {
-
-        if (world.isRemote) {
+        if (world.isRemote)
             Minecraft.getMinecraft().displayGuiScreen(GuiPeriodicTable())
-        }
         return ActionResult(EnumActionResult.PASS, player.getHeldItem(hand))
     }
 
 
     @SideOnly(Side.CLIENT)
     override fun addInformation(stack: ItemStack, playerIn: World?, tooltip: List<String>, advanced: ITooltipFlag) {
-        (tooltip as MutableList).add("item.${Reference.MODID}:periodic_table.tooltip".translate())
+        (tooltip as MutableList).add("item.${Tags.MOD_ID}:periodic_table.tooltip".translate())
     }
 }

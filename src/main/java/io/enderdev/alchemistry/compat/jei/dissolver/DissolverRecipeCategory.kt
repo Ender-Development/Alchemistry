@@ -1,6 +1,6 @@
 package io.enderdev.alchemistry.compat.jei.dissolver
 
-import io.enderdev.alchemistry.Reference
+import io.enderdev.alchemistry.Tags
 import io.enderdev.alchemistry.compat.jei.AlchemistryRecipeCategory
 import io.enderdev.alchemistry.compat.jei.AlchemistryRecipeUID
 import mezz.jei.api.IGuiHelper
@@ -15,7 +15,7 @@ class DissolverRecipeCategory(guiHelper: IGuiHelper) : AlchemistryRecipeCategory
         private const val OUTPUT_STARTING_INDEX = 3
     }
 
-    override val guiTexture = ResourceLocation(Reference.MODID, "textures/gui/container/chemical_dissolver_jei_redox.png")
+    override val guiTexture = ResourceLocation(Tags.MOD_ID, "textures/gui/container/chemical_dissolver_jei_redox.png")
     override val u = 5
     override val v = 5
     override val width = 180

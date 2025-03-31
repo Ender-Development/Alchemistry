@@ -1,6 +1,6 @@
 package io.enderdev.alchemistry.crafting
 
-import io.enderdev.alchemistry.Reference
+import io.enderdev.alchemistry.Tags
 import io.enderdev.alchemistry.items.ItemCompound
 import net.minecraft.inventory.InventoryCrafting
 import net.minecraft.item.ItemFood
@@ -13,7 +13,7 @@ import net.minecraftforge.registries.IForgeRegistryEntry
 class DankFoodHandler : IForgeRegistryEntry.Impl<IRecipe>(), IRecipe {
 
     init {
-        this.setRegistryName(Reference.MODID, "dank_food_handler")
+        this.setRegistryName(Tags.MOD_ID, "dank_food_handler")
     }
 
     private var resultItem = ItemStack.EMPTY
@@ -31,7 +31,7 @@ class DankFoodHandler : IForgeRegistryEntry.Impl<IRecipe>(), IRecipe {
         var food = ItemStack.EMPTY
         var compound = ItemStack.EMPTY
 
-        for (i in 0 until inv.sizeInventory) {
+        for (i in 0..<inv.sizeInventory) {
             val currentStack = inv.getStackInSlot(i)
             if (!currentStack.isEmpty) {
                 if (currentStack.item is ItemFood) food = currentStack

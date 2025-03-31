@@ -1,23 +1,19 @@
 package io.enderdev.alchemistry.capability;
 
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagCompound
 
 //Peeking off https://github.com/McJtyMods/TheOneProbe/blob/1.12/src/main/java/mcjty/theoneprobe/playerdata/PlayerGotNote.java
-public class AlchemistryDrugInfo {
+class AlchemistryDrugInfo {
+	var psilocybinTicks = 0
+	var cumulativeFOVModifier = 1f
 
-    public int psilocybinTicks = 0;
-    public float cumulativeFOVModifier = 1.0f;
+	fun saveNBTData(compound: NBTTagCompound) {
+		compound.setInteger("psilocybinTicks", psilocybinTicks)
+		compound.setFloat("cumulativeFOVModifier", cumulativeFOVModifier)
+	}
 
-    public AlchemistryDrugInfo() {
-    }
-
-    public void saveNBTData(NBTTagCompound compound) {
-        compound.setInteger("psilocybinTicks", psilocybinTicks);
-        compound.setFloat("cumulativeFOVModifier", cumulativeFOVModifier);
-    }
-
-    public void loadNBTData(NBTTagCompound compound) {
-        psilocybinTicks = compound.getInteger("psilocybinTicks");
-        cumulativeFOVModifier = compound.getFloat("cumulativeFOVModifier");
-    }
+	fun loadNBTData(compound: NBTTagCompound) {
+		psilocybinTicks = compound.getInteger("psilocybinTicks")
+		cumulativeFOVModifier = compound.getFloat("cumulativeFOVModifier")
+	}
 }

@@ -22,30 +22,19 @@ class CombinerRecipeCategory(guiHelper: IGuiHelper) : AlchemistryRecipeCategory<
 
     override fun setRecipe(recipeLayout: IRecipeLayout, recipeWrapper: CombinerRecipeWrapper, ingredients: IIngredients) {
         val guiItemStacks = recipeLayout.itemStacks
-        val startX = 43 - u
-        var x = startX
+        var x = 43 - u
         var y = 38 - v
         var index = 0
-        for (i in 0 until 3) {
-            for (j in 0 until 3) {
-                guiItemStacks.init(index, true, x, y)
-                index++
-                x += 18
+        for (row in 0..2)
+            for (col in 0..2) {
+                guiItemStacks.init(index, true, x + 18 * col, y + 18 * row)
+                guiItemStacks.set(index, ingredients.getInputs(VanillaTypes.ITEM)[index++])
             }
-            x = startX
-            y += 18
-        }
-
-
-        for (i in 0 until INPUT_SIZE) {
-            guiItemStacks.set(i, ingredients.getInputs(VanillaTypes.ITEM)[i])
-        }
 
         x = 133 - u
         y = 56 - v
 
         guiItemStacks.init(OUTPUT_SLOT, false, x, y)
-        //guiItemStacks.set(OUTPUT_SLOT, ingredients.getOutputs(ItemStack::class.java)[0])
         guiItemStacks.set(OUTPUT_SLOT, recipeWrapper.recipe.output)
     }
 }

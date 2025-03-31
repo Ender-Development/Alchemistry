@@ -6,7 +6,7 @@ import crafttweaker.annotations.ZenRegister
 import crafttweaker.api.item.IItemStack
 import crafttweaker.api.liquid.ILiquidStack
 import io.enderdev.alchemistry.Alchemistry
-import io.enderdev.alchemistry.Reference
+import io.enderdev.alchemistry.Tags
 import io.enderdev.alchemistry.recipes.ElectrolyzerRecipe
 import io.enderdev.alchemistry.recipes.register.ElectrolyzerRegister
 import net.minecraft.item.ItemStack
@@ -15,8 +15,8 @@ import net.minecraftforge.fluids.FluidStack
 import stanhebben.zenscript.annotations.ZenClass
 import stanhebben.zenscript.annotations.ZenMethod
 
-@ZenClass("mods.${Reference.MODID}.Electrolyzer")
-@ModOnly(Reference.MODID)
+@ZenClass("mods.${Tags.MOD_ID}.Electrolyzer")
+@ModOnly(Tags.MOD_ID)
 @ZenRegister
 object CTElectrolyzer {
 

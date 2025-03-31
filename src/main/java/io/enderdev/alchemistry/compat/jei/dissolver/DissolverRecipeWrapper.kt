@@ -1,6 +1,6 @@
 package io.enderdev.alchemistry.compat.jei.dissolver
 
-import io.enderdev.alchemistry.Reference
+import io.enderdev.alchemistry.Alchemistry
 import io.enderdev.alchemistry.compat.jei.AlchemistryRecipeWrapper
 import io.enderdev.alchemistry.recipes.DissolverRecipe
 import io.enderdev.alchemistry.utils.extensions.translate
@@ -17,7 +17,7 @@ class DissolverRecipeWrapper(recipe: DissolverRecipe) : AlchemistryRecipeWrapper
         if(recipe.outputs.relativeProbability)
             prob *= 100
 
-        return "${Reference.DECIMAL_FORMAT.format(prob)}%"
+        return "${Alchemistry.DECIMAL_FORMAT.format(prob)}%"
     }
 
     override fun drawInfo(minecraft: Minecraft, recipeWidth: Int, recipeHeight: Int, mouseX: Int, mouseY: Int) {

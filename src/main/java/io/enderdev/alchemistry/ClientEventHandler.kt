@@ -17,7 +17,7 @@ class ClientEventHandler {
             if (info.psilocybinTicks > 500) {
                 e.newfov = info.cumulativeFOVModifier// + e.fov
                 info.cumulativeFOVModifier -= .002f
-                info.psilocybinTicks--
+                --info.psilocybinTicks
             } else {
                 info.cumulativeFOVModifier = 1.0f
             }

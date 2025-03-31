@@ -1,37 +1,29 @@
 package io.enderdev.alchemistry.capability;
 
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.util.INBTSerializable;
+import net.minecraft.nbt.NBTTagCompound
+import net.minecraft.util.EnumFacing
+import net.minecraftforge.common.capabilities.Capability
+import net.minecraftforge.common.capabilities.ICapabilityProvider
+import net.minecraftforge.common.util.INBTSerializable
 
 //Peeking off https://github.com/McJtyMods/TheOneProbe/blob/1.12/src/main/java/mcjty/theoneprobe/playerdata/PropertiesDispatcher.java
-public class AlchemistryDrugDispatcher implements ICapabilityProvider, INBTSerializable<NBTTagCompound> {
+class AlchemistryDrugDispatcher : ICapabilityProvider, INBTSerializable<NBTTagCompound> {
+	private var drugInfo = AlchemistryDrugInfo()
 
-    private AlchemistryDrugInfo drugInfo = new AlchemistryDrugInfo();
+	override fun hasCapability(capability: Capability<*>, facing: EnumFacing?) =
+		capability == CapabilityDrugInfo.DRUG_INFO;
 
-    @Override
-    public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-        return capability == CapabilityDrugInfo.DRUG_INFO;
-    }
-    @Override
-    public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
-        if (capability == CapabilityDrugInfo.DRUG_INFO) {
-            return (T) drugInfo;
-        }
-        return null;
-    }
+	@Suppress("UNCHECKED_CAST")
+	override fun <T : Any?> getCapability(capability: Capability<T?>, facing: EnumFacing?): T? =
+		if(hasCapability(capability, facing)) drugInfo as T else null
 
-    @Override
-    public NBTTagCompound serializeNBT() {
-        NBTTagCompound nbt = new NBTTagCompound();
-        drugInfo.saveNBTData(nbt);
-        return nbt;
-    }
+	override fun serializeNBT(): NBTTagCompound? {
+		val nbt = NBTTagCompound()
+		drugInfo.saveNBTData(nbt)
+		return nbt
+	}
 
-    @Override
-    public void deserializeNBT(NBTTagCompound nbt) {
-        drugInfo.loadNBTData(nbt);
-    }
+	override fun deserializeNBT(nbt: NBTTagCompound?) {
+		nbt?.let { drugInfo.loadNBTData(nbt) }
+	}
 }

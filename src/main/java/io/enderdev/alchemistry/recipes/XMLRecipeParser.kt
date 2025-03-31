@@ -1,7 +1,6 @@
 package io.enderdev.alchemistry.recipes
 
 import io.enderdev.alchemistry.Alchemistry
-import io.enderdev.alchemistry.Reference
 import io.enderdev.alchemistry.recipes.register.*
 import io.enderdev.alchemistry.utils.extensions.toIngredient
 import io.enderdev.alchemistry.utils.extensions.toOre
@@ -41,12 +40,12 @@ class XMLRecipeParser {
         val docBuilderFactory = DocumentBuilderFactory.newInstance()
         val docBuilder = docBuilderFactory.newDocumentBuilder()
         try {
-            val doc = docBuilder.parse(File(Reference.configDir, path))
+            val doc = docBuilder.parse(File(Alchemistry.configDir, path))
 
             doc.documentElement.normalize()
 
             val nodes: NodeList = doc.getElementsByTagName("recipe")
-            (0 until nodes.length).forEach { index ->
+            (0..<nodes.length).forEach { index ->
                 val element = nodes.item(index) as Element
                 val recipeType = element.getAttribute("type").lowercase(Locale.getDefault())
                 when (recipeType) {
@@ -76,7 +75,7 @@ class XMLRecipeParser {
         if (actionType != "remove") {
             val outputs: ArrayList<ItemStack> = arrayListOf()
             val outputXMLElement = element.getFirst("output")
-            (0 until 2).forEach { index ->
+            (0 ..1).forEach { index ->
                 val outputQuantity: Int =
                     outputXMLElement?.getNth("item", index)?.getAttribute("quantity")?.toIntOrNull()
                         ?: 1
@@ -131,7 +130,7 @@ class XMLRecipeParser {
         val inputs: ArrayList<ItemStack> = arrayListOf()
         val ingredientMap: HashMap<String, ItemStack> = hashMapOf()
         val itemsXML = element.getFirst("input")?.getElementsByTagName("item")
-        (0 until (itemsXML?.length ?: 0)).forEach { index ->
+        (0..<(itemsXML?.length ?: 0)).forEach { index ->
             val key = itemsXML?.getNth(index)?.getAttribute("key") ?: ""
             val stack = itemsXML?.getNth(index).tagToStack()
             if (key.length == 1) {
@@ -139,7 +138,7 @@ class XMLRecipeParser {
             }
         }
         val rowsXML = element.getFirst("input")?.getElementsByTagName("row")
-        (0 until 3).forEach { i ->
+        (0..2).forEach { i ->
             val rowText = (rowsXML?.item(i)?.textContent ?: "").padEnd(3)
             for (c in rowText) {
                 inputs.add(ingredientMap["$c"] ?: ItemStack.EMPTY)
@@ -207,13 +206,13 @@ class XMLRecipeParser {
             val groupsList: ArrayList<ProbabilityGroup> = arrayListOf()
 
             val xmlGroups = outputXMLElement?.getElementsByTagName("group")
-            (0 until (xmlGroups?.length ?: 0)).forEach { groupIndex ->
+            (0..<(xmlGroups?.length ?: 0)).forEach { groupIndex ->
                 val currentXMLElement = xmlGroups?.getNth(groupIndex)
                 val probability: Double = currentXMLElement?.getAttribute("probability")?.toDoubleOrNull() ?: 100.0
                 val xmlItems = currentXMLElement?.getElementsByTagName("item")
                 val itemStacks: ArrayList<ItemStack> = arrayListOf()
 
-                (0 until (xmlItems?.length ?: 0))
+                (0..<(xmlItems?.length ?: 0))
                     .forEach { itemIndex -> itemStacks.add(xmlItems?.getNth(itemIndex).tagToStack()) }
 
                 groupsList.add(ProbabilityGroup(_output = itemStacks, probability = probability))

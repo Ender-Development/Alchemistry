@@ -10,9 +10,8 @@ import net.minecraft.item.ItemStack
 import net.minecraftforge.items.IItemHandler
 import net.minecraftforge.items.SlotItemHandler
 
-abstract class ContainerBase<T>(playerInv: IInventory,
-                                open var tile: T) :
-        Container() where T : IGuiTile, T : TileBase {
+abstract class ContainerBase<T>(playerInv: IInventory, open val tile: T) :
+    Container() where T : IGuiTile, T : TileBase {
 
     init {
         addOwnSlots()
@@ -21,21 +20,11 @@ abstract class ContainerBase<T>(playerInv: IInventory,
 
     abstract fun addOwnSlots()
 
-    fun addSlotArray(x_start: Int, y_start: Int, rows: Int, columns: Int, handler: IItemHandler) {
-        val initialX = x_start
-        var x = x_start
-        var y = y_start
-
+    fun addSlotArray(x: Int, y: Int, rows: Int, columns: Int, handler: IItemHandler) {
         var index = 0
-        for (row in 1..rows) {
-            for (column in 1..columns) {
-                this.addSlotToContainer(SlotItemHandler(handler, index, x, y))
-                x += 18
-                index++
-            }
-            x = initialX
-            y += 18
-        }
+        for(row in 0..<rows)
+            for(column in 0..<columns)
+                addSlotToContainer(SlotItemHandler(handler, index++, x + 18 * column, y + 18 * row))
     }
 
 

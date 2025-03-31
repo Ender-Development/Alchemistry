@@ -1,14 +1,16 @@
 package io.enderdev.alchemistry
 
+import crafttweaker.CraftTweakerAPI
+import crafttweaker.IAction
 import io.enderdev.alchemistry.blocks.ModBlocks
 import io.enderdev.alchemistry.command.DissolverCommand
 import io.enderdev.alchemistry.crafting.DankFoodHandler
 import io.enderdev.alchemistry.crafting.MachineResettingHandler
 import io.enderdev.alchemistry.crafting.SaltyFoodHandler
 import io.enderdev.alchemistry.items.ModItems
-import crafttweaker.CraftTweakerAPI
-import crafttweaker.IAction
+import io.enderdev.alchemistry.utils.extensions.toStack
 import net.minecraft.block.Block
+import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.item.Item
 import net.minecraft.item.crafting.IRecipe
 import net.minecraftforge.client.event.ModelRegistryEvent
@@ -21,17 +23,27 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import org.apache.logging.log4j.Logger
+import java.io.File
+import java.text.DecimalFormat
 import java.util.*
 
 
 @Mod(
-    modid = Reference.MODID,
-    name = Reference.MODNAME,
-    version = Reference.VERSION,
-    dependencies = Reference.DEPENDENCIES,
+    modid = Tags.MOD_ID,
+    name = Tags.MOD_NAME,
+    version = Tags.VERSION,
+    dependencies = Alchemistry.DEPENDENCIES,
     modLanguageAdapter = "io.github.chaosunity.forgelin.KotlinAdapter"
 )
 object Alchemistry {
+    const val DEPENDENCIES = "required-after:forgelin_continuous;after:crafttweaker;after:groovyscript;before:jei;"
+    val DECIMAL_FORMAT = DecimalFormat("#0.00")
+    lateinit var configPath: String
+    lateinit var configDir: File
+
+    val creativeTab = object : CreativeTabs(Tags.MOD_ID) {
+        override fun createIcon() = ModBlocks.chemical_combiner.toStack()
+    }
 
     //https://github.com/jaredlll08/ModTweaker/blob/1.12/src/main/java/com/blamejared/ModTweaker.java
     val LATE_REMOVALS: LinkedList<IAction> = LinkedList()
@@ -43,9 +55,7 @@ object Alchemistry {
     var proxy: CommonProxy? = null
 
     @EventHandler
-    fun preInit(e: FMLPreInitializationEvent) {
-        proxy!!.preInit(e)
-    }
+    fun preInit(e: FMLPreInitializationEvent) = proxy!!.preInit(e)
 
     @EventHandler
     fun init(e: FMLInitializationEvent) = proxy!!.init(e)
@@ -54,9 +64,8 @@ object Alchemistry {
     fun postInit(e: FMLPostInitializationEvent) = proxy!!.postInit(e)
 
     @EventHandler
-    fun serverStarting(e: FMLServerStartingEvent) {
+    fun serverStarting(e: FMLServerStartingEvent) =
         e.registerServerCommand(DissolverCommand())
-    }
 
     @EventHandler
     fun loadComplete(e: FMLLoadCompleteEvent) {
@@ -71,7 +80,7 @@ object Alchemistry {
         LATE_ADDITIONS.clear()
     }
 
-    @Mod.EventBusSubscriber(modid = Reference.MODID)
+    @Mod.EventBusSubscriber(modid = Tags.MOD_ID)
     object Registration {
         @JvmStatic
         @SubscribeEvent
@@ -100,7 +109,6 @@ object Alchemistry {
             event.registry.register(DankFoodHandler())
             event.registry.register(SaltyFoodHandler())
             event.registry.register(MachineResettingHandler())
-
         }
     }
 }

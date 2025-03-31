@@ -1,6 +1,6 @@
 package io.enderdev.alchemistry.crafting
 
-import io.enderdev.alchemistry.Reference
+import io.enderdev.alchemistry.Tags
 import io.enderdev.alchemistry.blocks.ModBlocks
 import io.enderdev.alchemistry.utils.extensions.toStack
 import net.minecraft.inventory.InventoryCrafting
@@ -22,7 +22,7 @@ class MachineResettingHandler : IForgeRegistryEntry.Impl<IRecipe>(), IRecipe {
             ModBlocks.liquifier.toStack())
 
     init {
-        this.setRegistryName(Reference.MODID, "machine_resetting_handler")
+        this.setRegistryName(Tags.MOD_ID, "machine_resetting_handler")
     }
 
     private var resultItem = ItemStack.EMPTY
@@ -40,7 +40,7 @@ class MachineResettingHandler : IForgeRegistryEntry.Impl<IRecipe>(), IRecipe {
         var machine = ItemStack.EMPTY
         var emptySlots = 0
 
-        for (i in 0 until inv.sizeInventory) {
+        for (i in 0..<inv.sizeInventory) {
             val currentStack = inv.getStackInSlot(i)
             if (!currentStack.isEmpty) {
                 if (machine.isEmpty) {

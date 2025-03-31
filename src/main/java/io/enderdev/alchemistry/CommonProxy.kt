@@ -34,10 +34,10 @@ open class CommonProxy {
     open fun preInit(e: FMLPreInitializationEvent) {
         stage = LoadingStage.PRE_INIT
         Alchemistry.logger = e.modLog
-        Reference.configPath = e.suggestedConfigurationFile.parent
-        Reference.configDir = File(e.modConfigurationDirectory, Reference.MODID)
-        if (!Reference.configDir.exists()) Reference.configDir.mkdir()
-        val exampleFile = File(Reference.configDir, "custom.xml")
+        Alchemistry.configPath = e.suggestedConfigurationFile.parent
+        Alchemistry.configDir = File(e.modConfigurationDirectory, Tags.MOD_ID)
+        if (!Alchemistry.configDir.exists()) Alchemistry.configDir.mkdir()
+        val exampleFile = File(Alchemistry.configDir, "custom.xml")
         if (!exampleFile.exists()) {
             exampleFile.printWriter().use { out ->
                 out.println("<!--Read the wiki for more info on using custom recipes https://github.com/al132mc/alchemistry/wiki -->")
@@ -54,15 +54,15 @@ open class CommonProxy {
             Alchemistry.logger.info("CompoundRegistry isn't initialized yet, initializing")
             CompoundRegistry.init()
         }
-        PacketHandler.registerMessages(Reference.MODID)
+        PacketHandler.registerMessages(Tags.MOD_ID)
 
-        if (Loader.isModLoaded("crafttweaker")) CraftTweakerAPI.tweaker.loadScript(false, Reference.MODID)
+        if (Loader.isModLoaded("crafttweaker")) CraftTweakerAPI.tweaker.loadScript(false, Tags.MOD_ID)
     }
 
     open fun init(e: FMLInitializationEvent) {
         stage = LoadingStage.INIT
         ModRecipes.initOredict()
-        Reference.configDir
+        Alchemistry.configDir
             .listFiles { it.extension.lowercase(Locale.getDefault()) == "xml" }
             ?.forEach { XMLRecipeParser().init(it.name) }
         NetworkRegistry.INSTANCE.registerGuiHandler(Alchemistry, GuiHandler())

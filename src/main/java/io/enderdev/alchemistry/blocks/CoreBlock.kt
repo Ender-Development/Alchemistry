@@ -1,6 +1,6 @@
 package io.enderdev.alchemistry.blocks
 
-import io.enderdev.alchemistry.BaseBlock
+import io.enderdev.alchemistry.blocks.BaseBlock
 import net.minecraft.block.properties.IProperty
 import net.minecraft.block.properties.PropertyEnum
 import net.minecraft.block.state.BlockStateContainer

@@ -16,6 +16,6 @@ class ContainerElectrolyzer(playerInv: InventoryPlayer, tile: TileElectrolyzer) 
             tile.input = TileStackHandler(1, tile)
         }
         addSlotToContainer(SlotItemHandler(tile.input, 0, 80, 39))
-        addSlotArray(x_start = 116, y_start = 57, rows = 2, columns = 2, handler = tile.output)
+        addSlotArray(116, 57, 2, 2, tile.output)
     }
 }

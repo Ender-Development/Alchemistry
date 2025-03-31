@@ -6,7 +6,7 @@ import crafttweaker.annotations.ModOnly
 import crafttweaker.annotations.ZenRegister
 import crafttweaker.api.item.IItemStack
 import crafttweaker.mc1120.item.MCItemStack
-import io.enderdev.alchemistry.Reference
+import io.enderdev.alchemistry.Tags
 import io.enderdev.alchemistry.chemistry.CompoundPair
 import io.enderdev.alchemistry.chemistry.CompoundRegistry
 import io.enderdev.alchemistry.chemistry.ElementRegistry
@@ -16,8 +16,8 @@ import stanhebben.zenscript.annotations.ZenMethod
 import java.awt.Color
 import java.util.*
 
-@ZenClass("mods.${Reference.MODID}.Util")
-@ModOnly(Reference.MODID)
+@ZenClass("mods.${Tags.MOD_ID}.Util")
+@ModOnly(Tags.MOD_ID)
 @ZenRegister
 object CTUtil {
 

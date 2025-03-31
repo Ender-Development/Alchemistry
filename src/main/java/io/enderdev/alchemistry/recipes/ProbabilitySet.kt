@@ -5,8 +5,6 @@ import io.enderdev.alchemistry.utils.extensions.areStacksEqualIgnoreQuantity
 import io.enderdev.alchemistry.utils.extensions.toImmutable
 import net.minecraft.item.ItemStack
 import java.util.*
-import kotlin.collections.filterNot
-import kotlin.collections.indexOfFirst
 
 
 data class ProbabilityGroup(private val _output: List<ItemStack>,
@@ -42,7 +40,7 @@ data class ProbabilitySet(private var _set: List<ProbabilityGroup>? = ArrayList(
         val rando = Random()
         (1..rolls).forEach { _ ->
             if (relativeProbability) {
-                val totalProbability = set.sumByDouble { it.probability }
+                val totalProbability = set.sumOf { it.probability }
                 val targetProbability = rando.nextDouble()
                 var trackingProbability = 0.0
 

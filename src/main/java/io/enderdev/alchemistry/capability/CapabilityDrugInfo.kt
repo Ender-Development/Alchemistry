@@ -1,15 +1,13 @@
 package io.enderdev.alchemistry.capability;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
+import net.minecraft.entity.player.EntityPlayer
+import net.minecraftforge.common.capabilities.Capability
+import net.minecraftforge.common.capabilities.CapabilityInject
 
-public class CapabilityDrugInfo {
+object CapabilityDrugInfo {
+    @CapabilityInject(AlchemistryDrugInfo::class)
+    lateinit var DRUG_INFO: Capability<AlchemistryDrugInfo>
 
-    @CapabilityInject(AlchemistryDrugInfo.class)
-    public static Capability<AlchemistryDrugInfo> DRUG_INFO = null;
-
-    public static AlchemistryDrugInfo getPlayerDrugInfo(EntityPlayer player) {
-        return player.getCapability(DRUG_INFO, null);
-    }
+    fun getPlayerDrugInfo(player: EntityPlayer) =
+        player.getCapability(DRUG_INFO, null)
 }

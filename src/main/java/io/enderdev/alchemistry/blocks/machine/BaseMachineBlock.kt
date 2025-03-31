@@ -13,7 +13,7 @@ import kotlin.math.roundToInt
 open class BaseMachineBlock(name: String, tileClass: Class<out TileEntity>, guiID: Int) :
     BaseTileBlock(name, tileClass, guiID) {
     @Deprecated("")
-    override fun hasComparatorInputOverride(state: IBlockState): Boolean = true
+    override fun hasComparatorInputOverride(state: IBlockState) = true
 
     @Deprecated("")
     override fun getComparatorInputOverride(state: IBlockState, world: World, pos: BlockPos): Int {
@@ -26,16 +26,14 @@ open class BaseMachineBlock(name: String, tileClass: Class<out TileEntity>, guiI
             return 0
 
         val slots = cap.slots
-        var itemCount = 0
-        (0 until slots).forEach {
-            val item = cap.getStackInSlot(it)
-            itemCount += item.count
+        val itemCount = (0..<slots).sumOf {
+            cap.getStackInSlot(it).count
         }
 
         if (itemCount == 0)
             return 0
 
-        return (itemCount.toFloat() / (slots * 64) * 15).roundToInt()
+        return (itemCount.toFloat() / (slots * 64f) * 15).roundToInt()
     }
 
     override fun canConnectRedstone(state: IBlockState, world: IBlockAccess, pos: BlockPos, side: EnumFacing?): Boolean {

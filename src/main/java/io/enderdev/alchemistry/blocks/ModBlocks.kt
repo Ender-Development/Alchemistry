@@ -1,6 +1,6 @@
 package io.enderdev.alchemistry.blocks
 
-import io.enderdev.alchemistry.BaseBlock
+import io.enderdev.alchemistry.blocks.BaseBlock
 import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.blocks.machine.*
 import io.enderdev.alchemistry.client.gui.GuiHandler

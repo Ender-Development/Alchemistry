@@ -18,7 +18,7 @@ import net.minecraftforge.fluids.capability.templates.FluidHandlerConcatenate
  * Created by al132 on 4/29/2017.
  */
 class TileAtomizer : AbstractMachine<AtomizerRecipe>(AtomizerRegister.Companion.INSTANCE), IFluidTile,
-    IEnergyTile by EnergyTileImpl(capacity = ConfigHandler.ATOMIZER.energyCapacity) {
+    IEnergyTile by EnergyTileImpl(ConfigHandler.ATOMIZER.energyCapacity) {
 
     val inputTank: FluidTank
 
@@ -34,16 +34,9 @@ class TileAtomizer : AbstractMachine<AtomizerRecipe>(AtomizerRegister.Companion.
     init {
         initInventoryCapability(0, 1)
         inputTank = object : FluidTank(Fluid.BUCKET_VOLUME * 10) {
-            override fun canFillFluidType(fluid: FluidStack?): Boolean {
-                return if (this.fluid == null)
-                    true
-                else
-                    this.fluid!!.fluid == fluid?.fluid
-            }
+            override fun canFillFluidType(with: FluidStack?) = fluid == null || fluid!!.fluid == with?.fluid
 
-            override fun onContentsChanged() {
-                markDirtyGUI()
-            }
+            override fun onContentsChanged() = markDirtyGUI()
         }
 
         inputTank.setTileEntity(this)
@@ -66,12 +59,10 @@ class TileAtomizer : AbstractMachine<AtomizerRecipe>(AtomizerRegister.Companion.
     }
 
     override fun onWorkTick() {
-        this.energyStorage.extractEnergy(energyPerTick, false)
+        energyStorage.extractEnergy(energyPerTick, false)
     }
 
-    override fun shouldTick(): Boolean {
-        return inputTank.fluidAmount > 0
-    }
+    override fun shouldTick() = inputTank.fluidAmount > 0
 
     override fun shouldProcess(): Boolean {
         val recipeOutput = currentRecipe!!.output
@@ -83,14 +74,12 @@ class TileAtomizer : AbstractMachine<AtomizerRecipe>(AtomizerRegister.Companion.
 
     override fun writeToNBT(compound: NBTTagCompound): NBTTagCompound {
         super.writeToNBT(compound)
-        val inputTankNBT = NBTTagCompound()
-        this.inputTank.writeToNBT(inputTankNBT)
-        compound.setTag("InputTankNBT", inputTankNBT)
+        compound.setTag("InputTankNBT", inputTank.writeToNBT(NBTTagCompound()))
         return compound
     }
 
     override fun readFromNBT(compound: NBTTagCompound) {
         super.readFromNBT(compound)
-        this.inputTank.readFromNBT(compound.getCompoundTag("InputTankNBT"))
+        inputTank.readFromNBT(compound.getCompoundTag("InputTankNBT"))
     }
 }

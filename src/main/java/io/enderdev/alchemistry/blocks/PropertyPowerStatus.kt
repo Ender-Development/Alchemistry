@@ -2,19 +2,10 @@ package io.enderdev.alchemistry.blocks;
 
 import net.minecraft.util.IStringSerializable;
 
-public enum PropertyPowerStatus implements IStringSerializable {
+enum class PropertyPowerStatus(val statusName: String) : IStringSerializable {
     OFF("off"),
     STANDBY("standby"),
     ON("on");
 
-    private final String name;
-
-    private PropertyPowerStatus(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String getName() {
-        return this.name;
-    }
+    override fun getName() = statusName
 }

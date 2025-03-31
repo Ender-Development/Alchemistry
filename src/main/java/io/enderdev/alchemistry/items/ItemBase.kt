@@ -1,6 +1,7 @@
 package io.enderdev.alchemistry.items
 
-import io.enderdev.alchemistry.Reference
+import io.enderdev.alchemistry.Alchemistry
+import io.enderdev.alchemistry.Tags
 import net.minecraft.client.renderer.block.model.ModelResourceLocation
 import net.minecraft.item.Item
 import net.minecraft.util.ResourceLocation
@@ -12,9 +13,9 @@ import net.minecraftforge.fml.relauncher.SideOnly
 open class ItemBase(val name: String) : Item() {
 	init {
 		ModItems.items.add(this)
-		registryName = ResourceLocation(Reference.MODID, name)
+		registryName = ResourceLocation(Tags.MOD_ID, name)
 		translationKey = "$registryName"
-		creativeTab = Reference.creativeTab
+		creativeTab = Alchemistry.creativeTab
 	}
 
 	open fun registerItem(event: RegistryEvent.Register<Item>) {

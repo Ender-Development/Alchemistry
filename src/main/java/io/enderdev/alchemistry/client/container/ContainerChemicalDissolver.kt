@@ -12,6 +12,6 @@ class ContainerChemicalDissolver(playerInv: InventoryPlayer, tile: TileChemicalD
 
     override fun addOwnSlots() {
         addSlotToContainer(SlotItemHandler(tile.input, 0, 44, 57))
-        addSlotArray(x_start = 98, y_start = 39, rows = 3, columns = 4, handler = tile.output)
+        addSlotArray(98, 39, 3, 4, tile.output)
     }
 }

@@ -12,6 +12,6 @@ class ContainerFissionController(playerInv: InventoryPlayer, tile: TileFissionCo
 
     override fun addOwnSlots() {
         this.addSlotToContainer(SlotItemHandler(tile.input, 0, 44, 75))
-        this.addSlotArray(116, 75, 1, 2, tile.output)
+        addSlotArray(116, 75, 1, 2, tile.output)
     }
 }

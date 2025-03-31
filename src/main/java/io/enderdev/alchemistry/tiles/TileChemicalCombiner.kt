@@ -56,7 +56,7 @@ class TileChemicalCombiner : AbstractMachine<CombinerRecipe>(CombinerRegister.Co
 
     override fun updateRecipe() {
         if (recipeIsLocked) return
-        currentRecipe = CombinerRecipe.Companion.matchInputs(this.input)
+        currentRecipe = CombinerRecipe.Companion.matchInputs(input)
     }
 
     override fun onProcessComplete() {
@@ -69,7 +69,7 @@ class TileChemicalCombiner : AbstractMachine<CombinerRecipe>(CombinerRegister.Co
     }
 
     override fun onWorkTick() {
-        this.energyStorage.extractEnergy(energyPerTick, false)
+        energyStorage.extractEnergy(energyPerTick, false)
     }
 
     override fun onIdleTick() {
@@ -77,53 +77,51 @@ class TileChemicalCombiner : AbstractMachine<CombinerRecipe>(CombinerRegister.Co
         if (recipeIsLocked) clientRecipeTarget.setStackInSlot(0, (currentRecipe?.output?.copy()) ?: ItemStack.EMPTY)
     }
 
-    override fun shouldTick(): Boolean {
-        return energyStorage.energyStored >= energyPerTick
-    }
+    override fun shouldTick() = energyStorage.energyStored >= energyPerTick
 
     override fun shouldProcess(): Boolean {
         return (currentRecipe!!.gamestage == "" || hasCurrentRecipeStage())
                 && (currentRecipe!!.output.count + output[0].count <= currentRecipe!!.output.maxStackSize) //output quantities can stack
                 && (ItemStack.areItemsEqual(output[0], currentRecipe!!.output) || output[0].isEmpty) //output item types can stack
-                && currentRecipe!!.matchesHandlerStacks(this.input)
+                && currentRecipe!!.matchesHandlerStacks(input)
                 && (!recipeIsLocked || ItemStack.areItemStacksEqual(CombinerRecipe.Companion.matchInputs(input)?.output ?: ItemStack.EMPTY, currentRecipe!!.output))
     }
 
-    private fun hasCurrentRecipeStage(): Boolean {
+    private fun hasCurrentRecipeStage() =
         if (Loader.isModLoaded("gamestages")) {
             val playerList = FMLCommonHandler.instance().minecraftServerInstance.playerList
             val playerOwner: EntityPlayerMP = playerList.getPlayerByUsername(owner) ?: return false
-            return GameStageHelper.hasStage(playerOwner, currentRecipe?.gamestage)
-        } else return true
-    }
+            GameStageHelper.hasStage(playerOwner, currentRecipe?.gamestage)
+        } else true
 
     override fun readFromNBT(compound: NBTTagCompound) {
         super.readFromNBT(compound)
-        this.recipeIsLocked = compound.getBoolean("RecipeIsLocked")
-        this.owner = compound.getString("Owner")
+        recipeIsLocked = compound.getBoolean("RecipeIsLocked")
+        owner = compound.getString("Owner")
 
-        if (this.recipeIsLocked) {
+        if (recipeIsLocked) {
+            // TODO: why does this tempItemHandler even exist?
             val tempItemHandler = ItemStackHandler(9)
             val recipeInputsList = compound.getTagList("RecipeInputs", Constants.NBT.TAG_COMPOUND)
-            for (i in 0 until recipeInputsList.tagCount()) {
+            for (i in 0..<recipeInputsList.tagCount()) {
                 tempItemHandler.setStackInSlot(i, ItemStack(recipeInputsList.getCompoundTagAt(i)))
             }
             val recipeTarget = ItemStack(compound.getCompoundTag("RecipeTarget"))
-            this.currentRecipe = CombinerRecipe.Companion.matchOutput(recipeTarget)
-            clientRecipeTarget.setStackInSlot(0, (currentRecipe?.output?.copy()) ?: ItemStack.EMPTY!!)
+            currentRecipe = CombinerRecipe.Companion.matchOutput(recipeTarget)
+            clientRecipeTarget.setStackInSlot(0, (currentRecipe?.output?.copy()) ?: ItemStack.EMPTY)
         } else {
             clientRecipeTarget.setStackInSlot(0, ItemStack.EMPTY)
         }
     }
 
     override fun writeToNBT(compound: NBTTagCompound): NBTTagCompound {
-        compound.setBoolean("RecipeIsLocked", this.recipeIsLocked)
-        compound.setString("Owner", this.owner)
-        if (this.recipeIsLocked && this.currentRecipe != null) {
+        compound.setBoolean("RecipeIsLocked", recipeIsLocked)
+        compound.setString("Owner", owner)
+        if (recipeIsLocked && currentRecipe != null) {
             val recipeInputs = NBTTagList()
-            for (i in this.currentRecipe!!.inputs.indices) {
+            for (i in currentRecipe!!.inputs.indices) {
                 val recipeInputEntry = NBTTagCompound()
-                val tempStack = this.currentRecipe!!.inputs[i].copy()
+                val tempStack = currentRecipe!!.inputs[i].copy()
                 tempStack.writeToNBT(recipeInputEntry)
                 recipeInputs.appendTag(recipeInputEntry)
             }

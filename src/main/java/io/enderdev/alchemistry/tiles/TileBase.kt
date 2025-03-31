@@ -160,20 +160,21 @@ abstract class TileBase : TileEntity() {
 	override fun hasCapability(capability: Capability<*>, facing: EnumFacing?) =
 		if(capability == ITEM_CAP && !ConfigHandler.GENERAL.enableAutomation)
 			false
-		else
+		else {
 			when(capability) {
 				ENERGY_CAP -> this is IEnergyTile
 				FLUID_CAP -> this is IFluidTile
 				ITEM_CAP -> this is IItemTile
-				else -> super.hasCapability(capability, facing)
 			}
+			super.hasCapability(capability, facing)
+		}
 
-	override fun <T : Any> getCapability(capability: Capability<T>, facing: EnumFacing?) =
+	override fun <T : Any> getCapability(capability: Capability<T>, facing: EnumFacing?): T? =
 		if(capability == ITEM_CAP && !ConfigHandler.GENERAL.enableAutomation)
 			null
 		else {
 			when(capability) {
-				ENERGY_CAP -> if(this is IEnergyTile) ENERGY_CAP.cast<T>(energyStorage)
+				ENERGY_CAP -> if(this is IEnergyTile) ENERGY_CAP.cast<T>((this as IEnergyTile).energyStorage)
 				FLUID_CAP -> if(this is IFluidTile) FLUID_CAP.cast<T>(fluidTanks)
 				ITEM_CAP -> if(this is IItemTile) ITEM_CAP.cast<T>(automationInvHandler)
 			}

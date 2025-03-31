@@ -35,7 +35,7 @@ import java.util.*
 	modLanguageAdapter = "io.github.chaosunity.forgelin.KotlinAdapter"
 )
 object Alchemistry {
-	const val DEPENDENCIES = "required-after:forgelin_continuous;after:crafttweaker;after:groovyscript;before:jei;"
+	const val DEPENDENCIES = "required-after:configanytime;required-after:forgelin_continuous@[${Tags.KOTLIN_VERSION},);after:crafttweaker;after:groovyscript@[${Tags.GROOVYSCRIPT_VERSION},);before:jei;"
 	val DECIMAL_FORMAT = DecimalFormat("#0.00")
 
 	val creativeTab = object : CreativeTabs(Tags.MOD_ID) {

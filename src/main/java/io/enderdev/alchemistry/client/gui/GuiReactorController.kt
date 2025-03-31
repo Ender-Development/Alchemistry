@@ -34,10 +34,11 @@ abstract class GuiReactorController<T>(container: Container, tile: T, guiName: S
 
     override fun drawGuiContainerForegroundLayer(mouseX: Int, mouseY: Int) {
         super.drawGuiContainerForegroundLayer(mouseX, mouseY)
-        val productivity = tile.productivityModifier * 100
-        val speed = tile.speedModifier * 100
-        val energy = tile.energyModifier * 100
         if (tile.isMultiblockValid) {
+	        val mod = tile.currentModifier
+	        val productivity = mod.productivity * 100
+	        val speed = mod.speed * 100
+	        val energy = mod.energy * 100
             fontRenderer.drawString(
                 textProductivity.translate("%.2f%%".format(productivity)),
                 infoX,
@@ -106,7 +107,7 @@ abstract class GuiReactorController<T>(container: Container, tile: T, guiName: S
                         "tooltip.productivity.title".translate(),
                         "tooltip.productivity.default".translate(),
                         "tooltip.productivity.current".translate(
-                            if (ceil(tile.productivityModifier) == 0.0) 1 else ceil(tile.productivityModifier).toInt()
+                            if (ceil(tile.currentModifier.productivity) == 0.0) 1 else ceil(tile.currentModifier.productivity).toInt()
                         )
                     ),
                     mouseX,

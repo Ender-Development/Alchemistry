@@ -15,16 +15,13 @@ Alchemistry is a tech mod, inspired by the classic [Minechem](https://www.cursef
 - backported the interactive periodic table
 - added fission and fusion glass to decorate the reactors
 - reactor cores now emit a small amount of light
+- removed AlchemyLib dependency
 
 ## Dependencies
 
 ![badge](https://img.shields.io/badge/required-Forgelin--Continuous-gray?style=flat-square&labelColor=red&link=https://www.curseforge.com/minecraft/mc-mods/forgelin-continuous)
 
 Alchemistry is written in Kotlin, which requires the Forgelin library to be present to run.
-
-![badge](https://img.shields.io/badge/required-AlchemyLib-gray?style=flat-square&labelColor=red&link=https://www.curseforge.com/minecraft/mc-mods/alchemylib)
-
-AlchemyLib is a library that provides the basic functionality for Alchemistry.
 
 ![badge](https://img.shields.io/badge/optional-Patchouli-gray?style=flat-square&labelColor=green&link=https://www.curseforge.com/minecraft/mc-mods/patchouli-rofl-edition)
 

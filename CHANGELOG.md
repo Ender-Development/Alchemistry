@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.3.0] - idk
+- removed AlchemyLib dependency
+- shrink down the final mod jar by about 3MB
+- removed useless sound effects (yes, this does cause a warning upon loading into an older world)
+
 ## [1.2.1] - bugfixes
 - fixed weird dissolver behavior, when outputting items
 - fixed dissolver rendering locked output above the tooltip

@@ -11,7 +11,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
  * Created by al132 on 4/28/2017.
  */
 
-@Config(modid = Tags.MOD_ID, name = "${Tags.MOD_ID}/${Tags.MOD_ID}")
+@Config(modid = Tags.MOD_ID, name = Tags.MOD_ID)
 object ConfigHandler {
 
 	@JvmField

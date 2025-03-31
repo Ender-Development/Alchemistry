@@ -8,6 +8,7 @@ import io.enderdev.alchemistry.crafting.DankFoodHandler
 import io.enderdev.alchemistry.crafting.MachineResettingHandler
 import io.enderdev.alchemistry.crafting.SaltyFoodHandler
 import io.enderdev.alchemistry.items.ModItems
+import io.enderdev.alchemistry.proxy.CommonProxy
 import io.enderdev.alchemistry.utils.extensions.toStack
 import net.minecraft.block.Block
 import net.minecraft.creativetab.CreativeTabs
@@ -23,7 +24,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import org.apache.logging.log4j.Logger
-import java.io.File
 import java.text.DecimalFormat
 import java.util.*
 
@@ -37,8 +37,6 @@ import java.util.*
 object Alchemistry {
 	const val DEPENDENCIES = "required-after:forgelin_continuous;after:crafttweaker;after:groovyscript;before:jei;"
 	val DECIMAL_FORMAT = DecimalFormat("#0.00")
-	lateinit var configPath: String
-	lateinit var configDir: File
 
 	val creativeTab = object : CreativeTabs(Tags.MOD_ID) {
 		override fun createIcon() = ModBlocks.chemical_combiner.toStack()
@@ -50,7 +48,7 @@ object Alchemistry {
 
 	lateinit var logger: Logger
 
-	@SidedProxy(clientSide = "io.enderdev.alchemistry.ClientProxy", serverSide = "io.enderdev.alchemistry.CommonProxy")
+	@SidedProxy(clientSide = "io.enderdev.alchemistry.proxy.ClientProxy", serverSide = "io.enderdev.alchemistry.proxy.CommonProxy")
 	var proxy: CommonProxy? = null
 
 	@EventHandler
@@ -63,8 +61,7 @@ object Alchemistry {
 	fun postInit(e: FMLPostInitializationEvent) = proxy!!.postInit(e)
 
 	@EventHandler
-	fun serverStarting(e: FMLServerStartingEvent) =
-		e.registerServerCommand(DissolverCommand())
+	fun serverStarting(e: FMLServerStartingEvent) = e.registerServerCommand(DissolverCommand())
 
 	@EventHandler
 	fun loadComplete(e: FMLLoadCompleteEvent) {

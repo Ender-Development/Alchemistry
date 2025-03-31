@@ -5,7 +5,7 @@ import com.cleanroommc.groovyscript.api.documentation.annotations.Example
 import com.cleanroommc.groovyscript.api.documentation.annotations.MethodDescription
 import com.cleanroommc.groovyscript.api.documentation.annotations.RegistryDescription
 import com.cleanroommc.groovyscript.sandbox.GroovyLogImpl
-import io.enderdev.alchemistry.CommonProxy
+import io.enderdev.alchemistry.proxy.CommonProxy
 import io.enderdev.alchemistry.Tags
 import io.enderdev.alchemistry.chemistry.CompoundPair
 import io.enderdev.alchemistry.chemistry.CompoundRegistry

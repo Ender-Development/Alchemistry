@@ -1,10 +1,10 @@
-package io.enderdev.alchemistry
+package io.enderdev.alchemistry.proxy
 
+import io.enderdev.alchemistry.Tags
 import io.enderdev.alchemistry.capability.AlchemistryDrugDispatcher
 import io.enderdev.alchemistry.capability.CapabilityDrugInfo
 import io.enderdev.alchemistry.chemistry.CompoundRegistry
 import io.enderdev.alchemistry.chemistry.ElementRegistry
-import io.enderdev.alchemistry.client.BlockHighlighter
 import io.enderdev.alchemistry.client.gui.GuiPeriodicTable
 import io.enderdev.alchemistry.items.DankMolecule
 import io.enderdev.alchemistry.items.ItemCompound
@@ -16,16 +16,13 @@ import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.init.Blocks
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ResourceLocation
-import net.minecraftforge.client.event.RenderWorldLastEvent
 import net.minecraftforge.event.AttachCapabilitiesEvent
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent
 import net.minecraftforge.event.entity.player.PlayerInteractEvent
 import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
-import net.minecraftforge.fml.relauncher.Side
-import net.minecraftforge.fml.relauncher.SideOnly
 
-class EventHandler {
+class CommonEventHandler {
 	@SubscribeEvent
 	fun rightClickEvent(e: PlayerInteractEvent.RightClickBlock) {
 		val target = e.world.getBlockState(e.pos)
@@ -93,11 +90,5 @@ class EventHandler {
 				else -> 0
 			}
 		}
-	}
-
-	@SubscribeEvent
-	@SideOnly(Side.CLIENT)
-	fun blockHighlighter(event: RenderWorldLastEvent) {
-		BlockHighlighter.eventHandler(event)
 	}
 }

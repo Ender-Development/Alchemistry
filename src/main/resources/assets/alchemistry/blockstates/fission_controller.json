@@ -1,37 +1,37 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "alchemistry:fission_controller",
-    "textures": {
-      "front": "alchemistry:blocks/fission_controller_off"
-    }
-  },
-  "variants": {
-    "normal": [{}],
-    "inventory": [{}],
-    "facing": {
-      "north": {},
-      "east": {"y": 90},
-      "south": {"y": 180},
-      "west": {"y": 270}
-    },
-    "status": {
-      "off": {},
-      "standby": {
-        "textures": {
-          "front": "alchemistry:blocks/fission_controller_standby"
-        }
-      },
-      "on": {
-        "textures": {
-          "front": "alchemistry:blocks/fission_controller_on"
-        }
-      },
-      "disabled": {
-        "textures": {
-          "front": "alchemistry:blocks/fission_controller_disabled"
-        }
-      }
-    }
-  }
+	"forge_marker": 1,
+	"defaults": {
+		"model": "alchemistry:fission_controller",
+		"textures": {
+			"front": "alchemistry:blocks/fission_controller_off"
+		}
+	},
+	"variants": {
+		"normal": [{}],
+		"inventory": [{}],
+		"facing": {
+			"north": {},
+			"east": {"y": 90},
+			"south": {"y": 180},
+			"west": {"y": 270}
+		},
+		"status": {
+			"off": {},
+			"standby": {
+				"textures": {
+					"front": "alchemistry:blocks/fission_controller_standby"
+				}
+			},
+			"on": {
+				"textures": {
+					"front": "alchemistry:blocks/fission_controller_on"
+				}
+			},
+			"disabled": {
+				"textures": {
+					"front": "alchemistry:blocks/fission_controller_disabled"
+				}
+			}
+		}
+	}
 }

@@ -19,40 +19,40 @@ import stanhebben.zenscript.annotations.ZenMethod
 @ZenRegister
 object CTLiquifier {
 
-    @ZenMethod
-    @JvmStatic
-    fun addRecipe(output: ILiquidStack, input: IItemStack) {
-        Alchemistry.LATE_ADDITIONS.add(object : IAction {
-            override fun describe() = "Added Liquifier recipe for [$input] -> [$output]"
+	@ZenMethod
+	@JvmStatic
+	fun addRecipe(output: ILiquidStack, input: IItemStack) {
+		Alchemistry.LATE_ADDITIONS.add(object : IAction {
+			override fun describe() = "Added Liquifier recipe for [$input] -> [$output]"
 
-            override fun apply() {
-                val inputStack = input.internal as ItemStack
-                val outputStack = output.internal as FluidStack
-                LiquifierRegister.Companion.INSTANCE.recipes.add(LiquifierRecipe(inputStack, outputStack))
-            }
-        })
-    }
+			override fun apply() {
+				val inputStack = input.internal as ItemStack
+				val outputStack = output.internal as FluidStack
+				LiquifierRegister.Companion.INSTANCE.recipes.add(LiquifierRecipe(inputStack, outputStack))
+			}
+		})
+	}
 
-    @ZenMethod
-    @JvmStatic
-    fun removeRecipe(input: IItemStack) {
-        Alchemistry.LATE_REMOVALS.add(object : IAction {
-            override fun describe() = "Removed Liquifier recipe for [$input]"
+	@ZenMethod
+	@JvmStatic
+	fun removeRecipe(input: IItemStack) {
+		Alchemistry.LATE_REMOVALS.add(object : IAction {
+			override fun describe() = "Removed Liquifier recipe for [$input]"
 
-            override fun apply() {
-                val inputStack = input.internal as ItemStack
-                LiquifierRegister.Companion.INSTANCE.recipes.removeIf { it.input.isItemEqual(inputStack) }
-            }
-        })
-    }
+			override fun apply() {
+				val inputStack = input.internal as ItemStack
+				LiquifierRegister.Companion.INSTANCE.recipes.removeIf { it.input.isItemEqual(inputStack) }
+			}
+		})
+	}
 
-    @ZenMethod
-    @JvmStatic
-    fun removeAllRecipes() {
-        Alchemistry.LATE_REMOVALS.add(object : IAction {
-            override fun describe() = "Removed ALL Liquifier recipes"
+	@ZenMethod
+	@JvmStatic
+	fun removeAllRecipes() {
+		Alchemistry.LATE_REMOVALS.add(object : IAction {
+			override fun describe() = "Removed ALL Liquifier recipes"
 
-            override fun apply() = LiquifierRegister.Companion.INSTANCE.recipes.clear()
-        })
-    }
+			override fun apply() = LiquifierRegister.Companion.INSTANCE.recipes.clear()
+		})
+	}
 }

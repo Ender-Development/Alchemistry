@@ -7,8 +7,8 @@ import mezz.jei.api.ingredients.VanillaTypes
 
 class LiquifierRecipeWrapper(recipe: LiquifierRecipe) : AlchemistryRecipeWrapper<LiquifierRecipe>(recipe) {
 
-    override fun getIngredients(ingredients: IIngredients) {
-        ingredients.setInput(VanillaTypes.ITEM, recipe.input)
-        ingredients.setOutput(VanillaTypes.FLUID, recipe.output)
-    }
+	override fun getIngredients(ingredients: IIngredients) {
+		ingredients.setInput(VanillaTypes.ITEM, recipe.input)
+		ingredients.setOutput(VanillaTypes.FLUID, recipe.output)
+	}
 }

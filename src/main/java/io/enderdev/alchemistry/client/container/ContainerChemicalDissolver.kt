@@ -8,10 +8,10 @@ import net.minecraftforge.items.SlotItemHandler
  * Created by al132 on 1/16/2017.
  */
 class ContainerChemicalDissolver(playerInv: InventoryPlayer, tile: TileChemicalDissolver) :
-        ContainerBase<TileChemicalDissolver>(playerInv, tile) {
+	ContainerBase<TileChemicalDissolver>(playerInv, tile) {
 
-    override fun addOwnSlots() {
-        addSlotToContainer(SlotItemHandler(tile.input, 0, 44, 57))
-        addSlotArray(98, 39, 3, 4, tile.output)
-    }
+	override fun addOwnSlots() {
+		addSlotToContainer(SlotItemHandler(tile.input, 0, 44, 57))
+		addSlotArray(98, 39, 3, 4, tile.output)
+	}
 }

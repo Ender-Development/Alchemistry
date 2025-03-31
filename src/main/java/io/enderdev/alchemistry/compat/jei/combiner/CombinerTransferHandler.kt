@@ -10,13 +10,13 @@ import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.ItemStack
 
 class CombinerTransferHandler : IRecipeTransferHandler<ContainerChemicalCombiner> {
-    override fun getContainerClass() = ContainerChemicalCombiner::class.java
+	override fun getContainerClass() = ContainerChemicalCombiner::class.java
 
-    override fun transferRecipe(container: ContainerChemicalCombiner, recipeLayout: IRecipeLayout, player: EntityPlayer, maxTransfer: Boolean, doTransfer: Boolean): IRecipeTransferError? {
-        val output: ItemStack? = recipeLayout.itemStacks.guiIngredients.entries.last().value.displayedIngredient
-        if (output != null && doTransfer) {
-            PacketHandler.INSTANCE!!.sendToServer(ChemicalCombinerTransferPacket(container.tile.pos, output))
-        }
-        return null
-    }
+	override fun transferRecipe(container: ContainerChemicalCombiner, recipeLayout: IRecipeLayout, player: EntityPlayer, maxTransfer: Boolean, doTransfer: Boolean): IRecipeTransferError? {
+		val output: ItemStack? = recipeLayout.itemStacks.guiIngredients.entries.last().value.displayedIngredient
+		if(output != null && doTransfer) {
+			PacketHandler.INSTANCE!!.sendToServer(ChemicalCombinerTransferPacket(container.tile.pos, output))
+		}
+		return null
+	}
 }

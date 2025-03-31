@@ -1,25 +1,25 @@
 {
-  "type": "forge:ore_shaped",
-  "pattern": [
-    "AMA",
-    "MBM",
-    "AMA"
-  ],
-  "key": {
-    "B": {
-      "item": "minecraft:blaze_powder"
-    },
-    "A": {
-      "type": "forge:ore_dict",
-      "ore": "ingotBarium"
-    },
-    "M": {
-      "type": "forge:ore_dict",
-      "ore": "ingotMagnesium"
-    }
-  },
-  "result": {
-    "count": 4,
-    "item": "alchemistry:fission_casing"
- }
+	"type": "forge:ore_shaped",
+	"pattern": [
+		"AMA",
+		"MBM",
+		"AMA"
+	],
+	"key": {
+		"B": {
+			"item": "minecraft:blaze_powder"
+		},
+		"A": {
+			"type": "forge:ore_dict",
+			"ore": "ingotBarium"
+		},
+		"M": {
+			"type": "forge:ore_dict",
+			"ore": "ingotMagnesium"
+		}
+	},
+	"result": {
+		"count": 4,
+		"item": "alchemistry:fission_casing"
+	}
 }

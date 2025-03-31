@@ -8,80 +8,80 @@ import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.util.ITickable
 
 abstract class AbstractMachine<T : IRecipe>(recipeRegister: AbstractRecipeRegister<T>) : TileBase(), ITickable,
-    IGuiTile, IItemTile {
-    val recipeRegister: List<T> = recipeRegister.recipes
+	IGuiTile, IItemTile {
+	val recipeRegister: List<T> = recipeRegister.recipes
 
-    abstract val recipeTime: Int
-    abstract val energyPerTick : Int
+	abstract val recipeTime: Int
+	abstract val energyPerTick: Int
 
-    var progressTicks: Int = 0
-    var isPaused: Boolean = false
-    var needsPower: Boolean = false
-    var currentRecipe: T? = null
+	var progressTicks: Int = 0
+	var isPaused: Boolean = false
+	var needsPower: Boolean = false
+	var currentRecipe: T? = null
 
-    /**
-     * Update the stored recipe variable.
-     * Used in init and readFromNBT.
-     */
-    abstract fun updateRecipe()
+	/**
+	 * Update the stored recipe variable.
+	 * Used in init and readFromNBT.
+	 */
+	abstract fun updateRecipe()
 
-    /**
-     * Fired when the machine finishes a recipe.
-     * Used for consuming inputs and producing outputs.
-     */
-    abstract fun onProcessComplete()
+	/**
+	 * Fired when the machine finishes a recipe.
+	 * Used for consuming inputs and producing outputs.
+	 */
+	abstract fun onProcessComplete()
 
-    /**
-     * Fired every tick the machine is active.
-     * Used for consuming energy, etc.
-     */
-    abstract fun onWorkTick()
+	/**
+	 * Fired every tick the machine is active.
+	 * Used for consuming energy, etc.
+	 */
+	abstract fun onWorkTick()
 
-    /**
-     * Check if there is anything present to process.
-     */
-    abstract fun shouldTick(): Boolean
+	/**
+	 * Check if there is anything present to process.
+	 */
+	abstract fun shouldTick(): Boolean
 
-    /**
-     * Check if the machine should process the current recipe.
-     */
-    abstract fun shouldProcess(): Boolean
+	/**
+	 * Check if the machine should process the current recipe.
+	 */
+	abstract fun shouldProcess(): Boolean
 
-    open fun onIdleTick() = updateRecipe()
+	open fun onIdleTick() = updateRecipe()
 
-    override fun update() {
-        if (world.isRemote) return
-        markDirtyGUIEvery(5)
+	override fun update() {
+		if(world.isRemote) return
+		markDirtyGUIEvery(5)
 
-        if (isPaused || (needsPower xor this.world.isBlockPowered(this.pos))) return
-	    if(!shouldTick()) {
-            progressTicks = 0
-            return
-        }
-        onIdleTick()
-	    if(currentRecipe == null || !shouldProcess()) {
-		    progressTicks = 0
-            return
-	    }
-        onWorkTick()
-        if(progressTicks++ == recipeTime) {
-            progressTicks = 0
-            onProcessComplete()
-        }
-    }
+		if(isPaused || (needsPower xor this.world.isBlockPowered(this.pos))) return
+		if(!shouldTick()) {
+			progressTicks = 0
+			return
+		}
+		onIdleTick()
+		if(currentRecipe == null || !shouldProcess()) {
+			progressTicks = 0
+			return
+		}
+		onWorkTick()
+		if(progressTicks++ == recipeTime) {
+			progressTicks = 0
+			onProcessComplete()
+		}
+	}
 
-    override fun writeToNBT(compound: NBTTagCompound): NBTTagCompound {
-        super.writeToNBT(compound)
-        compound.setBoolean("IsPaused", isPaused)
-        compound.setBoolean("NeedsPower", needsPower)
-        compound.setInteger("ProgressTicks", progressTicks)
-        return compound
-    }
+	override fun writeToNBT(compound: NBTTagCompound): NBTTagCompound {
+		super.writeToNBT(compound)
+		compound.setBoolean("IsPaused", isPaused)
+		compound.setBoolean("NeedsPower", needsPower)
+		compound.setInteger("ProgressTicks", progressTicks)
+		return compound
+	}
 
-    override fun readFromNBT(compound: NBTTagCompound) {
-        super.readFromNBT(compound)
-        isPaused = compound.getBoolean("IsPaused")
-        needsPower = compound.getBoolean("NeedsPower")
-        progressTicks = compound.getInteger("ProgressTicks")
-    }
+	override fun readFromNBT(compound: NBTTagCompound) {
+		super.readFromNBT(compound)
+		isPaused = compound.getBoolean("IsPaused")
+		needsPower = compound.getBoolean("NeedsPower")
+		progressTicks = compound.getInteger("ProgressTicks")
+	}
 }

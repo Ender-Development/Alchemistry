@@ -40,7 +40,7 @@ object RenderUtils {
 	}
 
 	fun renderGuiTank(fluid: FluidStack?, capacity: Int, amount: Int, x: Double, y: Double, zLevel: Double, width: Double, height: Double) {
-		if (fluid == null || fluid.fluid == null || fluid.amount <= 0) return
+		if(fluid == null || fluid.fluid == null || fluid.amount <= 0) return
 
 		val icon = getStillTexture(fluid) ?: return
 
@@ -53,9 +53,9 @@ object RenderUtils {
 
 		GlStateManager.enableBlend()
 		var i = 0
-		while (i < width) {
+		while(i < width) {
 			var j = 0
-			while (j < renderAmount) {
+			while(j < renderAmount) {
 				val drawWidth = (width - i).coerceAtMost(16.0).toInt()
 				val drawHeight = (renderAmount - j).coerceAtMost(16)
 

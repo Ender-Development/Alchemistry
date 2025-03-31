@@ -1,27 +1,27 @@
 {
-  "type": "forge:ore_shaped",
-  "pattern": [
-    "SCS",
-    "GPS",
-    "SCS"
-  ],
-  "key": {
-    "P": {
-      "item": "minecraft:ender_pearl"
-    },
-    "S": {
-      "type": "forge:ore_dict",
-      "ore": "ingotSelenium"
-    },
-    "G": {
-      "item": "minecraft:glass"
-    },
-    "C": {
-      "item": "alchemistry:fusion_casing"
-    }
-  },
-  "result": {
-    "item": "alchemistry:fusion_controller",
-    "data": 0
-  }
+	"type": "forge:ore_shaped",
+	"pattern": [
+		"SCS",
+		"GPS",
+		"SCS"
+	],
+	"key": {
+		"P": {
+			"item": "minecraft:ender_pearl"
+		},
+		"S": {
+			"type": "forge:ore_dict",
+			"ore": "ingotSelenium"
+		},
+		"G": {
+			"item": "minecraft:glass"
+		},
+		"C": {
+			"item": "alchemistry:fusion_casing"
+		}
+	},
+	"result": {
+		"item": "alchemistry:fusion_controller",
+		"data": 0
+	}
 }

@@ -1,5 +1,5 @@
 {
-  "name": "Fusion Multiblock",
-  "description": "An overview of the Fusion multiblock",
-  "icon": "alchemistry:fusion_controller"
+	"name": "Fusion Multiblock",
+	"description": "An overview of the Fusion multiblock",
+	"icon": "alchemistry:fusion_controller"
 }

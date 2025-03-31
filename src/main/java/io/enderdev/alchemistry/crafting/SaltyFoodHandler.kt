@@ -12,44 +12,44 @@ import net.minecraftforge.registries.IForgeRegistryEntry
 
 class SaltyFoodHandler : IForgeRegistryEntry.Impl<IRecipe>(), IRecipe {
 
-    init {
-        this.setRegistryName(Tags.MOD_ID, "salty_food_handler")
-    }
+	init {
+		this.setRegistryName(Tags.MOD_ID, "salty_food_handler")
+	}
 
-    private var resultItem = ItemStack.EMPTY
+	private var resultItem = ItemStack.EMPTY
 
+	override fun canFit(width: Int, height: Int): Boolean = width * height >= 2
 
-    override fun canFit(width: Int, height: Int): Boolean = width * height >= 2
+	override fun getRecipeOutput(): ItemStack = ItemStack.EMPTY
 
-    override fun getRecipeOutput(): ItemStack = ItemStack.EMPTY
+	override fun getCraftingResult(inv: InventoryCrafting): ItemStack = resultItem.copy()
 
-    override fun getCraftingResult(inv: InventoryCrafting): ItemStack = resultItem.copy()
+	override fun isDynamic(): Boolean = true
 
-    override fun isDynamic(): Boolean = true
+	override fun matches(inv: InventoryCrafting, world: World): Boolean {
+		var food = ItemStack.EMPTY
+		var countSalt = 0
 
-    override fun matches(inv: InventoryCrafting, world: World): Boolean {
-        var food = ItemStack.EMPTY
-        var countSalt = 0
-
-        for (i in 0..<inv.sizeInventory) {
-            val currentStack = inv.getStackInSlot(i)
-            if (!currentStack.isEmpty) {
-                if (currentStack.item is ItemFood
-                        && currentStack.hasTagCompound()
-                        && currentStack.tagCompound?.hasKey("alchemistryPotion") ?: false) food = currentStack
-                else {
-                    if (currentStack.item is ItemCompound && currentStack.metadata == CompoundRegistry["sodium_chloride"]!!.meta) {
-                        countSalt++
-                    } else return false
-                }
-            }
-        }
-        if (!food.isEmpty && countSalt == 8) {
-            val tempResult: ItemStack = food.copy()
-            tempResult.count = 1
-            tempResult.tagCompound!!.setBoolean("alchemistrySalted", true)
-            resultItem = tempResult
-            return true
-        } else return false
-    }
+		for(i in 0..<inv.sizeInventory) {
+			val currentStack = inv.getStackInSlot(i)
+			if(!currentStack.isEmpty) {
+				if(currentStack.item is ItemFood
+					&& currentStack.hasTagCompound()
+					&& currentStack.tagCompound?.hasKey("alchemistryPotion") ?: false
+				) food = currentStack
+				else {
+					if(currentStack.item is ItemCompound && currentStack.metadata == CompoundRegistry["sodium_chloride"]!!.meta) {
+						countSalt++
+					} else return false
+				}
+			}
+		}
+		if(!food.isEmpty && countSalt == 8) {
+			val tempResult: ItemStack = food.copy()
+			tempResult.count = 1
+			tempResult.tagCompound!!.setBoolean("alchemistrySalted", true)
+			resultItem = tempResult
+			return true
+		} else return false
+	}
 }

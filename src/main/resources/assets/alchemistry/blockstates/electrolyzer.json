@@ -1,19 +1,19 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "alchemistry:electrolyzer",
-    "textures": {
-      "particle": "alchemistry:blocks/dark_block"
-    }
-  },
-  "variants": {
-    "normal": [{}],
-    "inventory": [{}],
-    "facing": {
-      "north": {"y": 90},
-      "south": {"y": 270},
-      "west": {},
-      "east": {"y": 180}
-    }
-  }
+	"forge_marker": 1,
+	"defaults": {
+		"model": "alchemistry:electrolyzer",
+		"textures": {
+			"particle": "alchemistry:blocks/dark_block"
+		}
+	},
+	"variants": {
+		"normal": [{}],
+		"inventory": [{}],
+		"facing": {
+			"north": {"y": 90},
+			"south": {"y": 270},
+			"west": {},
+			"east": {"y": 180}
+		}
+	}
 }

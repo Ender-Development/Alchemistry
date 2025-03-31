@@ -1,11 +1,11 @@
 {
-  "name": "Fertilizer",
-  "icon": "alchemistry:fertilizer",
-  "category": "utility_category",
-  "pages": [
-    {
-      "type": "text",
-      "text": "Fertilizer can be created in the Chemical Combiner and functions identically to vanilla bonemeal"
-    }
-  ]
+	"name": "Fertilizer",
+	"icon": "alchemistry:fertilizer",
+	"category": "utility_category",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Fertilizer can be created in the Chemical Combiner and functions identically to vanilla bonemeal"
+		}
+	]
 }

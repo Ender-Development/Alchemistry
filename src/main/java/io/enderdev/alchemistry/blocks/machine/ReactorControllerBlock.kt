@@ -30,24 +30,35 @@ class ReactorControllerBlock(name: String, tileClass: Class<out TileEntity>, gui
 			TooltipItemBlock(
 				this,
 				"tooltip.alchemistry.energy_requirement".translate(energyPerTick)
-			).setRegistryName(this.registryName))
+			).setRegistryName(this.registryName)
+		)
 	}
 
 	override fun createBlockState() = BlockStateContainer(this, *PROPERTIES)
 
-	override fun getStateForPlacement(world: World, pos: BlockPos, facing: EnumFacing, hitX: Float, hitY: Float, hitZ: Float, meta: Int, placer: EntityLivingBase, hand: EnumHand): IBlockState {
+	override fun getStateForPlacement(
+		world: World,
+		pos: BlockPos,
+		facing: EnumFacing,
+		hitX: Float,
+		hitY: Float,
+		hitZ: Float,
+		meta: Int,
+		placer: EntityLivingBase,
+		hand: EnumHand
+	): IBlockState {
 		val state = super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer, hand)
 		return state.withProperty(FACING, placer.horizontalFacing.opposite).withProperty(STATUS, PropertyPowerStatus.OFF)
 	}
 
 	@Deprecated("")
 	override fun getStateFromMeta(meta: Int): IBlockState {
-		val facing = when (meta) {
-			in 0..2  -> EnumFacing.NORTH
-			in 3..5  -> EnumFacing.SOUTH
-			in 6..8  -> EnumFacing.WEST
+		val facing = when(meta) {
+			in 0..2 -> EnumFacing.NORTH
+			in 3..5 -> EnumFacing.SOUTH
+			in 6..8 -> EnumFacing.WEST
 			in 9..11 -> EnumFacing.EAST
-			else          -> EnumFacing.NORTH
+			else -> EnumFacing.NORTH
 		}
 		val status = when(meta % 3) {
 			0 -> PropertyPowerStatus.OFF
@@ -66,18 +77,18 @@ class ReactorControllerBlock(name: String, tileClass: Class<out TileEntity>, gui
 
 	override fun getMetaFromState(state: IBlockState): Int {
 		//val dir: Int = (state.getValue(FACING) as EnumFacing).index
-		var sum = when (state.getValue(FACING)) {
+		var sum = when(state.getValue(FACING)) {
 			EnumFacing.NORTH -> 0
 			EnumFacing.SOUTH -> 3
-			EnumFacing.WEST  -> 6
-			EnumFacing.EAST  -> 9
-			else             -> 0
+			EnumFacing.WEST -> 6
+			EnumFacing.EAST -> 9
+			else -> 0
 		}
-		sum += when (state.getValue(STATUS)) {
-			PropertyPowerStatus.OFF     -> 0
+		sum += when(state.getValue(STATUS)) {
+			PropertyPowerStatus.OFF -> 0
 			PropertyPowerStatus.STANDBY -> 1
-			PropertyPowerStatus.ON      -> 2
-			else                        -> 0
+			PropertyPowerStatus.ON -> 2
+			else -> 0
 		}
 		return sum
 	}

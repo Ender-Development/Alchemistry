@@ -10,15 +10,15 @@ import java.awt.Color
  */
 class ChemicalElement constructor(override var name: String, val abbreviation: String, override var color: Color = Color.white, var group: Int = 0, var period: Int = 0) : ICompoundComponent {
 
-    override val item: Item
-        get() = ModItems.elements
+	override val item: Item
+		get() = ModItems.elements
 
-    override val meta: Int
-        get() = ElementRegistry.getMeta(this.name)
+	override val meta: Int
+		get() = ElementRegistry.getMeta(this.name)
 
-    override fun toItemStack(quantity: Int) = ItemStack(item, quantity, this.meta)
+	override fun toItemStack(quantity: Int) = ItemStack(item, quantity, this.meta)
 
-    override fun toString(): String = "Element: $name"
+	override fun toString(): String = "Element: $name"
 
-    override fun toAbbreviatedString(): String = this.abbreviation
+	override fun toAbbreviatedString(): String = this.abbreviation
 }

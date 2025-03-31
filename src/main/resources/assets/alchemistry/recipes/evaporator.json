@@ -1,21 +1,21 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "P P",
-    "P P",
-    "SPS"
-  ],
-  "key": {
-    "S": {
-      "item": "minecraft:stone",
-      "data": 0
-    },
-    "P": {
-      "item": "minecraft:stone_pressure_plate"
-    }
-  },
-  "result": {
-    "item": "alchemistry:evaporator",
-    "data": 0
-  }
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"P P",
+		"P P",
+		"SPS"
+	],
+	"key": {
+		"S": {
+			"item": "minecraft:stone",
+			"data": 0
+		},
+		"P": {
+			"item": "minecraft:stone_pressure_plate"
+		}
+	},
+	"result": {
+		"item": "alchemistry:evaporator",
+		"data": 0
+	}
 }

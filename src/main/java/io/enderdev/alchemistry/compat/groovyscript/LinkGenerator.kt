@@ -4,11 +4,11 @@ import com.cleanroommc.groovyscript.documentation.linkgenerator.BasicLinkGenerat
 import io.enderdev.alchemistry.Tags
 
 class LinkGenerator : BasicLinkGenerator() {
-    override fun id(): String? {
-        return Tags.MOD_ID
-    }
+	override fun id(): String? {
+		return Tags.MOD_ID
+	}
 
-    override fun domain(): String? {
-        return "https://github.com/Ender-Development/Alchemistry/"
-    }
+	override fun domain(): String? {
+		return "https://github.com/Ender-Development/Alchemistry/"
+	}
 }

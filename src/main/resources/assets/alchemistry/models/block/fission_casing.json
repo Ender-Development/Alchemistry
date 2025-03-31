@@ -1,7 +1,7 @@
 {
-  "parent": "block/cube_all",
-  "textures": {
-    "all": "alchemistry:blocks/fission_casing",
-    "particle": "alchemistry:blocks/fission_casing"
-  }
+	"parent": "block/cube_all",
+	"textures": {
+		"all": "alchemistry:blocks/fission_casing",
+		"particle": "alchemistry:blocks/fission_casing"
+	}
 }

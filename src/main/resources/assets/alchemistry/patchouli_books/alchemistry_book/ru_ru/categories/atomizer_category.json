@@ -1,5 +1,5 @@
 {
-  "name": "Атомайзер",
-  "description": "Обзор блока атомайзер",
-  "icon": "alchemistry:atomizer"
+	"name": "Атомайзер",
+	"description": "Обзор блока атомайзер",
+	"icon": "alchemistry:atomizer"
 }

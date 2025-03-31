@@ -1,7 +1,7 @@
 {
-  "parent": "block/cube_column",
-  "textures": {
-    "end": "alchemistry:blocks/fission_core_end",
-    "side": "alchemistry:blocks/fission_core_side"
-  }
+	"parent": "block/cube_column",
+	"textures": {
+		"end": "alchemistry:blocks/fission_core_end",
+		"side": "alchemistry:blocks/fission_core_side"
+	}
 }

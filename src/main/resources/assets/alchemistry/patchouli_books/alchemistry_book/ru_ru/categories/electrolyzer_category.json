@@ -1,5 +1,5 @@
 {
-  "name": "Электролизер",
-  "description": "Обзор блока электролизер",
-  "icon": "alchemistry:electrolyzer"
+	"name": "Электролизер",
+	"description": "Обзор блока электролизер",
+	"icon": "alchemistry:electrolyzer"
 }

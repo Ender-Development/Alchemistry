@@ -1,13 +1,13 @@
 {
-  "ctm": {
-    "ctm_version": 1,
-    "type": "ctm",
-    "layer": "TRANSLUCENT",
-    "textures": [
-        "alchemistry:blocks/fission_glass_ctm"
-    ],
-    "extra": {
-      "light": 0
-    }
-  }
+	"ctm": {
+		"ctm_version": 1,
+		"type": "ctm",
+		"layer": "TRANSLUCENT",
+		"textures": [
+			"alchemistry:blocks/fission_glass_ctm"
+		],
+		"extra": {
+			"light": 0
+		}
+	}
 }

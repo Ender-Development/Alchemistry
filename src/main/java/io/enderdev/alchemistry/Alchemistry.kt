@@ -27,88 +27,87 @@ import java.io.File
 import java.text.DecimalFormat
 import java.util.*
 
-
 @Mod(
-    modid = Tags.MOD_ID,
-    name = Tags.MOD_NAME,
-    version = Tags.VERSION,
-    dependencies = Alchemistry.DEPENDENCIES,
-    modLanguageAdapter = "io.github.chaosunity.forgelin.KotlinAdapter"
+	modid = Tags.MOD_ID,
+	name = Tags.MOD_NAME,
+	version = Tags.VERSION,
+	dependencies = Alchemistry.DEPENDENCIES,
+	modLanguageAdapter = "io.github.chaosunity.forgelin.KotlinAdapter"
 )
 object Alchemistry {
-    const val DEPENDENCIES = "required-after:forgelin_continuous;after:crafttweaker;after:groovyscript;before:jei;"
-    val DECIMAL_FORMAT = DecimalFormat("#0.00")
-    lateinit var configPath: String
-    lateinit var configDir: File
+	const val DEPENDENCIES = "required-after:forgelin_continuous;after:crafttweaker;after:groovyscript;before:jei;"
+	val DECIMAL_FORMAT = DecimalFormat("#0.00")
+	lateinit var configPath: String
+	lateinit var configDir: File
 
-    val creativeTab = object : CreativeTabs(Tags.MOD_ID) {
-        override fun createIcon() = ModBlocks.chemical_combiner.toStack()
-    }
+	val creativeTab = object : CreativeTabs(Tags.MOD_ID) {
+		override fun createIcon() = ModBlocks.chemical_combiner.toStack()
+	}
 
-    //https://github.com/jaredlll08/ModTweaker/blob/1.12/src/main/java/com/blamejared/ModTweaker.java
-    val LATE_REMOVALS: LinkedList<IAction> = LinkedList()
-    val LATE_ADDITIONS: LinkedList<IAction> = LinkedList()
+	//https://github.com/jaredlll08/ModTweaker/blob/1.12/src/main/java/com/blamejared/ModTweaker.java
+	val LATE_REMOVALS: LinkedList<IAction> = LinkedList()
+	val LATE_ADDITIONS: LinkedList<IAction> = LinkedList()
 
-    lateinit var logger: Logger
+	lateinit var logger: Logger
 
-    @SidedProxy(clientSide = "io.enderdev.alchemistry.ClientProxy", serverSide = "io.enderdev.alchemistry.CommonProxy")
-    var proxy: CommonProxy? = null
+	@SidedProxy(clientSide = "io.enderdev.alchemistry.ClientProxy", serverSide = "io.enderdev.alchemistry.CommonProxy")
+	var proxy: CommonProxy? = null
 
-    @EventHandler
-    fun preInit(e: FMLPreInitializationEvent) = proxy!!.preInit(e)
+	@EventHandler
+	fun preInit(e: FMLPreInitializationEvent) = proxy!!.preInit(e)
 
-    @EventHandler
-    fun init(e: FMLInitializationEvent) = proxy!!.init(e)
+	@EventHandler
+	fun init(e: FMLInitializationEvent) = proxy!!.init(e)
 
-    @EventHandler
-    fun postInit(e: FMLPostInitializationEvent) = proxy!!.postInit(e)
+	@EventHandler
+	fun postInit(e: FMLPostInitializationEvent) = proxy!!.postInit(e)
 
-    @EventHandler
-    fun serverStarting(e: FMLServerStartingEvent) =
-        e.registerServerCommand(DissolverCommand())
+	@EventHandler
+	fun serverStarting(e: FMLServerStartingEvent) =
+		e.registerServerCommand(DissolverCommand())
 
-    @EventHandler
-    fun loadComplete(e: FMLLoadCompleteEvent) {
-        try {
-            LATE_REMOVALS.forEach(CraftTweakerAPI::apply)
-            LATE_ADDITIONS.forEach(CraftTweakerAPI::apply)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            CraftTweakerAPI.logError("Error while applying actions", e)
-        }
-        LATE_REMOVALS.clear()
-        LATE_ADDITIONS.clear()
-    }
+	@EventHandler
+	fun loadComplete(e: FMLLoadCompleteEvent) {
+		try {
+			LATE_REMOVALS.forEach(CraftTweakerAPI::apply)
+			LATE_ADDITIONS.forEach(CraftTweakerAPI::apply)
+		} catch(e: Exception) {
+			e.printStackTrace()
+			CraftTweakerAPI.logError("Error while applying actions", e)
+		}
+		LATE_REMOVALS.clear()
+		LATE_ADDITIONS.clear()
+	}
 
-    @Mod.EventBusSubscriber(modid = Tags.MOD_ID)
-    object Registration {
-        @JvmStatic
-        @SubscribeEvent
-        fun registerBlocks(event: RegistryEvent.Register<Block>) {
-            ModBlocks.registerBlocks(event)
-        }
+	@Mod.EventBusSubscriber(modid = Tags.MOD_ID)
+	object Registration {
+		@JvmStatic
+		@SubscribeEvent
+		fun registerBlocks(event: RegistryEvent.Register<Block>) {
+			ModBlocks.registerBlocks(event)
+		}
 
-        @JvmStatic
-        @SubscribeEvent
-        fun registerItems(event: RegistryEvent.Register<Item>) {
-            ModBlocks.registerItemBlocks(event)
-            ModItems.registerItems(event)
-        }
+		@JvmStatic
+		@SubscribeEvent
+		fun registerItems(event: RegistryEvent.Register<Item>) {
+			ModBlocks.registerItemBlocks(event)
+			ModItems.registerItems(event)
+		}
 
-        @SideOnly(Side.CLIENT)
-        @JvmStatic
-        @SubscribeEvent
-        fun registerModels(event: ModelRegistryEvent) {
-            ModBlocks.registerModels()
-            ModItems.registerModels()
-        }
+		@SideOnly(Side.CLIENT)
+		@JvmStatic
+		@SubscribeEvent
+		fun registerModels(event: ModelRegistryEvent) {
+			ModBlocks.registerModels()
+			ModItems.registerModels()
+		}
 
-        @JvmStatic
-        @SubscribeEvent
-        fun registerCraftingHandler(event: RegistryEvent.Register<IRecipe>) {
-            event.registry.register(DankFoodHandler())
-            event.registry.register(SaltyFoodHandler())
-            event.registry.register(MachineResettingHandler())
-        }
-    }
+		@JvmStatic
+		@SubscribeEvent
+		fun registerCraftingHandler(event: RegistryEvent.Register<IRecipe>) {
+			event.registry.register(DankFoodHandler())
+			event.registry.register(SaltyFoodHandler())
+			event.registry.register(MachineResettingHandler())
+		}
+	}
 }

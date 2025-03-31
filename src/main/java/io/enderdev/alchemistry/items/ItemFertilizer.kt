@@ -19,24 +19,24 @@ import net.minecraftforge.fml.relauncher.SideOnly
  */
 class ItemFertilizer : ItemBase("Fertilizer") {
 
-    override fun onItemUse(player: EntityPlayer, worldIn: World, pos: BlockPos, hand: EnumHand, facing: EnumFacing, hitX: Float, hitY: Float, hitZ: Float): EnumActionResult {
-        val pos = pos
-        val itemstack = player.getHeldItem(hand)
+	override fun onItemUse(player: EntityPlayer, worldIn: World, pos: BlockPos, hand: EnumHand, facing: EnumFacing, hitX: Float, hitY: Float, hitZ: Float): EnumActionResult {
+		val pos = pos
+		val itemstack = player.getHeldItem(hand)
 
-        if (!player.canPlayerEdit(pos.offset(facing), facing, itemstack)) return EnumActionResult.FAIL
-        else {
-            if (applyBonemeal(itemstack, worldIn, pos, player, hand)) {
-                if (!worldIn.isRemote) {
-                    worldIn.playEvent(2005, pos, 0)
-                }
-                return EnumActionResult.SUCCESS
-            }
-            return EnumActionResult.PASS
-        }
-    }
+		if(!player.canPlayerEdit(pos.offset(facing), facing, itemstack)) return EnumActionResult.FAIL
+		else {
+			if(applyBonemeal(itemstack, worldIn, pos, player, hand)) {
+				if(!worldIn.isRemote) {
+					worldIn.playEvent(2005, pos, 0)
+				}
+				return EnumActionResult.SUCCESS
+			}
+			return EnumActionResult.PASS
+		}
+	}
 
-    @SideOnly(Side.CLIENT)
-    override fun addInformation(stack: ItemStack, playerIn: World?, tooltip: List<String>, advanced: ITooltipFlag) {
-        (tooltip as MutableList).add("item.${Tags.MOD_ID}:fertilizer.tooltip".translate())
-    }
+	@SideOnly(Side.CLIENT)
+	override fun addInformation(stack: ItemStack, playerIn: World?, tooltip: List<String>, advanced: ITooltipFlag) {
+		(tooltip as MutableList).add("item.${Tags.MOD_ID}:fertilizer.tooltip".translate())
+	}
 }

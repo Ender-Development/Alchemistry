@@ -11,61 +11,61 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext
 
 class ButtonPacket() : IMessage {
-    private var blockPos: BlockPos? = null
-    private var pause = false
-    private var redstone = false
-    private var lock = false
-    private var single = false
+	private var blockPos: BlockPos? = null
+	private var pause = false
+	private var redstone = false
+	private var lock = false
+	private var single = false
 
-    override fun fromBytes(buf: ByteBuf) {
-        this.blockPos = BlockPos(buf.readInt(), buf.readInt(), buf.readInt())
-        this.pause = buf.readBoolean()
-        this.redstone = buf.readBoolean()
-        this.lock = buf.readBoolean()
-        this.single = buf.readBoolean()
-    }
+	override fun fromBytes(buf: ByteBuf) {
+		this.blockPos = BlockPos(buf.readInt(), buf.readInt(), buf.readInt())
+		this.pause = buf.readBoolean()
+		this.redstone = buf.readBoolean()
+		this.lock = buf.readBoolean()
+		this.single = buf.readBoolean()
+	}
 
-    override fun toBytes(buf: ByteBuf) {
-        buf.writeInt(blockPos!!.x)
-        buf.writeInt(blockPos!!.y)
-        buf.writeInt(blockPos!!.z)
-        buf.writeBoolean(this.pause)
-        buf.writeBoolean(this.redstone)
-        buf.writeBoolean(this.lock)
-        buf.writeBoolean(this.single)
-    }
+	override fun toBytes(buf: ByteBuf) {
+		buf.writeInt(blockPos!!.x)
+		buf.writeInt(blockPos!!.y)
+		buf.writeInt(blockPos!!.z)
+		buf.writeBoolean(this.pause)
+		buf.writeBoolean(this.redstone)
+		buf.writeBoolean(this.lock)
+		buf.writeBoolean(this.single)
+	}
 
-    constructor(pos: BlockPos, pause: Boolean = false, redstone: Boolean = false, lock: Boolean = false, single: Boolean = false) : this() {
-        this.blockPos = pos
-        this.pause = pause
-        this.redstone = redstone
-        this.lock = lock
-        this.single = single
-    }
+	constructor(pos: BlockPos, pause: Boolean = false, redstone: Boolean = false, lock: Boolean = false, single: Boolean = false) : this() {
+		this.blockPos = pos
+		this.pause = pause
+		this.redstone = redstone
+		this.lock = lock
+		this.single = single
+	}
 
-    class Handler : IMessageHandler<ButtonPacket, IMessage> {
-        override fun onMessage(message: ButtonPacket, ctx: MessageContext): IMessage? {
-            FMLCommonHandler.instance().getWorldThread(ctx.netHandler).addScheduledTask { handle(message, ctx) }
-            return null
-        }
+	class Handler : IMessageHandler<ButtonPacket, IMessage> {
+		override fun onMessage(message: ButtonPacket, ctx: MessageContext): IMessage? {
+			FMLCommonHandler.instance().getWorldThread(ctx.netHandler).addScheduledTask { handle(message, ctx) }
+			return null
+		}
 
-        private fun handle(message: ButtonPacket?, ctx: MessageContext?) {
-            val playerEntity = ctx!!.serverHandler.player
-            val tile = playerEntity.world.getTileEntity(message!!.blockPos!!)
+		private fun handle(message: ButtonPacket?, ctx: MessageContext?) {
+			val playerEntity = ctx!!.serverHandler.player
+			val tile = playerEntity.world.getTileEntity(message!!.blockPos!!)
 
-            if (tile is AbstractMachine<*> && message.pause) {
-                tile.isPaused = !(tile.isPaused)
-            }
-            if (tile is AbstractMachine<*> && message.redstone) {
-                tile.needsPower = !(tile.needsPower)
-            }
-            if (tile is TileChemicalCombiner && message.lock) {
-                tile.recipeIsLocked = !(tile.recipeIsLocked)
-                if (!tile.recipeIsLocked) tile.currentRecipe = null
-            }
-            if (tile is TileFusionController && message.single) {
-                tile.singleMode = !(tile.singleMode)
-            }
-        }
-    }
+			if(tile is AbstractMachine<*> && message.pause) {
+				tile.isPaused = !(tile.isPaused)
+			}
+			if(tile is AbstractMachine<*> && message.redstone) {
+				tile.needsPower = !(tile.needsPower)
+			}
+			if(tile is TileChemicalCombiner && message.lock) {
+				tile.recipeIsLocked = !(tile.recipeIsLocked)
+				if(!tile.recipeIsLocked) tile.currentRecipe = null
+			}
+			if(tile is TileFusionController && message.single) {
+				tile.singleMode = !(tile.singleMode)
+			}
+		}
+	}
 }

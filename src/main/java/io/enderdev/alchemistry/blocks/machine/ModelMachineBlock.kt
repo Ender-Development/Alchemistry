@@ -9,8 +9,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 
-open class ModelMachineBlock(name: String, tileClass: Class<out TileEntity>, guiID: Int, vararg val boundingBoxes: AxisAlignedBB)
-	: BaseMachineBlock(name, tileClass, guiID) {
+open class ModelMachineBlock(name: String, tileClass: Class<out TileEntity>, guiID: Int, vararg val boundingBoxes: AxisAlignedBB) : BaseMachineBlock(name, tileClass, guiID) {
 	@Deprecated("")
 	override fun getRenderType(state: IBlockState): EnumBlockRenderType = EnumBlockRenderType.MODEL
 
@@ -24,12 +23,14 @@ open class ModelMachineBlock(name: String, tileClass: Class<out TileEntity>, gui
 	override fun getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB = boundingBoxes[0]
 
 	@Deprecated("")
-	override fun addCollisionBoxToList(state: IBlockState,
-	                                   worldIn: World,
-	                                   pos: BlockPos,
-	                                   entityBox: AxisAlignedBB,
-	                                   collidingBoxes: List<AxisAlignedBB>,
-	                                   entityIn: Entity?, mysteryboolean: Boolean) {
+	override fun addCollisionBoxToList(
+		state: IBlockState,
+		worldIn: World,
+		pos: BlockPos,
+		entityBox: AxisAlignedBB,
+		collidingBoxes: List<AxisAlignedBB>,
+		entityIn: Entity?, mysteryboolean: Boolean
+	) {
 		boundingBoxes.forEach {
 			@Suppress("DEPRECATION")
 			addCollisionBoxToList(pos, entityBox, collidingBoxes, it)

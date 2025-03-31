@@ -9,10 +9,10 @@ import net.minecraftforge.items.SlotItemHandler
  */
 
 class ContainerChemicalCombiner(playerInv: IInventory, tileCombiner: TileChemicalCombiner) :
-        ContainerBase<TileChemicalCombiner>(playerInv, tileCombiner) {
+	ContainerBase<TileChemicalCombiner>(playerInv, tileCombiner) {
 
-    override fun addOwnSlots() {
-        addSlotArray(44, 39, 3, 3, tile.input)
-        this.addSlotToContainer(SlotItemHandler(tile.output, 0, 134, 57))
-    }
+	override fun addOwnSlots() {
+		addSlotArray(44, 39, 3, 3, tile.input)
+		this.addSlotToContainer(SlotItemHandler(tile.output, 0, 134, 57))
+	}
 }

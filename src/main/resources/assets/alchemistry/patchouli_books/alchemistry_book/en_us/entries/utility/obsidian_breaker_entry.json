@@ -1,15 +1,15 @@
 {
-  "name": "Obsidian Breaker",
-  "icon": "alchemistry:obsidian_breaker",
-  "category": "utility_category",
-  "pages": [
-    {
-      "type": "text",
-      "text": "The Obsidian Breaker can be used to instantly harvest obsidian by right-clicking it, consuming itself in the process"
-    },
-    {
-      "type": "crafting",
-      "recipe": "alchemistry:obsidian_breaker"
-    }
-  ]
+	"name": "Obsidian Breaker",
+	"icon": "alchemistry:obsidian_breaker",
+	"category": "utility_category",
+	"pages": [
+		{
+			"type": "text",
+			"text": "The Obsidian Breaker can be used to instantly harvest obsidian by right-clicking it, consuming itself in the process"
+		},
+		{
+			"type": "crafting",
+			"recipe": "alchemistry:obsidian_breaker"
+		}
+	]
 }

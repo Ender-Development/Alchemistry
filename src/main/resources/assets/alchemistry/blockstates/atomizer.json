@@ -1,13 +1,13 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "alchemistry:atomizer",
-    "textures": {
-      "particle": "alchemistry:blocks/dark_block"
-    }
-  },
-  "variants": {
-    "normal": [{}],
-    "inventory": [{}]
-  }
+	"forge_marker": 1,
+	"defaults": {
+		"model": "alchemistry:atomizer",
+		"textures": {
+			"particle": "alchemistry:blocks/dark_block"
+		}
+	},
+	"variants": {
+		"normal": [{}],
+		"inventory": [{}]
+	}
 }

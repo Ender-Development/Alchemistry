@@ -1,27 +1,27 @@
 {
-  "type": "forge:ore_shaped",
-  "pattern": [
-    "ECE",
-    "GBE",
-    "ECE"
-  ],
-  "key": {
-    "B": {
-      "item": "minecraft:blaze_rod"
-    },
-    "E": {
-      "type": "forge:ore_dict",
-      "ore": "ingotBeryllium"
-    },
-    "G": {
-      "item": "minecraft:glass"
-    },
-    "C": {
-      "item": "alchemistry:fission_casing"
-    }
-  },
-  "result": {
-    "item": "alchemistry:fission_controller",
-    "data": 0
-  }
+	"type": "forge:ore_shaped",
+	"pattern": [
+		"ECE",
+		"GBE",
+		"ECE"
+	],
+	"key": {
+		"B": {
+			"item": "minecraft:blaze_rod"
+		},
+		"E": {
+			"type": "forge:ore_dict",
+			"ore": "ingotBeryllium"
+		},
+		"G": {
+			"item": "minecraft:glass"
+		},
+		"C": {
+			"item": "alchemistry:fission_casing"
+		}
+	},
+	"result": {
+		"item": "alchemistry:fission_controller",
+		"data": 0
+	}
 }

@@ -14,16 +14,22 @@ import net.minecraftforge.fml.client.registry.ClientRegistry
  * Created by al132 on 6/21/2017.
  */
 
-class EvaporatorBlock(name: String, tileClass: Class<out TileEntity>, guiID: Int)
-    : ModelMachineBlock(name, tileClass, guiID, AxisAlignedBB(.0625, .0625, .0625, .9375, .75, .9375), AxisAlignedBB(.25, .0, .25, .75, .0625, .75)) {
-    override fun registerModel() {
-        super.registerModel()
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEvaporator::class.java, TESREvaporator())
-    }
+class EvaporatorBlock(name: String, tileClass: Class<out TileEntity>, guiID: Int) : ModelMachineBlock(
+	name,
+	tileClass,
+	guiID,
+	AxisAlignedBB(.0625, .0625, .0625, .9375, .75, .9375),
+	AxisAlignedBB(.25, .0, .25, .75, .0625, .75)
+) {
+	override fun registerModel() {
+		super.registerModel()
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEvaporator::class.java, TESREvaporator())
+	}
 
-    override fun registerItemBlock(event: RegistryEvent.Register<Item>) {
-        event.registry.register(
-            TooltipItemBlock(this, "tile.evaporator.tooltip".translate())
-                .setRegistryName(this.registryName))
-    }
+	override fun registerItemBlock(event: RegistryEvent.Register<Item>) {
+		event.registry.register(
+			TooltipItemBlock(this, "tile.evaporator.tooltip".translate())
+				.setRegistryName(this.registryName)
+		)
+	}
 }

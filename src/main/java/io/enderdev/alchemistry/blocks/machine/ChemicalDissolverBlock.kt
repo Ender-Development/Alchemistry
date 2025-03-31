@@ -8,14 +8,14 @@ import net.minecraft.tileentity.TileEntity
 import net.minecraft.util.math.AxisAlignedBB
 import net.minecraftforge.event.RegistryEvent
 
-class ChemicalDissolverBlock(name: String, tileClass: Class<out TileEntity>, guiID: Int)
-    : ModelMachineBlock(name, tileClass, guiID, AxisAlignedBB(.0, .0, .0, 1.0, .875, 1.0)) {
-    override fun registerItemBlock(event: RegistryEvent.Register<Item>){
-        event.registry.register(
-            TooltipItemBlock(
-                this,
-                "tooltip.alchemistry.energy_requirement".translate(ConfigHandler.DISSOLVER.energyPerTick)
-            )
-                .setRegistryName(this.registryName))
-    }
+class ChemicalDissolverBlock(name: String, tileClass: Class<out TileEntity>, guiID: Int) : ModelMachineBlock(name, tileClass, guiID, AxisAlignedBB(.0, .0, .0, 1.0, .875, 1.0)) {
+	override fun registerItemBlock(event: RegistryEvent.Register<Item>) {
+		event.registry.register(
+			TooltipItemBlock(
+				this,
+				"tooltip.alchemistry.energy_requirement".translate(ConfigHandler.DISSOLVER.energyPerTick)
+			)
+				.setRegistryName(this.registryName)
+		)
+	}
 }

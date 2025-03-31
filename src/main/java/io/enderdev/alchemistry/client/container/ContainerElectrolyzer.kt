@@ -9,13 +9,13 @@ import net.minecraftforge.items.SlotItemHandler
  * Created by al132 on 1/16/2017.
  */
 class ContainerElectrolyzer(playerInv: InventoryPlayer, tile: TileElectrolyzer) :
-        ContainerBase<TileElectrolyzer>(playerInv, tile) {
+	ContainerBase<TileElectrolyzer>(playerInv, tile) {
 
-    override fun addOwnSlots() {
-        if (tile.input.slots < 1) {
-            tile.input = TileStackHandler(1, tile)
-        }
-        addSlotToContainer(SlotItemHandler(tile.input, 0, 80, 39))
-        addSlotArray(116, 57, 2, 2, tile.output)
-    }
+	override fun addOwnSlots() {
+		if(tile.input.slots < 1) {
+			tile.input = TileStackHandler(1, tile)
+		}
+		addSlotToContainer(SlotItemHandler(tile.input, 0, 80, 39))
+		addSlotArray(116, 57, 2, 2, tile.output)
+	}
 }

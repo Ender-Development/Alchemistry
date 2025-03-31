@@ -8,9 +8,9 @@ import net.minecraftforge.items.SlotItemHandler
  * Created by al132 on 4/29/2017.
  */
 class ContainerEvaporator(playerInv: InventoryPlayer, tile: TileEvaporator) :
-        ContainerBase<TileEvaporator>(playerInv, tile) {
+	ContainerBase<TileEvaporator>(playerInv, tile) {
 
-    override fun addOwnSlots() {
-        this.addSlotToContainer(SlotItemHandler(tile.output, 0, 116, 75))
-    }
+	override fun addOwnSlots() {
+		this.addSlotToContainer(SlotItemHandler(tile.output, 0, 116, 75))
+	}
 }

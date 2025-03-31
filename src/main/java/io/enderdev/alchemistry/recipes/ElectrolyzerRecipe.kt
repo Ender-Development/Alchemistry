@@ -9,33 +9,33 @@ import java.util.*
  * Created by al132 on 1/20/2017.
  */
 data class ElectrolyzerRecipe(
-    val input: FluidStack,
-    private val _electrolyte: Ingredient,
-    val electrolyteConsumptionChance: Int,
-    private val outputOne: ItemStack,
-    private val outputTwo: ItemStack,
-    private val outputThree: ItemStack = ItemStack.EMPTY,
-    val output3Probability: Int = 50,
-    private val outputFour: ItemStack = ItemStack.EMPTY,
-    val output4Probability: Int = 50
+	val input: FluidStack,
+	private val _electrolyte: Ingredient,
+	val electrolyteConsumptionChance: Int,
+	private val outputOne: ItemStack,
+	private val outputTwo: ItemStack,
+	private val outputThree: ItemStack = ItemStack.EMPTY,
+	val output3Probability: Int = 50,
+	private val outputFour: ItemStack = ItemStack.EMPTY,
+	val output4Probability: Int = 50
 ) : IRecipe {
-    val electrolytes: List<ItemStack>
-        get() = _electrolyte.matchingStacks.toList()
+	val electrolytes: List<ItemStack>
+		get() = _electrolyte.matchingStacks.toList()
 
-    val outputs: List<ItemStack>
-        get():List<ItemStack> = arrayListOf(outputOne, outputTwo, outputThree, outputFour)
+	val outputs: List<ItemStack>
+		get():List<ItemStack> = arrayListOf(outputOne, outputTwo, outputThree, outputFour)
 
-    fun calculatedInSlot(index: Int): ItemStack {
-        val random = Random()
-        when (index) {
-            0 -> return outputOne.copy()
-            1 -> return outputTwo.copy()
-            2 -> if (random.nextInt(100) <= output3Probability) return outputThree.copy()
-            3 -> if (random.nextInt(100) <= output4Probability) return outputFour.copy()
-        }
-        return ItemStack.EMPTY
-    }
+	fun calculatedInSlot(index: Int): ItemStack {
+		val random = Random()
+		when(index) {
+			0 -> return outputOne.copy()
+			1 -> return outputTwo.copy()
+			2 -> if(random.nextInt(100) <= output3Probability) return outputThree.copy()
+			3 -> if(random.nextInt(100) <= output4Probability) return outputFour.copy()
+		}
+		return ItemStack.EMPTY
+	}
 
-    fun matchesElectrolyte(target: ItemStack): Boolean =
-        this._electrolyte.matchingStacks.any { ItemStack.areItemStacksEqual(it, target) }
+	fun matchesElectrolyte(target: ItemStack): Boolean =
+		this._electrolyte.matchingStacks.any { ItemStack.areItemStacksEqual(it, target) }
 }

@@ -1,25 +1,25 @@
 {
-  "type": "forge:ore_shaped",
-  "pattern": [
-    "WNW",
-    "NEN",
-    "WNW"
-  ],
-  "key": {
-    "E": {
-      "item": "minecraft:ender_pearl"
-    },
-    "W": {
-      "type": "forge:ore_dict",
-      "ore": "ingotTungsten"
-    },
-    "N": {
-      "type": "forge:ore_dict",
-      "ore": "ingotNeodymium"
-    }
-  },
-  "result": {
-    "count": 4,
-    "item": "alchemistry:fusion_casing"
-  }
+	"type": "forge:ore_shaped",
+	"pattern": [
+		"WNW",
+		"NEN",
+		"WNW"
+	],
+	"key": {
+		"E": {
+			"item": "minecraft:ender_pearl"
+		},
+		"W": {
+			"type": "forge:ore_dict",
+			"ore": "ingotTungsten"
+		},
+		"N": {
+			"type": "forge:ore_dict",
+			"ore": "ingotNeodymium"
+		}
+	},
+	"result": {
+		"count": 4,
+		"item": "alchemistry:fusion_casing"
+	}
 }

@@ -12,33 +12,34 @@ import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 
 class ItemElementIngot(name: String) : ItemMetaBase(name) {
-    @SideOnly(Side.CLIENT)
-    override fun registerModel() {
-        ElementRegistry.keys()
-                .filter { it <= 118 && !invalidIngots.contains(it) }
-                .forEach {
-                    ModelLoader.setCustomModelResourceLocation(this, it,
-                            ModelResourceLocation("$registryName", "inventory"))
-                }
-    }
+	@SideOnly(Side.CLIENT)
+	override fun registerModel() {
+		ElementRegistry.keys()
+			.filter { it <= 118 && !invalidIngots.contains(it) }
+			.forEach {
+				ModelLoader.setCustomModelResourceLocation(
+					this, it,
+					ModelResourceLocation("$registryName", "inventory")
+				)
+			}
+	}
 
-    @SideOnly(Side.CLIENT)
-    override fun getSubItems(tab: CreativeTabs, items: NonNullList<ItemStack>) {
-        if (!isInCreativeTab(tab)) return;
-        ElementRegistry.keys()
-                .filter { it <= 118 && !invalidIngots.contains(it) }
-                .forEach { items.add(ItemStack(this, 1, it)) }
-    }
+	@SideOnly(Side.CLIENT)
+	override fun getSubItems(tab: CreativeTabs, items: NonNullList<ItemStack>) {
+		if(!isInCreativeTab(tab)) return;
+		ElementRegistry.keys()
+			.filter { it <= 118 && !invalidIngots.contains(it) }
+			.forEach { items.add(ItemStack(this, 1, it)) }
+	}
 
+	override fun getItemStackDisplayName(stack: ItemStack): String {
+		var i = stack.metadata
+		if(!ElementRegistry.keys().contains(i)) i = 1
+		// val elementName = ModItems.elements.toStack(meta = i)
+		return "item.${Tags.MOD_ID}:ingot_${ElementRegistry[i]!!.name}.name".translate()
+	}
 
-    override fun getItemStackDisplayName(stack: ItemStack): String {
-        var i = stack.metadata
-        if (!ElementRegistry.keys().contains(i)) i = 1
-        // val elementName = ModItems.elements.toStack(meta = i)
-        return "item.${Tags.MOD_ID}:ingot_${ElementRegistry[i]!!.name}.name".translate()
-    }
-
-    companion object {
-        val invalidIngots = listOf(1, 2, 6, 7, 8, 9, 10, 15, 16, 17, 18, 26, 35, 36, 53, 54, 79, 80, 86)
-    }
+	companion object {
+		val invalidIngots = listOf(1, 2, 6, 7, 8, 9, 10, 15, 16, 17, 18, 26, 35, 36, 53, 54, 79, 80, 86)
+	}
 }

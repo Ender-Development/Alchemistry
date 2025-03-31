@@ -1,54 +1,54 @@
 {
-  "name": "Fission Multiblock Template",
-  "icon": "alchemistry:fission_casing",
-  "category": "fission_category",
-  "pages": [
-    {
-      "type": "multiblock",
-      "name": "Fission Multiblock",
-      "multiblock": {
-        "pattern": [
-          [" CCCCC"," CCCCC", " CCCCC", " CCCCC", " CCCCC"],
-          [" CCCCC"," C   C", " C R C", " C   C", " CCCCC"],
-          [" CCCCC"," C   C", " C R C", " C   C", " CCCCC"],
-          [" CCCCC"," C   C", " C R C", " C   C", " CCCCC"],
-          [" CCCCC"," CCCCC", "TCC0CC", " CCCCC", " CCCCC"]
-        ],
-        "mapping": {
-          "C": "alchemistry:fission_casing",
-          "T": "alchemistry:fission_controller",
-          "R": "alchemistry:fission_core",
-          "0": "alchemistry:fission_casing"
-        }
-      }
-    },
-    {
-      "type": "text",
-      "text": "98x Fission Casing $(br) 3x Fission Core $(br) 1x Fission Controller$(br) $(br)You can also use Fission Glass on the walls/ceiling/floor (but not the edges), flip the page for an example."
-    },
-    {
-      "type": "multiblock",
-      "name": "Fusion Multiblock",
-      "multiblock": {
-        "pattern": [
-          [" CCCCC"," CGGGC", " CGGGC", " CGGGC", " CCCCC"],
-          [" CGGGC"," G   G", " G R G", " G   G", " CGGGC"],
-          [" CGGGC"," G   G", " G R G", " G   G", " CGGGC"],
-          [" CGGGC"," G   G", " G R G", " G   G", " CGGGC"],
-          [" CCCCC"," CGGGC", "TCG0GC", " CGGGC", " CCCCC"]
-        ],
-        "mapping": {
-          "C": "alchemistry:fission_casing",
-          "T": "alchemistry:fission_controller",
-          "R": "alchemistry:fission_core",
-          "G": "alchemistry:fission_glass",
-          "0": "alchemistry:fission_glass"
-        }
-      }
-    },
-    {
-      "type": "text",
-      "text": "44x Fission Casing$(br)54x Fission Glass$(br) 3x Fission Core$(br) 1x Fission Controller"
-    }
-  ]
+	"name": "Fission Multiblock Template",
+	"icon": "alchemistry:fission_casing",
+	"category": "fission_category",
+	"pages": [
+		{
+			"type": "multiblock",
+			"name": "Fission Multiblock",
+			"multiblock": {
+				"pattern": [
+					[" CCCCC", " CCCCC", " CCCCC", " CCCCC", " CCCCC"],
+					[" CCCCC", " C   C", " C R C", " C   C", " CCCCC"],
+					[" CCCCC", " C   C", " C R C", " C   C", " CCCCC"],
+					[" CCCCC", " C   C", " C R C", " C   C", " CCCCC"],
+					[" CCCCC", " CCCCC", "TCC0CC", " CCCCC", " CCCCC"]
+				],
+				"mapping": {
+					"C": "alchemistry:fission_casing",
+					"T": "alchemistry:fission_controller",
+					"R": "alchemistry:fission_core",
+					"0": "alchemistry:fission_casing"
+				}
+			}
+		},
+		{
+			"type": "text",
+			"text": "98x Fission Casing $(br) 3x Fission Core $(br) 1x Fission Controller$(br) $(br)You can also use Fission Glass on the walls/ceiling/floor (but not the edges), flip the page for an example."
+		},
+		{
+			"type": "multiblock",
+			"name": "Fusion Multiblock",
+			"multiblock": {
+				"pattern": [
+					[" CCCCC", " CGGGC", " CGGGC", " CGGGC", " CCCCC"],
+					[" CGGGC", " G   G", " G R G", " G   G", " CGGGC"],
+					[" CGGGC", " G   G", " G R G", " G   G", " CGGGC"],
+					[" CGGGC", " G   G", " G R G", " G   G", " CGGGC"],
+					[" CCCCC", " CGGGC", "TCG0GC", " CGGGC", " CCCCC"]
+				],
+				"mapping": {
+					"C": "alchemistry:fission_casing",
+					"T": "alchemistry:fission_controller",
+					"R": "alchemistry:fission_core",
+					"G": "alchemistry:fission_glass",
+					"0": "alchemistry:fission_glass"
+				}
+			}
+		},
+		{
+			"type": "text",
+			"text": "44x Fission Casing$(br)54x Fission Glass$(br) 3x Fission Core$(br) 1x Fission Controller"
+		}
+	]
 }

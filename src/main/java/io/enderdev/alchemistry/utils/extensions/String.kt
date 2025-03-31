@@ -22,20 +22,20 @@ fun String.toPotion(): Potion = Potion.getPotionFromResourceLocation(this)!!
 fun String.toOre(): OreIngredient = OreIngredient(this)
 
 fun String.toStack(quantity: Int = 1, meta: Int = 0): ItemStack {
-    ElementRegistry[this]?.apply { return toItemStack(quantity) }
-    CompoundRegistry[this]?.apply { return toItemStack(quantity) }
+	ElementRegistry[this]?.apply { return toItemStack(quantity) }
+	CompoundRegistry[this]?.apply { return toItemStack(quantity) }
 
-    val split = split(':')
-    val meta = split.getOrNull(2)?.toInt() ?: meta
-    val location = if(split.size == 1) ResourceLocation(this) else ResourceLocation(split[0], split[1])
+	val split = split(':')
+	val meta = split.getOrNull(2)?.toInt() ?: meta
+	val location = if(split.size == 1) ResourceLocation(this) else ResourceLocation(split[0], split[1])
 
-    Item.REGISTRY.getObject(location)?.apply { return toStack(quantity, meta) }
+	Item.REGISTRY.getObject(location)?.apply { return toStack(quantity, meta) }
 
-    val block: Block? = Block.REGISTRY.getObject(location)
-    return if(block != null && block != Blocks.AIR && block != Blocks.WATER)
-        block.toStack(quantity, meta)
-    else
-        ItemStack.EMPTY
+	val block: Block? = Block.REGISTRY.getObject(location)
+	return if(block != null && block != Blocks.AIR && block != Blocks.WATER)
+		block.toStack(quantity, meta)
+	else
+		ItemStack.EMPTY
 }
 
 fun String.toIngredient(quantity: Int = 1, meta: Int = 0): Ingredient = Ingredient.fromStacks(toStack(quantity, meta))

@@ -1,5 +1,5 @@
 {
-  "name": "Fission Multiblock",
-  "description": "An overview of the Fission multiblock",
-  "icon": "alchemistry:fission_controller"
+	"name": "Fission Multiblock",
+	"description": "An overview of the Fission multiblock",
+	"icon": "alchemistry:fission_controller"
 }

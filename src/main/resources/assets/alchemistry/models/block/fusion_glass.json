@@ -1,7 +1,7 @@
 {
-  "parent": "block/cube_all",
-  "textures": {
-    "all": "alchemistry:blocks/fusion_glass",
-    "particle": "alchemistry:blocks/fusion_glass"
-  }
+	"parent": "block/cube_all",
+	"textures": {
+		"all": "alchemistry:blocks/fusion_glass",
+		"particle": "alchemistry:blocks/fusion_glass"
+	}
 }

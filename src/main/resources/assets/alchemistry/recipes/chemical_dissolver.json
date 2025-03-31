@@ -1,23 +1,23 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "IPI",
-    "IMI",
-    "IPI"
-  ],
-  "key": {
-    "I": {
-      "item": "minecraft:iron_ingot"
-    },
-    "P": {
-      "item": "minecraft:piston"
-    },
-    "M": {
-      "item": "minecraft:magma"
-    }
-  },
-  "result": {
-    "item": "alchemistry:chemical_dissolver",
-    "data": 0
-  }
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"IPI",
+		"IMI",
+		"IPI"
+	],
+	"key": {
+		"I": {
+			"item": "minecraft:iron_ingot"
+		},
+		"P": {
+			"item": "minecraft:piston"
+		},
+		"M": {
+			"item": "minecraft:magma"
+		}
+	},
+	"result": {
+		"item": "alchemistry:chemical_dissolver",
+		"data": 0
+	}
 }

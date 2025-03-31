@@ -9,29 +9,29 @@ import com.cleanroommc.groovyscript.documentation.linkgenerator.LinkGeneratorHoo
 import io.enderdev.alchemistry.Tags
 
 class GSPlugin : GroovyPlugin {
-    companion object {
-        @GroovyBlacklist
-        var instance: GSContainer? = null
-    }
+	companion object {
+		@GroovyBlacklist
+		var instance: GSContainer? = null
+	}
 
-    override fun createGroovyPropertyContainer(): GroovyPropertyContainer? {
-        instance = GSContainer()
-        return instance
-    }
+	override fun createGroovyPropertyContainer(): GroovyPropertyContainer? {
+		instance = GSContainer()
+		return instance
+	}
 
-    override fun getModId(): String {
-        return Tags.MOD_ID
-    }
+	override fun getModId(): String {
+		return Tags.MOD_ID
+	}
 
-    override fun getContainerName(): String {
-        return Tags.MOD_NAME
-    }
+	override fun getContainerName(): String {
+		return Tags.MOD_NAME
+	}
 
-    override fun onCompatLoaded(container: GroovyContainer<*>?) {
-        LinkGeneratorHooks.registerLinkGenerator(LinkGenerator())
-    }
+	override fun onCompatLoaded(container: GroovyContainer<*>?) {
+		LinkGeneratorHooks.registerLinkGenerator(LinkGenerator())
+	}
 
-    override fun getOverridePriority(): IGroovyContainer.Priority {
-        return IGroovyContainer.Priority.OVERRIDE_HIGHEST
-    }
+	override fun getOverridePriority(): IGroovyContainer.Priority {
+		return IGroovyContainer.Priority.OVERRIDE_HIGHEST
+	}
 }

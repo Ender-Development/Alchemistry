@@ -1,21 +1,21 @@
 {
-  "type": "forge:ore_shaped",
-  "pattern": [
-    "CBC",
-    "CBC",
-    "CBC"
-  ],
-  "key": {
-    "C": {
-      "type": "forge:ore_dict",
-      "ore": "ingotChromium"
-    },
-    "B": {
-      "item": "minecraft:blaze_rod"
-    }
-  },
-  "result": {
-    "item": "alchemistry:fission_core",
-    "data": 0
-  }
+	"type": "forge:ore_shaped",
+	"pattern": [
+		"CBC",
+		"CBC",
+		"CBC"
+	],
+	"key": {
+		"C": {
+			"type": "forge:ore_dict",
+			"ore": "ingotChromium"
+		},
+		"B": {
+			"item": "minecraft:blaze_rod"
+		}
+	},
+	"result": {
+		"item": "alchemistry:fission_core",
+		"data": 0
+	}
 }

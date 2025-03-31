@@ -10,6 +10,8 @@ import net.minecraft.init.Blocks
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.math.BlockPos
 import net.minecraftforge.fluids.Fluid
+import net.minecraftforge.fluids.FluidRegistry
+import net.minecraftforge.fluids.IFluidBlock
 
 class ReactorShapeHandler(val controller: AbstractReactorController<*>) {
 
@@ -102,9 +104,13 @@ class ReactorShapeHandler(val controller: AbstractReactorController<*>) {
 	fun countFluid(): Map<Fluid, Int> {
 		val ret = mutableMapOf<Fluid, Int>()
 		getInnerVolume().forEach {
-			val block = controller.world.getBlockState(it)
-			if(block is Fluid)
-				ret.compute(block) { _: Fluid, cnt: Int? -> (cnt ?: 0) + 1 }
+			val block = controller.world.getBlockState(it).block
+			if(block is IFluidBlock)
+				ret.compute(block.fluid) { _: Fluid, cnt: Int? -> (cnt ?: 0) + 1 }
+			else if(block == Blocks.WATER || block == Blocks.FLOWING_WATER)
+				ret.compute(FluidRegistry.WATER) { _: Fluid, cnt: Int? -> (cnt ?: 0) + 1 }
+			else if(block == Blocks.LAVA || block == Blocks.FLOWING_LAVA)
+				ret.compute(FluidRegistry.LAVA) { _: Fluid, cnt: Int? -> (cnt ?: 0) + 1 }
 		}
 		return ret
 	}

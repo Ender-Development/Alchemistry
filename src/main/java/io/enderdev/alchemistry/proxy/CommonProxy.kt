@@ -2,12 +2,12 @@ package io.enderdev.alchemistry.proxy
 
 import crafttweaker.CraftTweakerAPI
 import io.enderdev.alchemistry.Alchemistry
-import io.enderdev.alchemistry.proxy.CommonEventHandler
 import io.enderdev.alchemistry.Tags
 import io.enderdev.alchemistry.capability.AlchemistryDrugInfo
 import io.enderdev.alchemistry.chemistry.CompoundRegistry
 import io.enderdev.alchemistry.chemistry.ElementRegistry
 import io.enderdev.alchemistry.client.gui.GuiHandler
+import io.enderdev.alchemistry.compat.top.TopHandler
 import io.enderdev.alchemistry.network.PacketHandler
 import io.enderdev.alchemistry.recipes.ModRecipes
 import net.minecraft.nbt.NBTBase
@@ -54,6 +54,10 @@ open class CommonProxy {
 		ModRecipes.initOredict()
 		NetworkRegistry.INSTANCE.registerGuiHandler(Alchemistry, GuiHandler())
 		MinecraftForge.EVENT_BUS.register(CommonEventHandler())
+
+		if(Loader.isModLoaded("theoneprobe")) {
+			TopHandler.register()
+		}
 	}
 
 	open fun postInit(e: FMLPostInitializationEvent) {

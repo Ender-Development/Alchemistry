@@ -6,5 +6,6 @@ object TopHandler {
 	fun register() {
 		val top = TheOneProbe.theOneProbeImp
 		top.registerProvider(TopReactor())
+		top.registerProvider(TopChemicalCombiner())
 	}
 }

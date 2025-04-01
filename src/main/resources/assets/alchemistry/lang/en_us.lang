@@ -392,6 +392,8 @@ top.alchemistry.reactor.productivity=Productivity: %d%%
 top.alchemistry.reactor.speed=Speed: %d%%
 top.alchemistry.reactor.energy=Energy: %d%%
 top.alchemistry.reactor.invalid=Invalid Multiblock
+top.alchemistry.chemical_combiner.unlocked=Recipe unlocked
+top.alchemistry.chemical_combiner.locked=Recipe locked
 
 tooltip.running=Click to pause
 tooltip.paused=Click to resume

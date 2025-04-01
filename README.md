@@ -45,7 +45,11 @@ The groovy-equivalent of CraftTweaker is also supported.
 
 ![badge](https://img.shields.io/badge/optional-Game_Stages-gray?style=flat-square&labelColor=green&link=https://www.curseforge.com/minecraft/mc-mods/game-stages)
 
-The Combiner recipes can be locked behind Game Stages.
+The Chemical Combiner recipes can be locked behind Game Stages.
+
+![badge](https://img.shields.io/badge/optional-The_One_Probe-gray?style=flat-square&labelColor=green&link=https://www.curseforge.com/minecraft/mc-mods/the-one-probe-community-edition)
+
+Reactors and the Chemical Combiner display extra information in The One Probe.
 
 ## License
 

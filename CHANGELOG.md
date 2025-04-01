@@ -3,11 +3,12 @@
 ## [1.3.0] - internal refactor
 - removed AlchemyLib dependency so we no longer need to fork it
 - shrink down the final mod jar by about 3MB
-- removed useless sound effects (yes, this does cause a warning upon loading into an older world)
-- refactored GUI textures and removed useless white space
+- removed unused sound effects (yes, this does cause a warning upon loading into an older world)
+- refactored GUI textures and removed useless whitespace
 - removed the internal xml recipe system, use CraftTweaker or GroovyScript instead
-- moved the config file back to the main config folder (please delete the old one folder)
+- moved the config file back to the main config folder (please move your config and delete the old folder)
 - updated internal dependencies to the latest versions
+- added The One Probe compatibility for reactors and the chemical combiner
 
 ## [1.2.1] - bugfixes
 - fixed weird dissolver behavior, when outputting items

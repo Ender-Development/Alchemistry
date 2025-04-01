@@ -76,6 +76,18 @@ class Content : INamed {
 		}
 	}
 
+	/**
+	 * In comparision to the method above, this method does not require the color of the compound to be set.
+	 * The color will be the weighted average of the colors of the components.
+	 */
+	@MethodDescription(
+		type = MethodDescription.Type.ADDITION,
+		example = [Example("200, 'Advanced Hydrogen Molecule', [['advanced_hydrogen', 1],['advanced_hydrogen', 1],['advanced_hydrogen', 1]]", commented = true)]
+	)
+	fun createCompound(meta: Int, name: String, components: ArrayList<ArrayList<Any?>>) {
+		TODO("Implement the method here!")
+	}
+
 	override fun getAliases(): Collection<String?>? {
 		return listOf("content", "Content")
 	}

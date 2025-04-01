@@ -7,5 +7,9 @@ object TopHandler {
 		val top = TheOneProbe.theOneProbeImp
 		top.registerProvider(TopReactor())
 		top.registerProvider(TopChemicalCombiner())
+		top.registerProvider(TopChemicalDissolver())
+		top.registerProvider(TopEvaporator())
+		top.registerProvider(TopAtomizer())
+		top.registerProvider(TopLiquifier())
 	}
 }

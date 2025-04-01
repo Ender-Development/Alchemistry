@@ -392,8 +392,16 @@ top.alchemistry.reactor.productivity=Productivity: %d%%
 top.alchemistry.reactor.speed=Speed: %d%%
 top.alchemistry.reactor.energy=Energy: %d%%
 top.alchemistry.reactor.invalid=Invalid Multiblock
+top.alchemistry.fission_reactor.fissioning=Exploding %s into %s and %s
+top.alchemistry.fusion_reactor.combining=Combining %s and %s into %s
 top.alchemistry.chemical_combiner.unlocked=Recipe unlocked
 top.alchemistry.chemical_combiner.locked=Recipe locked
+top.alchemistry.chemical_dissolver.dissolving=Dissolving %s
+top.alchemistry.evaporator.evaporating=Evaporating %s into %s
+top.alchemistry.atomizer.atomizing=Atomizing %s into %s
+top.alchemistry.liquifier.liquifying=Liquifying %s into %s
+top.alchemistry.generic.crafting=Crafting %s
+top.alchemistry.generic.molecules=molecules
 
 tooltip.running=Click to pause
 tooltip.paused=Click to resume

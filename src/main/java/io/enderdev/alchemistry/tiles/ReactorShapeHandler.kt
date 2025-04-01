@@ -78,26 +78,19 @@ class ReactorShapeHandler(val controller: AbstractReactorController<*>) {
 			}
 		}
 
-		val checkCore = (getCoreZ(corePos).all { isCore(it) }
-				&& isNonCore(corePos.offsetForward())
-				&& isNonCore(corePos.offsetBack())
-				&& isNonCore(corePos.offsetLeft())
-				&& isNonCore(corePos.offsetRight()))
-				|| (getCoreX(corePos).all { isCore(it) }
-				&& isNonCore(corePos.offsetUp())
-				&& isNonCore(corePos.offsetDown())
-				&& isNonCore(corePos.offsetForward())
-				&& isNonCore(corePos.offsetBack()))
-				|| (getCoreY(corePos).all { isCore(it) }
-				&& isNonCore(corePos.offsetLeft())
-				&& isNonCore(corePos.offsetRight())
-				&& isNonCore(corePos.offsetUp())
-				&& isNonCore(corePos.offsetDown()))
-		if(!checkCore)
+		val inside = getInnerVolume()
+		var hasCore = false
+		for(arr in listOf(getCoreX(corePos), getCoreY(corePos), getCoreZ(corePos))) {
+			if(arr.all { isCore(it) }) {
+				arr.forEach { inside.remove(it) }
+				hasCore = true
+				break
+			}
+		}
+		if(!hasCore)
 			return false
 
-		// this is not perfect but it's good enough
-		val checkInside = getInnerVolume().all { isNonCore(it) || isCore(it) }
+		val checkInside = inside.all { isNonCore(it) }
 		return checkInside
 	}
 
@@ -312,7 +305,7 @@ class ReactorShapeHandler(val controller: AbstractReactorController<*>) {
 		return spaceAroundReactor.firstOrNull { isReactorPart(it) && controller.pos != it }
 	}
 
-	private fun getInnerVolume(): Set<BlockPos> {
+	private fun getInnerVolume(): MutableSet<BlockPos> {
 		val innerVolume = mutableSetOf<BlockPos>()
 		val innerCorner1 = controller.pos.offsetBack(2).offsetLeft().offsetUp()
 		val innerCorner2 = innerCorner1.offsetBack(2).offsetRight(2).offsetUp(2)

@@ -66,7 +66,7 @@ class GuiChemicalCombiner(playerInv: InventoryPlayer, tile: TileChemicalCombiner
 		if(!tile.clientRecipeTarget.getStackInSlot(0).isEmpty) {
 			val output = tile.clientRecipeTarget[0]
 			val x = (width - xSize) / 2 + 152
-			val y = (height - ySize) / 2 + 99
+			val y = (height - ySize) / 2 + 56
 			drawItemStack(output, x, y, "tile.combiner.target".translate())
 			if(isHovered(x, y, 16, 16, mouseX, mouseY))
 				drawHoveringText(listOf(output.displayName), mouseX, mouseY)

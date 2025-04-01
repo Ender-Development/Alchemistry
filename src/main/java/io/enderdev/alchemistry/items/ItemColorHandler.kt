@@ -7,9 +7,15 @@ import net.minecraft.item.ItemStack
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import java.awt.Color
+import java.util.*
 
 @SideOnly(Side.CLIENT)
 class ItemColorHandler : IItemColor {
+	val april: Boolean
+	init {
+		val calendar = Calendar.getInstance()
+		april = calendar.get(Calendar.MONTH) == Calendar.APRIL && calendar.get(Calendar.DATE) == 1
+	}
 
 	override fun colorMultiplier(stack: ItemStack, tintIndex: Int): Int {
 		val item = stack.item
@@ -17,6 +23,8 @@ class ItemColorHandler : IItemColor {
 
 		return if(tintIndex != 0)
 			Color.WHITE.rgb
+		else if(april)
+			Color((meta * (stack.count ushr 2)).coerceAtMost(255), (meta + stack.count).coerceAtMost(255), meta ushr 1).rgb
 		else if(item is ItemElement)
 			if(meta > 118) ElementRegistry[meta]!!.color.rgb else Color.WHITE.rgb
 		else if(item is ItemElementIngot && ElementRegistry.keys().filter { it <= 118 }.contains(meta))

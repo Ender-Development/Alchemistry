@@ -71,13 +71,15 @@ class Content : INamed {
 				var r = 0
 				var g = 0
 				var b = 0
+				var c = 0
 				parsedComponents.forEach {
 					val color = it.compound.color
 					r += color.red * it.quantity
 					g += color.green * it.quantity
 					b += color.blue * it.quantity
+					c += it.quantity
 				}
-				val size = parsedComponents.size.toDouble()
+				val size = c.toDouble()
 				realColor = Color((r / size).roundToInt(), (g / size).roundToInt(), (b / size).roundToInt())
 			}
 			CompoundRegistry.addExternal(

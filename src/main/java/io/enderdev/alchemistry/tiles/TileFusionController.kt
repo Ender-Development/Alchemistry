@@ -17,8 +17,7 @@ import net.minecraft.nbt.NBTTagCompound
 /**
  * Created by al132 on 4/29/2017.
  */
-class TileFusionController : AbstractReactorController<FusionRecipe>(ReactorType.FUSION, FusionRegister.Companion.INSTANCE),
-	IEnergyTile by EnergyTileImpl(ConfigHandler.FUSION.energyCapacity) {
+class TileFusionController : AbstractReactorController<FusionRecipe>(ReactorType.FUSION, FusionRegister.Companion.INSTANCE), IEnergyTile by EnergyTileImpl(ConfigHandler.FUSION.energyCapacity) {
 	override val guiHeight: Int
 		get() = 222
 
@@ -38,13 +37,11 @@ class TileFusionController : AbstractReactorController<FusionRecipe>(ReactorType
 
 	override fun initInventoryInputCapability() {
 		input = object : TileStackHandler(inputSlots, this) {
-			override fun insertItem(slot: Int, stack: ItemStack, simulate: Boolean) =
-				if(singleMode) {
-					if(getStackInSlot(slot).isEmpty) super.insertItem(slot, stack, simulate)
-					else stack
-				} else if(stack.item == ModItems.elements)
-					super.insertItem(slot, stack, simulate)
+			override fun insertItem(slot: Int, stack: ItemStack, simulate: Boolean) = if(singleMode) {
+				if(getStackInSlot(slot).isEmpty) super.insertItem(slot, stack, simulate)
 				else stack
+			} else if(stack.item == ModItems.elements) super.insertItem(slot, stack, simulate)
+			else stack
 		}
 	}
 
@@ -76,14 +73,13 @@ class TileFusionController : AbstractReactorController<FusionRecipe>(ReactorType
 
 	override fun shouldTick() = true
 
-	override fun shouldProcess() =
-		isMultiblockValid
-				&& !input[0].isEmpty
-				&& !input[1].isEmpty
-				&& !recipeOutput.isEmpty
-				&& (ItemStack.areItemsEqual(output[0], recipeOutput) || output[0].isEmpty)
-				&& output[0].count + recipeOutput.count <= recipeOutput.maxStackSize
-				&& energyStorage.energyStored >= energyPerTick
+	override fun shouldProcess() = isMultiblockValid
+			&& !input[0].isEmpty
+			&& !input[1].isEmpty
+			&& !recipeOutput.isEmpty
+			&& (ItemStack.areItemsEqual(output[0],recipeOutput) || output[0].isEmpty)
+			&& output[0].count + recipeOutput.count <= recipeOutput.maxStackSize
+			&& energyStorage.energyStored >= energyPerTick
 
 	override fun onIdleTick() {
 		super.onIdleTick()
@@ -92,25 +88,21 @@ class TileFusionController : AbstractReactorController<FusionRecipe>(ReactorType
 			updateMultiblock()
 			checkMultiblockTicks = 0
 		}
-		val isActive =
-			!input[0].isEmpty && !input[1].isEmpty && energyStorage.energyStored >= energyPerTick
+		val isActive = !input[0].isEmpty && !input[1].isEmpty && energyStorage.energyStored >= energyPerTick
 		val state = world.getBlockState(pos)
-		if(state.block != ModBlocks.fusionController) return;
+		if(state.block != ModBlocks.fusionController) return
 		val currentStatus = state.getValue(ReactorControllerBlock.Companion.STATUS)
 		if(isMultiblockValid) {
 			if(isActive) {
 				if(currentStatus != PropertyPowerStatus.ON) world.setBlockState(
-					pos,
-					state.withProperty(ReactorControllerBlock.Companion.STATUS, PropertyPowerStatus.ON)
+					pos, state.withProperty(ReactorControllerBlock.Companion.STATUS, PropertyPowerStatus.ON)
 				)
 			} else if(currentStatus != PropertyPowerStatus.STANDBY) world.setBlockState(
-				pos,
-				state.withProperty(ReactorControllerBlock.Companion.STATUS, PropertyPowerStatus.STANDBY)
+				pos, state.withProperty(ReactorControllerBlock.Companion.STATUS, PropertyPowerStatus.STANDBY)
 			)
 			updateModifiers()
 		} else if(currentStatus != PropertyPowerStatus.OFF) world.setBlockState(
-			pos,
-			state.withProperty(ReactorControllerBlock.Companion.STATUS, PropertyPowerStatus.OFF)
+			pos, state.withProperty(ReactorControllerBlock.Companion.STATUS, PropertyPowerStatus.OFF)
 		)
 	}
 

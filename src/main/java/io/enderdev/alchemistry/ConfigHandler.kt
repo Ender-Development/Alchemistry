@@ -123,7 +123,7 @@ object ConfigHandler {
 		@Config.Comment("List of fluid modifiers for the Fusion Reactor. Syntax: fluidName;productivity;speed;energy")
 		var fusionReactorModifiers = arrayOf(
 			"water;0.0;0.02;-0.03",
-			"lava;0.2;-0.05,0.1"
+			"lava;0.2;-0.05;0.1"
 		)
 	}
 

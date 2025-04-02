@@ -1,5 +1,6 @@
 package io.enderdev.alchemistry.tiles
 
+import io.enderdev.alchemistry.Alchemistry
 import io.enderdev.alchemistry.blocks.machine.ReactorControllerBlock
 import io.enderdev.alchemistry.client.BlockHighlighter
 import io.enderdev.alchemistry.recipes.IRecipe
@@ -46,10 +47,34 @@ abstract class AbstractReactorController<T : IRecipe>(val reactorType: ReactorTy
 	fun loadConfig(configValue: Array<String>) {
 		fluidModifiers.clear()
 		configValue.forEach {
+			if(it.contains(",")) {
+				/**
+				 * This solely exists, because we spent way too long debugging this
+				 * _silently cries in the corner_
+				 *       ,_     _,
+				 *      |\\___//|
+				 *      |=6   6=|
+				 *      \=._Y_.=/
+				 *       )  `  (    ,
+				 *      /       \  ((
+				 *      |       |   ))
+				 *     /| |   | |\_//
+				 *     \| |._.| |/-`
+				 *      '"'   '"'
+				 */
+				Alchemistry.logger.warn("Found an unsupported ',' (Comma) in a config entry: $it")
+				return@forEach
+			}
 			val split = it.split(";")
-			if(split.size != 4) return
+			if(split.size != 4) {
+				Alchemistry.logger.warn("Found malformed config entry: $it")
+				return@forEach
+			}
 			val fluid = FluidRegistry.getFluid(split[0])
-			if(fluid == null) return
+			if(fluid == null) {
+				Alchemistry.logger.warn("Fluid ${split[0]} not found, skipping")
+				return@forEach
+			}
 			val productivity = split[1].toDouble()
 			val speed = split[2].toDouble()
 			val energy = split[3].toDouble()

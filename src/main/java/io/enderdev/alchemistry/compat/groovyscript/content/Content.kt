@@ -99,12 +99,12 @@ class Content : INamed {
 		createCompoundInternal(meta, name, Color(red.coerceIn(0, 255), green.coerceIn(0, 255), blue.coerceIn(0, 255)), components)
 
 	/**
-	 * In comparision to the method above, this method does not require the color of the compound to be set.
+	 * In comparison to the method above, this method does not require the color of the compound to be set.
 	 * The color will be the weighted average of the colors of the components.
 	 */
 	@MethodDescription(
 		type = MethodDescription.Type.ADDITION,
-		example = [Example("200, 'Advanced Hydrogen Molecule', [['advanced_hydrogen', 1],['advanced_hydrogen', 1],['advanced_hydrogen', 1]]", commented = true)]
+		example = [Example("201, 'Whatever Molecule', [['advanced_hydrogen', 4],['advanced_hydrogen', 1],['oxygen', 6]]", commented = true)]
 	)
 	fun createCompound(meta: Int, name: String, components: ArrayList<ArrayList<Any?>>) =
 		createCompoundInternal(meta, name, null, components)

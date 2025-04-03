@@ -1,121 +1,123 @@
 apply from: 'gradle/scripts/helpers.gradle'
 
 repositories {
-    // Other repositories described by default:
-    // CleanroomMC: https://maven.cleanroommc.com
-    exclusiveContent {
-        forRepository {
-            maven {
-                name 'CurseMaven'
-                url 'https://curse.cleanroommc.com'
-            }
-        }
-        filter {
-            includeGroup 'curse.maven'
-        }
-    }
-    exclusiveContent {
-        forRepository {
-            maven {
-                name 'Modrinth'
-                url 'https://api.modrinth.com/maven'
-            }
-        }
-        filter {
-            includeGroup 'maven.modrinth'
-        }
-    }
-    maven {
-        url = 'https://maven.blamejared.com/'
-    }
-    mavenLocal() // Must be last for caching to work
+	// Other repositories described by default:
+	// CleanroomMC: https://maven.cleanroommc.com
+	exclusiveContent {
+		forRepository {
+			maven {
+				name 'CurseMaven'
+				url 'https://curse.cleanroommc.com'
+			}
+		}
+		filter {
+			includeGroup 'curse.maven'
+		}
+	}
+	exclusiveContent {
+		forRepository {
+			maven {
+				name 'Modrinth'
+				url 'https://api.modrinth.com/maven'
+			}
+		}
+		filter {
+			includeGroup 'maven.modrinth'
+		}
+	}
+	maven {
+		url = 'https://maven.blamejared.com/'
+	}
+	mavenLocal() // Must be last for caching to work
 }
 
 dependencies {
-    // Include StripLatestForgeRequirements by default for the dev env, saves everyone a hassle
-    runtimeOnly 'com.cleanroommc:strip-latest-forge-requirements:1.0'
-    // Include OSXNarratorBlocker by default for the dev env, for M1+ Macs
-    runtimeOnly 'com.cleanroommc:osxnarratorblocker:1.0'
+	// Include StripLatestForgeRequirements by default for the dev env, saves everyone a hassle
+	runtimeOnly 'com.cleanroommc:strip-latest-forge-requirements:1.0'
+	// Include OSXNarratorBlocker by default for the dev env, for M1+ Macs
+	runtimeOnly 'com.cleanroommc:osxnarratorblocker:1.0'
 
-    // Example - Dependency descriptor:
-    // 'com.google.code.gson:gson:2.8.6' << group: com.google.code.gson, name:gson, version:2.8.6
-    // 'group:name:version:classifier' where classifier is optional
+	// Example - Dependency descriptor:
+	// 'com.google.code.gson:gson:2.8.6' << group: com.google.code.gson, name:gson, version:2.8.6
+	// 'group:name:version:classifier' where classifier is optional
 
-    // Example - Deobfuscating dependencies:
-    // rfg.deobf('curse.maven:had-enough-items-557549:4543375')
-    // By wrapping a dependency descriptor in rfg.deobf() method call, the dependency is queued for deobfuscation
-    // When deobfuscating, RFG respects the mapping_channel + mapping_version stated in gradle.properties
+	// Example - Deobfuscating dependencies:
+	// rfg.deobf('curse.maven:had-enough-items-557549:4543375')
+	// By wrapping a dependency descriptor in rfg.deobf() method call, the dependency is queued for deobfuscation
+	// When deobfuscating, RFG respects the mapping_channel + mapping_version stated in gradle.properties
 
-    // Example - CurseMaven dependencies:
-    // 'curse.maven:had-enough-items-557549:4543375' << had-enough-items = project slug, 557549 = project id, 4543375 = file id
-    // Full documentation: https://cursemaven.com/
+	// Example - CurseMaven dependencies:
+	// 'curse.maven:had-enough-items-557549:4543375' << had-enough-items = project slug, 557549 = project id, 4543375 = file id
+	// Full documentation: https://cursemaven.com/
 
-    // Example - Modrinth dependencies:
-    // 'maven.modrinth:jei:4.16.1.1000' << jei = project name, 4.16.1.1000 = file version
-    // Full documentation: https://docs.modrinth.com/docs/tutorials/maven/
+	// Example - Modrinth dependencies:
+	// 'maven.modrinth:jei:4.16.1.1000' << jei = project name, 4.16.1.1000 = file version
+	// Full documentation: https://docs.modrinth.com/docs/tutorials/maven/
 
-    // Common dependency types (configuration):
-    // implementation = dependency available at both compile time and runtime
-    // runtimeOnly = runtime dependency
-    // compileOnly = compile time dependency
-    // annotationProcessor = annotation processing dependencies
-    // embed = bundle dependencies into final output artifact (no relocation)
+	// Common dependency types (configuration):
+	// implementation = dependency available at both compile time and runtime
+	// runtimeOnly = runtime dependency
+	// compileOnly = compile time dependency
+	// annotationProcessor = annotation processing dependencies
+	// embed = bundle dependencies into final output artifact (no relocation)
 
-    // Transitive dependencies:
-    // (Dependencies that your dependency depends on)
-    // If you wish to exclude transitive dependencies in the described dependencies
-    // Use a closure as such:
-    // implementation ('com.google.code.gson:gson:2.8.6') {
-    //     transitive = false
-    // }
+	// Transitive dependencies:
+	// (Dependencies that your dependency depends on)
+	// If you wish to exclude transitive dependencies in the described dependencies
+	// Use a closure as such:
+	// implementation ('com.google.code.gson:gson:2.8.6') {
+	//     transitive = false
+	// }
 
-    implementation("io.github.chaosunity.forgelin:Forgelin-Continuous:" + project.forgelin_continuous_version) { transitive = false }
+	implementation("io.github.chaosunity.forgelin:Forgelin-Continuous:" + project.forgelin_continuous_version) { transitive = false }
 
-    implementation "com.cleanroommc:configanytime:3.0"
+	implementation "com.cleanroommc:configanytime:3.0"
 
-    implementation rfg.deobf("curse.maven:the-one-probe-community-edition-885670:6280353")
-    implementation rfg.deobf("curse.maven:topalldependents-1120632:6310644") // updated version of the one probe addons
+	runtimeOnly rfg.deobf("curse.maven:lolasm-460609:6333774") // otherwise it will crash
+	runtimeOnly rfg.deobf("curse.maven:vintagefix-871198:6300725") // otherwise it will crash
+	runtimeOnly rfg.deobf("curse.maven:modern-splash-629058:5282442") // otherwise it will crash
 
-    runtimeOnly rfg.deobf("curse.maven:lolasm-460609:5257348") // otherwise it will crash
-    runtimeOnly rfg.deobf("curse.maven:vintagefix-871198:5010926") // otherwise it will crash
-    runtimeOnly rfg.deobf("curse.maven:modern-splash-629058:5282442") // otherwise it will crash
+	runtimeOnly "curse.maven:red-core-873867:6230904"
+	runtimeOnly "curse.maven:alfheim-lighting-engine-910715:6295028"
+	runtimeOnly "curse.maven:valkyrie-874067:6377168"
 
-    runtimeOnly "curse.maven:red-core-873867:5618189"
-    runtimeOnly "curse.maven:alfheim-lighting-engine-910715:5637644"
-    runtimeOnly "curse.maven:valkyrie-874067:5891664"
+	// CraftTweaker
+	implementation "CraftTweaker2:CraftTweaker2-API:4.1.20.698"
+	implementation "CraftTweaker2:ZenScript:4.1.20.698"
+	implementation "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.698"
 
-    // CraftTweaker
-    implementation "CraftTweaker2:CraftTweaker2-API:4.1.20.698"
-    implementation "CraftTweaker2:ZenScript:4.1.20.698"
-    implementation "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.698"
+	// GroovyScript
+	implementation("com.cleanroommc:groovyscript:" + project.groovyscript_version) { transitive = false }
+	// so it doesn't installs JEI
 
-    // GroovyScript
-    implementation("com.cleanroommc:groovyscript:" + project.groovyscript_version) { transitive = false } // so it doesn't installs JEI
+	// HEI
+	implementation "mezz:jei:4.27.3"
 
-    // HEI
-    implementation "mezz:jei:4.26.1"
+	// Game Stages
+	runtimeOnly "curse.maven:bookshelf-228525:2836960"
+	implementation rfg.deobf("curse.maven:game-stages-268655:2951840")
 
-    // Game Stages
-    runtimeOnly "curse.maven:bookshelf-228525:2836960"
-    implementation rfg.deobf("curse.maven:game-stages-268655:2951840")
+	// Patchouli
+	runtimeOnly "curse.maven:patchouli-rofl-edition-905159:6178311"
+	runtimeOnly "curse.maven:patchouli-books-1133738:6136828"
 
-    // Patchouli
-    runtimeOnly "curse.maven:patchouli-rofl-edition-905159:6178311"
-    runtimeOnly "curse.maven:patchouli-books-1133738:6136828"
+	// Resource Loader
+	runtimeOnly "curse.maven:resource-loader-226447:2477566"
 
-    // Retro Sophisticated Backpacks (for Reference)
-    runtimeOnly "curse.maven:modularui-624243:6206809"
-    runtimeOnly "curse.maven:retro-sophisticated-backpacks-1197465:6234681"
+	// CTM
+	runtimeOnly "curse.maven:ctm-267602:2915363"
 
-    // Resource Loader
-    runtimeOnly "curse.maven:resource-loader-226447:2477566"
+	// Exponential Power
+	runtimeOnly "curse.maven:exponential-power-254249:2576624"
 
-    // CTM
-    runtimeOnly "curse.maven:ctm-267602:2915363"
+	// JSON Paintings
+	runtimeOnly "maven.modrinth:json-paintings:QBprvpeM"
 
-    // Exponential Power
-    runtimeOnly "curse.maven:exponential-power-254249:2576624"
+	// The One Probe
+	implementation rfg.deobf("curse.maven:the-one-probe-community-edition-885670:6280353")
+	implementation rfg.deobf("curse.maven:topalldependents-1120632:6310644")
 
-    // JSON Paintings
-    runtimeOnly "maven.modrinth:json-paintings:QBprvpeM"
+	// JADE (+ Hwyla)
+	implementation rfg.deobf("curse.maven:hwyla-253449:2568751")
+	implementation rfg.deobf("curse.maven:jade-324717:2735905")
 }

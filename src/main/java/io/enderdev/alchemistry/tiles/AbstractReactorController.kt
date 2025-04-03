@@ -47,32 +47,28 @@ abstract class AbstractReactorController<T : IRecipe>(val reactorType: ReactorTy
 	fun loadConfig(configValue: Array<String>) {
 		fluidModifiers.clear()
 		configValue.forEach {
-			if(it.contains(",")) {
-				/**
-				 * This solely exists, because we spent way too long debugging this
-				 * _silently cries in the corner_
-				 *       ,_     _,
-				 *      |\\___//|
-				 *      |=6   6=|
-				 *      \=._Y_.=/
-				 *       )  `  (    ,
-				 *      /       \  ((
-				 *      |       |   ))
-				 *     /| |   | |\_//
-				 *     \| |._.| |/-`
-				 *      '"'   '"'
-				 */
-				Alchemistry.logger.warn("Found an unsupported ',' (Comma) in a config entry: $it")
-				return@forEach
-			}
-			val split = it.split(";")
+			/**
+			 * We only added commas here, because we spent way too long debugging it once
+			 * _silently cries in the corner_
+			 *       ,_     _,
+			 *      |\\___//|
+			 *      |=6   6=|
+			 *      \=._Y_.=/
+			 *       )  `  (    ,
+			 *      /       \  ((
+			 *      |       |   ))
+			 *     /| |   | |\_//
+			 *     \| |._.| |/-`
+			 *      '"'   '"'
+			 */
+			val split = it.split(";", ",")
 			if(split.size != 4) {
-				Alchemistry.logger.warn("Found malformed config entry: $it")
+				Alchemistry.logger.error("Malformed ${reactorType.name.lowercase()} fluid modifier config entry - expected 4 sections but found ${split.size}: $it")
 				return@forEach
 			}
 			val fluid = FluidRegistry.getFluid(split[0])
 			if(fluid == null) {
-				Alchemistry.logger.warn("Fluid ${split[0]} not found, skipping")
+				Alchemistry.logger.error("Malformed ${reactorType.name.lowercase()} fluid modifier config entry - fluid not found: ${split[0]}")
 				return@forEach
 			}
 			val productivity = split[1].toDouble()

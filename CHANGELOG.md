@@ -8,7 +8,8 @@
 - removed the internal xml recipe system, use CraftTweaker or GroovyScript instead
 - moved the config file back to the main config folder (please move your config and delete the old folder)
 - updated internal dependencies to the latest versions
-- added The One Probe compatibility for reactors and the chemical combiner
+- improved groovy script content creation methods and added example scripts to repository
+- added The One Probe compatibility for most machines
 
 ## [1.2.1] - bugfixes
 - fixed weird dissolver behavior, when outputting items

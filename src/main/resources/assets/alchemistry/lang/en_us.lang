@@ -338,7 +338,7 @@ item.alchemistry:periodic_table.tooltip=Right-click to bring up a full-screen pe
 
 tooltip.alchemistry.energy_requirement=Requires %d FE/t
 
-tile.evaporator.tooltip=Operates 50% slower in non-dry biomes
+tile.evaporator.tooltip=Operates 50%% slower in non-dry biomes
 tile.wet_sand.tooltip=Able to grow sugarcane without adjacent water blocks
 
 tile.combiner.unlock_recipe=Unlock Recipe

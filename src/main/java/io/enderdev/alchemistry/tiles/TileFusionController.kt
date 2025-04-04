@@ -54,11 +54,9 @@ class TileFusionController : AbstractReactorController<FusionRecipe>(ReactorType
 
 	override fun onProcessComplete() {
 		var stacksize = recipeOutput.count
-		val staticMultiplier = currentModifier.productivity.toInt()
-		val randomMultiplier = if(currentModifier.productivity - staticMultiplier > world.rand.nextDouble()) 1 else 0
-		if(staticMultiplier != 0 || randomMultiplier != 0) {
-			stacksize *= staticMultiplier + randomMultiplier
-		}
+		val staticMultiplier = currentMultiplier.productivity.toInt()
+		val randomMultiplier = if(currentMultiplier.productivity - staticMultiplier > world.rand.nextDouble()) 1 else 0
+		stacksize *= staticMultiplier + randomMultiplier
 		val outputStack = recipeOutput.copy()
 		outputStack.count = stacksize
 		output.setOrIncrement(0, outputStack)

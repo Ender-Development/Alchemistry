@@ -11,11 +11,12 @@ import net.minecraft.util.EnumFacing
 import net.minecraftforge.common.capabilities.Capability
 import net.minecraftforge.fluids.Fluid
 import net.minecraftforge.fluids.FluidRegistry
+import kotlin.math.roundToInt
 
 abstract class AbstractReactorController<T : IRecipe>(val reactorType: ReactorType, recipeRegister: AbstractRecipeRegister<T>) : AbstractMachine<T>(recipeRegister), IEnergyTile {
 	val shapeHandler = ReactorShapeHandler(this)
-	var fluidModifiers = mutableMapOf<Fluid, Modifier>()
-	var currentModifier = Modifier(.0, .0, .0)
+	var fluidModifiers = mutableMapOf<Fluid, Multiplier>()
+	var currentMultiplier = Multiplier()
 	var isMultiblockValid = false
 	var checkMultiblockTicks = 0
 
@@ -34,12 +35,12 @@ abstract class AbstractReactorController<T : IRecipe>(val reactorType: ReactorTy
 
 	fun updateModifiers() {
 		val fluids = shapeHandler.countFluid()
-		currentModifier.zero()
+		currentMultiplier.reset()
 		fluids.map { (fluid: Fluid, cnt: Int) ->
-			fluidModifiers[fluid]?.let { (productivity, speed, energy) ->
-				currentModifier.productivity += productivity * cnt
-				currentModifier.speed += speed * cnt
-				currentModifier.energy += energy * cnt
+			fluidModifiers[fluid]?.let { (productivity, processingTime, energy) ->
+				currentMultiplier.productivity += productivity * cnt
+				currentMultiplier.processingTime += processingTime * cnt
+				currentMultiplier.energy += energy * cnt
 			}
 		}
 	}
@@ -71,16 +72,13 @@ abstract class AbstractReactorController<T : IRecipe>(val reactorType: ReactorTy
 				Alchemistry.logger.error("Malformed ${reactorType.name.lowercase()} fluid modifier config entry - fluid not found: ${split[0]}")
 				return@forEach
 			}
-			val productivity = split[1].toDouble()
-			val speed = split[2].toDouble()
-			val energy = split[3].toDouble()
-			fluidModifiers[fluid] = Modifier(productivity, speed, energy)
+			fluidModifiers[fluid] = Multiplier(split[1].toDouble(), split[2].toDouble(), split[3].toDouble())
 		}
 	}
 
-	fun getModifiedProcessTime(default: Int) = (default * (1 - currentModifier.speed)).toInt()
+	fun getModifiedProcessTime(default: Int) = (default * currentMultiplier.processingTime).roundToInt()
 
-	fun getModifiedEnergyCost(default: Int) = (default * (1 + currentModifier.energy)).toInt()
+	fun getModifiedEnergyCost(default: Int) = (default * currentMultiplier.energy).roundToInt()
 
 	override fun hasCapability(capability: Capability<*>, facing: EnumFacing?) =
 		if(isMultiblockValid) super.hasCapability(capability, facing) else false
@@ -91,28 +89,28 @@ abstract class AbstractReactorController<T : IRecipe>(val reactorType: ReactorTy
 	override fun writeToNBT(compound: NBTTagCompound): NBTTagCompound {
 		super.writeToNBT(compound)
 		compound.setInteger("ProgressTicks", progressTicks)
-		compound.setDouble("productivityModifier", currentModifier.productivity)
-		compound.setDouble("speedModifier", currentModifier.speed)
-		compound.setDouble("energyModifier", currentModifier.energy)
+		compound.setDouble("productivityMult", currentMultiplier.productivity)
+		compound.setDouble("processingTimeMult", currentMultiplier.processingTime)
+		compound.setDouble("energyMult", currentMultiplier.energy)
 		return compound
 	}
 
 	override fun readFromNBT(compound: NBTTagCompound) {
 		super.readFromNBT(compound)
 		progressTicks = compound.getInteger("ProgressTicks")
-		currentModifier = Modifier(
-			compound.getDouble("productivityModifier"),
-			compound.getDouble("speedModifier"),
-			compound.getDouble("energyModifier")
+		currentMultiplier = Multiplier(
+			compound.getDouble("productivityMult"),
+			compound.getDouble("processingTimeMult"),
+			compound.getDouble("energyMult")
 		)
 		updateMultiblock()
 	}
 
-	data class Modifier(var productivity: Double, var speed: Double, var energy: Double) {
-		fun zero() {
-			productivity = .0
-			speed = .0
-			energy = .0
+	data class Multiplier(var productivity: Double = 1.0, var processingTime: Double = 1.0, var energy: Double = 1.0) {
+		fun reset() {
+			productivity = 1.0
+			processingTime = 1.0
+			energy = 1.0
 		}
 	}
 }

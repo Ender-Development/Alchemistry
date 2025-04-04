@@ -66,19 +66,15 @@ class TileFissionController : AbstractReactorController<FissionRecipe>(ReactorTy
 
 	override fun onProcessComplete() {
 		var stacksize1 = recipeOutput1.count
-		val staticMultiplier = currentModifier.productivity.toInt()
-		val randomMultiplier = if(currentModifier.productivity - staticMultiplier > world.rand.nextDouble()) 1 else 0
-		if(staticMultiplier != 0 || randomMultiplier != 0) {
-			stacksize1 *= staticMultiplier + randomMultiplier
-		}
+		val staticMultiplier = currentMultiplier.productivity.toInt()
+		val randomMultiplier = if(currentMultiplier.productivity - staticMultiplier > world.rand.nextDouble()) 1 else 0
+		stacksize1 *= staticMultiplier + randomMultiplier
 		val outputStack1 = recipeOutput1.copy()
 		outputStack1.count = if(stacksize1 > outputStack1.maxStackSize) outputStack1.maxStackSize else stacksize1
 		output.setOrIncrement(0, outputStack1)
 		if(!recipeOutput2.isEmpty) {
 			var stacksize2 = recipeOutput2.count
-			if(staticMultiplier != 0 || randomMultiplier != 0) {
-				stacksize2 *= staticMultiplier + randomMultiplier
-			}
+			stacksize2 *= staticMultiplier + randomMultiplier
 			val outputStack2 = recipeOutput2.copy()
 			outputStack2.count =
 				if(stacksize2 > outputStack2.maxStackSize) outputStack2.maxStackSize else stacksize2

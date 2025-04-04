@@ -42,21 +42,21 @@ object ConfigHandler {
 		@JvmField
 		@Config.RequiresMcRestart
 		@Config.Name("Energy Capacity")
-		@Config.Comment("Max energy capacity of the Fission Multiblock")
+		@Config.Comment("Max energy capacity of the Fission Reactor")
 		@Config.RangeInt(min = 1, max = Integer.MAX_VALUE)
 		var energyCapacity = 50000
 
 		@JvmField
 		@Config.RequiresMcRestart
 		@Config.Name("Energy per Tick")
-		@Config.Comment("Max energy capacity of the Fission Multiblock")
+		@Config.Comment("Energy used per tick of operation of the Fission Reactor")
 		@Config.RangeInt(min = 1, max = Integer.MAX_VALUE)
 		var energyPerTick = 300
 
 		@JvmField
 		@Config.RequiresMcRestart
 		@Config.Name("Processing Ticks")
-		@Config.Comment("Max energy capacity of the Fission Multiblock")
+		@Config.Comment("Duration of each operation of the Fission Reactor")
 		@Config.RangeInt(min = 0, max = Integer.MAX_VALUE)
 		var processingTicks = 40
 
@@ -89,21 +89,21 @@ object ConfigHandler {
 		@JvmField
 		@Config.RequiresMcRestart
 		@Config.Name("Energy Capacity")
-		@Config.Comment("Max energy capacity of the Fusion Multiblock")
+		@Config.Comment("Max energy capacity of the Fusion Reactor")
 		@Config.RangeInt(min = 1, max = Integer.MAX_VALUE)
 		var energyCapacity = 50000
 
 		@JvmField
 		@Config.RequiresMcRestart
 		@Config.Name("Energy per Tick")
-		@Config.Comment("Max energy capacity of the Fusion Multiblock")
+		@Config.Comment("Energy used per tick of operation of the Fusion Reactor")
 		@Config.RangeInt(min = 1, max = Integer.MAX_VALUE)
 		var energyPerTick = 300
 
 		@JvmField
 		@Config.RequiresMcRestart
 		@Config.Name("Processing Ticks")
-		@Config.Comment("Max energy capacity of the Fusion Multiblock")
+		@Config.Comment("Duration of each operation of the Fusion Reactor")
 		@Config.RangeInt(min = 0, max = Integer.MAX_VALUE)
 		var processingTicks = 40
 

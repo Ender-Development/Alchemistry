@@ -42,7 +42,7 @@ class ItemElement(name: String) : ItemMetaBase(name) {
 
 	@SideOnly(Side.CLIENT)
 	override fun getSubItems(tab: CreativeTabs, items: NonNullList<ItemStack>) {
-		if(!isInCreativeTab(tab)) return;
+		if(!isInCreativeTab(tab)) return
 		ElementRegistry.keys().forEach { items.add(ItemStack(this, 1, it)) }
 	}
 

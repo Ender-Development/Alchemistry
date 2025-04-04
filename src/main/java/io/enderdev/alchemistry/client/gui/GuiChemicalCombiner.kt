@@ -74,7 +74,7 @@ class GuiChemicalCombiner(playerInv: InventoryPlayer, tile: TileChemicalCombiner
 	}
 
 	private fun drawItemStack(stack: ItemStack, x: Int, y: Int, text: String?) {
-		RenderHelper.enableGUIStandardItemLighting();
+		RenderHelper.enableGUIStandardItemLighting()
 		GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f)
 		GlStateManager.translate(0.0f, 0.0f, 32.0f)
 		this.zLevel = 200.0f

@@ -1,4 +1,4 @@
-package io.enderdev.alchemistry.capability;
+package io.enderdev.alchemistry.capability
 
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraftforge.common.capabilities.Capability

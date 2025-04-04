@@ -82,7 +82,7 @@ class Dissolver : VirtualizedRegistry<DissolverRecipe>() {
 	class RecipeBuilder : AbstractRecipeBuilder<DissolverRecipe>() {
 
 		@Property(comp = Comp(gte = 1))
-		val probabilityGroup: MutableList<ProbabilityGroup> = ArrayList();
+		val probabilityGroup: MutableList<ProbabilityGroup> = ArrayList()
 
 		@Property
 		var reversible: Boolean = false
@@ -91,68 +91,68 @@ class Dissolver : VirtualizedRegistry<DissolverRecipe>() {
 		var relativeProbability: Boolean = true
 
 		@Property(defaultValue = "1", comp = Comp(gte = 1))
-		var rolls: Int = 1;
+		var rolls: Int = 1
 
 		@RecipeBuilderMethodDescription(field = ["probabilityGroup"])
 		fun probabilityOutput(probability: Double, vararg probabilityOutputs: ItemStack): RecipeBuilder {
-			probabilityGroup.add(ProbabilityGroup(probabilityOutputs.toList(), probability));
-			return this;
+			probabilityGroup.add(ProbabilityGroup(probabilityOutputs.toList(), probability))
+			return this
 		}
 
 		@RecipeBuilderMethodDescription(field = ["probabilityGroup"])
 		fun probabilityOutput(vararg probabilityOutputs: ItemStack): RecipeBuilder {
-			return this.probabilityOutput(100.0, probabilityOutputs.toList());
+			return this.probabilityOutput(100.0, probabilityOutputs.toList())
 		}
 
 		@RecipeBuilderMethodDescription(field = ["probabilityGroup"])
 		fun probabilityOutput(probability: Double, probabilityOutputs: Collection<ItemStack>): RecipeBuilder {
-			probabilityGroup.add(ProbabilityGroup(probabilityOutputs as List<ItemStack>, probability));
-			return this;
+			probabilityGroup.add(ProbabilityGroup(probabilityOutputs as List<ItemStack>, probability))
+			return this
 		}
 
 		@RecipeBuilderMethodDescription(field = ["probabilityGroup"])
 		fun probabilityOutput(probabilityOutputs: Collection<ItemStack>): RecipeBuilder {
-			return this.probabilityOutput(100.0, probabilityOutputs);
+			return this.probabilityOutput(100.0, probabilityOutputs)
 		}
 
 		@RecipeBuilderMethodDescription(field = ["probabilityGroup"])
 		override fun output(vararg probabilityOutputs: ItemStack): RecipeBuilder {
-			return this.probabilityOutput(100.0, probabilityOutputs.toList());
+			return this.probabilityOutput(100.0, probabilityOutputs.toList())
 		}
 
 		@RecipeBuilderMethodDescription(field = ["probabilityGroup"])
 		override fun output(probabilityOutputs: Collection<ItemStack>): RecipeBuilder {
-			return this.probabilityOutput(100.0, probabilityOutputs);
+			return this.probabilityOutput(100.0, probabilityOutputs)
 		}
 
 		@RecipeBuilderMethodDescription
 		fun reversible(reversible: Boolean): RecipeBuilder {
-			this.reversible = reversible;
-			return this;
+			this.reversible = reversible
+			return this
 		}
 
 		@RecipeBuilderMethodDescription
 		fun reversible(): RecipeBuilder {
-			this.reversible = !reversible;
-			return this;
+			this.reversible = !reversible
+			return this
 		}
 
 		@RecipeBuilderMethodDescription
 		fun relativeProbability(relativeProbability: Boolean): RecipeBuilder {
-			this.relativeProbability = relativeProbability;
-			return this;
+			this.relativeProbability = relativeProbability
+			return this
 		}
 
 		@RecipeBuilderMethodDescription
 		fun relativeProbability(): RecipeBuilder {
-			this.relativeProbability = !relativeProbability;
-			return this;
+			this.relativeProbability = !relativeProbability
+			return this
 		}
 
 		@RecipeBuilderMethodDescription
 		fun rolls(rolls: Int): RecipeBuilder {
-			this.rolls = rolls;
-			return this;
+			this.rolls = rolls
+			return this
 		}
 
 		override fun getErrorMsg(): String? {
@@ -160,10 +160,10 @@ class Dissolver : VirtualizedRegistry<DissolverRecipe>() {
 		}
 
 		override fun validate(msg: GroovyLog.Msg) {
-			validateItems(msg, 1, 1, 0, 0);
-			validateFluids(msg);
-			validateCustom(msg, probabilityGroup, 1, Integer.MAX_VALUE, "probability group");
-			msg.add(rolls < 1, "rolls must be greater than or equal to 1, yet it was {}", rolls);
+			validateItems(msg, 1, 1, 0, 0)
+			validateFluids(msg)
+			validateCustom(msg, probabilityGroup, 1, Integer.MAX_VALUE, "probability group")
+			msg.add(rolls < 1, "rolls must be greater than or equal to 1, yet it was {}", rolls)
 		}
 
 		@Nullable

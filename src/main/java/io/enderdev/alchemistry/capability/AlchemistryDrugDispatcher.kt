@@ -1,4 +1,4 @@
-package io.enderdev.alchemistry.capability;
+package io.enderdev.alchemistry.capability
 
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.util.EnumFacing
@@ -11,7 +11,7 @@ class AlchemistryDrugDispatcher : ICapabilityProvider, INBTSerializable<NBTTagCo
 	private var drugInfo = AlchemistryDrugInfo()
 
 	override fun hasCapability(capability: Capability<*>, facing: EnumFacing?) =
-		capability == CapabilityDrugInfo.DRUG_INFO;
+		capability == CapabilityDrugInfo.DRUG_INFO
 
 	@Suppress("UNCHECKED_CAST")
 	override fun <T : Any?> getCapability(capability: Capability<T?>, facing: EnumFacing?): T? =

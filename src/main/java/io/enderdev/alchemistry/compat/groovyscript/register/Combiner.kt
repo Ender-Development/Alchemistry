@@ -45,10 +45,10 @@ class Combiner : VirtualizedRegistry<CombinerRecipe>() {
 	fun removeByOutput(output: IIngredient): Boolean {
 		return CombinerRegister.INSTANCE.recipes.removeIf { r ->
 			if(output.test(r.output)) {
-				addBackup(r);
-				return@removeIf true;
+				addBackup(r)
+				return@removeIf true
 			}
-			return@removeIf false;
+			return@removeIf false
 		}
 	}
 
@@ -56,10 +56,10 @@ class Combiner : VirtualizedRegistry<CombinerRecipe>() {
 	fun removeByInput(input: IIngredient): Boolean {
 		return CombinerRegister.INSTANCE.recipes.removeIf { r ->
 			if(r.inputs.any { input.test(it) }) {
-				addBackup(r);
-				return@removeIf true;
+				addBackup(r)
+				return@removeIf true
 			}
-			return@removeIf false;
+			return@removeIf false
 		}
 	}
 
@@ -97,28 +97,28 @@ class Combiner : VirtualizedRegistry<CombinerRecipe>() {
 		}
 
 		override fun getErrorMsg(): String? {
-			return "Error adding Alchemistry Combiner recipe";
+			return "Error adding Alchemistry Combiner recipe"
 		}
 
 		override fun validate(msg: GroovyLog.Msg) {
-			val inputSize: Int = input.getRealSize();
-			output.trim();
-			msg.add(inputSize < 1 || inputSize > 9, "Must have 1 - 9 inputs, but found {}", input.size);
-			msg.add(output.size != 1, "Must have exactly 1 output, but found {}", output.size);
-			validateFluids(msg);
+			val inputSize: Int = input.realSize
+			output.trim()
+			msg.add(inputSize < 1 || inputSize > 9, "Must have 1 - 9 inputs, but found {}", input.size)
+			msg.add(output.size != 1, "Must have exactly 1 output, but found {}", output.size)
+			validateFluids(msg)
 		}
 
 		@Nullable
 		@RecipeBuilderRegistrationMethod
 		override fun register(): CombinerRecipe? {
-			if(!validate()) return null;
+			if(!validate()) return null
 
 			val inputs: List<ItemStack> =
 				input.stream().map { x -> if(x.isEmpty) ItemStack.EMPTY else IngredientHelper.toItemStack(x) }
 					.collect(Collectors.toList())
-			val recipe = CombinerRecipe(output[0], inputs, gamestage);
+			val recipe = CombinerRecipe(output[0], inputs, gamestage)
 			GSPlugin.instance?.combiner?.add(recipe)
-			return recipe;
+			return recipe
 		}
 	}
 }

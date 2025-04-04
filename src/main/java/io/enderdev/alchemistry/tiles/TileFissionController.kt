@@ -107,7 +107,7 @@ class TileFissionController : AbstractReactorController<FissionRecipe>(ReactorTy
 			checkMultiblockTicks = 0
 		}
 		val state = world.getBlockState(pos)
-		if(state.block != ModBlocks.fissionController) return;
+		if(state.block != ModBlocks.fissionController) return
 		val currentStatus = state.getValue(ReactorControllerBlock.Companion.STATUS)
 		if(isMultiblockValid) {
 			if(isActive) {

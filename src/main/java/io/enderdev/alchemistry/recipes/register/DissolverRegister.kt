@@ -882,7 +882,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				input = "protein".toStack().toIngredient()
 				output {
 					addGroup {
-						addStack { "carbon".toStack(3) };
+						addStack { "carbon".toStack(3) }
 						addStack { "hydrogen".toStack(7) }
 						addStack { "nitrogen".toStack() }
 						addStack { "oxygen".toStack(2) }

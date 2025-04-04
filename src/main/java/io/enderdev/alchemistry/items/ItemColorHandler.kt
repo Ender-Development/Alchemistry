@@ -12,6 +12,7 @@ import java.util.*
 @SideOnly(Side.CLIENT)
 class ItemColorHandler : IItemColor {
 	val april: Boolean
+
 	init {
 		val calendar = Calendar.getInstance()
 		april = calendar.get(Calendar.MONTH) == Calendar.APRIL && calendar.get(Calendar.DATE) == 1

@@ -79,7 +79,7 @@ class ItemCompound(name: String) : ItemMetaBase(name) {
 
 	@SideOnly(Side.CLIENT)
 	override fun getSubItems(tab: CreativeTabs, stacks: NonNullList<ItemStack>) {
-		if(!isInCreativeTab(tab)) return;
+		if(!isInCreativeTab(tab)) return
 		CompoundRegistry.keys().forEach { stacks.add(ItemStack(this, 1, it)) }
 	}
 

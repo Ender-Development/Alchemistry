@@ -46,7 +46,7 @@ fun stackToCTString(held: ItemStack, recipe: DissolverRecipe): String {
 		builder.append("[${group.probability}, ${group.output.joinToString(", ") { formatStack(it) }}]")
 		if(index < recipe.outputs.set.count() - 1) builder.append(", \n")
 	}
-	builder.append("]);");
+	builder.append("]);")
 	return "$builder"
 }
 

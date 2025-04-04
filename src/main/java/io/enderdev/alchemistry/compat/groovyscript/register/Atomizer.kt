@@ -93,7 +93,7 @@ class Atomizer : VirtualizedRegistry<AtomizerRecipe>() {
 	@Property(property = "output", comp = Comp(eq = 1))
 	class RecipeBuilder : AbstractRecipeBuilder<AtomizerRecipe>() {
 		@Property
-		private var reversible: Boolean = false;
+		private var reversible: Boolean = false
 
 		@RecipeBuilderMethodDescription(field = ["reversible"])
 		fun reversible(reversible: Boolean): RecipeBuilder {

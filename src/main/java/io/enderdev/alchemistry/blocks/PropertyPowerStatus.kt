@@ -1,6 +1,6 @@
-package io.enderdev.alchemistry.blocks;
+package io.enderdev.alchemistry.blocks
 
-import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.IStringSerializable
 
 enum class PropertyPowerStatus(val statusName: String) : IStringSerializable {
 	OFF("off"),

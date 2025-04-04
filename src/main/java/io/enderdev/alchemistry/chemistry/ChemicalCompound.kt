@@ -24,7 +24,7 @@ data class CompoundPair(val compound: ICompoundComponent, val quantity: Int) {
 	fun toStack() = compound.toItemStack(quantity)
 }
 
-data class ChemicalCompound constructor(
+data class ChemicalCompound(
 	override var name: String = "",
 	override var color: Color = Color.WHITE,
 	var autoCombinerRecipe: Boolean = true,

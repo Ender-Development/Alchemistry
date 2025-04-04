@@ -101,19 +101,19 @@ class Electrolyzer : VirtualizedRegistry<ElectrolyzerRecipe>() {
 		val chance: ArrayList<Int> = ArrayList(2)
 
 		@Property(comp = Comp(gte = 0, lte = 100))
-		var consumptionChance: Int = 0;
+		var consumptionChance: Int = 0
 
 		@RecipeBuilderMethodDescription
 		fun input(ingredient: IIngredient, chance: Int): RecipeBuilder {
-			this.input.add(ingredient);
-			this.chance.add(chance);
-			return this;
+			this.input.add(ingredient)
+			this.chance.add(chance)
+			return this
 		}
 
 		@RecipeBuilderMethodDescription
 		fun chance(chance: Int): RecipeBuilder {
-			this.chance.add(chance);
-			return this;
+			this.chance.add(chance)
+			return this
 		}
 
 		@RecipeBuilderMethodDescription
@@ -125,13 +125,13 @@ class Electrolyzer : VirtualizedRegistry<ElectrolyzerRecipe>() {
 		@RecipeBuilderMethodDescription
 		fun chance(chances: Collection<Int>): RecipeBuilder {
 			chances.forEach { chance(it) }
-			return this;
+			return this
 		}
 
 		@RecipeBuilderMethodDescription
 		fun consumptionChance(consumptionChance: Int): RecipeBuilder {
-			this.consumptionChance = consumptionChance;
-			return this;
+			this.consumptionChance = consumptionChance
+			return this
 		}
 
 		override fun getErrorMsg(): String? {
@@ -139,26 +139,26 @@ class Electrolyzer : VirtualizedRegistry<ElectrolyzerRecipe>() {
 		}
 
 		override fun validate(msg: GroovyLog.Msg) {
-			validateItems(msg, 0, 1, 1, 4);
-			validateFluids(msg, 1, 1, 0, 0);
-			validateCustom(msg, chance, 0, 2, "chance");
+			validateItems(msg, 0, 1, 1, 4)
+			validateFluids(msg, 1, 1, 0, 0)
+			validateCustom(msg, chance, 0, 2, "chance")
 			msg.add(
 				!chance.isEmpty() && chance.size > (output.size - 2),
 				"chance only applies to output items after the second, cannot have more chance than output items above 2, had {} chance and {} output",
 				chance.size,
 				output.size
-			);
+			)
 			msg.add(
 				consumptionChance < 0 || consumptionChance > 100,
 				"consumption chance must be between 0 and 100, yet it was {}",
 				consumptionChance
-			);
+			)
 		}
 
 		@Nullable
 		@RecipeBuilderRegistrationMethod
 		override fun register(): ElectrolyzerRecipe? {
-			if(!validate()) return null;
+			if(!validate()) return null
 			val recipe = ElectrolyzerRecipe(
 				fluidInput.get(0),
 				if(input.isNotEmpty()) input[0].toMcIngredient() else Ingredient.EMPTY,
@@ -171,7 +171,7 @@ class Electrolyzer : VirtualizedRegistry<ElectrolyzerRecipe>() {
 				if(chance.size >= 2) chance[1] else 0
 			)
 			GSPlugin.instance?.electrolyzer?.add(recipe)
-			return recipe;
+			return recipe
 		}
 	}
 }

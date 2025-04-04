@@ -26,7 +26,7 @@ class ItemElementIngot(name: String) : ItemMetaBase(name) {
 
 	@SideOnly(Side.CLIENT)
 	override fun getSubItems(tab: CreativeTabs, items: NonNullList<ItemStack>) {
-		if(!isInCreativeTab(tab)) return;
+		if(!isInCreativeTab(tab)) return
 		ElementRegistry.keys()
 			.filter { it <= 118 && !invalidIngots.contains(it) }
 			.forEach { items.add(ItemStack(this, 1, it)) }

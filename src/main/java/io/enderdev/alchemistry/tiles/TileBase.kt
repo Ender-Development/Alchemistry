@@ -48,7 +48,7 @@ abstract class TileBase : TileEntity() {
 	fun canInteractWith(player: EntityPlayer) = !isInvalid && player.getDistanceSq(pos.add(.5, .5, .5)) <= 64
 
 	override fun shouldRefresh(world: World, pos: BlockPos, oldState: IBlockState, newState: IBlockState): Boolean {
-		return oldState.block != newState.block;
+		return oldState.block != newState.block
 	}
 
 	fun initInventoryCapability(inputSlots: Int, outputSlots: Int) {

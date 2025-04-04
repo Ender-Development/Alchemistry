@@ -7,7 +7,7 @@ open class CapabilityFluidDisplayWrapper(x: Int, y: Int, width: Int, height: Int
 
 	override fun getCapacity() = fluidTank().capacity
 	override fun getStored() = fluidTank().fluidAmount
-	override fun toStringList() = listOf("${getStored()}/${getCapacity()} mB ${fluidTank().fluid?.fluid?.getLocalizedName(fluidTank().fluid)?: ""}".trimEnd())
+	override fun toStringList() = listOf("${getStored()}/${getCapacity()} mB ${fluidTank().fluid?.fluid?.getLocalizedName(fluidTank().fluid) ?: ""}".trimEnd())
 
 	fun getFluid() = fluidTank().fluid
 }

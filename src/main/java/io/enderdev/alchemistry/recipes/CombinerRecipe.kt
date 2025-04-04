@@ -68,7 +68,7 @@ data class CombinerRecipe(val output: ItemStack, private val objsIn: List<Any?>,
 								&& inputStack.count >= recipeStack.count
 								&& (inputStack.itemDamage == recipeStack.itemDamage || recipeStack.itemDamage == OreDictionary.WILDCARD_VALUE))
 					) {
-						continue@outer;
+						continue@outer
 					} else if(inputStack.isEmpty || recipeStack.isEmpty) {
 						continue@outer
 					}

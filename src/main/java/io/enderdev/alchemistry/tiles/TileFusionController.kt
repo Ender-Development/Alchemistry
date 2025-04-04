@@ -76,7 +76,7 @@ class TileFusionController : AbstractReactorController<FusionRecipe>(ReactorType
 			&& !input[0].isEmpty
 			&& !input[1].isEmpty
 			&& !recipeOutput.isEmpty
-			&& (ItemStack.areItemsEqual(output[0],recipeOutput) || output[0].isEmpty)
+			&& (ItemStack.areItemsEqual(output[0], recipeOutput) || output[0].isEmpty)
 			&& output[0].count + recipeOutput.count <= recipeOutput.maxStackSize
 			&& energyStorage.energyStored >= energyPerTick
 

@@ -65,20 +65,20 @@ class TileFissionController : AbstractReactorController<FissionRecipe>(ReactorTy
 	}
 
 	override fun onProcessComplete() {
-		var stacksize1 = recipeOutput1.count
-		val staticMultiplier = currentMultiplier.productivity.toInt()
-		val randomMultiplier = if(currentMultiplier.productivity - staticMultiplier > world.rand.nextDouble()) 1 else 0
-		stacksize1 *= staticMultiplier + randomMultiplier
-		val outputStack1 = recipeOutput1.copy()
-		outputStack1.count = if(stacksize1 > outputStack1.maxStackSize) outputStack1.maxStackSize else stacksize1
-		output.setOrIncrement(0, outputStack1)
-		if(!recipeOutput2.isEmpty) {
-			var stacksize2 = recipeOutput2.count
-			stacksize2 *= staticMultiplier + randomMultiplier
-			val outputStack2 = recipeOutput2.copy()
-			outputStack2.count =
-				if(stacksize2 > outputStack2.maxStackSize) outputStack2.maxStackSize else stacksize2
-			output.setOrIncrement(1, outputStack2)
+		val (productivity) = currentMultiplier
+		if(productivity > 0) {
+			val stackMultiplier = productivity.toInt() + if(productivity - productivity.toInt() > world.rand.nextDouble()) 1 else 0
+
+			recipeOutput1.copy().apply {
+				count = (count * stackMultiplier).coerceIn(0, maxStackSize)
+				output.setOrIncrement(0, this)
+			}
+
+			if(!recipeOutput2.isEmpty)
+				recipeOutput2.copy().apply {
+					count = (count * stackMultiplier).coerceIn(0, maxStackSize)
+					output.setOrIncrement(1, this)
+				}
 		}
 		input.decrementSlot(0, 1) //Will refresh the recipe, clearing the recipeOutputs if only 1 stack is left
 	}

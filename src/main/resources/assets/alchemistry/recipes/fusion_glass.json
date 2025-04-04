@@ -1,22 +1,17 @@
 {
 	"type": "forge:ore_shaped",
 	"pattern": [
-		"WNW",
-		"NEN",
-		"WNW"
+		" C ",
+		"CGC",
+		" C "
 	],
 	"key": {
-		"E": {
+		"G": {
 			"type": "forge:ore_dict",
 			"ore": "blockGlass"
 		},
-		"W": {
-			"type": "forge:ore_dict",
-			"ore": "ingotTungsten"
-		},
-		"N": {
-			"type": "forge:ore_dict",
-			"ore": "ingotNeodymium"
+		"C": {
+			"item": "alchemistry:fusion_casing"
 		}
 	},
 	"result": {

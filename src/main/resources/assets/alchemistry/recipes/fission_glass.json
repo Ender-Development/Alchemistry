@@ -1,22 +1,17 @@
 {
 	"type": "forge:ore_shaped",
 	"pattern": [
-		"AMA",
-		"MBM",
-		"AMA"
+		" C ",
+		"CGC",
+		" C "
 	],
 	"key": {
-		"B": {
+		"G": {
 			"type": "forge:ore_dict",
 			"ore": "blockGlass"
 		},
-		"A": {
-			"type": "forge:ore_dict",
-			"ore": "ingotBarium"
-		},
-		"M": {
-			"type": "forge:ore_dict",
-			"ore": "ingotMagnesium"
+		"C": {
+			"item": "alchemistry:fission_casing"
 		}
 	},
 	"result": {

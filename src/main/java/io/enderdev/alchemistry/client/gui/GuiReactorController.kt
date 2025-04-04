@@ -131,11 +131,16 @@ abstract class GuiReactorController<T>(container: Container, tile: T, guiName: S
 				} else {
 					ConfigHandler.FUSION.energyPerTick
 				}
+				val minimum = if(tile.reactorType == ReactorType.FISSION)
+					ConfigHandler.FISSION.minEnergyPerTick
+				else
+					ConfigHandler.FUSION.minEnergyPerTick
 				drawHoveringText(
 					listOf(
 						"tooltip.energy_consumption.title".translate(),
 						"tooltip.energy_consumption.default".translate(defaultEnergy),
-						"tooltip.energy_consumption.current".translate(tile.energyPerTick)
+						"tooltip.energy_consumption.current".translate(tile.energyPerTick),
+						"tooltip.energy_consumption.minimum".translate(minimum)
 					),
 					mouseX,
 					mouseY

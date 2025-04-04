@@ -1,6 +1,7 @@
 package io.enderdev.alchemistry.tiles
 
 import io.enderdev.alchemistry.Alchemistry
+import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.blocks.machine.ReactorControllerBlock
 import io.enderdev.alchemistry.client.BlockHighlighter
 import io.enderdev.alchemistry.recipes.IRecipe
@@ -78,7 +79,9 @@ abstract class AbstractReactorController<T : IRecipe>(val reactorType: ReactorTy
 
 	fun getModifiedProcessTime(default: Int) = (default * currentMultiplier.processingTime).roundToInt()
 
-	fun getModifiedEnergyCost(default: Int) = (default * currentMultiplier.energy).roundToInt()
+	fun getModifiedEnergyCost(default: Int) = (default * currentMultiplier.energy).roundToInt().coerceAtLeast(
+		if(reactorType == ReactorType.FISSION) ConfigHandler.FISSION.minEnergyPerTick else ConfigHandler.FUSION.minEnergyPerTick
+	)
 
 	override fun hasCapability(capability: Capability<*>, facing: EnumFacing?) =
 		if(isMultiblockValid) super.hasCapability(capability, facing) else false

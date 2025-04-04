@@ -49,14 +49,14 @@ object ConfigHandler {
 		@JvmField
 		@Config.RequiresMcRestart
 		@Config.Name("Energy per Tick")
-		@Config.Comment("Energy used per tick of operation of the Fission Reactor")
+		@Config.Comment("Energy consumption rate per tick for the Fission Reactor")
 		@Config.RangeInt(min = 1, max = Integer.MAX_VALUE)
 		var energyPerTick = 300
 
 		@JvmField
 		@Config.RequiresMcRestart
 		@Config.Name("Processing Ticks")
-		@Config.Comment("Duration of each operation of the Fission Reactor")
+		@Config.Comment("Number of ticks per operation for the Fission Reactor")
 		@Config.RangeInt(min = 0, max = Integer.MAX_VALUE)
 		var processingTicks = 40
 
@@ -78,6 +78,13 @@ object ConfigHandler {
 			"water;0;-0.02;-0.05",
 			"lava;0.2;0.05;0.1"
 		)
+
+		@JvmField
+		@Config.RequiresMcRestart
+		@Config.Name("Minimum Energy per Tick")
+		@Config.Comment("Minimum energy consumption rate per tick for the Fission Reactor")
+		@Config.RangeInt(min = 0, max = Integer.MAX_VALUE)
+		var minEnergyPerTick = 1
 	}
 
 	@JvmField
@@ -96,14 +103,14 @@ object ConfigHandler {
 		@JvmField
 		@Config.RequiresMcRestart
 		@Config.Name("Energy per Tick")
-		@Config.Comment("Energy used per tick of operation of the Fusion Reactor")
+		@Config.Comment("Energy consumption rate per tick for the Fusion Reactor")
 		@Config.RangeInt(min = 1, max = Integer.MAX_VALUE)
 		var energyPerTick = 300
 
 		@JvmField
 		@Config.RequiresMcRestart
 		@Config.Name("Processing Ticks")
-		@Config.Comment("Duration of each operation of the Fusion Reactor")
+		@Config.Comment("Number of ticks per operation for the Fusion Reactor")
 		@Config.RangeInt(min = 0, max = Integer.MAX_VALUE)
 		var processingTicks = 40
 
@@ -125,6 +132,13 @@ object ConfigHandler {
 			"water;0;-0.02;-0.03",
 			"lava;0.2;0.05;0.1"
 		)
+
+		@JvmField
+		@Config.RequiresMcRestart
+		@Config.Name("Minimum Energy per Tick")
+		@Config.Comment("Minimum energy consumption rate per tick for the Fusion Reactor")
+		@Config.RangeInt(min = 0, max = Integer.MAX_VALUE)
+		var minEnergyPerTick = 1
 	}
 
 	@JvmField

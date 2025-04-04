@@ -388,6 +388,7 @@ tooltip.processing_time.current=Current: §d%s§r ticks per operation
 tooltip.energy_consumption.title=§6Energy Consumption§r
 tooltip.energy_consumption.default=Default: §d%s§r FE/t
 tooltip.energy_consumption.current=Current: §d%s§r FE/t
+tooltip.energy_consumption.minimum=Minimum: §d%s§r FE/t
 
 top.alchemistry.reactor.invalid=Invalid Multiblock
 top.alchemistry.fission_reactor.fissioning=Exploding %s into %s and %s

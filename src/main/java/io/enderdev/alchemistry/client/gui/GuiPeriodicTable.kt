@@ -95,4 +95,10 @@ class GuiPeriodicTable : GuiScreen() {
 		minecraft.textureManager.bindTexture(ResourceLocation(Tags.MOD_ID, "textures/gui/elements/${element.name}_tooltip.png"))
 		drawScaledCustomSizeModalRect((boxWidth * 2).roundToInt(), 0, 0f, 0f, w, h, w, h, w.toFloat(), h.toFloat())
 	}
+
+	override fun keyTyped(typedChar: Char, keyCode: Int) {
+		if(mc.gameSettings.keyBindInventory.isActiveAndMatches(keyCode))
+			mc.displayGuiScreen(null)
+		super.keyTyped(typedChar, keyCode)
+	}
 }

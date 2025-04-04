@@ -14,7 +14,8 @@
 			"ore": "ingotSelenium"
 		},
 		"G": {
-			"item": "minecraft:glass"
+			"type": "forge:ore_dict",
+			"ore": "blockGlass"
 		},
 		"C": {
 			"item": "alchemistry:fusion_casing"

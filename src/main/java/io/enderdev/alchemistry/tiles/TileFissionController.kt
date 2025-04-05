@@ -33,7 +33,7 @@ class TileFissionController : AbstractReactorController<FissionRecipe>(ReactorTy
 
 	init {
 		initInventoryCapability(1, 2)
-		loadConfig(ConfigHandler.FISSION.fissionReactorModifiers)
+		loadConfig(ConfigHandler.FISSION.fissionReactorFluidModifiers, ConfigHandler.FISSION.fissionReactorBlockModifiers)
 	}
 
 	override fun initInventoryInputCapability() {

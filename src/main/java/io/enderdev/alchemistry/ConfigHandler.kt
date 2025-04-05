@@ -74,9 +74,18 @@ object ConfigHandler {
 		@Config.RequiresMcRestart
 		@Config.Name("Fission Reactor Modifiers")
 		@Config.Comment("List of fluid modifiers for the Fission Reactor. Syntax: fluidName;productivity;processing_time;energy")
-		var fissionReactorModifiers = arrayOf(
+		var fissionReactorFluidModifiers = arrayOf(
 			"water;0;-0.02;-0.05",
 			"lava;0.2;0.05;0.1"
+		)
+
+		@JvmField
+		@Config.RequiresMcRestart
+		@Config.Name("Fission Reactor Moderator Blocks")
+		@Config.Comment("List of moderator block modifiers for the Fission Reactor. Syntax: mod:block:meta;productivity;processing_time;energy (meta is optional, mod is required)")
+		var fissionReactorBlockModifiers = arrayOf(
+			"alchemistry:wet_sand;0;-0.05;-0.01",
+			"minecraft:sand:1;0.05;0.1;0.1"
 		)
 
 		@JvmField
@@ -84,7 +93,7 @@ object ConfigHandler {
 		@Config.Name("Minimum Energy per Tick")
 		@Config.Comment("Minimum energy consumption rate per tick for the Fission Reactor")
 		@Config.RangeInt(min = 0, max = Integer.MAX_VALUE)
-		var minEnergyPerTick = 1
+		var minEnergyPerTick = 0
 	}
 
 	@JvmField
@@ -128,9 +137,18 @@ object ConfigHandler {
 		@Config.RequiresMcRestart
 		@Config.Name("Fusion Reactor Modifiers")
 		@Config.Comment("List of fluid modifiers for the Fusion Reactor. Syntax: fluidName;productivity;processing_time;energy")
-		var fusionReactorModifiers = arrayOf(
+		var fusionReactorFluidModifiers = arrayOf(
 			"water;0;-0.02;-0.03",
 			"lava;0.2;0.05;0.1"
+		)
+
+		@JvmField
+		@Config.RequiresMcRestart
+		@Config.Name("Fusion Reactor Moderator Blocks")
+		@Config.Comment("List of moderator block modifiers for the Fusion Reactor. Syntax: mod:block:meta;productivity;processing_time;energy (meta is optional, mod is required)")
+		var fusionReactorBlockModifiers = arrayOf(
+			"alchemistry:wet_sand;0;-0.05;-0.01",
+			"minecraft:sand:1;0.05;0.1;0.1"
 		)
 
 		@JvmField
@@ -138,7 +156,7 @@ object ConfigHandler {
 		@Config.Name("Minimum Energy per Tick")
 		@Config.Comment("Minimum energy consumption rate per tick for the Fusion Reactor")
 		@Config.RangeInt(min = 0, max = Integer.MAX_VALUE)
-		var minEnergyPerTick = 1
+		var minEnergyPerTick = 0
 	}
 
 	@JvmField

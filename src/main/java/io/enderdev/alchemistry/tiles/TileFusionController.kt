@@ -32,7 +32,7 @@ class TileFusionController : AbstractReactorController<FusionRecipe>(ReactorType
 
 	init {
 		initInventoryCapability(2, 1)
-		loadConfig(ConfigHandler.FUSION.fusionReactorModifiers)
+		loadConfig(ConfigHandler.FUSION.fusionReactorFluidModifiers, ConfigHandler.FUSION.fusionReactorBlockModifiers)
 	}
 
 	override fun initInventoryInputCapability() {

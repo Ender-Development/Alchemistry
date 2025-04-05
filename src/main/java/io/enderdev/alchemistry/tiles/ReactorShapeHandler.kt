@@ -6,6 +6,7 @@ import io.enderdev.alchemistry.client.BlockHighlighter
 import io.enderdev.alchemistry.utils.extensions.translate
 import net.minecraft.block.Block
 import net.minecraft.block.BlockLiquid
+import net.minecraft.block.state.IBlockState
 import net.minecraft.init.Blocks
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.math.BlockPos
@@ -90,22 +91,24 @@ class ReactorShapeHandler(val controller: AbstractReactorController<*>) {
 		if(!hasCore)
 			return false
 
-		val checkInside = inside.all { isNonCore(it) }
+		val checkInside = inside.all { isInside(it) }
 		return checkInside
 	}
 
-	fun countFluid(): Map<Fluid, Int> {
-		val ret = mutableMapOf<Fluid, Int>()
+	fun countInside(): Pair<Map<Fluid, Int>, Map<IBlockState, Int>> {
+		val fluids = mutableMapOf<Fluid, Int>()
+		val blocks = mutableMapOf<IBlockState, Int>()
 		getInnerVolume().forEach {
-			val block = controller.world.getBlockState(it).block
-			if(block is IFluidBlock)
-				ret.compute(block.fluid) { _: Fluid, cnt: Int? -> (cnt ?: 0) + 1 }
-			else if(block == Blocks.WATER || block == Blocks.FLOWING_WATER)
-				ret.compute(FluidRegistry.WATER) { _: Fluid, cnt: Int? -> (cnt ?: 0) + 1 }
-			else if(block == Blocks.LAVA || block == Blocks.FLOWING_LAVA)
-				ret.compute(FluidRegistry.LAVA) { _: Fluid, cnt: Int? -> (cnt ?: 0) + 1 }
+			val state = controller.world.getBlockState(it)
+			val block = state.block
+			when(block) {
+				is IFluidBlock -> fluids.compute(block.fluid) { _: Fluid, cnt: Int? -> (cnt ?: 0) + 1 }
+				Blocks.WATER, Blocks.FLOWING_WATER -> fluids.compute(FluidRegistry.WATER) { _: Fluid, cnt: Int? -> (cnt ?: 0) + 1 }
+				Blocks.LAVA, Blocks.FLOWING_LAVA -> fluids.compute(FluidRegistry.LAVA) { _: Fluid, cnt: Int? -> (cnt ?: 0) + 1 }
+				else -> blocks.compute(state) { _: IBlockState, cnt: Int? -> (cnt ?: 0) + 1 }
+			}
 		}
-		return ret
+		return fluids to blocks
 	}
 
 	private fun getOuterCasings(): Set<BlockPos> {
@@ -330,7 +333,6 @@ class ReactorShapeHandler(val controller: AbstractReactorController<*>) {
 	}
 
 	private fun isAir(pos: BlockPos) = isAnything(pos, controller.world.isAirBlock(pos), Blocks.AIR, true)
-	private fun isLiquid(pos: BlockPos) = controller.world.getBlockState(pos).block is BlockLiquid
 	private fun isCore(pos: BlockPos) =
 		isAnything(pos, controller.world.getBlockState(pos).block == coreBlock, coreBlock)
 
@@ -347,7 +349,11 @@ class ReactorShapeHandler(val controller: AbstractReactorController<*>) {
 		return block == coreBlock || block == glassBlock || block == casingBlock || block == controllerBlock
 	}
 
-	private fun isNonCore(pos: BlockPos) = isAir(pos) || isLiquid(pos)
+	private fun isInside(pos: BlockPos): Boolean {
+		val state = controller.world.getBlockState(pos)
+		val block = state.block
+		return block is BlockLiquid || controller.moderatorModifiers.keys.any { block -> block.matches(state) } || isAir(pos)
+	}
 
 	fun highlightIncorrect() {
 		if(failPos == null)

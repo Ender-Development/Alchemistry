@@ -63,79 +63,23 @@ class AlchemistryPlugin : IModPlugin {
 	override fun register(registry: IModRegistry) {
 		jeiHelpers = registry.jeiHelpers
 
-		registry.handleRecipes(
-			DissolverRecipe::class.java,
-			{ recipe -> DissolverRecipeWrapper(recipe) },
-			AlchemistryRecipeUID.DISSOLVER
-		)
-		registry.handleRecipes(
-			ElectrolyzerRecipe::class.java,
-			{ recipe -> ElectrolyzerRecipeWrapper(recipe) },
-			AlchemistryRecipeUID.ELECTROLYZER
-		)
-		registry.handleRecipes(
-			CombinerRecipe::class.java,
-			{ recipe -> CombinerRecipeWrapper(recipe) },
-			AlchemistryRecipeUID.COMBINER
-		)
-		registry.handleRecipes(
-			EvaporatorRecipe::class.java,
-			{ recipe -> EvaporatorRecipeWrapper(recipe) },
-			AlchemistryRecipeUID.EVAPORATOR
-		)
-		registry.handleRecipes(
-			AtomizerRecipe::class.java,
-			{ recipe -> AtomizerRecipeWrapper(recipe) },
-			AlchemistryRecipeUID.ATOMIZER
-		)
-		registry.handleRecipes(
-			LiquifierRecipe::class.java,
-			{ recipe -> LiquifierRecipeWrapper(recipe) },
-			AlchemistryRecipeUID.LIQUIFIER
-		)
-		registry.handleRecipes(
-			FissionRecipe::class.java,
-			{ recipe -> FissionRecipeWrapper(recipe) },
-			AlchemistryRecipeUID.FISSION
-		)
-		registry.handleRecipes(
-			FusionRecipe::class.java,
-			{ recipe -> FusionRecipeWrapper(recipe) },
-			AlchemistryRecipeUID.FUSION
-		)
+		registry.handleRecipes(DissolverRecipe::class.java, { recipe -> DissolverRecipeWrapper(recipe) }, AlchemistryRecipeUID.DISSOLVER)
+		registry.handleRecipes(ElectrolyzerRecipe::class.java, { recipe -> ElectrolyzerRecipeWrapper(recipe) }, AlchemistryRecipeUID.ELECTROLYZER)
+		registry.handleRecipes(CombinerRecipe::class.java, { recipe -> CombinerRecipeWrapper(recipe) }, AlchemistryRecipeUID.COMBINER)
+		registry.handleRecipes(EvaporatorRecipe::class.java, { recipe -> EvaporatorRecipeWrapper(recipe) }, AlchemistryRecipeUID.EVAPORATOR)
+		registry.handleRecipes(AtomizerRecipe::class.java, { recipe -> AtomizerRecipeWrapper(recipe) }, AlchemistryRecipeUID.ATOMIZER)
+		registry.handleRecipes(LiquifierRecipe::class.java, { recipe -> LiquifierRecipeWrapper(recipe) }, AlchemistryRecipeUID.LIQUIFIER)
+		registry.handleRecipes(FissionRecipe::class.java, { recipe -> FissionRecipeWrapper(recipe) }, AlchemistryRecipeUID.FISSION)
+		registry.handleRecipes(FusionRecipe::class.java, { recipe -> FusionRecipeWrapper(recipe) }, AlchemistryRecipeUID.FUSION)
 
-		registry.addRecipes(
-			DissolverRegister.Companion.INSTANCE.recipes.map { DissolverRecipeWrapper(it) },
-			AlchemistryRecipeUID.DISSOLVER
-		)
-		registry.addRecipes(
-			CombinerRegister.Companion.INSTANCE.recipes.map { CombinerRecipeWrapper(it) },
-			AlchemistryRecipeUID.COMBINER
-		)
-		registry.addRecipes(
-			ElectrolyzerRegister.Companion.INSTANCE.recipes.map { ElectrolyzerRecipeWrapper(it) },
-			AlchemistryRecipeUID.ELECTROLYZER
-		)
-		registry.addRecipes(
-			EvaporatorRegister.Companion.INSTANCE.recipes.map { EvaporatorRecipeWrapper(it) },
-			AlchemistryRecipeUID.EVAPORATOR
-		)
-		registry.addRecipes(
-			AtomizerRegister.Companion.INSTANCE.recipes.map { AtomizerRecipeWrapper(it) },
-			AlchemistryRecipeUID.ATOMIZER
-		)
-		registry.addRecipes(
-			LiquifierRegister.Companion.INSTANCE.recipes.map { LiquifierRecipeWrapper(it) },
-			AlchemistryRecipeUID.LIQUIFIER
-		)
-		registry.addRecipes(
-			FissionRegister.Companion.INSTANCE.recipes.map { FissionRecipeWrapper(it) },
-			AlchemistryRecipeUID.FISSION
-		)
-		registry.addRecipes(
-			FusionRegister.Companion.INSTANCE.recipes.map { FusionRecipeWrapper(it) },
-			AlchemistryRecipeUID.FUSION
-		)
+		registry.addRecipes(DissolverRegister.Companion.INSTANCE.recipes.map { DissolverRecipeWrapper(it) }, AlchemistryRecipeUID.DISSOLVER)
+		registry.addRecipes(CombinerRegister.Companion.INSTANCE.recipes.map { CombinerRecipeWrapper(it) }, AlchemistryRecipeUID.COMBINER)
+		registry.addRecipes(ElectrolyzerRegister.Companion.INSTANCE.recipes.map { ElectrolyzerRecipeWrapper(it) }, AlchemistryRecipeUID.ELECTROLYZER)
+		registry.addRecipes(EvaporatorRegister.Companion.INSTANCE.recipes.map { EvaporatorRecipeWrapper(it) }, AlchemistryRecipeUID.EVAPORATOR)
+		registry.addRecipes(AtomizerRegister.Companion.INSTANCE.recipes.map { AtomizerRecipeWrapper(it) }, AlchemistryRecipeUID.ATOMIZER)
+		registry.addRecipes(LiquifierRegister.Companion.INSTANCE.recipes.map { LiquifierRecipeWrapper(it) }, AlchemistryRecipeUID.LIQUIFIER)
+		registry.addRecipes(FissionRegister.Companion.INSTANCE.recipes.map { FissionRecipeWrapper(it) }, AlchemistryRecipeUID.FISSION)
+		registry.addRecipes(FusionRegister.Companion.INSTANCE.recipes.map { FusionRecipeWrapper(it) }, AlchemistryRecipeUID.FUSION)
 
 		registry.addRecipeClickArea(GuiChemicalDissolver::class.java, 63, 43, 32, 44, AlchemistryRecipeUID.DISSOLVER)
 		registry.addRecipeClickArea(GuiChemicalCombiner::class.java, 102, 47, 27, 36, AlchemistryRecipeUID.COMBINER)
@@ -157,26 +101,11 @@ class AlchemistryPlugin : IModPlugin {
 
 		val transferRegistry: IRecipeTransferRegistry = registry.recipeTransferRegistry
 		transferRegistry.addRecipeTransferHandler(CombinerTransferHandler(), AlchemistryRecipeUID.COMBINER)
-		transferRegistry.addRecipeTransferHandler(
-			ContainerChemicalDissolver::class.java,
-			AlchemistryRecipeUID.DISSOLVER, 0, 1, 11, 36
-		)
-		transferRegistry.addRecipeTransferHandler(
-			ContainerLiquifier::class.java,
-			AlchemistryRecipeUID.LIQUIFIER, 0, 1, 1, 36
-		)
-		transferRegistry.addRecipeTransferHandler(
-			ContainerElectrolyzer::class.java,
-			AlchemistryRecipeUID.ELECTROLYZER, 0, 1, 1, 36
-		)
-		transferRegistry.addRecipeTransferHandler(
-			ContainerFissionController::class.java,
-			AlchemistryRecipeUID.FISSION, 0, 1, 3, 36
-		)
-		transferRegistry.addRecipeTransferHandler(
-			ContainerFusionController::class.java,
-			AlchemistryRecipeUID.FUSION, 0, 1, 3, 36
-		)
+		transferRegistry.addRecipeTransferHandler(ContainerChemicalDissolver::class.java, AlchemistryRecipeUID.DISSOLVER, 0, 1, 11, 36)
+		transferRegistry.addRecipeTransferHandler(ContainerLiquifier::class.java, AlchemistryRecipeUID.LIQUIFIER, 0, 1, 1, 36)
+		transferRegistry.addRecipeTransferHandler(ContainerElectrolyzer::class.java, AlchemistryRecipeUID.ELECTROLYZER, 0, 1, 1, 36)
+		transferRegistry.addRecipeTransferHandler(ContainerFissionController::class.java, AlchemistryRecipeUID.FISSION, 0, 1, 3, 36)
+		transferRegistry.addRecipeTransferHandler(ContainerFusionController::class.java, AlchemistryRecipeUID.FUSION, 0, 1, 3, 36)
 	}
 }
 

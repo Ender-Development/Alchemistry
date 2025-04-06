@@ -4,9 +4,7 @@ import io.enderdev.alchemistry.tiles.TileAtomizer
 import net.minecraft.entity.player.InventoryPlayer
 import net.minecraftforge.items.SlotItemHandler
 
-/**
- * Created by al132 on 1/16/2017.
- */
+
 class ContainerAtomizer(playerInv: InventoryPlayer, tile: TileAtomizer) :
 	ContainerBase<TileAtomizer>(playerInv, tile) {
 

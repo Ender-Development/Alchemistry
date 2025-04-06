@@ -11,9 +11,7 @@ import net.minecraft.item.ItemStack
 import net.minecraftforge.items.IItemHandler
 import net.minecraftforge.oredict.OreDictionary
 
-/**
- * Created by al132 on 1/22/2017.
- */
+
 data class CombinerRecipe(val output: ItemStack, private val objsIn: List<Any?>, var gamestage: String = "") : IRecipe {
 
 	val inputs = ArrayList<ItemStack>()

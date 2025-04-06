@@ -9,9 +9,7 @@ import io.enderdev.alchemistry.utils.extensions.translate
 import net.minecraft.client.gui.GuiButton
 import net.minecraft.entity.player.InventoryPlayer
 
-/**
- * Created by al132 on 1/16/2017.
- */
+
 class GuiFusionController(playerInv: InventoryPlayer, tile: TileFusionController) :
 	GuiReactorController<TileFusionController>(ContainerFusionController(playerInv, tile), tile, "fusion_controller") {
 

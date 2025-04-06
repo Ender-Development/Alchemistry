@@ -21,9 +21,7 @@ import net.minecraftforge.client.model.ModelLoader
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 
-/**
- * Created by al132 on 1/16/2017.
- */
+
 class ItemCompound(name: String) : ItemMetaBase(name) {
 
 	override fun onItemUseFinish(stack: ItemStack, worldIn: World, entity: EntityLivingBase): ItemStack {

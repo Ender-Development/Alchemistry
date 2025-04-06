@@ -5,9 +5,7 @@ import io.enderdev.alchemistry.client.gui.wrappers.CapabilityEnergyDisplayWrappe
 import io.enderdev.alchemistry.tiles.TileChemicalDissolver
 import net.minecraft.entity.player.InventoryPlayer
 
-/**
- * Created by al132 on 1/16/2017.
- */
+
 class GuiChemicalDissolver(playerInv: InventoryPlayer, tile: TileChemicalDissolver) :
 	GuiBase<TileChemicalDissolver>(ContainerChemicalDissolver(playerInv, tile), tile, "chemical_dissolver") {
 

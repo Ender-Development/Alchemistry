@@ -4,9 +4,7 @@ import io.enderdev.alchemistry.client.container.ContainerFissionController
 import io.enderdev.alchemistry.tiles.TileFissionController
 import net.minecraft.entity.player.InventoryPlayer
 
-/**
- * Created by al132 on 1/16/2017.
- */
+
 class GuiFissionController(playerInv: InventoryPlayer, tile: TileFissionController) :
 	GuiReactorController<TileFissionController>(ContainerFissionController(playerInv, tile), tile, "fission_controller") {
 

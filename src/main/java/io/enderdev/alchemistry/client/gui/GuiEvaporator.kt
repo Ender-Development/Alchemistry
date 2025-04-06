@@ -5,9 +5,6 @@ import io.enderdev.alchemistry.client.gui.wrappers.CapabilityFluidDisplayWrapper
 import io.enderdev.alchemistry.tiles.TileEvaporator
 import net.minecraft.entity.player.InventoryPlayer
 
-/**
- * Created by al132 on 4/29/2017.
- */
 
 class GuiEvaporator(playerInv: InventoryPlayer, tile: TileEvaporator) : GuiBase<TileEvaporator>(ContainerEvaporator(playerInv, tile), tile, "evaporator") {
 

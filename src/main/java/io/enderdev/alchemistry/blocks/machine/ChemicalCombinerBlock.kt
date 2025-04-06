@@ -14,9 +14,6 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import net.minecraftforge.event.RegistryEvent
 
-/**
- * Created by al132 on 6/22/2017.
- */
 
 class ChemicalCombinerBlock(name: String, tileClass: Class<out TileEntity>, guiID: Int) : ModelMachineBlock(name, tileClass, guiID, AxisAlignedBB(.0, .0, .0, 1.0, .875, 1.0)) {
 	override fun registerItemBlock(event: RegistryEvent.Register<Item>) {

@@ -2,9 +2,7 @@ package io.enderdev.alchemistry.chemistry
 
 import java.awt.Color
 
-/**
- * Created by al132 on 1/22/2017.
- */
+
 object ElementRegistry {
 
 	private val elements = HashMap<Int, ChemicalElement>()

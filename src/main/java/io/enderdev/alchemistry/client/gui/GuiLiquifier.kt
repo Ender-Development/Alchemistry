@@ -6,9 +6,7 @@ import io.enderdev.alchemistry.client.gui.wrappers.CapabilityFluidDisplayWrapper
 import io.enderdev.alchemistry.tiles.TileLiquifier
 import net.minecraft.entity.player.InventoryPlayer
 
-/**
- * Created by al132 on 1/16/2017.
- */
+
 class GuiLiquifier(playerInv: InventoryPlayer, tile: TileLiquifier) :
 	GuiBase<TileLiquifier>(ContainerLiquifier(playerInv, tile), tile, "liquifier") {
 

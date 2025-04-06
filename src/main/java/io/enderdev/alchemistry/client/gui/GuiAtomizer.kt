@@ -6,9 +6,7 @@ import io.enderdev.alchemistry.client.gui.wrappers.CapabilityFluidDisplayWrapper
 import io.enderdev.alchemistry.tiles.TileAtomizer
 import net.minecraft.entity.player.InventoryPlayer
 
-/**
- * Created by al132 on 1/16/2017.
- */
+
 class GuiAtomizer(playerInv: InventoryPlayer, tile: TileAtomizer) :
 	GuiBase<TileAtomizer>(ContainerAtomizer(playerInv, tile), tile, "atomizer") {
 

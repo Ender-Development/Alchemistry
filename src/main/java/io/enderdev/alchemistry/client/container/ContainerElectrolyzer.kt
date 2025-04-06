@@ -5,9 +5,7 @@ import io.enderdev.alchemistry.tiles.TileStackHandler
 import net.minecraft.entity.player.InventoryPlayer
 import net.minecraftforge.items.SlotItemHandler
 
-/**
- * Created by al132 on 1/16/2017.
- */
+
 class ContainerElectrolyzer(playerInv: InventoryPlayer, tile: TileElectrolyzer) :
 	ContainerBase<TileElectrolyzer>(playerInv, tile) {
 

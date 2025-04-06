@@ -14,9 +14,7 @@ import net.minecraft.client.renderer.RenderHelper
 import net.minecraft.entity.player.InventoryPlayer
 import net.minecraft.item.ItemStack
 
-/**
- * Created by al132 on 1/16/2017.
- */
+
 class GuiChemicalCombiner(playerInv: InventoryPlayer, tile: TileChemicalCombiner) : GuiBase<TileChemicalCombiner>(ContainerChemicalCombiner(playerInv, tile), tile, "chemical_combiner") {
 
 	lateinit var toggleRecipeLock: LockButton

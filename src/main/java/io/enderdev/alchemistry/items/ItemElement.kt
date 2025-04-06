@@ -14,9 +14,7 @@ import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import java.util.*
 
-/**
- * Created by al132 on 1/16/2017.
- */
+
 class ItemElement(name: String) : ItemMetaBase(name) {
 
 	@SideOnly(Side.CLIENT)

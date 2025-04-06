@@ -10,9 +10,6 @@ import net.minecraft.util.math.AxisAlignedBB
 import net.minecraftforge.event.RegistryEvent
 import net.minecraftforge.fml.client.registry.ClientRegistry
 
-/**
- * Created by al132 on 6/21/2017.
- */
 
 class EvaporatorBlock(name: String, tileClass: Class<out TileEntity>, guiID: Int) : ModelMachineBlock(
 	name,

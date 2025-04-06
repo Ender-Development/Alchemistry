@@ -7,9 +7,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.item.crafting.Ingredient
 import net.minecraftforge.oredict.OreDictionary
 
-/**
- * Created by al132 on 1/20/2017.
- */
+
 data class DissolverRecipe(
 	var input: Ingredient? = null,
 	var reversible: Boolean = false,

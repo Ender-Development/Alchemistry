@@ -4,9 +4,6 @@ import io.enderdev.alchemistry.tiles.TileChemicalCombiner
 import net.minecraft.inventory.IInventory
 import net.minecraftforge.items.SlotItemHandler
 
-/**
- * Created by al132 on 1/23/2017.
- */
 
 class ContainerChemicalCombiner(playerInv: IInventory, tileCombiner: TileChemicalCombiner) :
 	ContainerBase<TileChemicalCombiner>(playerInv, tileCombiner) {

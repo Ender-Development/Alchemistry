@@ -64,7 +64,7 @@ object ConfigHandler {
 			"This allows up to 4 Fission Reactors to share a single set of casing blocks",
 			"or for rows of reactors to share a wall of casing blocks."
 		)
-		var compactFissionReactor = true
+		var compactFissionReactor = false
 
 		@JvmField
 		@Config.RequiresMcRestart
@@ -84,7 +84,7 @@ object ConfigHandler {
 		)
 		var fissionReactorBlockModifiers = arrayOf(
 			"minecraft:coal_block;0;-0.05;-0.01",
-			"minecraft:diamond_block:1;0.05;0.1;0.1"
+			"minecraft:diamond_block;0.05;0.1;0.1"
 		)
 
 		@JvmField
@@ -130,7 +130,7 @@ object ConfigHandler {
 			"This allows up to 4 Fusion Reactors to share a single set of casing blocks",
 			"or for rows of reactors to share a wall of casing blocks."
 		)
-		var compactFusionReactor = true
+		var compactFusionReactor = false
 
 		@JvmField
 		@Config.RequiresMcRestart

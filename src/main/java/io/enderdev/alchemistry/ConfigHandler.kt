@@ -153,7 +153,7 @@ object ConfigHandler {
 		)
 		var fusionReactorBlockModifiers = arrayOf(
 			"minecraft:coal_block;0;-0.05;-0.01",
-			"minecraft:diamond_block:1;0.05;0.1;0.1"
+			"minecraft:diamond_block;0.05;0.1;0.1"
 		)
 
 		@JvmField

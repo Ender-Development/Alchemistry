@@ -366,14 +366,23 @@ guide.alchemistry.title=Alchemistry Guidebook
 guide.alchemistry.landing=Welcome to the Alchemistry Guidebook. This book will introduce you to some of the basics of the mod :)
 
 config.alchemistry.general=General
+config.alchemistry.general.tooltips=General Mod Options
 config.alchemistry.fission=Fission Reactor
+config.alchemistry.fission.tooltip=Options related to the Fission Reactor
 config.alchemistry.fusion=Fusion Reactor
+config.alchemistry.fusion.tooltip=Options related to the Fusion Reactor
 config.alchemistry.combiner=Chemical Combiner
+config.alchemistry.combiner.tooltip=Options related to the Chemical Combiner
 config.alchemistry.dissolver=Chemical Dissolver
+config.alchemistry.dissolver.tooltip=Options related to the Chemical Dissolver
 config.alchemistry.electrolyzer=Electrolyzer
+config.alchemistry.electrolyzer.tooltip=Options related to the Electrolyzer
 config.alchemistry.evaporator=Evaporator
+config.alchemistry.evaporator.tooltip=Options related to the Evaporator
 config.alchemistry.atomizer=Atomizer
+config.alchemistry.atomizer.tooltip=Options related to the Atomizer
 config.alchemistry.liquifier=Liquifier
+config.alchemistry.liquifier.tooltip=Options related to the Liquifier
 
 tooltip.output_multiplier.title=§6Output Multiplier§r
 tooltip.output_multiplier.default=Default max bonus multiplier: §d1x§r

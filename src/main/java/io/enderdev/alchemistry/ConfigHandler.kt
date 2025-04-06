@@ -78,7 +78,10 @@ object ConfigHandler {
 		@JvmField
 		@Config.RequiresMcRestart
 		@Config.Name("Fission Reactor Moderator Blocks")
-		@Config.Comment("List of moderator block modifiers for the Fission Reactor. Syntax: mod:block:meta;productivity;processing_time;energy (meta is optional, mod is required)")
+		@Config.Comment(
+			"List of moderator block modifiers for the Fission Reactor.",
+			"Syntax: mod:block:meta;productivity;processing_time;energy (meta is optional, mod is required)"
+		)
 		var fissionReactorBlockModifiers = arrayOf(
 			"minecraft:coal_block;0;-0.05;-0.01",
 			"minecraft:diamond_block:1;0.05;0.1;0.1"
@@ -132,7 +135,10 @@ object ConfigHandler {
 		@JvmField
 		@Config.RequiresMcRestart
 		@Config.Name("Fusion Reactor Modifiers")
-		@Config.Comment("List of fluid modifiers for the Fusion Reactor. Syntax: fluidName;productivity;processing_time;energy")
+		@Config.Comment(
+			"List of fluid modifiers for the Fusion Reactor.",
+			"Syntax: fluidName;productivity;processing_time;energy"
+		)
 		var fusionReactorFluidModifiers = arrayOf(
 			"water;0;-0.02;-0.03",
 			"lava;0.2;0.05;0.1"
@@ -141,7 +147,10 @@ object ConfigHandler {
 		@JvmField
 		@Config.RequiresMcRestart
 		@Config.Name("Fusion Reactor Moderator Blocks")
-		@Config.Comment("List of moderator block modifiers for the Fusion Reactor. Syntax: mod:block:meta;productivity;processing_time;energy (meta is optional, mod is required)")
+		@Config.Comment(
+			"List of moderator block modifiers for the Fusion Reactor.",
+			"Syntax: mod:block:meta;productivity;processing_time;energy (meta is optional, mod is required)"
+		)
 		var fusionReactorBlockModifiers = arrayOf(
 			"minecraft:coal_block;0;-0.05;-0.01",
 			"minecraft:diamond_block:1;0.05;0.1;0.1"
@@ -213,7 +222,11 @@ object ConfigHandler {
 		@JvmField
 		@Config.RequiresMcRestart
 		@Config.Name("Speed")
-		@Config.Comment("The max amount of items that the Dissolver will output each tick. Please note: only one element will be outputted per tick, and only the elements from one input are eligible at a time. For example: Cellulose (C6 H10 O5) with speed 4 would be outputted like so, with each comma-seperated value representing 1 tick [4xC,2xC,4xH,4xH,2xH,4xO,1xO]")
+		@Config.Comment(
+			"The max amount of items that the Dissolver will output each tick.",
+			"Please note: only one element will be outputted per tick, and only the elements from one input are eligible at a time.",
+			"For example: Cellulose (C6 H10 O5) with speed 4 would be outputted like so, with each comma-separated value representing 1 tick [4xC,2xC,4xH,4xH,2xH,4xO,1xO]"
+		)
 		@Config.RangeInt(min = 1, max = 64)
 		var speed = 8
 	}

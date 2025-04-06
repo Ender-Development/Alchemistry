@@ -7,10 +7,6 @@ import net.minecraftforge.fml.client.event.ConfigChangedEvent
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
-/**
- * Created by al132 on 4/28/2017.
- */
-
 @Config(modid = Tags.MOD_ID, name = Tags.MOD_ID)
 object ConfigHandler {
 
@@ -68,7 +64,7 @@ object ConfigHandler {
 			"This allows up to 4 Fission Reactors to share a single set of casing blocks",
 			"or for rows of reactors to share a wall of casing blocks."
 		)
-		var compactFissionReactor = false
+		var compactFissionReactor = true
 
 		@JvmField
 		@Config.RequiresMcRestart
@@ -84,8 +80,8 @@ object ConfigHandler {
 		@Config.Name("Fission Reactor Moderator Blocks")
 		@Config.Comment("List of moderator block modifiers for the Fission Reactor. Syntax: mod:block:meta;productivity;processing_time;energy (meta is optional, mod is required)")
 		var fissionReactorBlockModifiers = arrayOf(
-			"alchemistry:wet_sand;0;-0.05;-0.01",
-			"minecraft:sand:1;0.05;0.1;0.1"
+			"minecraft:coal_block;0;-0.05;-0.01",
+			"minecraft:diamond_block:1;0.05;0.1;0.1"
 		)
 
 		@JvmField
@@ -131,7 +127,7 @@ object ConfigHandler {
 			"This allows up to 4 Fusion Reactors to share a single set of casing blocks",
 			"or for rows of reactors to share a wall of casing blocks."
 		)
-		var compactFusionReactor = false
+		var compactFusionReactor = true
 
 		@JvmField
 		@Config.RequiresMcRestart
@@ -147,8 +143,8 @@ object ConfigHandler {
 		@Config.Name("Fusion Reactor Moderator Blocks")
 		@Config.Comment("List of moderator block modifiers for the Fusion Reactor. Syntax: mod:block:meta;productivity;processing_time;energy (meta is optional, mod is required)")
 		var fusionReactorBlockModifiers = arrayOf(
-			"alchemistry:wet_sand;0;-0.05;-0.01",
-			"minecraft:sand:1;0.05;0.1;0.1"
+			"minecraft:coal_block;0;-0.05;-0.01",
+			"minecraft:diamond_block:1;0.05;0.1;0.1"
 		)
 
 		@JvmField

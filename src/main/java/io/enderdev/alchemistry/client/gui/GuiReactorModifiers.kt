@@ -49,7 +49,7 @@ class GuiReactorModifiers(val fluidModifiers: Map<Fluid, Multiplier>, val blockM
 		// draw texture
 		drawTexturedModalRect(x, y, 0, 0, 175, 181)
 
-		var drawTooltip = {  }
+		var drawTooltip = { }
 
 		// top text
 		listOf("output_multiplier", "processing_time", "energy_consumption").forEachIndexed { idx, it ->

@@ -2,11 +2,13 @@ package io.enderdev.alchemistry.client.gui
 
 import io.enderdev.alchemistry.Alchemistry
 import io.enderdev.alchemistry.ConfigHandler
+import io.enderdev.alchemistry.client.button.ModifierButton
 import io.enderdev.alchemistry.client.gui.wrappers.CapabilityEnergyDisplayWrapper
 import io.enderdev.alchemistry.tiles.AbstractReactorController
 import io.enderdev.alchemistry.tiles.ReactorType
 import io.enderdev.alchemistry.tiles.tags.IGuiTile
 import io.enderdev.alchemistry.utils.extensions.translate
+import net.minecraft.client.gui.GuiButton
 import net.minecraft.inventory.Container
 import java.awt.Color
 import kotlin.math.ceil
@@ -18,8 +20,30 @@ abstract class GuiReactorController<T>(container: Container, tile: T, guiName: S
 	val infoHeight = 102f
 	val infoX = 12f
 
+	val hasModifiers = tile.fluidModifiers.size + tile.moderatorModifiers.size != 0
+	lateinit var modifierButton: ModifierButton
+
 	init {
 		displayData.add(CapabilityEnergyDisplayWrapper(8, 21, 16, 70, tile::energyStorage))
+	}
+
+	override fun initGui() {
+		super.initGui()
+		modifierButton = ModifierButton(guiLeft + 151, guiTop + 98)
+		if(hasModifiers)
+			buttonList.add(modifierButton)
+	}
+
+	override fun actionPerformed(button: GuiButton) {
+		super.actionPerformed(button)
+		if(button.id == modifierButton.id)
+			mc.displayGuiScreen(GuiReactorModifiers(tile.fluidModifiers, tile.moderatorModifiers))
+	}
+
+	override fun renderTooltips(mouseX: Int, mouseY: Int) {
+		super.renderTooltips(mouseX, mouseY)
+		if(hasModifiers && isHovered(modifierButton.x, modifierButton.y, 16, 16, mouseX, mouseY))
+			drawHoveringText("tooltip.modifier_btn".translate(), mouseX, mouseY)
 	}
 
 	override fun drawGuiContainerForegroundLayer(mouseX: Int, mouseY: Int) {
@@ -70,20 +94,8 @@ abstract class GuiReactorController<T>(container: Container, tile: T, guiName: S
 		drawModifierText(mouseX, mouseY)
 	}
 
-	private fun getColorFromValue(value: Double, invert: Boolean = false): Int {
-		val green = Color(27, 155, 27).rgb
-		val red = Color(198, 26, 26).rgb
-		return when {
-			!invert && value > 1 -> green
-			!invert && value < 1 -> red
-			invert && value > 1 -> red
-			invert && value < 1 -> green
-			else -> Color.GRAY.rgb
-		}
-	}
-
 	private fun drawModifierText(mouseX: Int, mouseY: Int) {
-		if(mouseX < guiLeft + infoX || mouseX > guiLeft + xSize - infoX || mouseY < guiTop || mouseY > guiTop + ySize || !tile.isMultiblockValid) return
+		if(mouseX < guiLeft + infoX || mouseX > guiLeft + xSize - infoX - 12 || mouseY < guiTop || mouseY > guiTop + ySize || !tile.isMultiblockValid) return
 		val fontHeight = fontRenderer.FONT_HEIGHT
 		val y = (this.height - this.ySize) / 2
 		val offset = y + infoHeight
@@ -145,6 +157,20 @@ abstract class GuiReactorController<T>(container: Container, tile: T, guiName: S
 					mouseX,
 					mouseY
 				)
+			}
+		}
+	}
+
+	companion object {
+		fun getColorFromValue(value: Double, invert: Boolean = false): Int {
+			val green = Color(27, 155, 27).rgb
+			val red = Color(198, 26, 26).rgb
+			return when {
+				!invert && value > 1 -> green
+				!invert && value < 1 -> red
+				invert && value > 1 -> red
+				invert && value < 1 -> green
+				else -> Color.GRAY.rgb
 			}
 		}
 	}

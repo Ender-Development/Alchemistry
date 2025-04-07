@@ -14,7 +14,8 @@ abstract class AbstractButton(buttonId: ButtonID, val x: Int, val y: Int) : GuiB
 		PAUSE(0),
 		REDSTONE(1),
 		LOCK(2),
-		SINGLE(3);
+		SINGLE(3),
+		MODIFIER(4);
 	}
 
 	abstract override fun drawButton(mc: Minecraft, mouseX: Int, mouseY: Int, partialTicks: Float)

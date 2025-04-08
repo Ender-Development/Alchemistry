@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.item.crafting.Ingredient
 import net.minecraft.potion.Potion
 import net.minecraft.util.ResourceLocation
+import net.minecraftforge.fml.common.FMLCommonHandler
 import net.minecraftforge.oredict.OreDictionary
 import net.minecraftforge.oredict.OreIngredient
 
@@ -44,4 +45,5 @@ fun String.toDict(prefix: String) = "$prefix${replaceFirstChar(Char::uppercaseCh
 
 fun String.firstOre(): ItemStack = OreDictionary.getOres(this).firstOrNull() ?: ItemStack.EMPTY
 
-fun String.translate(vararg format: Any): String = I18n.format(this, *format)
+val serverSide = FMLCommonHandler.instance().effectiveSide.isServer
+fun String.translate(vararg format: Any): String = if(serverSide) this else I18n.format(this, *format)

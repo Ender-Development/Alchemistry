@@ -37,7 +37,7 @@ abstract class GuiReactorController<T>(container: Container, tile: T, guiName: S
 	override fun actionPerformed(button: GuiButton) {
 		super.actionPerformed(button)
 		if(button.id == modifierButton.id)
-			mc.displayGuiScreen(GuiReactorModifiers(tile.fluidModifiers, tile.moderatorModifiers))
+			mc.displayGuiScreen(GuiReactorModifiers(this, tile.fluidModifiers, tile.moderatorModifiers))
 	}
 
 	override fun renderTooltips(mouseX: Int, mouseY: Int) {

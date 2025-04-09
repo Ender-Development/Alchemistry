@@ -15,7 +15,7 @@ import net.minecraftforge.fluids.FluidStack
 import org.lwjgl.input.Mouse
 import java.awt.Color
 
-class GuiReactorModifiers(val fluidModifiers: Map<Fluid, Multiplier>, val blockModifiers: Map<BlockMeta, Multiplier>) : GuiScreen() {
+class GuiReactorModifiers(val parentGuiReactorController: GuiReactorController<*>, val fluidModifiers: Map<Fluid, Multiplier>, val blockModifiers: Map<BlockMeta, Multiplier>) : GuiScreen() {
 	private val textColumns = listOf(60, 105, 150)
 	private var scrollCount = 0
 	private val entries: MutableList<Pair<IRenderer, Multiplier>> = mutableListOf()
@@ -156,7 +156,7 @@ class GuiReactorModifiers(val fluidModifiers: Map<Fluid, Multiplier>, val blockM
 
 	override fun keyTyped(typedChar: Char, keyCode: Int) {
 		if(mc.gameSettings.keyBindInventory.isActiveAndMatches(keyCode))
-			mc.displayGuiScreen(null)
+			mc.displayGuiScreen(parentGuiReactorController)
 		super.keyTyped(typedChar, keyCode)
 	}
 

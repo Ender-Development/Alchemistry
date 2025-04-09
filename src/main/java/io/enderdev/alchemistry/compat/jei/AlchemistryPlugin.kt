@@ -27,11 +27,16 @@ import io.enderdev.alchemistry.utils.extensions.toStack
 import io.enderdev.alchemistry.utils.extensions.translate
 import mezz.jei.api.*
 import mezz.jei.api.gui.IDrawableStatic
+import mezz.jei.api.recipe.IFocus
 import mezz.jei.api.recipe.IRecipeCategory
 import mezz.jei.api.recipe.IRecipeCategoryRegistration
 import mezz.jei.api.recipe.IRecipeWrapper
 import mezz.jei.api.recipe.transfer.IRecipeTransferRegistry
+import mezz.jei.runtime.JeiRuntime
+import net.minecraft.client.Minecraft
+import net.minecraft.item.ItemStack
 import net.minecraft.util.ResourceLocation
+import net.minecraftforge.fluids.FluidStack
 
 @JEIPlugin
 class AlchemistryPlugin : IModPlugin {
@@ -39,10 +44,22 @@ class AlchemistryPlugin : IModPlugin {
 	companion object {
 		lateinit var jeiHelpers: IJeiHelpers
 		lateinit var recipeRegistry: IRecipeRegistry
+		lateinit var jeiRuntime: IJeiRuntime
+
+		fun showRecipes(itemStack: ItemStack, showUses: Boolean): Boolean {
+			jeiRuntime.recipesGui.show(jeiRuntime.recipeRegistry.createFocus(if(showUses) IFocus.Mode.INPUT else IFocus.Mode.OUTPUT, itemStack))
+			return Minecraft.getMinecraft().currentScreen is IRecipesGui
+		}
+
+		fun showRecipes(fluidStack: FluidStack, showUses: Boolean): Boolean {
+			jeiRuntime.recipesGui.show(jeiRuntime.recipeRegistry.createFocus(if(showUses) IFocus.Mode.INPUT else IFocus.Mode.OUTPUT, fluidStack))
+			return Minecraft.getMinecraft().currentScreen is IRecipesGui
+		}
 	}
 
 	override fun onRuntimeAvailable(jeiRuntime: IJeiRuntime) {
 		recipeRegistry = jeiRuntime.recipeRegistry
+		AlchemistryPlugin.jeiRuntime = jeiRuntime
 	}
 
 	override fun registerCategories(registry: IRecipeCategoryRegistration) {

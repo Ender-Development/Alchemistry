@@ -8,7 +8,8 @@ class ModifierButton(x: Int, y: Int) : AbstractButton(ButtonID.MODIFIER, x, y) {
 		if(visible) {
 			mc.textureManager.bindTexture(textureLocation)
 			GlStateManager.color(1f, 1f, 1f)
-			drawTexturedModalRect(x, y, 48, 64, 16, 16)
+			drawTexturedModalRect(x, y, 48, 32, 16, 16)
 		}
+		super.drawButton(mc, mouseX, mouseY, partialTicks)
 	}
 }

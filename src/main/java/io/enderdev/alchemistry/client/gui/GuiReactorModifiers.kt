@@ -113,7 +113,7 @@ class GuiReactorModifiers(val fluidModifiers: Map<Fluid, Multiplier>, val blockM
 			if(mouseX >= x + 8 && mouseX <= x + 24 && mouseY >= y + offY && mouseY <= y + offY + 16)
 				drawTooltip = { renderer.renderTooltip(mouseX, mouseY) }
 			offY += 20
-			// the GUI can only handle upto 8 entries
+			// the GUI can only handle up to 8 entries
 			if(++totalEntriesDrawn == 8)
 				break
 		}

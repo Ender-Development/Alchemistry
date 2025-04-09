@@ -11,11 +11,12 @@ class PauseButton(x: Int, y: Int) : AbstractButton(ButtonID.PAUSE, x, y) {
 	var isPaused = State.RUNNING
 
 	override fun drawButton(mc: Minecraft, mouseX: Int, mouseY: Int, partialTicks: Float) {
-		if(this.visible) {
+		if(visible) {
 			mc.textureManager.bindTexture(textureLocation)
 			GlStateManager.color(1F, 1F, 1F)
-			val i = if(this.isPaused == State.PAUSED) 16 else 0
-			this.drawTexturedModalRect(this.x, this.y, 48, i, 16, 16)
+			val i = if(isPaused == State.PAUSED) 16 else 0
+			this.drawTexturedModalRect(x, y, 48, i, 16, 16)
 		}
+		super.drawButton(mc, mouseX, mouseY, partialTicks)
 	}
 }

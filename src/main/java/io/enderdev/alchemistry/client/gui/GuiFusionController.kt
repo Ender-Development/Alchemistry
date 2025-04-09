@@ -17,7 +17,7 @@ class GuiFusionController(playerInv: InventoryPlayer, tile: TileFusionController
 
 	override fun initGui() {
 		super.initGui()
-		modeButton = SingleButton(this.guiLeft + 175 - 20, this.guiTop + displayNameOffset - 4 + 18)
+		modeButton = SingleButton(this.guiLeft + 137, this.guiTop + displayNameOffset + 14)
 		this.buttonList.add(modeButton)
 	}
 

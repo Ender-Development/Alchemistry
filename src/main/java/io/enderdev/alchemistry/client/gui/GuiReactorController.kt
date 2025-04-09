@@ -29,7 +29,7 @@ abstract class GuiReactorController<T>(container: Container, tile: T, guiName: S
 
 	override fun initGui() {
 		super.initGui()
-		modifierButton = ModifierButton(guiLeft + 151, guiTop + 98)
+		modifierButton = ModifierButton(guiLeft + 155, guiTop + displayNameOffset + 14)
 		if(hasModifiers)
 			buttonList.add(modifierButton)
 	}

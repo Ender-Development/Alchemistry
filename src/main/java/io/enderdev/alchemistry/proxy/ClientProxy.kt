@@ -1,11 +1,9 @@
 package io.enderdev.alchemistry.proxy
 
 import io.enderdev.alchemistry.Tags
-import io.enderdev.alchemistry.compat.jei.InputHandler
 import io.enderdev.alchemistry.items.ModItems
 import net.minecraftforge.client.model.obj.OBJLoader
 import net.minecraftforge.common.MinecraftForge
-import net.minecraftforge.fml.common.Loader
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
 import net.minecraftforge.fml.relauncher.Side
@@ -23,9 +21,5 @@ class ClientProxy : CommonProxy() {
 		super.postInit(e)
 		ModItems.initColors()
 		MinecraftForge.EVENT_BUS.register(ClientEventHandler())
-
-		if (Loader.isModLoaded("jei")) {
-			MinecraftForge.EVENT_BUS.register(InputHandler())
-		}
 	}
 }

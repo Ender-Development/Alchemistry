@@ -5,22 +5,26 @@ import io.enderdev.alchemistry.Tags
 import io.enderdev.alchemistry.client.gui.renderer.BlockRenderer
 import io.enderdev.alchemistry.client.gui.renderer.FluidRenderer
 import io.enderdev.alchemistry.client.gui.renderer.IRenderer
+import io.enderdev.alchemistry.compat.jei.AlchemistryPlugin
 import io.enderdev.alchemistry.tiles.AbstractReactorController.BlockMeta
 import io.enderdev.alchemistry.tiles.AbstractReactorController.Multiplier
 import io.enderdev.alchemistry.utils.RenderUtils
 import io.enderdev.alchemistry.utils.extensions.toStack
 import io.enderdev.alchemistry.utils.extensions.translate
+import mezz.jei.config.KeyBindings
 import net.minecraft.client.gui.GuiScreen
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.fluids.Fluid
 import net.minecraftforge.fluids.FluidStack
+import net.minecraftforge.fml.common.Loader
 import org.lwjgl.input.Mouse
 import java.awt.Color
 
 class GuiReactorModifiers(val parentGuiReactorController: GuiReactorController<*>, val fluidModifiers: Map<Fluid, Multiplier>, val blockModifiers: Map<BlockMeta, Multiplier>) : GuiScreen() {
 	private val minecraftGray = 4210752
+	private val maxEntries = 7
 	private val textColumns = listOf(60, 105, 150)
 	private var scrollCount = 0
 	private val entries: MutableList<Pair<IRenderer, Multiplier>> = mutableListOf()
@@ -38,8 +42,8 @@ class GuiReactorModifiers(val parentGuiReactorController: GuiReactorController<*
 		entries.addAll(blockModifiers.map { (block, multiplier) -> BlockRenderer(block, this) to multiplier })
 	}
 
-	private fun bind() {
-		mc.textureManager.bindTexture(ResourceLocation(Tags.MOD_ID, "textures/gui/container/reactor_modifier_gui_redox.png"))
+	private fun bind(texture: String) {
+		mc.textureManager.bindTexture(ResourceLocation(Tags.MOD_ID, "textures/gui/container/${texture}.png"))
 		GlStateManager.color(1f, 1f, 1f, 1f)
 	}
 
@@ -48,7 +52,7 @@ class GuiReactorModifiers(val parentGuiReactorController: GuiReactorController<*
 		drawDefaultBackground()
 
 		// bind texture
-		bind()
+		bind("reactor_modifier_gui_redox")
 		// calc top left
 		val x = (width - 174) shr 1
 		var y = (height - 180) shr 1
@@ -57,7 +61,7 @@ class GuiReactorModifiers(val parentGuiReactorController: GuiReactorController<*
 		// draw title
 		val title = parentGuiReactorController.displayName + " " + "tile.reactor.modifers".translate()
 		fontRenderer.drawString(title, width / 2 - fontRenderer.getStringWidth(title) / 2, y + 8, minecraftGray)
-		y += 16
+		y += 12
 
 		var drawTooltip = { }
 
@@ -116,7 +120,7 @@ class GuiReactorModifiers(val parentGuiReactorController: GuiReactorController<*
 		for((renderer, multiplier) in entries) {
 			if(offset-- > 0)
 				continue
-			bind()
+			bind("reactor_modifier_gui_redox")
 			drawTexturedModalRect(x + 7, y + offY - 1, renderer.textureX, 0, 18, 18)
 			renderer.render(x, y, offY)
 			drawMultiplier(multiplier, offY)
@@ -125,18 +129,19 @@ class GuiReactorModifiers(val parentGuiReactorController: GuiReactorController<*
 				hoveredEntry = renderer
 			}
 			offY += 20
-			// the GUI can only handle up to 8 entries
-			if(++totalEntriesDrawn == 8)
+			// the GUI can only handle up to 7 entries
+			if(++totalEntriesDrawn == maxEntries)
 				break
 		}
 
+		bind("template_redox")
 		// if we can scroll down, draw a 'v' indicating that to the player
-		if(totalEntriesDrawn == 8 && fluidModifiers.size + blockModifiers.size - 8 > scrollCount)
-			fontRenderer.drawString("v", x + 165, y + 180 - fontRenderer.FONT_HEIGHT - 2, Color.DARK_GRAY.rgb)
+		if(totalEntriesDrawn == maxEntries && fluidModifiers.size + blockModifiers.size - maxEntries > scrollCount)
+			drawTexturedModalRect(x + 13, y + 158, 48, 64, 6, 6)
 
 		// if we can scroll up, …
-		if(totalEntriesDrawn == 8 && scrollCount > 0)
-			fontRenderer.drawString("^", x + 165, y + 4, Color.DARK_GRAY.rgb)
+		if(totalEntriesDrawn == maxEntries && scrollCount > 0)
+			drawTexturedModalRect(x + 13, y + 10, 54, 64, 6, 6)
 
 		// only draw tooltip after everything else
 		drawTooltip()
@@ -156,7 +161,7 @@ class GuiReactorModifiers(val parentGuiReactorController: GuiReactorController<*
 				if(scrollCount != 0)
 					--scrollCount
 			} else {
-				if(fluidModifiers.size + blockModifiers.size - 8 > scrollCount)
+				if(fluidModifiers.size + blockModifiers.size - maxEntries > scrollCount)
 					++scrollCount
 			}
 		}
@@ -169,6 +174,16 @@ class GuiReactorModifiers(val parentGuiReactorController: GuiReactorController<*
 	override fun keyTyped(typedChar: Char, keyCode: Int) {
 		if(mc.gameSettings.keyBindInventory.isActiveAndMatches(keyCode))
 			mc.displayGuiScreen(parentGuiReactorController)
+		if(Loader.isModLoaded("jei")) {
+			if(KeyBindings.showRecipe.isActiveAndMatches(keyCode) || KeyBindings.showUses.isActiveAndMatches(keyCode)) {
+				val uses: Boolean = KeyBindings.showUses.isActiveAndMatches(keyCode)
+				val renderer: IRenderer = getCurrentRenderer() ?: return
+				if(renderer is BlockRenderer)
+					AlchemistryPlugin.showRecipes(renderer.stack, uses)
+				if(renderer is FluidRenderer)
+					AlchemistryPlugin.showRecipes(renderer.stack, uses)
+			}
+		}
 		super.keyTyped(typedChar, keyCode)
 	}
 

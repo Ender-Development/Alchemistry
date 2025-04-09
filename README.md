@@ -15,6 +15,8 @@ Alchemistry is a tech mod, inspired by the classic [Minechem](https://www.cursef
 - backported the interactive periodic table
 - added fission and fusion glass to decorate the reactors
 - reactor cores now emit a small amount of light
+- reators now have their own upgrade system
+- redid all GUI textures, while adding additional functionality to all machines
 - removed AlchemyLib dependency
 
 ## Dependencies

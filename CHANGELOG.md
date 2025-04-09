@@ -11,7 +11,9 @@
 - improved groovy script content creation methods and added example scripts to repository
 - added The One Probe compatibility for most machines
 - added moderator blocks for both reactors
-- added new JEI pages for the Fusion / Fission reactor modifiers
+- added a new GUI for the Fusion / Fission reactor modifiers
+- added a few missing config tooltips
+- fixed the mod crashing on servers
 
 ## [1.2.1] - bugfixes
 - fixed weird dissolver behavior, when outputting items

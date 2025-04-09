@@ -21,9 +21,9 @@ class GuiFusionController(playerInv: InventoryPlayer, tile: TileFusionController
 		this.buttonList.add(modeButton)
 	}
 
-	override fun actionPerformed(guibutton: GuiButton) {
-		super.actionPerformed(guibutton)
-		if(guibutton.id == modeButton.id) {
+	override fun actionPerformed(button: GuiButton) {
+		super.actionPerformed(button)
+		if(button.id == modeButton.id) {
 			PacketHandler.INSTANCE!!.sendToServer(ButtonPacket(tile.pos, single = true))
 		}
 	}

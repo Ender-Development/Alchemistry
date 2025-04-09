@@ -86,9 +86,9 @@ abstract class GuiBase<T>(container: Container, val tile: T, guiName: String) :
 		this.mc.textureManager.bindTexture(this.textureLocation)
 	}
 
-	override fun drawScreen(mouseX: Int, mouseY: Int, f: Float) {
+	override fun drawScreen(mouseX: Int, mouseY: Int, partialTicks: Float) {
 		drawDefaultBackground()
-		super.drawScreen(mouseX, mouseY, f)
+		super.drawScreen(mouseX, mouseY, partialTicks)
 		renderHoveredToolTip(mouseX, mouseY)
 		renderTooltips(mouseX, mouseY)
 

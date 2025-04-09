@@ -23,9 +23,9 @@ class GuiChemicalCombiner(playerInv: InventoryPlayer, tile: TileChemicalCombiner
 		this.displayData.add(CapabilityEnergyDisplayWrapper(8, 21, 16, 70, tile::energyStorage))
 	}
 
-	override fun actionPerformed(guibutton: GuiButton) {
-		super.actionPerformed(guibutton)
-		if(guibutton.id == toggleRecipeLock.id) {
+	override fun actionPerformed(button: GuiButton) {
+		super.actionPerformed(button)
+		if(button.id == toggleRecipeLock.id) {
 			PacketHandler.INSTANCE!!.sendToServer(ButtonPacket(tile.pos, lock = true))
 		}
 	}

@@ -161,7 +161,7 @@ abstract class GuiBase<T>(container: Container, val tile: T, guiName: String) :
 				this.displayName,
 				this.xSize / 2 - this.fontRenderer.getStringWidth(this.displayName) / 2,
 				displayNameOffset,
-				Color.DARK_GRAY.rgb
+				4210752 // that's the default minecraft container color
 			)
 		}
 	}

@@ -2,6 +2,9 @@ package io.enderdev.alchemistry.client.gui
 
 import io.enderdev.alchemistry.Alchemistry
 import io.enderdev.alchemistry.Tags
+import io.enderdev.alchemistry.client.gui.renderer.BlockRenderer
+import io.enderdev.alchemistry.client.gui.renderer.FluidRenderer
+import io.enderdev.alchemistry.client.gui.renderer.IRenderer
 import io.enderdev.alchemistry.tiles.AbstractReactorController.BlockMeta
 import io.enderdev.alchemistry.tiles.AbstractReactorController.Multiplier
 import io.enderdev.alchemistry.utils.RenderUtils
@@ -9,6 +12,7 @@ import io.enderdev.alchemistry.utils.extensions.toStack
 import io.enderdev.alchemistry.utils.extensions.translate
 import net.minecraft.client.gui.GuiScreen
 import net.minecraft.client.renderer.GlStateManager
+import net.minecraft.item.ItemStack
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.fluids.Fluid
 import net.minecraftforge.fluids.FluidStack
@@ -16,10 +20,12 @@ import org.lwjgl.input.Mouse
 import java.awt.Color
 
 class GuiReactorModifiers(val parentGuiReactorController: GuiReactorController<*>, val fluidModifiers: Map<Fluid, Multiplier>, val blockModifiers: Map<BlockMeta, Multiplier>) : GuiScreen() {
+	private val minecraftGray = 4210752
 	private val textColumns = listOf(60, 105, 150)
 	private var scrollCount = 0
 	private val entries: MutableList<Pair<IRenderer, Multiplier>> = mutableListOf()
 	private var mouseClick: MouseClickData? = null
+	private var hoveredEntry: IRenderer? = null
 
 	private val sortBy = listOf(
 		{ multiplier: Multiplier -> multiplier.productivity },
@@ -45,9 +51,13 @@ class GuiReactorModifiers(val parentGuiReactorController: GuiReactorController<*
 		bind()
 		// calc top left
 		val x = (width - 174) shr 1
-		val y = (height - 180) shr 1
+		var y = (height - 180) shr 1
 		// draw texture
 		drawTexturedModalRect(x, y, 0, 0, 175, 181)
+		// draw title
+		val title = parentGuiReactorController.displayName + " " + "tile.reactor.modifers".translate()
+		fontRenderer.drawString(title, width / 2 - fontRenderer.getStringWidth(title) / 2, y + 8, minecraftGray)
+		y += 16
 
 		var drawTooltip = { }
 
@@ -55,7 +65,7 @@ class GuiReactorModifiers(val parentGuiReactorController: GuiReactorController<*
 		listOf("output_multiplier", "processing_time", "energy_consumption").forEachIndexed { idx, it ->
 			val text = "tile.reactor.$it.short".translate("")
 			val half = fontRenderer.getStringWidth(text) shr 1
-			fontRenderer.drawString(text, x + textColumns[idx] - half, y + 8, Color.DARK_GRAY.rgb)
+			fontRenderer.drawString(text, x + textColumns[idx] - half, y + 8, minecraftGray)
 
 			// draw tooltip if hovered
 			val left = x + textColumns[idx] - half
@@ -110,8 +120,10 @@ class GuiReactorModifiers(val parentGuiReactorController: GuiReactorController<*
 			drawTexturedModalRect(x + 7, y + offY - 1, renderer.textureX, 0, 18, 18)
 			renderer.render(x, y, offY)
 			drawMultiplier(multiplier, offY)
-			if(mouseX >= x + 8 && mouseX <= x + 24 && mouseY >= y + offY && mouseY <= y + offY + 16)
+			if(mouseX >= x + 8 && mouseX <= x + 24 && mouseY >= y + offY && mouseY <= y + offY + 16) {
 				drawTooltip = { renderer.renderTooltip(mouseX, mouseY) }
+				hoveredEntry = renderer
+			}
 			offY += 20
 			// the GUI can only handle up to 8 entries
 			if(++totalEntriesDrawn == 8)
@@ -160,31 +172,11 @@ class GuiReactorModifiers(val parentGuiReactorController: GuiReactorController<*
 		super.keyTyped(typedChar, keyCode)
 	}
 
-	private interface IRenderer {
-		val textureX: Int
-		fun render(x: Int, y: Int, offY: Int)
-		fun renderTooltip(mouseX: Int, mouseY: Int)
-	}
-
-	private class FluidRenderer(val fluid: Fluid, val self: GuiReactorModifiers) : IRenderer {
-		override val textureX = 175
-		val stack = FluidStack(fluid, 1)
-		override fun render(x: Int, y: Int, offY: Int) =
-			RenderUtils.renderGuiTank(stack, 1, 1, x + 8.0, y + offY.toDouble(), 1.0, 16.0, 16.0)
-
-		override fun renderTooltip(mouseX: Int, mouseY: Int) =
-			self.drawHoveringText(fluid.getLocalizedName(stack), mouseX, mouseY)
-	}
-
-	private class BlockRenderer(block: BlockMeta, val self: GuiReactorModifiers) : IRenderer {
-		override val textureX = 193
-		val stack = block.block.toStack(meta = block.meta)
-		override fun render(x: Int, y: Int, offY: Int) =
-			self.itemRender.renderItemAndEffectIntoGUI(stack, x + 8, y + offY)
-
-		override fun renderTooltip(mouseX: Int, mouseY: Int) =
-			self.renderToolTip(stack, mouseX, mouseY)
-	}
-
 	private data class MouseClickData(val x: Int, val y: Int, val btn: Int)
+
+	fun renderItemAndEffectIntoGUI(stack: ItemStack, x: Int, y: Int) = itemRender.renderItemAndEffectIntoGUI(stack, x, y)
+
+	public override fun renderToolTip(stack: ItemStack, x: Int, y: Int) = super.renderToolTip(stack, x, y)
+
+	fun getCurrentRenderer(): IRenderer? = hoveredEntry
 }

@@ -13,6 +13,7 @@ object ConfigHandler {
 	@JvmField
 	@Config.Name("General")
 	@Config.LangKey("config.${Tags.MOD_ID}.general")
+	@Config.Comment("Options that affect the entire mod")
 	val GENERAL = General()
 
 	class General {
@@ -32,6 +33,7 @@ object ConfigHandler {
 	@JvmField
 	@Config.Name("Fission Reactor")
 	@Config.LangKey("config.${Tags.MOD_ID}.fission")
+	@Config.Comment("The Fisson Reactor is a multi-block structure that can splits one element into two new elements")
 	val FISSION = Fission()
 
 	class Fission {
@@ -98,6 +100,7 @@ object ConfigHandler {
 	@JvmField
 	@Config.Name("Fusion Reactor")
 	@Config.LangKey("config.${Tags.MOD_ID}.fusion")
+	@Config.Comment("The Fusion Reactor is a multi-block structure that can fuses two elements into a new element")
 	val FUSION = Fusion()
 
 	class Fusion {
@@ -167,6 +170,7 @@ object ConfigHandler {
 	@JvmField
 	@Config.Name("Combiner")
 	@Config.LangKey("config.${Tags.MOD_ID}.combiner")
+	@Config.Comment("The Combiner creates molecules and items from elements by crafting them together")
 	val COMBINER = Combiner()
 
 	class Combiner {
@@ -195,6 +199,7 @@ object ConfigHandler {
 	@JvmField
 	@Config.Name("Dissolver")
 	@Config.LangKey("config.${Tags.MOD_ID}.dissolver")
+	@Config.Comment("The Dissolver creates elements from molecules and items by separating them")
 	val DISSOLVER = Dissolver()
 
 	class Dissolver {
@@ -234,6 +239,7 @@ object ConfigHandler {
 	@JvmField
 	@Config.Name("Electrolyzer")
 	@Config.LangKey("config.${Tags.MOD_ID}.electrolyzer")
+	@Config.Comment("The Electrolyzer creates elements from fluids by separating them utilizing a catalyst")
 	val ELECTROLYZER = Electrolyzer()
 
 	class Electrolyzer {
@@ -262,6 +268,7 @@ object ConfigHandler {
 	@JvmField
 	@Config.Name("Evaporator")
 	@Config.LangKey("config.${Tags.MOD_ID}.evaporator")
+	@Config.Comment("The Evaporator creates items from fluids by removing the fluid and leaving behind the solid")
 	val EVAPORATOR = Evaporator()
 
 	class Evaporator {
@@ -276,6 +283,7 @@ object ConfigHandler {
 	@JvmField
 	@Config.Name("Atomizer")
 	@Config.LangKey("config.${Tags.MOD_ID}.atomizer")
+	@Config.Comment("The Atomizer transforms liquids into their respective elements and molecules")
 	val ATOMIZER = Atomizer()
 
 	class Atomizer {
@@ -304,6 +312,7 @@ object ConfigHandler {
 	@JvmField
 	@Config.Name("Liquifier")
 	@Config.LangKey("config.${Tags.MOD_ID}.liquifier")
+	@Config.Comment("The Liquifier transforms elements and molecules into their respective liquids")
 	val LIQUIFIER = Liquifier()
 
 	class Liquifier {

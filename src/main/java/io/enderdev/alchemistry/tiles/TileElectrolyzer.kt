@@ -15,9 +15,6 @@ import net.minecraftforge.fluids.FluidStack
 import net.minecraftforge.fluids.FluidTank
 import net.minecraftforge.fluids.capability.templates.FluidHandlerConcatenate
 
-/**
- * Created by al132 on 1/16/2017.
- */
 class TileElectrolyzer : AbstractMachine<ElectrolyzerRecipe>(ElectrolyzerRegister.Companion.INSTANCE), IFluidTile,
 	IEnergyTile by EnergyTileImpl(capacity = ConfigHandler.ELECTROLYZER.energyCapacity) {
 

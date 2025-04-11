@@ -12,9 +12,6 @@ import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.nbt.NBTTagList
 import net.minecraftforge.common.util.Constants
 
-/**
- * Created by al132 on 1/16/2017.
- */
 class TileChemicalDissolver : AbstractMachine<DissolverRecipe>(DissolverRegister.Companion.INSTANCE),
 	IEnergyTile by EnergyTileImpl(capacity = ConfigHandler.DISSOLVER.energyCapacity) {
 

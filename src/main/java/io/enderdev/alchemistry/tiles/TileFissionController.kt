@@ -14,9 +14,6 @@ import io.enderdev.alchemistry.utils.extensions.get
 import io.enderdev.alchemistry.utils.extensions.toStack
 import net.minecraft.item.ItemStack
 
-/**
- * Created by al132 on 4/29/2017.
- */
 class TileFissionController : AbstractReactorController<FissionRecipe>(ReactorType.FISSION, FissionRegister.Companion.INSTANCE),
 	IEnergyTile by EnergyTileImpl(ConfigHandler.FISSION.energyCapacity) {
 	override val guiHeight: Int

@@ -7,9 +7,6 @@ import io.enderdev.alchemistry.recipes.register.*
 import io.enderdev.alchemistry.utils.extensions.toStack
 import net.minecraftforge.oredict.OreDictionary
 
-/**
- * Created by al132 on 1/16/2017.
- */
 object ModRecipes {
 
 	val electrolyzerRecipes = ElectrolyzerRegister.Companion.INSTANCE

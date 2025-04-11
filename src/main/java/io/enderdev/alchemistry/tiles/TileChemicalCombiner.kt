@@ -16,9 +16,6 @@ import net.minecraftforge.fml.common.FMLCommonHandler
 import net.minecraftforge.fml.common.Loader
 import net.minecraftforge.items.ItemStackHandler
 
-/**
- * Created by al132 on 1/22/2017.
- */
 class TileChemicalCombiner : AbstractMachine<CombinerRecipe>(CombinerRegister.Companion.INSTANCE),
 	IEnergyTile by EnergyTileImpl(capacity = ConfigHandler.COMBINER.energyCapacity) {
 

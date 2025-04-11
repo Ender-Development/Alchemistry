@@ -14,9 +14,6 @@ import io.enderdev.alchemistry.utils.extensions.get
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
 
-/**
- * Created by al132 on 4/29/2017.
- */
 class TileFusionController : AbstractReactorController<FusionRecipe>(ReactorType.FUSION, FusionRegister.Companion.INSTANCE), IEnergyTile by EnergyTileImpl(ConfigHandler.FUSION.energyCapacity) {
 	override val guiHeight: Int
 		get() = 222

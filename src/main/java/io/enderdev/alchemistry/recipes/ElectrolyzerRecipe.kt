@@ -5,9 +5,6 @@ import net.minecraft.item.crafting.Ingredient
 import net.minecraftforge.fluids.FluidStack
 import java.util.*
 
-/**
- * Created by al132 on 1/20/2017.
- */
 data class ElectrolyzerRecipe(
 	val input: FluidStack,
 	private val _electrolyte: Ingredient,

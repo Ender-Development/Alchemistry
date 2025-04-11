@@ -14,9 +14,6 @@ import net.minecraftforge.fluids.FluidStack
 import net.minecraftforge.fluids.FluidTank
 import net.minecraftforge.fluids.capability.templates.FluidHandlerConcatenate
 
-/**
- * Created by al132 on 4/29/2017.
- */
 class TileLiquifier : AbstractMachine<LiquifierRecipe>(LiquifierRegister.Companion.INSTANCE), IFluidTile,
 	IEnergyTile by EnergyTileImpl(ConfigHandler.LIQUIFIER.energyCapacity) {
 

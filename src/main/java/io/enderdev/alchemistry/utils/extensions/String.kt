@@ -14,10 +14,6 @@ import net.minecraftforge.fml.common.FMLCommonHandler
 import net.minecraftforge.oredict.OreDictionary
 import net.minecraftforge.oredict.OreIngredient
 
-/**
- * Created by al132 on 4/27/2017.
- */
-
 fun String.toPotion(): Potion = Potion.getPotionFromResourceLocation(this)!!
 
 fun String.toOre(): OreIngredient = OreIngredient(this)

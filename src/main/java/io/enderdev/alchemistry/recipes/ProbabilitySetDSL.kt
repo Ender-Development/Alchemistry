@@ -2,10 +2,6 @@ package io.enderdev.alchemistry.recipes
 
 import net.minecraft.item.ItemStack
 
-/**
- * Created by al132 on 4/22/2017.
- */
-
 inline fun dissolverRecipe(init: DissolverRecipe.() -> Unit): DissolverRecipe {
 	val recipe = DissolverRecipe()
 	recipe.init()

@@ -333,7 +333,7 @@ jei.fusion_controller.name=Fusion Multiblock
 itemGroup.alchemistry=Alchemistry - Redox
 
 item.alchemistry:fertilizer.tooltip=Can be used like bonemeal
-item.alchemistry:obsidian_breaker.tooltip=Right-click an obsidian block while holding this item to instantly harvest the obsidian. This item will be consumed.
+item.alchemistry:obsidian_breaker.tooltip=Right-click an obsidian block while holding to instantly harvest the obsidian.
 item.alchemistry:periodic_table.tooltip=Right-click to bring up a full-screen periodic table
 
 tooltip.alchemistry.energy_requirement=Requires %d FE/t

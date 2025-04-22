@@ -26,7 +26,7 @@ object ModItems {
 	var elements = ItemElement("element")
 	var compounds = ItemCompound("compound")
 	var ingots = ItemElementIngot("ingot")
-	val periodicDankMolecule = ItemPeriodicDiagram()
+	val periodicDiagram = ItemPeriodicDiagram()
 
 	fun registerItems(event: RegistryEvent.Register<Item>) = items.forEach { it.registerItem(event) }
 

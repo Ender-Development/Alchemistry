@@ -26,7 +26,8 @@ class SaltyFoodHandler : IForgeRegistryEntry.Impl<IRecipe>(), IRecipe {
 
 	override fun isDynamic(): Boolean = true
 
-	override fun matches(inv: InventoryCrafting, world: World): Boolean {
+	@Suppress("WRONG_NULLABILITY_FOR_JAVA_OVERRIDE")
+	override fun matches(inv: InventoryCrafting, world: World?): Boolean {
 		var food = ItemStack.EMPTY
 		var countSalt = 0
 

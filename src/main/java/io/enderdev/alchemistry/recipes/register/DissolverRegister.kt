@@ -1594,7 +1594,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			})
 		}
 
-		recipes.removeIf { recipe -> recipe.input == null || recipe.input!!.matchingStacks.isEmpty() }
+		recipes.removeIf { recipe -> recipe.input == null || recipe.input!!.getMatchingStacks().isEmpty() }
 	}
 
 	data class DissolverOreData(val prefix: String, val quantity: Int, val strs: List<String>) {

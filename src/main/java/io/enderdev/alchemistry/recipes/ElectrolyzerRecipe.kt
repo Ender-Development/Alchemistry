@@ -17,7 +17,7 @@ data class ElectrolyzerRecipe(
 	val output4Probability: Int = 50
 ) : IRecipe {
 	val electrolytes: List<ItemStack>
-		get() = _electrolyte.matchingStacks.toList()
+		get() = _electrolyte.getMatchingStacks().toList()
 
 	val outputs: List<ItemStack>
 		get():List<ItemStack> = arrayListOf(outputOne, outputTwo, outputThree, outputFour)
@@ -34,5 +34,5 @@ data class ElectrolyzerRecipe(
 	}
 
 	fun matchesElectrolyte(target: ItemStack): Boolean =
-		this._electrolyte.matchingStacks.any { ItemStack.areItemStacksEqual(it, target) }
+		this._electrolyte.getMatchingStacks().any { ItemStack.areItemStacksEqual(it, target) }
 }

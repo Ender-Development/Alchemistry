@@ -1,7 +1,9 @@
 # Changelog
 
 ## [1.3.1] - s'more bugfixes
-- fix crash with Charset ([#8](<https://github.com/Ender-Development/Alchemistry/issues/8>))
+- fix crashes
+- - with Charset ([#8](<https://github.com/Ender-Development/Alchemistry/issues/8>))
+- - with the mod itself (which somehow wasn't caught in dev) ([#9](<https://github.com/Ender-Development/Alchemistry/issues/9>))
 - shorten the Obsidian Breaker tooltip to hopefully stop it from going off-screen
 
 ## [1.3.0] - internal refactor

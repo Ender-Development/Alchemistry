@@ -351,8 +351,7 @@ class ReactorShapeHandler(val controller: AbstractReactorController<*>) {
 
 	private fun isInside(pos: BlockPos): Boolean {
 		val state = controller.world.getBlockState(pos)
-		val block = state.block
-		return block is BlockLiquid || controller.moderatorModifiers.keys.any { block -> block.matches(state) } || isAir(pos)
+		return state.block is BlockLiquid || controller.moderatorModifiers.keys.any { it == state } || isAir(pos)
 	}
 
 	fun highlightIncorrect() {

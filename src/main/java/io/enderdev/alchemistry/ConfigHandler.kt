@@ -152,7 +152,7 @@ object ConfigHandler {
 		@Config.Name("Fusion Reactor Moderator Blocks")
 		@Config.Comment(
 			"List of moderator block modifiers for the Fusion Reactor.",
-			"Syntax: mod:block:meta;productivity;processing_time;energy (meta is optional, mod is required)"
+			"Syntax: mod:block:meta;productivity;processing_time;energy (meta is optional, mod is required, if meta is not specified, *any* is assumed)"
 		)
 		var fusionReactorBlockModifiers = arrayOf(
 			"minecraft:coal_block;0;-0.05;-0.01",
@@ -275,9 +275,21 @@ object ConfigHandler {
 		@JvmField
 		@Config.RequiresMcRestart
 		@Config.Name("Processing Ticks")
-		@Config.Comment("The best possible processing time for the Evaporator. In practice it will be increased by biome, time of day, etc")
+		@Config.Comment("The best possible processing time for the Evaporator. In practice it will be increased by biome and influenced by heat sources")
 		@Config.RangeInt(min = 0, max = Integer.MAX_VALUE)
 		var processingTicks = 160
+
+		@JvmField
+		@Config.RequiresMcRestart
+		@Config.Name("Heat Sources")
+		@Config.Comment( // I hate using "speed" again after going through this in fission/fusion reactor modifiers, but whatever
+			"Additional heat sources that can be placed underneath an evaporator to increase its speed",
+			"Syntax: mod:block:meta;speed_multiplier (meta is optional, mod is required, if meta is not specified, *any* is assumed)"
+		)
+		var heatSources = arrayOf(
+			"minecraft:lava;2",
+			"minecraft:torch;1.05"
+		)
 	}
 
 	@JvmField

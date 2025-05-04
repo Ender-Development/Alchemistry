@@ -3,8 +3,8 @@ package io.enderdev.alchemistry.client.gui
 import io.enderdev.alchemistry.Alchemistry
 import io.enderdev.alchemistry.Tags
 import io.enderdev.alchemistry.compat.jei.AlchemistryPlugin
-import io.enderdev.alchemistry.tiles.AbstractReactorController.BlockMeta
 import io.enderdev.alchemistry.tiles.AbstractReactorController.Multiplier
+import io.enderdev.alchemistry.utils.BlockMeta
 import io.enderdev.alchemistry.utils.RenderUtils
 import io.enderdev.alchemistry.utils.extensions.toStack
 import io.enderdev.alchemistry.utils.extensions.translate
@@ -196,7 +196,7 @@ class GuiReactorModifiers(val previousGUI: GuiBase<*>, val fluidModifiers: Map<F
 
 	private class BlockRenderer(block: BlockMeta, val self: GuiReactorModifiers) : IRenderer {
 		override val textureX = 193
-		val stack = block.block.toStack(meta = block.meta)
+		val stack = block.block.toStack(meta = block.meta ?: 0)
 		override fun render(x: Int, y: Int, offY: Int) =
 			self.itemRender.renderItemAndEffectIntoGUI(stack, x + 8, y + offY)
 

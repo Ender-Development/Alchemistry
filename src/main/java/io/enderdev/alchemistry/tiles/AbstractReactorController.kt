@@ -7,12 +7,11 @@ import io.enderdev.alchemistry.client.BlockHighlighter
 import io.enderdev.alchemistry.recipes.IRecipe
 import io.enderdev.alchemistry.recipes.register.AbstractRecipeRegister
 import io.enderdev.alchemistry.tiles.tags.IEnergyTile
-import net.minecraft.block.Block
+import io.enderdev.alchemistry.utils.BlockMeta
+import io.enderdev.alchemistry.utils.ConfigUtils
 import net.minecraft.block.state.IBlockState
-import net.minecraft.init.Blocks
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.util.EnumFacing
-import net.minecraft.util.ResourceLocation
 import net.minecraftforge.common.capabilities.Capability
 import net.minecraftforge.fluids.Fluid
 import net.minecraftforge.fluids.FluidRegistry
@@ -52,7 +51,7 @@ abstract class AbstractReactorController<T : IRecipe>(val reactorType: ReactorTy
 		}
 		blocks.map { (state: IBlockState, cnt: Int) ->
 			moderatorModifiers.entries.forEach { (wanted, mod) ->
-				if(wanted.matches(state)) {
+				if(wanted == state) {
 					currentMultiplier.productivity += mod.productivity * cnt
 					currentMultiplier.processingTime += mod.processingTime * cnt
 					currentMultiplier.energy += mod.energy * cnt
@@ -98,18 +97,12 @@ abstract class AbstractReactorController<T : IRecipe>(val reactorType: ReactorTy
 				Alchemistry.logger.error("Malformed ${reactorType.name.lowercase()} moderator block modifier config entry - expected 4 sections but found ${split.size}: $it")
 				return@forEach
 			}
-			val blockSplit = split[0].split(':')
-			if(blockSplit.size != 2 && blockSplit.size != 3) {
-				Alchemistry.logger.error("Malformed ${reactorType.name.lowercase()} moderator block modifier config entry - invalid block specification: ${split[0]}")
+			val block = ConfigUtils.parseBlock(split[0]) ?: return@forEach
+			if(block.block is IFluidBlock) {
+				Alchemistry.logger.error("Malformed ${reactorType.name.lowercase()} moderator block modifier config entry - invalid block (is actually a fluid): ${split[0]}")
 				return@forEach
 			}
-			val block = Block.REGISTRY.getObject(ResourceLocation(blockSplit[0], blockSplit[1]))
-			if(block == Blocks.AIR || block is IFluidBlock) {
-				Alchemistry.logger.error("Malformed ${reactorType.name.lowercase()} moderator block modifier config entry - invalid block (doesn't exist or is a fluid): ${split[0]}")
-				return@forEach
-			}
-			moderatorModifiers[BlockMeta(block, blockSplit.getOrNull(2)?.toInt() ?: 0)] =
-				Multiplier(split[1].toDouble(), split[2].toDouble(), split[3].toDouble())
+			moderatorModifiers[block] = Multiplier(split[1].toDouble(), split[2].toDouble(), split[3].toDouble())
 		}
 	}
 
@@ -151,9 +144,5 @@ abstract class AbstractReactorController<T : IRecipe>(val reactorType: ReactorTy
 			processingTime = 1.0
 			energy = 1.0
 		}
-	}
-
-	data class BlockMeta(val block: Block, val meta: Int) {
-		fun matches(state: IBlockState) = state.block == block && block.getMetaFromState(state) == meta
 	}
 }

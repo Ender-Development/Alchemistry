@@ -1,9 +1,12 @@
 package io.enderdev.alchemistry.tiles
 
+import io.enderdev.alchemistry.Alchemistry
 import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.recipes.EvaporatorRecipe
 import io.enderdev.alchemistry.recipes.register.EvaporatorRegister
 import io.enderdev.alchemistry.tiles.tags.IFluidTile
+import io.enderdev.alchemistry.utils.BlockMeta
+import io.enderdev.alchemistry.utils.ConfigUtils
 import io.enderdev.alchemistry.utils.extensions.get
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraftforge.common.BiomeDictionary
@@ -11,6 +14,7 @@ import net.minecraftforge.fluids.Fluid
 import net.minecraftforge.fluids.FluidStack
 import net.minecraftforge.fluids.FluidTank
 import net.minecraftforge.fluids.capability.templates.FluidHandlerConcatenate
+import kotlin.math.roundToInt
 
 class TileEvaporator : AbstractMachine<EvaporatorRecipe>(EvaporatorRegister.Companion.INSTANCE), IFluidTile {
 
@@ -78,10 +82,31 @@ class TileEvaporator : AbstractMachine<EvaporatorRecipe>(EvaporatorRegister.Comp
 
 	// TODO more elaborate calculation?
 	private fun calculateProcessingTime(config: Int): Int {
-		var temp = config
-		if(!BiomeDictionary.hasType(world.getBiomeForCoordsBody(pos), BiomeDictionary.Type.DRY)) {
-			temp += (config * .5).toInt()
+		var mult = 1.0
+
+		if(!BiomeDictionary.hasType(world.getBiomeForCoordsBody(pos), BiomeDictionary.Type.DRY))
+			mult = 1.5
+
+		val below = world.getBlockState(pos.down())
+		heatSources.firstOrNull { it.first == below }?.let {
+			mult /= it.second
 		}
-		return temp
+
+		println("$config, $mult, ${(config * mult).roundToInt()}")
+		return (config * mult).roundToInt()
+	}
+
+	companion object {
+		@Suppress("UNCHECKED_CAST") // stfu IntelliJ
+		val heatSources = ConfigHandler.EVAPORATOR.heatSources.map {
+			val split = it.split(';', ',')
+			if(split.size != 2) {
+				Alchemistry.logger.error("Malformed evaporator heat source - expected 2 sections but found ${split.size}: $it")
+				return@map null
+			}
+			val block = ConfigUtils.parseBlock(split[0]) ?: return@map null
+			val multiplier = split[1].toDouble()
+			block to multiplier
+		}.filter { it != null }.toTypedArray() as Array<Pair<BlockMeta, Double>>
 	}
 }

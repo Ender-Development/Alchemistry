@@ -1,9 +1,12 @@
 package io.enderdev.alchemistry.utils
 
 import io.enderdev.alchemistry.Alchemistry
+import io.enderdev.alchemistry.client.gui.misc.GuiModifiers
 import net.minecraft.block.Block
 import net.minecraft.block.state.IBlockState
+import net.minecraft.client.gui.GuiScreen
 import net.minecraft.util.ResourceLocation
+import net.minecraftforge.fluids.FluidRegistry
 import java.util.*
 
 object ConfigUtils {
@@ -46,6 +49,14 @@ data class BlockMeta(val block: Block, val meta: Int?) {
 			is BlockMeta -> block == other.block && meta == other.meta
 			else -> false
 		}
+	}
+
+	fun getGUIRenderer(self: GuiScreen): GuiModifiers.IRenderer {
+		val fluid = FluidRegistry.lookupFluidForBlock(block)
+		return if(fluid != null)
+			GuiModifiers.FluidRenderer(fluid, self)
+		else
+			GuiModifiers.BlockRenderer(this, self)
 	}
 
 	override fun hashCode() = block.hashCode() + (meta ?: 10023) * 37

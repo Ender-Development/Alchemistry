@@ -3,6 +3,8 @@ package io.enderdev.alchemistry.client.gui
 import io.enderdev.alchemistry.Alchemistry
 import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.client.button.ModeratorButton
+import io.enderdev.alchemistry.client.gui.misc.GuiModifiers
+import io.enderdev.alchemistry.client.gui.misc.GuiModifiers.IRenderer
 import io.enderdev.alchemistry.client.gui.wrappers.CapabilityEnergyDisplayWrapper
 import io.enderdev.alchemistry.tiles.AbstractReactorController
 import io.enderdev.alchemistry.tiles.ReactorType
@@ -11,6 +13,7 @@ import io.enderdev.alchemistry.utils.extensions.translate
 import net.minecraft.client.gui.GuiButton
 import net.minecraft.inventory.Container
 import java.awt.Color
+import java.util.*
 import kotlin.math.ceil
 import kotlin.math.roundToInt
 
@@ -36,8 +39,32 @@ abstract class GuiReactorController<T>(container: Container, tile: T, guiName: S
 
 	override fun actionPerformed(button: GuiButton) {
 		super.actionPerformed(button)
-		if(button.id == moderatorButton.id)
-			mc.displayGuiScreen(GuiReactorModifiers(this, tile.moderators))
+		if(button.id == moderatorButton.id) {
+			// this really is not pretty, but, what can you do
+			val entries = mutableListOf<Pair<IRenderer, List<Pair<String, Color>>>>()
+			val sort = { by: (AbstractReactorController.Multiplier) -> Double ->
+				{ reverse: Boolean ->
+					entries.clear()
+					entries.addAll(tile.moderators.entries.sortedBy {
+						by(it.value) * (if(reverse) -1 else 1)
+					}.map { (block, multiplier) ->
+						block.getGUIRenderer(this) to arrayOf(multiplier.productivity, multiplier.processingTime, multiplier.energy).mapIndexed { idx, it ->
+							"${if(it < 0) "" else '+'}${Alchemistry.DECIMAL_FORMAT.format(it)}x" to Color(getColorFromValue(it + 1, idx != 0))
+						}
+					})
+					Unit
+				}
+			}
+			sort { .0 }(false)
+			val gui = GuiModifiers(
+				"${tile.reactorType.name.lowercase(Locale.getDefault()).replaceFirstChar(Char::uppercaseChar)} ${"tile.reactor.modifers".translate()}",
+				entries,
+				arrayOf("output_multiplier", "processing_time", "energy_consumption").map { "tile.reactor.$it.short".translate("") }.toTypedArray(),
+				arrayOf(sort { it.productivity }, sort { it.processingTime }, sort { it.energy }),
+				this
+			)
+			mc.displayGuiScreen(gui)
+		}
 	}
 
 	override fun renderTooltips(mouseX: Int, mouseY: Int) {

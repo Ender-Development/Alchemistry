@@ -2,7 +2,8 @@ package io.enderdev.alchemistry.client.gui
 
 import io.enderdev.alchemistry.Alchemistry
 import io.enderdev.alchemistry.client.container.ContainerEvaporator
-import io.enderdev.alchemistry.client.gui.GuiReactorModifiers.MouseClickData
+import io.enderdev.alchemistry.client.gui.misc.GuiModifiers
+import io.enderdev.alchemistry.client.gui.misc.GuiModifiers.MouseClickData
 import io.enderdev.alchemistry.client.gui.wrappers.CapabilityFluidDisplayWrapper
 import io.enderdev.alchemistry.tiles.TileEvaporator
 import io.enderdev.alchemistry.utils.extensions.translate
@@ -28,21 +29,31 @@ class GuiEvaporator(playerInv: InventoryPlayer, tile: TileEvaporator) : GuiBase<
 				tooltipLines.add(3)
 			drawHoveringText(tooltipLines.map { "tile.evaporator.heat_explanation.$it".translate() }, mouseX, mouseY)
 		}
-		if(mouseClick != null && mouseClick!!.btn == 0 && isHovered(guiLeft + 65, guiTop + 64, width, fontRenderer.FONT_HEIGHT, mouseClick!!.x, mouseClick!!.y))
-			mc.displayGuiScreen(GuiHeatSources(this))
+		if(mouseClick != null && mouseClick!!.btn == 0 && isHovered(guiLeft + 65, guiTop + 64, width, fontRenderer.FONT_HEIGHT, mouseClick!!.x, mouseClick!!.y)) {
+			val gui = GuiModifiers(
+				"$displayName ${"tile.evaporator.heat_sources".translate()}",
+				TileEvaporator.heatSources.map { (block, value) ->
+					block.getGUIRenderer(this) to listOf("${Alchemistry.DECIMAL_FORMAT.format(value)}x" to getColor(value))
+				},
+				arrayOf("tile.evaporator.heat".translate("")),
+				emptyArray(),
+				this
+			)
+			mc.displayGuiScreen(gui)
+		}
 		mouseClick = null
 	}
 
 	override fun drawGuiContainerForegroundLayer(mouseX: Int, mouseY: Int) {
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY)
 		val heat = tile.getHeat()
-		fontRenderer.drawString(heatText(heat), 65, 64, getColor(heat))
+		fontRenderer.drawString(heatText(heat), 65, 64, getColor(heat).rgb)
 	}
 
-	fun getColor(heat: Double): Int {
+	fun getColor(heat: Double): Color {
 		val r = (Color.DARK_GRAY.red * heat).roundToInt().coerceIn(0, 255)
 		val b = (Color.DARK_GRAY.blue / heat).roundToInt().coerceIn(0, 255)
-		return Color(r, Color.DARK_GRAY.green, b).rgb
+		return Color(r, Color.DARK_GRAY.green, b)
 	}
 
 	override fun drawGuiContainerBackgroundLayer(partialTicks: Float, mouseX: Int, mouseY: Int) {

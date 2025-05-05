@@ -13,12 +13,13 @@ import net.minecraft.client.gui.GuiScreen
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.fluids.Fluid
+import net.minecraftforge.fluids.FluidRegistry
 import net.minecraftforge.fluids.FluidStack
 import net.minecraftforge.fml.common.Loader
 import org.lwjgl.input.Mouse
 import java.awt.Color
 
-class GuiReactorModifiers(val previousGUI: GuiBase<*>, val fluidModifiers: Map<Fluid, Multiplier>, val blockModifiers: Map<BlockMeta, Multiplier>) : GuiScreen() {
+class GuiReactorModifiers(val previousGUI: GuiBase<*>, moderators: Map<BlockMeta, Multiplier>) : GuiScreen() {
 	private val maxEntries = 7
 	private val textColumns = listOf(60, 105, 150)
 	private var scrollCount = 0
@@ -26,15 +27,16 @@ class GuiReactorModifiers(val previousGUI: GuiBase<*>, val fluidModifiers: Map<F
 	private var mouseClick: MouseClickData? = null
 	private var hoveredEntry: IRenderer? = null
 
-	private val sortBy = listOf(
-		{ multiplier: Multiplier -> multiplier.productivity },
-		{ multiplier: Multiplier -> multiplier.processingTime },
-		{ multiplier: Multiplier -> multiplier.energy }
-	)
+	private val sortBy = listOf<Multiplier.() -> Double>({ productivity }, { processingTime }, { energy })
 
 	init {
-		entries.addAll(fluidModifiers.map { (fluid, multiplier) -> FluidRenderer(fluid, this) to multiplier })
-		entries.addAll(blockModifiers.map { (block, multiplier) -> BlockRenderer(block, this) to multiplier })
+		entries.addAll(moderators.map { (moderator, multiplier) ->
+			val fluid = FluidRegistry.lookupFluidForBlock(moderator.block)
+			(if(fluid != null)
+				FluidRenderer(fluid, this)
+			else
+				BlockRenderer(moderator, this)) to multiplier
+		})
 	}
 
 	private fun bind(texture: String = "reactor_modifier_gui_redox") {
@@ -130,7 +132,7 @@ class GuiReactorModifiers(val previousGUI: GuiBase<*>, val fluidModifiers: Map<F
 
 		bind("template_redox")
 		// if we can scroll down, draw an arrow indicating that to the player
-		if(totalEntriesDrawn == maxEntries && fluidModifiers.size + blockModifiers.size - maxEntries > scrollCount)
+		if(totalEntriesDrawn == maxEntries && entries.size - maxEntries > scrollCount)
 			drawTexturedModalRect(x + 13, y + 170, 48, 64, 6, 6)
 
 		// if we can scroll up, …
@@ -155,7 +157,7 @@ class GuiReactorModifiers(val previousGUI: GuiBase<*>, val fluidModifiers: Map<F
 				if(scrollCount != 0)
 					--scrollCount
 			} else {
-				if(fluidModifiers.size + blockModifiers.size - maxEntries > scrollCount)
+				if(entries.size - maxEntries > scrollCount)
 					++scrollCount
 			}
 		}

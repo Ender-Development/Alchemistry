@@ -70,27 +70,20 @@ object ConfigHandler {
 
 		@JvmField
 		@Config.RequiresMcRestart
-		@Config.Name("Fission Reactor Modifiers")
-		@Config.Comment("List of fluid modifiers for the Fission Reactor. Syntax: fluidName;productivity;processing_time;energy")
-		var fissionReactorFluidModifiers = arrayOf(
-			"water;0;-0.02;-0.05",
-			"lava;0.2;0.05;0.1"
-		)
-
-		@JvmField
-		@Config.RequiresMcRestart
-		@Config.Name("Fission Reactor Moderator Blocks")
+		@Config.Name("Moderators")
 		@Config.Comment(
-			"List of moderator block modifiers for the Fission Reactor.",
-			"Syntax: mod:block:meta;productivity;processing_time;energy (meta is optional, mod is required)"
+			"List of moderator blocks/fluids for the Fusion Reactor.",
+			"Values are additive, i.e. if you have 2 diamond blocks with the default config, the final values will be - productivity: 1.1x (10% chance to get an additional drop), processing time: 1.2x (20% slower), energy usage: 1.2x (20% more FE/t)",
+			"Syntax: mod:block:meta;productivity;processing_time;energy_usage (meta is optional, mod is required, if meta is not specified, *any* is assumed)"
 		)
-		var fissionReactorBlockModifiers = arrayOf(
+		var moderators = arrayOf(
+			"minecraft:water;0;-0.02;-0.05",
+			"minecraft:lava;0.2;0.05;0.1",
 			"minecraft:coal_block;0;-0.05;-0.01",
 			"minecraft:diamond_block;0.05;0.1;0.1"
 		)
 
 		@JvmField
-		@Config.RequiresMcRestart
 		@Config.Name("Minimum Energy per Tick")
 		@Config.Comment("Minimum energy consumption rate per tick for the Fission Reactor")
 		@Config.RangeInt(min = 0, max = Integer.MAX_VALUE)
@@ -137,30 +130,20 @@ object ConfigHandler {
 
 		@JvmField
 		@Config.RequiresMcRestart
-		@Config.Name("Fusion Reactor Modifiers")
+		@Config.Name("Moderators")
 		@Config.Comment(
-			"List of fluid modifiers for the Fusion Reactor.",
-			"Syntax: fluidName;productivity;processing_time;energy"
+			"List of moderator blocks/fluids for the Fusion Reactor.",
+			"Values are additive, i.e. if you have 2 diamond blocks with the default config, the final values will be - productivity: 1.1x (10% chance to get an additional drop), processing time: 1.2x (20% slower), energy usage: 1.2x (20% more FE/t)",
+			"Syntax: mod:block:meta;productivity;processing_time;energy_usage (meta is optional, mod is required, if meta is not specified, *any* is assumed)"
 		)
-		var fusionReactorFluidModifiers = arrayOf(
-			"water;0;-0.02;-0.03",
-			"lava;0.2;0.05;0.1"
-		)
-
-		@JvmField
-		@Config.RequiresMcRestart
-		@Config.Name("Fusion Reactor Moderator Blocks")
-		@Config.Comment(
-			"List of moderator block modifiers for the Fusion Reactor.",
-			"Syntax: mod:block:meta;productivity;processing_time;energy (meta is optional, mod is required, if meta is not specified, *any* is assumed)"
-		)
-		var fusionReactorBlockModifiers = arrayOf(
+		var moderators = arrayOf(
+			"minecraft:water;0;-0.02;-0.03",
+			"minecraft:lava;0.2;0.05;0.1",
 			"minecraft:coal_block;0;-0.05;-0.01",
 			"minecraft:diamond_block;0.05;0.1;0.1"
 		)
 
 		@JvmField
-		@Config.RequiresMcRestart
 		@Config.Name("Minimum Energy per Tick")
 		@Config.Comment("Minimum energy consumption rate per tick for the Fusion Reactor")
 		@Config.RangeInt(min = 0, max = Integer.MAX_VALUE)

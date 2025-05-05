@@ -13,15 +13,12 @@ import net.minecraft.block.state.IBlockState
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.util.EnumFacing
 import net.minecraftforge.common.capabilities.Capability
-import net.minecraftforge.fluids.Fluid
-import net.minecraftforge.fluids.FluidRegistry
-import net.minecraftforge.fluids.IFluidBlock
+import java.util.*
 import kotlin.math.roundToInt
 
 abstract class AbstractReactorController<T : IRecipe>(val reactorType: ReactorType, recipeRegister: AbstractRecipeRegister<T>) : AbstractMachine<T>(recipeRegister), IEnergyTile {
 	val shapeHandler = ReactorShapeHandler(this)
-	val fluidModifiers = mutableMapOf<Fluid, Multiplier>()
-	val moderatorModifiers = mutableMapOf<BlockMeta, Multiplier>()
+	val moderators = mutableMapOf<BlockMeta, Multiplier>()
 	var currentMultiplier = Multiplier()
 	var isMultiblockValid = false
 	var checkMultiblockTicks = 0
@@ -40,17 +37,10 @@ abstract class AbstractReactorController<T : IRecipe>(val reactorType: ReactorTy
 	fun validateMultiblock() = shapeHandler.validate()
 
 	fun updateModifiers() {
-		val (fluids, blocks) = shapeHandler.countInside()
+		val blocks = shapeHandler.countInside()
 		currentMultiplier.reset()
-		fluids.map { (fluid: Fluid, cnt: Int) ->
-			fluidModifiers[fluid]?.let { (productivity, processingTime, energy) ->
-				currentMultiplier.productivity += productivity * cnt
-				currentMultiplier.processingTime += processingTime * cnt
-				currentMultiplier.energy += energy * cnt
-			}
-		}
 		blocks.map { (state: IBlockState, cnt: Int) ->
-			moderatorModifiers.entries.forEach { (wanted, mod) ->
+			moderators.entries.forEach { (wanted, mod) ->
 				if(wanted == state) {
 					currentMultiplier.productivity += mod.productivity * cnt
 					currentMultiplier.processingTime += mod.processingTime * cnt
@@ -60,49 +50,34 @@ abstract class AbstractReactorController<T : IRecipe>(val reactorType: ReactorTy
 		}
 	}
 
-	fun loadConfig(fluidConfig: Array<String>, moderatorConfig: Array<String>) {
-		fluidModifiers.clear()
-		fluidConfig.forEach {
-			/**
-			 * We only added commas here, because we spent way too long debugging it once
-			 * _silently cries in the corner_
-			 *       ,_     _,
-			 *      |\\___//|
-			 *      |=6   6=|
-			 *      \=._Y_.=/
-			 *       )  `  (    ,
-			 *      /       \  ((
-			 *      |       |   ))
-			 *     /| |   | |\_//
-			 *     \| |._.| |/-`
-			 *      '"'   '"'
-			 */
-			val split = it.split(";", ",")
-			if(split.size != 4) {
-				Alchemistry.logger.error("Malformed ${reactorType.name.lowercase()} fluid modifier config entry - expected 4 sections but found ${split.size}: $it")
-				return@forEach
+	fun loadConfig(moderators: Array<String>) {
+		this.moderators.clear()
+		/*
+		 * Commas `,` and semicolons `;` are annoyingly similar to eachother
+		 * _silently cries in the corner_
+		 *       ,_     _,
+		 *      |\\___//|
+		 *      |=6   6=|
+		 *      \=._Y_.=/
+		 *       )  `  (    ,
+		 *      /       \  ((
+		 *      |       |   ))
+		 *     /| |   | |\_//
+		 *     \| |._.| |/-`
+		 *      '"'   '"'
+		 */
+		moderators.forEach {
+			val tokenizer = StringTokenizer(it, ";")
+			try {
+				val block = ConfigUtils.parseBlock(tokenizer.nextToken()) ?: return@forEach
+				this.moderators.put(block, Multiplier(tokenizer.nextToken().toDouble(), tokenizer.nextToken().toDouble(), tokenizer.nextToken().toDouble()))
+			} catch(_: NoSuchElementException) {
+				Alchemistry.logger.error("Invalid ${reactorType.name.lowercase(Locale.getDefault())} moderator entry, expected 4 columns separated by semicolons `;` but got: '$it'")
+				if(it.contains(','))
+					Alchemistry.logger.error("(You're most likely accidentally using commas `,` instead of semicolons `;`)")
+			} catch(_: NumberFormatException) {
+				Alchemistry.logger.error("Invalid ${reactorType.name.lowercase(Locale.getDefault())} moderator entry, expected 3 last columns to be numbers but got: '$it'")
 			}
-			val fluid = FluidRegistry.getFluid(split[0])
-			if(fluid == null) {
-				Alchemistry.logger.error("Malformed ${reactorType.name.lowercase()} fluid modifier config entry - fluid not found: ${split[0]}")
-				return@forEach
-			}
-			fluidModifiers[fluid] = Multiplier(split[1].toDouble(), split[2].toDouble(), split[3].toDouble())
-		}
-		moderatorModifiers.clear()
-		moderatorConfig.forEach {
-			// mod:block[:meta];productivity;processing_time;energy
-			val split = it.split(';', ',')
-			if(split.size != 4) {
-				Alchemistry.logger.error("Malformed ${reactorType.name.lowercase()} moderator block modifier config entry - expected 4 sections but found ${split.size}: $it")
-				return@forEach
-			}
-			val block = ConfigUtils.parseBlock(split[0]) ?: return@forEach
-			if(block.block is IFluidBlock) {
-				Alchemistry.logger.error("Malformed ${reactorType.name.lowercase()} moderator block modifier config entry - invalid block (is actually a fluid): ${split[0]}")
-				return@forEach
-			}
-			moderatorModifiers[block] = Multiplier(split[1].toDouble(), split[2].toDouble(), split[3].toDouble())
 		}
 	}
 

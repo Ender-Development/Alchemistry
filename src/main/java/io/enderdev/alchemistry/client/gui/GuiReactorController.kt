@@ -2,7 +2,7 @@ package io.enderdev.alchemistry.client.gui
 
 import io.enderdev.alchemistry.Alchemistry
 import io.enderdev.alchemistry.ConfigHandler
-import io.enderdev.alchemistry.client.button.ModifierButton
+import io.enderdev.alchemistry.client.button.ModeratorButton
 import io.enderdev.alchemistry.client.gui.wrappers.CapabilityEnergyDisplayWrapper
 import io.enderdev.alchemistry.tiles.AbstractReactorController
 import io.enderdev.alchemistry.tiles.ReactorType
@@ -20,8 +20,8 @@ abstract class GuiReactorController<T>(container: Container, tile: T, guiName: S
 	val infoHeight = 102f
 	val infoX = 12f
 
-	val hasModifiers = tile.fluidModifiers.size + tile.moderatorModifiers.size != 0
-	lateinit var modifierButton: ModifierButton
+	val hasModerators = tile.moderators.isNotEmpty()
+	lateinit var moderatorButton: ModeratorButton
 
 	init {
 		displayData.add(CapabilityEnergyDisplayWrapper(8, 21, 16, 70, tile::energyStorage))
@@ -29,20 +29,20 @@ abstract class GuiReactorController<T>(container: Container, tile: T, guiName: S
 
 	override fun initGui() {
 		super.initGui()
-		modifierButton = ModifierButton(guiLeft + 155, guiTop + displayNameOffset + 14)
-		if(hasModifiers)
-			buttonList.add(modifierButton)
+		moderatorButton = ModeratorButton(guiLeft + 155, guiTop + displayNameOffset + 14)
+		if(hasModerators)
+			buttonList.add(moderatorButton)
 	}
 
 	override fun actionPerformed(button: GuiButton) {
 		super.actionPerformed(button)
-		if(button.id == modifierButton.id)
-			mc.displayGuiScreen(GuiReactorModifiers(this, tile.fluidModifiers, tile.moderatorModifiers))
+		if(button.id == moderatorButton.id)
+			mc.displayGuiScreen(GuiReactorModifiers(this, tile.moderators))
 	}
 
 	override fun renderTooltips(mouseX: Int, mouseY: Int) {
 		super.renderTooltips(mouseX, mouseY)
-		if(hasModifiers && isHovered(modifierButton.x, modifierButton.y, 16, 16, mouseX, mouseY))
+		if(hasModerators && isHovered(moderatorButton.x, moderatorButton.y, 16, 16, mouseX, mouseY))
 			drawHoveringText("tooltip.modifier_btn".translate(), mouseX, mouseY)
 	}
 

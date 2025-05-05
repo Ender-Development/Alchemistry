@@ -10,9 +10,6 @@ import net.minecraft.block.state.IBlockState
 import net.minecraft.init.Blocks
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.math.BlockPos
-import net.minecraftforge.fluids.Fluid
-import net.minecraftforge.fluids.FluidRegistry
-import net.minecraftforge.fluids.IFluidBlock
 
 class ReactorShapeHandler(val controller: AbstractReactorController<*>) {
 
@@ -95,20 +92,13 @@ class ReactorShapeHandler(val controller: AbstractReactorController<*>) {
 		return checkInside
 	}
 
-	fun countInside(): Pair<Map<Fluid, Int>, Map<IBlockState, Int>> {
-		val fluids = mutableMapOf<Fluid, Int>()
+	fun countInside(): Map<IBlockState, Int> {
 		val blocks = mutableMapOf<IBlockState, Int>()
 		getInnerVolume().forEach {
 			val state = controller.world.getBlockState(it)
-			val block = state.block
-			when(block) {
-				is IFluidBlock -> fluids.compute(block.fluid) { _: Fluid, cnt: Int? -> (cnt ?: 0) + 1 }
-				Blocks.WATER, Blocks.FLOWING_WATER -> fluids.compute(FluidRegistry.WATER) { _: Fluid, cnt: Int? -> (cnt ?: 0) + 1 }
-				Blocks.LAVA, Blocks.FLOWING_LAVA -> fluids.compute(FluidRegistry.LAVA) { _: Fluid, cnt: Int? -> (cnt ?: 0) + 1 }
-				else -> blocks.compute(state) { _: IBlockState, cnt: Int? -> (cnt ?: 0) + 1 }
-			}
+			blocks.compute(state) { _: IBlockState, cnt: Int? -> (cnt ?: 0) + 1 }
 		}
-		return fluids to blocks
+		return blocks
 	}
 
 	private fun getOuterCasings(): Set<BlockPos> {
@@ -351,7 +341,7 @@ class ReactorShapeHandler(val controller: AbstractReactorController<*>) {
 
 	private fun isInside(pos: BlockPos): Boolean {
 		val state = controller.world.getBlockState(pos)
-		return state.block is BlockLiquid || controller.moderatorModifiers.keys.any { it == state } || isAir(pos)
+		return state.block is BlockLiquid || controller.moderators.keys.any { it == state } || isAir(pos)
 	}
 
 	fun highlightIncorrect() {

@@ -80,20 +80,21 @@ class TileEvaporator : AbstractMachine<EvaporatorRecipe>(EvaporatorRegister.Comp
 		inputTank.readFromNBT(compound.getCompoundTag("InputTankNBT"))
 	}
 
+	fun calculateProcessingTime(config: Int) = (config / getHeat()).roundToInt()
+
 	// TODO more elaborate calculation?
-	private fun calculateProcessingTime(config: Int): Int {
-		var mult = 1.0
+	fun getHeat(): Double {
+		var heat = 1.0
 
 		if(!BiomeDictionary.hasType(world.getBiomeForCoordsBody(pos), BiomeDictionary.Type.DRY))
-			mult = 1.5
+			heat = 0.5
 
 		val below = world.getBlockState(pos.down())
-		heatSources.firstOrNull { it.first == below }?.let {
-			mult /= it.second
+		heatSources.forEach { (block, speed) ->
+			if(block == below)
+				heat *= speed
 		}
-
-		println("$config, $mult, ${(config * mult).roundToInt()}")
-		return (config * mult).roundToInt()
+		return heat
 	}
 
 	companion object {

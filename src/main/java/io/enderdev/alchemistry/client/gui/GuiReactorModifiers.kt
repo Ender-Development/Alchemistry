@@ -188,15 +188,15 @@ class GuiReactorModifiers(val previousGUI: GuiBase<*>, moderators: Map<BlockMeta
 			}
 	}
 
-	private data class MouseClickData(val x: Int, val y: Int, val btn: Int)
+	data class MouseClickData(val x: Int, val y: Int, val btn: Int)
 
-	private interface IRenderer {
+	interface IRenderer {
 		val textureX: Int
 		fun render(x: Int, y: Int, offY: Int)
 		fun renderTooltip(mouseX: Int, mouseY: Int)
 	}
 
-	private class BlockRenderer(block: BlockMeta, val self: GuiReactorModifiers) : IRenderer {
+	class BlockRenderer(block: BlockMeta, val self: GuiScreen) : IRenderer {
 		override val textureX = 193
 		val stack = block.block.toStack(meta = block.meta ?: 0)
 		override fun render(x: Int, y: Int, offY: Int) =
@@ -206,7 +206,7 @@ class GuiReactorModifiers(val previousGUI: GuiBase<*>, moderators: Map<BlockMeta
 			self.renderToolTip(stack, mouseX, mouseY)
 	}
 
-	private class FluidRenderer(val fluid: Fluid, val self: GuiReactorModifiers) : IRenderer {
+	class FluidRenderer(val fluid: Fluid, val self: GuiScreen) : IRenderer {
 		override val textureX = 175
 		val stack = FluidStack(fluid, 1)
 		override fun render(x: Int, y: Int, offY: Int) =

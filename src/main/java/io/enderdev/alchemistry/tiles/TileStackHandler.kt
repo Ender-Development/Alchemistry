@@ -21,8 +21,7 @@ open class TileStackHandler(size: Int, val tile: TileBase) : ItemStackHandler() 
 
 	fun incrementSlot(slot: Int, amountToAdd: Int) {
 		val temp = this[slot]
-		if(temp.count + amountToAdd <= temp.maxStackSize)
-			temp.count += amountToAdd
+		temp.count = (temp.count + amountToAdd).coerceAtMost(temp.maxStackSize)
 		setStackInSlot(slot, temp)
 	}
 

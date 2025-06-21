@@ -28,6 +28,9 @@ repositories {
 	maven {
 		url = 'https://maven.blamejared.com/'
 	}
+	maven {
+		url = 'https://rozbrajacz.futbol/maven'
+	}
 	mavenLocal() // Must be last for caching to work
 }
 
@@ -72,6 +75,7 @@ dependencies {
 	implementation("io.github.chaosunity.forgelin:Forgelin-Continuous:" + project.forgelin_continuous_version) { transitive = false }
 
 	implementation "com.cleanroommc:configanytime:3.0"
+	implementation "io.enderdev:catalyx:0.1.0"
 
 	runtimeOnly rfg.deobf("curse.maven:lolasm-460609:6333774") // otherwise it will crash
 	runtimeOnly rfg.deobf("curse.maven:vintagefix-871198:6300725") // otherwise it will crash
@@ -88,7 +92,7 @@ dependencies {
 
 	// GroovyScript
 	implementation("com.cleanroommc:groovyscript:" + project.groovyscript_version) { transitive = false }
-	// so it doesn't installs JEI
+	// so it doesn't install JEI
 
 	// HEI
 	implementation "mezz:jei:4.27.3"

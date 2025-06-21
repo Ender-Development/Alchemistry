@@ -1,12 +1,12 @@
 package io.enderdev.alchemistry.client.container
 
 import io.enderdev.alchemistry.tiles.TileChemicalDissolver
+import io.enderdev.catalyx.client.container.BaseContainer
 import net.minecraft.entity.player.InventoryPlayer
 import net.minecraftforge.items.SlotItemHandler
 
-
 class ContainerChemicalDissolver(playerInv: InventoryPlayer, tile: TileChemicalDissolver) :
-	ContainerBase<TileChemicalDissolver>(playerInv, tile) {
+	BaseContainer<TileChemicalDissolver>(playerInv, tile) {
 
 	override fun addOwnSlots() {
 		addSlotToContainer(SlotItemHandler(tile.input, 0, 44, 57))

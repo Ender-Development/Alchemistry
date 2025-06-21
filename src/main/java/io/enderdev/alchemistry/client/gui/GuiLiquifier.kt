@@ -1,14 +1,17 @@
 package io.enderdev.alchemistry.client.gui
 
+import io.enderdev.alchemistry.Tags
 import io.enderdev.alchemistry.client.container.ContainerLiquifier
-import io.enderdev.alchemistry.client.gui.wrappers.CapabilityEnergyDisplayWrapper
-import io.enderdev.alchemistry.client.gui.wrappers.CapabilityFluidDisplayWrapper
 import io.enderdev.alchemistry.tiles.TileLiquifier
+import io.enderdev.catalyx.client.gui.BaseGui
+import io.enderdev.catalyx.client.gui.wrappers.CapabilityEnergyDisplayWrapper
+import io.enderdev.catalyx.client.gui.wrappers.CapabilityFluidDisplayWrapper
 import net.minecraft.entity.player.InventoryPlayer
-
+import net.minecraft.util.ResourceLocation
 
 class GuiLiquifier(playerInv: InventoryPlayer, tile: TileLiquifier) :
-	GuiBase<TileLiquifier>(ContainerLiquifier(playerInv, tile), tile, "liquifier") {
+	BaseGui<TileLiquifier>(ContainerLiquifier(playerInv, tile), tile, "liquifier") {
+	override val textureLocation = ResourceLocation(Tags.MOD_ID, "textures/gui/container/${guiName}_gui_redox.png")
 
 	init {
 		this.displayData.add(CapabilityEnergyDisplayWrapper(8, 21, 16, 70, tile::energyStorage))

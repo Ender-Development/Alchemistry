@@ -1,13 +1,16 @@
 package io.enderdev.alchemistry.tiles
 
+import io.enderdev.alchemistry.Alchemistry
 import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.recipes.ElectrolyzerRecipe
 import io.enderdev.alchemistry.recipes.register.ElectrolyzerRegister
-import io.enderdev.alchemistry.tiles.tags.EnergyTileImpl
-import io.enderdev.alchemistry.tiles.tags.IEnergyTile
-import io.enderdev.alchemistry.tiles.tags.IFluidTile
-import io.enderdev.alchemistry.utils.extensions.containsItem
-import io.enderdev.alchemistry.utils.extensions.get
+import io.enderdev.catalyx.utils.extensions.containsItem
+import io.enderdev.catalyx.utils.extensions.get
+import io.enderdev.catalyx.tiles.BaseMachineTile
+import io.enderdev.catalyx.tiles.helper.EnergyTileImpl
+import io.enderdev.catalyx.tiles.helper.IEnergyTile
+import io.enderdev.catalyx.tiles.helper.IFluidTile
+import io.enderdev.catalyx.tiles.helper.TileStackHandler
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraftforge.fluids.Fluid
@@ -15,10 +18,12 @@ import net.minecraftforge.fluids.FluidStack
 import net.minecraftforge.fluids.FluidTank
 import net.minecraftforge.fluids.capability.templates.FluidHandlerConcatenate
 
-class TileElectrolyzer : AbstractMachine<ElectrolyzerRecipe>(ElectrolyzerRegister.Companion.INSTANCE), IFluidTile,
-	IEnergyTile by EnergyTileImpl(capacity = ConfigHandler.ELECTROLYZER.energyCapacity) {
+class TileElectrolyzer : BaseMachineTile<ElectrolyzerRecipe>(Alchemistry.catalyxSettings), IFluidTile,
+	IEnergyTile by EnergyTileImpl(ConfigHandler.ELECTROLYZER.energyCapacity) {
 
 	val inputTank: FluidTank
+
+	val recipeRegister = ElectrolyzerRegister.Companion.INSTANCE.recipes
 
 	override val fluidTanks: FluidHandlerConcatenate?
 		get() = FluidHandlerConcatenate(inputTank)

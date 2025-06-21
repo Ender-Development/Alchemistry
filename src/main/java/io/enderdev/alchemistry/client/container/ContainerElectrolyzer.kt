@@ -1,13 +1,13 @@
 package io.enderdev.alchemistry.client.container
 
 import io.enderdev.alchemistry.tiles.TileElectrolyzer
-import io.enderdev.alchemistry.tiles.TileStackHandler
+import io.enderdev.catalyx.client.container.BaseContainer
+import io.enderdev.catalyx.tiles.helper.TileStackHandler
 import net.minecraft.entity.player.InventoryPlayer
 import net.minecraftforge.items.SlotItemHandler
 
-
 class ContainerElectrolyzer(playerInv: InventoryPlayer, tile: TileElectrolyzer) :
-	ContainerBase<TileElectrolyzer>(playerInv, tile) {
+	BaseContainer<TileElectrolyzer>(playerInv, tile) {
 
 	override fun addOwnSlots() {
 		if(tile.input.slots < 1) {

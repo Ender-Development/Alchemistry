@@ -3,9 +3,9 @@ package io.enderdev.alchemistry.client.gui.misc
 import io.enderdev.alchemistry.Tags
 import io.enderdev.alchemistry.compat.jei.AlchemistryPlugin
 import io.enderdev.alchemistry.utils.BlockMeta
-import io.enderdev.alchemistry.utils.RenderUtils
-import io.enderdev.alchemistry.utils.extensions.toStack
-import io.enderdev.alchemistry.utils.extensions.translate
+import io.enderdev.catalyx.utils.RenderUtils
+import io.enderdev.catalyx.utils.extensions.toStack
+import io.enderdev.catalyx.utils.extensions.translate
 import mezz.jei.config.KeyBindings
 import net.minecraft.client.gui.GuiScreen
 import net.minecraft.client.renderer.GlStateManager

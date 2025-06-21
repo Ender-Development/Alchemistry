@@ -1,8 +1,8 @@
 package io.enderdev.alchemistry.recipes
 
 import io.enderdev.alchemistry.recipes.register.DissolverRegister
-import io.enderdev.alchemistry.utils.extensions.equalsIgnoreMeta
-import io.enderdev.alchemistry.utils.extensions.toImmutable
+import io.enderdev.catalyx.utils.extensions.equalsIgnoreMeta
+import io.enderdev.catalyx.utils.extensions.toImmutable
 import net.minecraft.item.ItemStack
 import net.minecraft.item.crafting.Ingredient
 import net.minecraftforge.oredict.OreDictionary

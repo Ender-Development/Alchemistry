@@ -23,8 +23,8 @@ import io.enderdev.alchemistry.compat.jei.liquifier.LiquifierRecipeCategory
 import io.enderdev.alchemistry.compat.jei.liquifier.LiquifierRecipeWrapper
 import io.enderdev.alchemistry.recipes.*
 import io.enderdev.alchemistry.recipes.register.*
-import io.enderdev.alchemistry.utils.extensions.toStack
-import io.enderdev.alchemistry.utils.extensions.translate
+import io.enderdev.catalyx.utils.extensions.toStack
+import io.enderdev.catalyx.utils.extensions.translate
 import mezz.jei.api.*
 import mezz.jei.api.gui.IDrawableStatic
 import mezz.jei.api.recipe.IFocus
@@ -32,7 +32,6 @@ import mezz.jei.api.recipe.IRecipeCategory
 import mezz.jei.api.recipe.IRecipeCategoryRegistration
 import mezz.jei.api.recipe.IRecipeWrapper
 import mezz.jei.api.recipe.transfer.IRecipeTransferRegistry
-import mezz.jei.runtime.JeiRuntime
 import net.minecraft.client.Minecraft
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ResourceLocation

@@ -2,7 +2,7 @@ package io.enderdev.alchemistry.recipes.register
 
 import io.enderdev.alchemistry.chemistry.ElementRegistry
 import io.enderdev.alchemistry.recipes.IRecipe
-import io.enderdev.alchemistry.utils.extensions.toImmutable
+import io.enderdev.catalyx.utils.extensions.toImmutable
 import net.minecraftforge.fluids.FluidRegistry
 import net.minecraftforge.oredict.OreDictionary
 

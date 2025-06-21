@@ -4,10 +4,11 @@ import io.enderdev.alchemistry.Alchemistry
 import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.recipes.EvaporatorRecipe
 import io.enderdev.alchemistry.recipes.register.EvaporatorRegister
-import io.enderdev.alchemistry.tiles.tags.IFluidTile
 import io.enderdev.alchemistry.utils.BlockMeta
 import io.enderdev.alchemistry.utils.ConfigUtils
-import io.enderdev.alchemistry.utils.extensions.get
+import io.enderdev.catalyx.utils.extensions.get
+import io.enderdev.catalyx.tiles.BaseMachineTile
+import io.enderdev.catalyx.tiles.helper.IFluidTile
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraftforge.common.BiomeDictionary
 import net.minecraftforge.fluids.Fluid
@@ -16,9 +17,11 @@ import net.minecraftforge.fluids.FluidTank
 import net.minecraftforge.fluids.capability.templates.FluidHandlerConcatenate
 import kotlin.math.roundToInt
 
-class TileEvaporator : AbstractMachine<EvaporatorRecipe>(EvaporatorRegister.Companion.INSTANCE), IFluidTile {
+class TileEvaporator : BaseMachineTile<EvaporatorRecipe>(Alchemistry.catalyxSettings), IFluidTile {
 
 	val inputTank: FluidTank
+
+	val recipeRegister = EvaporatorRegister.Companion.INSTANCE.recipes
 
 	override val energyPerTick: Int
 		get() = 0

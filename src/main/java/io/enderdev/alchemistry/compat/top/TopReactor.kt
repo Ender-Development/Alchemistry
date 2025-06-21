@@ -5,7 +5,7 @@ import io.enderdev.alchemistry.chemistry.ElementRegistry
 import io.enderdev.alchemistry.tiles.AbstractReactorController
 import io.enderdev.alchemistry.tiles.TileFissionController
 import io.enderdev.alchemistry.tiles.TileFusionController
-import io.enderdev.alchemistry.utils.extensions.translate
+import io.enderdev.catalyx.utils.extensions.translate
 import mcjty.theoneprobe.api.IProbeHitData
 import mcjty.theoneprobe.api.IProbeInfo
 import mcjty.theoneprobe.api.ProbeMode

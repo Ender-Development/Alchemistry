@@ -1,16 +1,15 @@
 package io.enderdev.alchemistry.recipes
 
 import io.enderdev.alchemistry.recipes.register.CombinerRegister
-import io.enderdev.alchemistry.tiles.TileStackHandler
-import io.enderdev.alchemistry.utils.extensions.equalsIgnoreMeta
-import io.enderdev.alchemistry.utils.extensions.get
-import io.enderdev.alchemistry.utils.extensions.toStackList
+import io.enderdev.catalyx.tiles.helper.TileStackHandler
+import io.enderdev.catalyx.utils.extensions.equalsIgnoreMeta
+import io.enderdev.catalyx.utils.extensions.get
+import io.enderdev.catalyx.utils.extensions.toStackList
 import net.minecraft.block.Block
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraftforge.items.IItemHandler
 import net.minecraftforge.oredict.OreDictionary
-
 
 data class CombinerRecipe(val output: ItemStack, private val objsIn: List<Any?>, var gamestage: String = "") : IRecipe {
 

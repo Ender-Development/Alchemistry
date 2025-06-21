@@ -2,7 +2,7 @@ package io.enderdev.alchemistry.items
 
 import io.enderdev.alchemistry.Tags
 import io.enderdev.alchemistry.client.gui.GuiPeriodicTable
-import io.enderdev.alchemistry.utils.extensions.translate
+import io.enderdev.catalyx.utils.extensions.translate
 import net.minecraft.client.Minecraft
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.player.EntityPlayer

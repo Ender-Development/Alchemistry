@@ -2,7 +2,7 @@ package io.enderdev.alchemistry.compat.jei.combiner
 
 import io.enderdev.alchemistry.compat.jei.AlchemistryRecipeWrapper
 import io.enderdev.alchemistry.recipes.CombinerRecipe
-import io.enderdev.alchemistry.utils.extensions.translate
+import io.enderdev.catalyx.utils.extensions.translate
 import mezz.jei.api.ingredients.IIngredients
 import mezz.jei.api.ingredients.VanillaTypes
 import net.darkhax.gamestages.GameStageHelper

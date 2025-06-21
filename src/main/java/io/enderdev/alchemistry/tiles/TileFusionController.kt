@@ -5,12 +5,14 @@ import io.enderdev.alchemistry.blocks.ModBlocks
 import io.enderdev.alchemistry.blocks.PropertyPowerStatus
 import io.enderdev.alchemistry.blocks.machine.ReactorControllerBlock
 import io.enderdev.alchemistry.chemistry.ElementRegistry
+import io.enderdev.alchemistry.client.button.SingleButton
 import io.enderdev.alchemistry.items.ModItems
 import io.enderdev.alchemistry.recipes.FusionRecipe
 import io.enderdev.alchemistry.recipes.register.FusionRegister
-import io.enderdev.alchemistry.tiles.tags.EnergyTileImpl
-import io.enderdev.alchemistry.tiles.tags.IEnergyTile
-import io.enderdev.alchemistry.utils.extensions.get
+import io.enderdev.catalyx.utils.extensions.get
+import io.enderdev.catalyx.tiles.helper.EnergyTileImpl
+import io.enderdev.catalyx.tiles.helper.IEnergyTile
+import io.enderdev.catalyx.tiles.helper.TileStackHandler
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
 
@@ -45,7 +47,7 @@ class TileFusionController : AbstractReactorController<FusionRecipe>(ReactorType
 	override fun updateRecipe() {
 		val meta1 = input[0].metadata
 		val meta2 = input[1].metadata
-		recipeRegister.firstOrNull { it.inputMeta1 == meta1 && it.inputMeta2 == meta2 }?.let { currentRecipe = it }
+		recipeRegister.recipes.firstOrNull { it.inputMeta1 == meta1 && it.inputMeta2 == meta2 }?.let { currentRecipe = it }
 		recipeOutput = ElementRegistry[meta1 + meta2]?.toItemStack(1) ?: ItemStack.EMPTY
 	}
 
@@ -111,5 +113,11 @@ class TileFusionController : AbstractReactorController<FusionRecipe>(ReactorType
 	override fun readFromNBT(compound: NBTTagCompound) {
 		singleMode = compound.getBoolean("singleMode")
 		super.readFromNBT(compound)
+	}
+
+	override fun handleButtonPress(id: Int) {
+		if(id == SingleButton.buttonId)
+			singleMode = !singleMode
+		super.handleButtonPress(id)
 	}
 }

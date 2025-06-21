@@ -5,9 +5,10 @@ import io.enderdev.alchemistry.chemistry.ElementRegistry
 import io.enderdev.alchemistry.items.ModItems
 import io.enderdev.alchemistry.recipes.DissolverRecipe
 import io.enderdev.alchemistry.recipes.dissolverRecipe
-import io.enderdev.alchemistry.utils.extensions.toIngredient
-import io.enderdev.alchemistry.utils.extensions.toOre
-import io.enderdev.alchemistry.utils.extensions.toStack
+import io.enderdev.alchemistry.utils.extensions.chemical
+import io.enderdev.catalyx.utils.extensions.toIngredient
+import io.enderdev.catalyx.utils.extensions.toOre
+import io.enderdev.catalyx.utils.extensions.toStack
 import net.minecraft.block.Block
 import net.minecraft.block.BlockTallGrass
 import net.minecraft.init.Blocks
@@ -52,7 +53,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 					relativeProbability = false
 					addGroup {
 						probability = 25.0
-						addStack { "cellulose".toStack() }
+						addStack { "cellulose".chemical() }
 					}
 				}
 			})
@@ -63,7 +64,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				recipes.add(dissolverRecipe {
 					input = ore.toOre()
 					output {
-						addStack { "chromium".toStack(16) }
+						addStack { "chromium".chemical(16) }
 					}
 				})
 		}
@@ -72,7 +73,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			recipes.add(dissolverRecipe {
 				input = "blockChrome".toOre()
 				output {
-					addStack { "chromium".toStack(16 * 9) }
+					addStack { "chromium".chemical(16 * 9) }
 				}
 			})
 		}
@@ -81,7 +82,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			recipes.add(dissolverRecipe {
 				input = "oreChrome".toOre()
 				output {
-					addStack { "chromium".toStack(16 * 2) }
+					addStack { "chromium".chemical(16 * 2) }
 				}
 			})
 		}
@@ -91,7 +92,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				input = "dustAsh".toOre()
 				reversible = true
 				output {
-					addStack { "potassium_carbonate".toStack(4) }
+					addStack { "potassium_carbonate".chemical(4) }
 				}
 			})
 		}
@@ -99,7 +100,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 		recipes.add(dissolverRecipe {
 			input = Items.FLINT.toIngredient()
 			output {
-				addStack { "silicon_dioxide".toStack(3) }
+				addStack { "silicon_dioxide".chemical(3) }
 			}
 		})
 
@@ -108,7 +109,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				recipes.add(dissolverRecipe {
 					input = it.toOre()
 					output {
-						addStack { "sodium_chloride".toStack(8) }
+						addStack { "sodium_chloride".chemical(8) }
 					}
 				})
 		}
@@ -119,11 +120,11 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				relativeProbability = false
 				addGroup {
 					probability = 50.0
-					addStack { "cellulose".toStack() }
+					addStack { "cellulose".chemical() }
 				}
 				addGroup {
 					probability = 100.0
-					addStack { "caffeine".toStack() }
+					addStack { "caffeine".chemical() }
 				}
 			}
 		})
@@ -132,8 +133,8 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			input = Items.APPLE.toIngredient()
 			output {
 				addGroup {
-					addStack { "cellulose".toStack() }
-					addStack { "sucrose".toStack() }
+					addStack { "cellulose".chemical() }
+					addStack { "sucrose".chemical() }
 				}
 			}
 		})
@@ -143,7 +144,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				recipes.add(dissolverRecipe {
 					input = it.toOre()
 					output {
-						addStack { "potassium_nitrate".toStack(8) }
+						addStack { "potassium_nitrate".chemical(8) }
 					}
 				})
 			}
@@ -154,8 +155,8 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			input = Blocks.COAL_ORE.toIngredient()
 			output {
 				addGroup {
-					addStack { "carbon".toStack(32) }
-					addStack { "sulfur".toStack(8) }
+					addStack { "carbon".chemical(32) }
+					addStack { "sulfur".chemical(8) }
 				}
 			}
 		})
@@ -164,7 +165,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 		recipes.add(dissolverRecipe {
 			input = Blocks.COAL_BLOCK.toIngredient()
 			output {
-				addStack { "carbon".toStack(9 * 8) }
+				addStack { "carbon".chemical(9 * 8) }
 			}
 		})
 
@@ -174,7 +175,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				relativeProbability = false
 				addGroup {
 					probability = 10.0
-					addStack { "cellulose".toStack() }
+					addStack { "cellulose".chemical() }
 				}
 			}
 		})
@@ -183,12 +184,12 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			input = Blocks.NETHERRACK.toIngredient()
 			output {
 				addGroup { addStack { ItemStack.EMPTY }; probability = 15.0 }
-				addGroup { addStack { "zinc_oxide".toStack() }; probability = 2.0 }
-				addGroup { addStack { "gold".toStack() }; probability = 1.0 }
-				addGroup { addStack { "phosphorus".toStack() }; probability = 1.0 }
-				addGroup { addStack { "sulfur".toStack() }; probability = 3.0 }
-				addGroup { addStack { "germanium".toStack() }; probability = 1.0 }
-				addGroup { addStack { "silicon".toStack() }; probability = 4.0 }
+				addGroup { addStack { "zinc_oxide".chemical() }; probability = 2.0 }
+				addGroup { addStack { "gold".chemical() }; probability = 1.0 }
+				addGroup { addStack { "phosphorus".chemical() }; probability = 1.0 }
+				addGroup { addStack { "sulfur".chemical() }; probability = 3.0 }
+				addGroup { addStack { "germanium".chemical() }; probability = 1.0 }
+				addGroup { addStack { "silicon".chemical() }; probability = 4.0 }
 			}
 		})
 
@@ -198,12 +199,12 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				output {
 					rolls = if(it == Blocks.NETHER_BRICK) 4 else 1
 					addGroup { addStack { ItemStack.EMPTY }; probability = 5.0 }
-					addGroup { addStack { "zinc_oxide".toStack() }; probability = 2.0 }
-					addGroup { addStack { "gold".toStack() }; probability = 1.0 }
-					addGroup { addStack { "phosphorus".toStack() }; probability = 1.0 }
-					addGroup { addStack { "sulfur".toStack() }; probability = 4.0 }
-					addGroup { addStack { "germanium".toStack() }; probability = 1.0 }
-					addGroup { addStack { "silicon".toStack() }; probability = 4.0 }
+					addGroup { addStack { "zinc_oxide".chemical() }; probability = 2.0 }
+					addGroup { addStack { "gold".chemical() }; probability = 1.0 }
+					addGroup { addStack { "phosphorus".chemical() }; probability = 1.0 }
+					addGroup { addStack { "sulfur".chemical() }; probability = 4.0 }
+					addGroup { addStack { "germanium".chemical() }; probability = 1.0 }
+					addGroup { addStack { "silicon".chemical() }; probability = 4.0 }
 				}
 			})
 		}
@@ -212,8 +213,8 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			input = Items.SPIDER_EYE.toIngredient()
 			output {
 				addGroup {
-					addStack { "beta_carotene".toStack(2) }
-					addStack { "protein".toStack(2) }
+					addStack { "beta_carotene".chemical(2) }
+					addStack { "protein".chemical(2) }
 				}
 			}
 		})
@@ -221,63 +222,63 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 		recipes.add(dissolverRecipe {
 			input = Items.IRON_HORSE_ARMOR.toIngredient()
 			output {
-				addStack { "iron".toStack(64) }
+				addStack { "iron".chemical(64) }
 			}
 		})
 
 		recipes.add(dissolverRecipe {
 			input = Items.DIAMOND_HORSE_ARMOR.toIngredient()
 			output {
-				addStack { "carbon".toStack(4 * (64 * 8)) }
+				addStack { "carbon".chemical(4 * (64 * 8)) }
 			}
 		})
 
 		recipes.add(dissolverRecipe {
 			input = Blocks.ANVIL.toIngredient()
 			output {
-				addStack { "iron".toStack((144 * 3) + (16 * 4)) }
+				addStack { "iron".chemical((144 * 3) + (16 * 4)) }
 			}
 		})
 
 		recipes.add(dissolverRecipe {
 			input = Items.IRON_DOOR.toIngredient()
 			output {
-				addStack { "iron".toStack(32) }
+				addStack { "iron".chemical(32) }
 			}
 		})
 
 		recipes.add(dissolverRecipe {
 			input = Blocks.IRON_TRAPDOOR.toIngredient()
 			output {
-				addStack { "iron".toStack(64) }
+				addStack { "iron".chemical(64) }
 			}
 		})
 
 		recipes.add(dissolverRecipe {
 			input = Blocks.CHEST.toIngredient()
 			output {
-				addStack { "cellulose".toStack(2) }
+				addStack { "cellulose".chemical(2) }
 			}
 		})
 
 		recipes.add(dissolverRecipe {
 			input = Blocks.CRAFTING_TABLE.toIngredient()
 			output {
-				addStack { "cellulose".toStack() }
+				addStack { "cellulose".chemical() }
 			}
 		})
 
 		recipes.add(dissolverRecipe {
 			input = Blocks.WEB.toIngredient()
 			output {
-				addStack { "protein".toStack(2) }
+				addStack { "protein".chemical(2) }
 			}
 		})
 
 		recipes.add(dissolverRecipe {
 			input = Items.GOLDEN_HORSE_ARMOR.toIngredient()
 			output {
-				addStack { "gold".toStack(64) }
+				addStack { "gold".chemical(64) }
 			}
 		})
 
@@ -285,8 +286,8 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			input = "wool".toOre()
 			output {
 				addGroup {
-					addStack { "protein".toStack() }
-					addStack { "triglyceride".toStack() }
+					addStack { "protein".chemical() }
+					addStack { "triglyceride".chemical() }
 				}
 			}
 		})
@@ -298,8 +299,8 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 					relativeProbability = false
 					addGroup {
 						probability = 200.0 / 3
-						addStack { "protein".toStack() }
-						addStack { "triglyceride".toStack() }
+						addStack { "protein".chemical() }
+						addStack { "triglyceride".chemical() }
 					}
 				}
 			})
@@ -310,9 +311,9 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			output {
 				reversible = true
 				addGroup {
-					addStack { "beryl".toStack(8) }
-					addStack { "chromium".toStack(8) }
-					addStack { "vanadium".toStack(4) }
+					addStack { "beryl".chemical(8) }
+					addStack { "chromium".chemical(8) }
+					addStack { "vanadium".chemical(4) }
 				}
 			}
 		})
@@ -322,9 +323,9 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			input = Blocks.EMERALD_ORE.toIngredient()
 			output {
 				addGroup {
-					addStack { "beryl".toStack(8 * 2) }
-					addStack { "chromium".toStack(8 * 2) }
-					addStack { "vanadium".toStack(4 * 2) }
+					addStack { "beryl".chemical(8 * 2) }
+					addStack { "chromium".chemical(8 * 2) }
+					addStack { "vanadium".chemical(4 * 2) }
 				}
 			}
 		})
@@ -333,11 +334,11 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			recipes.add(dissolverRecipe {
 				input = it.toIngredient()
 				output {
-					addGroup { addStack { "mercury".toStack() }; probability = 50.0 }
-					addGroup { addStack { "neodymium".toStack() }; probability = 5.0 }
-					addGroup { addStack { "silicon_dioxide".toStack(2) }; probability = 250.0 }
-					addGroup { addStack { "lithium".toStack() }; probability = 50.0 }
-					addGroup { addStack { "thorium".toStack() }; probability = 2.0 }
+					addGroup { addStack { "mercury".chemical() }; probability = 50.0 }
+					addGroup { addStack { "neodymium".chemical() }; probability = 5.0 }
+					addGroup { addStack { "silicon_dioxide".chemical(2) }; probability = 250.0 }
+					addGroup { addStack { "lithium".chemical() }; probability = 50.0 }
+					addGroup { addStack { "thorium".chemical() }; probability = 2.0 }
 				}
 			})
 		}
@@ -346,7 +347,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			recipes.add(dissolverRecipe {
 				input = it.toIngredient()
 				output {
-					addStack { "water".toStack(16) }
+					addStack { "water".chemical(16) }
 				}
 			})
 		}
@@ -356,9 +357,9 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			input = "record".toOre()
 			output {
 				addGroup {
-					addStack { "polyvinyl_chloride".toStack(64) }
-					addStack { "lead".toStack(16) }
-					addStack { "cadmium".toStack(16) }
+					addStack { "polyvinyl_chloride".chemical(64) }
+					addStack { "lead".chemical(16) }
+					addStack { "cadmium".chemical(16) }
 				}
 			}
 		})
@@ -367,8 +368,8 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			input = Blocks.JUKEBOX.toIngredient()
 			output {
 				addGroup {
-					addStack { "carbon".toStack(64 * 8) }
-					addStack { "cellulose".toStack(2) }
+					addStack { "carbon".chemical(64 * 8) }
+					addStack { "cellulose".chemical(2) }
 				}
 			}
 		})
@@ -377,13 +378,13 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			recipes.add(dissolverRecipe {
 				input = Blocks.CONCRETE_POWDER.toIngredient(2, meta = i)
 				output {
-					addStack { "silicon_dioxide".toStack(5) }
+					addStack { "silicon_dioxide".chemical(5) }
 				}
 			})
 			recipes.add(dissolverRecipe {
 				input = Blocks.CONCRETE.toIngredient(2, meta = i)
 				output {
-					addStack { "silicon_dioxide".toStack(5) }
+					addStack { "silicon_dioxide".chemical(5) }
 				}
 			})
 		}
@@ -397,10 +398,10 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			recipes.add(dissolverRecipe {
 				input = it.toIngredient()
 				output {
-					addGroup { addStack { "water".toStack() }; probability = 30.0 }
-					addGroup { addStack { "silicon_dioxide".toStack() }; probability = 50.0 }
-					addGroup { addStack { "cellulose".toStack() }; probability = 10.0 }
-					addGroup { addStack { "kaolinite".toStack() }; probability = 10.0 }
+					addGroup { addStack { "water".chemical() }; probability = 30.0 }
+					addGroup { addStack { "silicon_dioxide".chemical() }; probability = 50.0 }
+					addGroup { addStack { "cellulose".chemical() }; probability = 10.0 }
+					addGroup { addStack { "kaolinite".chemical() }; probability = 10.0 }
 				}
 			})
 		}
@@ -409,9 +410,9 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			input = Blocks.EMERALD_BLOCK.toIngredient()
 			output {
 				addGroup {
-					addStack { "beryl".toStack(8 * 9) }
-					addStack { "chromium".toStack(8 * 9) }
-					addStack { "vanadium".toStack(4 * 9) }
+					addStack { "beryl".chemical(8 * 9) }
+					addStack { "chromium".chemical(8 * 9) }
+					addStack { "vanadium".chemical(4 * 9) }
 				}
 			}
 		})
@@ -419,7 +420,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 		recipes.add(dissolverRecipe {
 			input = "blockGlass".toOre()
 			output {
-				addStack { "silicon_dioxide".toStack(4) }
+				addStack { "silicon_dioxide".chemical(4) }
 			}
 		})
 
@@ -435,7 +436,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 					relativeProbability = false
 					addGroup {
 						probability = 25.0
-						addStack { "cellulose".toStack() }
+						addStack { "cellulose".chemical() }
 					}
 				}
 			})
@@ -447,7 +448,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				relativeProbability = false
 				addGroup {
 					probability = 50.0
-					addStack { "cucurbitacin".toStack() }
+					addStack { "cucurbitacin".chemical() }
 				}
 			}
 		})
@@ -457,8 +458,8 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			reversible = true
 			output {
 				addGroup {
-					addStack { "barium".toStack(8) }
-					addStack { "silicon_dioxide".toStack(16) }
+					addStack { "barium".chemical(8) }
+					addStack { "silicon_dioxide".chemical(16) }
 				}
 			}
 		})
@@ -468,8 +469,8 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			input = Blocks.QUARTZ_ORE.toIngredient()
 			output {
 				addGroup {
-					addStack { "barium".toStack(8 * 2) }
-					addStack { "silicon_dioxide".toStack(16 * 2) }
+					addStack { "barium".chemical(8 * 2) }
+					addStack { "silicon_dioxide".chemical(16 * 2) }
 				}
 			}
 		})
@@ -479,8 +480,8 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				input = Blocks.QUARTZ_BLOCK.toIngredient(meta = it)
 				output {
 					addGroup {
-						addStack { "barium".toStack(8 * 4) }
-						addStack { "silicon_dioxide".toStack(16 * 4) }
+						addStack { "barium".chemical(8 * 4) }
+						addStack { "silicon_dioxide".chemical(16 * 4) }
 					}
 				}
 			})
@@ -490,8 +491,8 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			reversible = true
 			output {
 				addGroup {
-					addStack { "psilocybin".toStack() }
-					addStack { "cellulose".toStack() }
+					addStack { "psilocybin".chemical() }
+					addStack { "cellulose".chemical() }
 				}
 			}
 		})
@@ -501,8 +502,8 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			reversible = true
 			output {
 				addGroup {
-					addStack { "cellulose".toStack() }
-					addStack { "psilocybin".toStack() }
+					addStack { "cellulose".chemical() }
+					addStack { "psilocybin".chemical() }
 				}
 			}
 		})
@@ -512,8 +513,8 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			output {
 				reversible = true
 				addGroup {
-					addStack { "thulium".toStack() }
-					addStack { "silicon_dioxide".toStack(4) }
+					addStack { "thulium".chemical() }
+					addStack { "silicon_dioxide".chemical(4) }
 				}
 			}
 		})
@@ -521,7 +522,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 		recipes.add(dissolverRecipe {
 			input = Items.REEDS.toIngredient()
 			output {
-				addStack { "sucrose".toStack() }
+				addStack { "sucrose".chemical() }
 			}
 		})
 
@@ -530,12 +531,12 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			output {
 				reversible = true
 				addGroup {
-					addStack { "sodium".toStack(6) }
-					addStack { "calcium".toStack(2) }
-					addStack { "aluminum".toStack(6) }
-					addStack { "silicon".toStack(6) }
-					addStack { "oxygen".toStack(24) }
-					addStack { "sulfur".toStack(2) }
+					addStack { "sodium".chemical(6) }
+					addStack { "calcium".chemical(2) }
+					addStack { "aluminum".chemical(6) }
+					addStack { "silicon".chemical(6) }
+					addStack { "oxygen".chemical(24) }
+					addStack { "sulfur".chemical(2) }
 				}
 			}
 		})
@@ -544,12 +545,12 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			input = Blocks.LAPIS_ORE.toIngredient()
 			output {
 				addGroup {
-					addStack { "sodium".toStack(6 * 2) }
-					addStack { "calcium".toStack(2 * 2) }
-					addStack { "aluminum".toStack(6 * 2) }
-					addStack { "silicon".toStack(6 * 2) }
-					addStack { "oxygen".toStack(24 * 2) }
-					addStack { "sulfur".toStack(2 * 2) }
+					addStack { "sodium".chemical(6 * 2) }
+					addStack { "calcium".chemical(2 * 2) }
+					addStack { "aluminum".chemical(6 * 2) }
+					addStack { "silicon".chemical(6 * 2) }
+					addStack { "oxygen".chemical(24 * 2) }
+					addStack { "sulfur".chemical(2 * 2) }
 				}
 			}
 		})
@@ -559,12 +560,12 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				input = Blocks.LAPIS_BLOCK.toIngredient()
 				output {
 					addGroup {
-						addStack { "sodium".toStack(6 * 3) }
-						addStack { "calcium".toStack(2 * 3) }
-						addStack { "aluminum".toStack(6 * 3) }
-						addStack { "silicon".toStack(6 * 3) }
-						addStack { "oxygen".toStack(24 * 3) }
-						addStack { "sulfur".toStack(2 * 3) }
+						addStack { "sodium".chemical(6 * 3) }
+						addStack { "calcium".chemical(2 * 3) }
+						addStack { "aluminum".chemical(6 * 3) }
+						addStack { "silicon".chemical(6 * 3) }
+						addStack { "oxygen".chemical(24 * 3) }
+						addStack { "sulfur".chemical(2 * 3) }
 					}
 				}
 			})
@@ -576,7 +577,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 					relativeProbability = false
 					addGroup {
 						probability = 50.0
-						addStack { "protein".toStack() }
+						addStack { "protein".chemical() }
 					}
 				}
 			})
@@ -586,9 +587,9 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				input = ModItems.condensedMilk.toIngredient()
 				output {
 					relativeProbability = false
-					addGroup { addStack { "calcium".toStack(4) }; probability = 40.0 }
-					addGroup { addStack { "protein".toStack() }; probability = 20.0 }
-					addGroup { addStack { "sucrose".toStack() }; probability = 20.0 }
+					addGroup { addStack { "calcium".chemical(4) }; probability = 40.0 }
+					addGroup { addStack { "protein".chemical() }; probability = 20.0 }
+					addGroup { addStack { "sucrose".chemical() }; probability = 20.0 }
 				}
 			})
 
@@ -597,8 +598,8 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				input = Items.WHEAT.toIngredient()
 				output {
 					relativeProbability = false
-					addGroup { addStack { "starch".toStack() }; probability = 5.0 }
-					addGroup { addStack { "cellulose".toStack() }; probability = 25.0 }
+					addGroup { addStack { "starch".chemical() }; probability = 5.0 }
+					addGroup { addStack { "cellulose".chemical() }; probability = 25.0 }
 				}
 			})
 
@@ -606,7 +607,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			dissolverRecipe {
 				input = Blocks.GRAVEL.toIngredient()
 				output {
-					addStack { "silicon_dioxide".toStack() }
+					addStack { "silicon_dioxide".chemical() }
 				}
 			})
 
@@ -616,8 +617,8 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				output {
 					rolls = 9
 					relativeProbability = false
-					addGroup { addStack { "starch".toStack() }; probability = 5.0 }
-					addGroup { addStack { "cellulose".toStack() }; probability = 25.0 }
+					addGroup { addStack { "starch".chemical() }; probability = 5.0 }
+					addGroup { addStack { "cellulose".chemical() }; probability = 25.0 }
 				}
 			})
 
@@ -626,8 +627,8 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				input = Items.POTATO.toIngredient()
 				output {
 					relativeProbability = false
-					addGroup { addStack { "starch".toStack() }; probability = 10.0 }
-					addGroup { addStack { "potassium".toStack(5) }; probability = 25.0 }
+					addGroup { addStack { "starch".chemical() }; probability = 10.0 }
+					addGroup { addStack { "potassium".chemical(5) }; probability = 25.0 }
 				}
 			})
 
@@ -636,8 +637,8 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				input = Items.BAKED_POTATO.toIngredient()
 				output {
 					relativeProbability = false
-					addGroup { addStack { "starch".toStack() }; probability = 10.0 }
-					addGroup { addStack { "potassium".toStack(5) }; probability = 25.0 }
+					addGroup { addStack { "starch".chemical() }; probability = 10.0 }
+					addGroup { addStack { "potassium".chemical(5) }; probability = 25.0 }
 				}
 			})
 
@@ -647,8 +648,8 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				output {
 					reversible = true
 					addGroup {
-						addStack { "iron_oxide".toStack() }
-						addStack { "strontium_carbonate".toStack() }
+						addStack { "iron_oxide".chemical() }
+						addStack { "strontium_carbonate".chemical() }
 					}
 				}
 			})
@@ -658,8 +659,8 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				input = Blocks.REDSTONE_ORE.toIngredient()
 				output {
 					addGroup {
-						addStack { "iron_oxide".toStack(4) }
-						addStack { "strontium_carbonate".toStack(4) }
+						addStack { "iron_oxide".chemical(4) }
+						addStack { "strontium_carbonate".chemical(4) }
 					}
 				}
 			})
@@ -679,7 +680,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			recipes.add(dissolverRecipe {
 				input = it.toIngredient()
 				output {
-					addStack { "protein".toStack(4) }
+					addStack { "protein".chemical(4) }
 				}
 			})
 		}
@@ -689,8 +690,8 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				input = Blocks.SPONGE.toIngredient()
 				output {
 					addGroup {
-						addStack { "kaolinite".toStack(8) }
-						addStack { "calcium_carbonate".toStack(8) }
+						addStack { "kaolinite".chemical(8) }
+						addStack { "calcium_carbonate".chemical(8) }
 					}
 				}
 			})
@@ -701,7 +702,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 					input = Items.FISH.toIngredient(meta = it)
 					output {
 						addGroup {
-							addStack { "protein".toStack(4) }
+							addStack { "protein".chemical(4) }
 							addStack {
 								(if(it != 3) "selenium" else "potassium_cyanide").toStack(if(it == 0) 2 else 4)
 							}
@@ -714,7 +715,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			recipes.add(dissolverRecipe {
 				input = it.toIngredient()
 				output {
-					addStack { "protein".toStack(3) }
+					addStack { "protein".chemical(3) }
 				}
 			})
 		}
@@ -724,7 +725,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				input = Items.CARROT.toIngredient()
 				output {
 					relativeProbability = false
-					addGroup { addStack { "beta_carotene".toStack() }; probability = 20.0 }
+					addGroup { addStack { "beta_carotene".chemical() }; probability = 20.0 }
 				}
 			})
 
@@ -732,7 +733,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			dissolverRecipe {
 				input = "dyeRed".toOre()
 				output {
-					addStack { "mercury_sulfide".toStack(4) }
+					addStack { "mercury_sulfide".chemical(4) }
 				}
 			})
 
@@ -740,7 +741,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			dissolverRecipe {
 				input = "dyePink".toOre()
 				output {
-					addStack { "arsenic_sulfide".toStack(4) }
+					addStack { "arsenic_sulfide".chemical(4) }
 				}
 			})
 
@@ -748,7 +749,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			dissolverRecipe {
 				input = "dyeGreen".toOre()
 				output {
-					addStack { "nickel_chloride".toStack(4) }
+					addStack { "nickel_chloride".chemical(4) }
 				}
 			})
 
@@ -757,8 +758,8 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				input = "dyeLime".toOre()
 				output {
 					addGroup {
-						addStack { "cadmium_sulfide".toStack(2) }
-						addStack { "chromium_oxide".toStack(2) }
+						addStack { "cadmium_sulfide".chemical(2) }
+						addStack { "chromium_oxide".chemical(2) }
 					}
 				}
 			})
@@ -767,7 +768,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			dissolverRecipe {
 				input = "dyePurple".toOre()
 				output {
-					addStack { "potassium_permanganate".toStack(4) }
+					addStack { "potassium_permanganate".chemical(4) }
 				}
 			})
 
@@ -775,7 +776,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			dissolverRecipe {
 				input = "dyeYellow".toOre()
 				output {
-					addStack { "lead_iodide".toStack(4) }
+					addStack { "lead_iodide".chemical(4) }
 				}
 			})
 
@@ -783,7 +784,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			dissolverRecipe {
 				input = "dyeOrange".toOre()
 				output {
-					addStack { "potassium_dichromate".toStack(4) }
+					addStack { "potassium_dichromate".chemical(4) }
 				}
 			})
 
@@ -791,7 +792,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			dissolverRecipe {
 				input = "dyeBlack".toOre()
 				output {
-					addStack { "titanium_oxide".toStack(4) }
+					addStack { "titanium_oxide".chemical(4) }
 				}
 			})
 
@@ -799,7 +800,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			dissolverRecipe {
 				input = "dyeGray".toOre()
 				output {
-					addStack { "barium_sulfate".toStack(4) }
+					addStack { "barium_sulfate".chemical(4) }
 				}
 			})
 
@@ -807,7 +808,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			dissolverRecipe {
 				input = "dyeMagenta".toOre()
 				output {
-					addStack { "han_purple".toStack(4) }
+					addStack { "han_purple".chemical(4) }
 				}
 			})
 
@@ -816,8 +817,8 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				input = "dyeLightBlue".toOre()
 				output {
 					addGroup {
-						addStack { "cobalt_aluminate".toStack(2) }
-						addStack { "antimony_trioxide".toStack(2) }
+						addStack { "cobalt_aluminate".chemical(2) }
+						addStack { "antimony_trioxide".chemical(2) }
 					}
 				}
 			})
@@ -826,7 +827,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			dissolverRecipe {
 				input = "dyeLightGray".toOre()
 				output {
-					addStack { "magnesium_sulfate".toStack(4) }
+					addStack { "magnesium_sulfate".chemical(4) }
 				}
 			})
 
@@ -834,7 +835,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			dissolverRecipe {
 				input = "dyeCyan".toOre()
 				output {
-					addStack { "copper_chloride".toStack(4) }
+					addStack { "copper_chloride".chemical(4) }
 				}
 			})
 
@@ -842,8 +843,8 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			input = Blocks.REDSTONE_BLOCK.toIngredient()
 			output {
 				addGroup {
-					addStack { "iron_oxide".toStack(9) }
-					addStack { "strontium_carbonate".toStack(9) }
+					addStack { "iron_oxide".chemical(9) }
+					addStack { "strontium_carbonate".chemical(9) }
 				}
 			}
 		})
@@ -853,8 +854,8 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				input = Items.SKULL.toIngredient(meta = 1) // wither skull
 				output {
 					addGroup {
-						addStack { "hydroxylapatite".toStack(8) }
-						addStack { "mendelevium".toStack(32) }
+						addStack { "hydroxylapatite".chemical(8) }
+						addStack { "mendelevium".chemical(32) }
 					}
 				}
 			})
@@ -866,11 +867,11 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 					relativeProbability = false
 					addGroup {
 						probability = 100.0
-						addStack { "silicon_dioxide".toStack(4) }
+						addStack { "silicon_dioxide".chemical(4) }
 					}
 					addGroup {
 						probability = 50.0
-						addStack { "lutetium".toStack() }
+						addStack { "lutetium".chemical() }
 					}
 				}
 			})
@@ -879,14 +880,14 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 
 		recipes.add(
 			dissolverRecipe {
-				input = "protein".toStack().toIngredient()
+				input = "protein".chemical().toIngredient()
 				output {
 					addGroup {
-						addStack { "carbon".toStack(3) }
-						addStack { "hydrogen".toStack(7) }
-						addStack { "nitrogen".toStack() }
-						addStack { "oxygen".toStack(2) }
-						addStack { "sulfur".toStack() }
+						addStack { "carbon".chemical(3) }
+						addStack { "hydrogen".chemical(7) }
+						addStack { "nitrogen".chemical() }
+						addStack { "oxygen".chemical(2) }
+						addStack { "sulfur".chemical() }
 					}
 				}
 			})
@@ -896,7 +897,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			dissolverRecipe {
 				input = Blocks.CLAY.toIngredient()
 				output {
-					addStack { "kaolinite".toStack(4) }
+					addStack { "kaolinite".chemical(4) }
 				}
 			})
 
@@ -905,7 +906,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				input = Items.CLAY_BALL.toIngredient()
 				reversible = true
 				output {
-					addStack { "kaolinite".toStack() }
+					addStack { "kaolinite".chemical() }
 				}
 			})
 
@@ -914,7 +915,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				input = Items.SUGAR.toIngredient()
 				reversible = true
 				output {
-					addStack { "sucrose".toStack() }
+					addStack { "sucrose".chemical() }
 				}
 			})
 
@@ -926,11 +927,11 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 					relativeProbability = false
 					addGroup {
 						probability = 100.0
-						addStack { "sucrose".toStack() }
+						addStack { "sucrose".chemical() }
 					}
 					addGroup {
 						probability = 50.0
-						addStack { "iron_oxide".toStack() }
+						addStack { "iron_oxide".chemical() }
 					}
 				}
 			})
@@ -943,7 +944,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 					relativeProbability = false
 					addGroup {
 						probability = 50.0
-						addStack { "hydroxylapatite".toStack(3) }
+						addStack { "hydroxylapatite".chemical(3) }
 					}
 				}
 			})
@@ -953,10 +954,10 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				input = Blocks.OBSIDIAN.toIngredient()
 				output {
 					addGroup {
-						addStack { "magnesium_oxide".toStack(8) }
-						addStack { "potassium_chloride".toStack(8) }
-						addStack { "aluminum_oxide".toStack(8) }
-						addStack { "silicon_dioxide".toStack(24) }
+						addStack { "magnesium_oxide".chemical(8) }
+						addStack { "potassium_chloride".chemical(8) }
+						addStack { "aluminum_oxide".chemical(8) }
+						addStack { "silicon_dioxide".chemical(24) }
 					}
 				}
 			})
@@ -964,7 +965,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 		recipes.add(dissolverRecipe {
 			input = Items.FEATHER.toIngredient()
 			output {
-				addStack { "protein".toStack(2) }
+				addStack { "protein".chemical(2) }
 			}
 		})
 
@@ -975,7 +976,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 					relativeProbability = false
 					addGroup {
 						probability = 50.0
-						addStack { "hydroxylapatite".toStack() }
+						addStack { "hydroxylapatite".chemical() }
 					}
 				}
 			})
@@ -988,7 +989,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 					relativeProbability = false
 					addGroup {
 						probability = 50.0
-						addStack { "hydroxylapatite".toStack() }
+						addStack { "hydroxylapatite".chemical() }
 					}
 				}
 			})
@@ -999,8 +1000,8 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				reversible = true
 				output {
 					addGroup {
-						addStack { "calcium_carbonate".toStack(8) }
-						addStack { "protein".toStack(2) }
+						addStack { "calcium_carbonate".chemical(8) }
+						addStack { "protein".chemical(2) }
 					}
 				}
 			})
@@ -1009,13 +1010,13 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			dissolverRecipe {
 				input = ModItems.mineralSalt.toIngredient()
 				output {
-					addGroup { addStack { "sodium_chloride".toStack() }; probability = 60.0 }
-					addGroup { addStack { "lithium".toStack() }; probability = 5.0 }
-					addGroup { addStack { "potassium_chloride".toStack() }; probability = 10.0 }
-					addGroup { addStack { "magnesium".toStack() }; probability = 10.0 }
-					addGroup { addStack { "iron".toStack() }; probability = 5.0 }
-					addGroup { addStack { "copper".toStack() }; probability = 4.0 }
-					addGroup { addStack { "zinc".toStack() }; probability = 2.0 }
+					addGroup { addStack { "sodium_chloride".chemical() }; probability = 60.0 }
+					addGroup { addStack { "lithium".chemical() }; probability = 5.0 }
+					addGroup { addStack { "potassium_chloride".chemical() }; probability = 10.0 }
+					addGroup { addStack { "magnesium".chemical() }; probability = 10.0 }
+					addGroup { addStack { "iron".chemical() }; probability = 5.0 }
+					addGroup { addStack { "copper".chemical() }; probability = 4.0 }
+					addGroup { addStack { "zinc".chemical() }; probability = 2.0 }
 				}
 			})
 
@@ -1023,7 +1024,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			dissolverRecipe {
 				input = Items.COAL.toIngredient()
 				output {
-					addStack { "carbon".toStack(8) }
+					addStack { "carbon".chemical(8) }
 				}
 			})
 
@@ -1031,7 +1032,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			dissolverRecipe {
 				input = Items.COAL.toIngredient(meta = 1)
 				output {
-					addStack { "carbon".toStack(8) }
+					addStack { "carbon".chemical(8) }
 				}
 			})
 
@@ -1042,7 +1043,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 					relativeProbability = false
 					addGroup {
 						probability = 12.0
-						addStack { "cellulose".toStack() }
+						addStack { "cellulose".chemical() }
 					}
 				}
 			})
@@ -1053,8 +1054,8 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				reversible = true
 				output {
 					addGroup {
-						addStack { "protein".toStack(2) }
-						addStack { "sucrose".toStack(2) }
+						addStack { "protein".chemical(2) }
+						addStack { "sucrose".chemical(2) }
 					}
 				}
 			})
@@ -1065,8 +1066,8 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				reversible = false
 				output {
 					addGroup {
-						addStack { "protein".toStack(2 * 9) }
-						addStack { "sucrose".toStack(2 * 9) }
+						addStack { "protein".chemical(2 * 9) }
+						addStack { "sucrose".chemical(2 * 9) }
 					}
 				}
 			})
@@ -1078,7 +1079,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 					relativeProbability = false
 					addGroup {
 						probability = 10.0
-						addStack { "cellulose".toStack() }
+						addStack { "cellulose".chemical() }
 					}
 				}
 			})
@@ -1088,8 +1089,8 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				input = Blocks.TORCH.toIngredient()
 				output {
 					relativeProbability = false
-					addGroup { addStack { "carbon".toStack(2) }; probability = 100.0 }
-					addGroup { addStack { "cellulose".toStack() }; probability = 2.5 }
+					addGroup { addStack { "carbon".chemical(2) }; probability = 100.0 }
+					addGroup { addStack { "cellulose".chemical() }; probability = 2.5 }
 				}
 			})
 
@@ -1101,7 +1102,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 					relativeProbability = false
 					addGroup {
 						probability = 10.0
-						addStack { "cellulose".toStack() }
+						addStack { "cellulose".chemical() }
 					}
 				}
 			})
@@ -1111,7 +1112,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			recipes.add(dissolverRecipe {
 				input = "itemSilicon".toOre()
 				output {
-					addStack { "silicon".toStack(16) }
+					addStack { "silicon".chemical(16) }
 				}
 			})
 		}
@@ -1122,9 +1123,9 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				reversible = true
 				output {
 					addGroup {
-						addStack { "silicon".toStack(16) }
-						addStack { "mercury".toStack(16) }
-						addStack { "neodymium".toStack(16) }
+						addStack { "silicon".chemical(16) }
+						addStack { "mercury".chemical(16) }
+						addStack { "neodymium".chemical(16) }
 					}
 				}
 			})
@@ -1133,7 +1134,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			dissolverRecipe {
 				input = Items.DIAMOND.toIngredient()
 				output {
-					addStack { "carbon".toStack(64 * 8) }
+					addStack { "carbon".chemical(64 * 8) }
 				}
 			})
 
@@ -1142,7 +1143,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			dissolverRecipe {
 				input = Blocks.DIAMOND_ORE.toIngredient()
 				output {
-					addStack { "carbon".toStack(64 * 8 * 2) }
+					addStack { "carbon".chemical(64 * 8 * 2) }
 				}
 			})
 
@@ -1150,7 +1151,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			dissolverRecipe {
 				input = Blocks.DIAMOND_BLOCK.toIngredient()
 				output {
-					addStack { "carbon".toStack(64 * 8 * 9) }
+					addStack { "carbon".chemical(64 * 8 * 9) }
 				}
 			})
 
@@ -1161,7 +1162,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 					relativeProbability = false
 					addGroup {
 						probability = 25.0
-						addStack { "cellulose".toStack() }
+						addStack { "cellulose".chemical() }
 					}
 				}
 			})
@@ -1171,15 +1172,15 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				input = "cobblestone".toOre()
 				output {
 					addGroup { addStack { ItemStack.EMPTY }; probability = 700.0 }
-					addGroup { addStack { "aluminum".toStack() }; probability = 2.0 }
-					addGroup { addStack { "iron".toStack() }; probability = 4.0 }
-					addGroup { addStack { "gold".toStack() }; probability = 1.5 }
-					addGroup { addStack { "silicon_dioxide".toStack() }; probability = 10.0 }
-					addGroup { addStack { "dysprosium".toStack() }; probability = 1.0 }
-					addGroup { addStack { "zirconium".toStack() }; probability = 1.5 }
-					addGroup { addStack { "nickel".toStack() }; probability = 1.0 }
-					addGroup { addStack { "gallium".toStack() }; probability = 1.0 }
-					addGroup { addStack { "tungsten".toStack() }; probability = 1.0 }
+					addGroup { addStack { "aluminum".chemical() }; probability = 2.0 }
+					addGroup { addStack { "iron".chemical() }; probability = 4.0 }
+					addGroup { addStack { "gold".chemical() }; probability = 1.5 }
+					addGroup { addStack { "silicon_dioxide".chemical() }; probability = 10.0 }
+					addGroup { addStack { "dysprosium".chemical() }; probability = 1.0 }
+					addGroup { addStack { "zirconium".chemical() }; probability = 1.5 }
+					addGroup { addStack { "nickel".chemical() }; probability = 1.0 }
+					addGroup { addStack { "gallium".chemical() }; probability = 1.0 }
+					addGroup { addStack { "tungsten".chemical() }; probability = 1.0 }
 				}
 			})
 
@@ -1187,13 +1188,13 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			recipes.add(dissolverRecipe {
 				input = it.toOre()
 				output {
-					addGroup { addStack { "aluminum_oxide".toStack() }; probability = 5.0 }
-					addGroup { addStack { "iron".toStack() }; probability = 2.0 }
-					addGroup { addStack { "potassium_chloride".toStack() }; probability = 2.0 }
-					addGroup { addStack { "silicon_dioxide".toStack() }; probability = 10.0 }
-					addGroup { addStack { "technetium".toStack() }; probability = 1.0 }
-					addGroup { addStack { "manganese".toStack() }; probability = 1.5 }
-					addGroup { addStack { "radium".toStack() }; probability = 1.5 }
+					addGroup { addStack { "aluminum_oxide".chemical() }; probability = 5.0 }
+					addGroup { addStack { "iron".chemical() }; probability = 2.0 }
+					addGroup { addStack { "potassium_chloride".chemical() }; probability = 2.0 }
+					addGroup { addStack { "silicon_dioxide".chemical() }; probability = 10.0 }
+					addGroup { addStack { "technetium".chemical() }; probability = 1.0 }
+					addGroup { addStack { "manganese".chemical() }; probability = 1.5 }
+					addGroup { addStack { "radium".chemical() }; probability = 1.5 }
 				}
 			})
 		}
@@ -1202,14 +1203,14 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			recipes.add(dissolverRecipe {
 				input = it.toOre()
 				output {
-					addGroup { addStack { "aluminum_oxide".toStack() }; probability = 4.0 }
-					addGroup { addStack { "iron".toStack() }; probability = 2.0 }
-					addGroup { addStack { "potassium_chloride".toStack() }; probability = 4.0 }
-					addGroup { addStack { "silicon_dioxide".toStack() }; probability = 10.0 }
-					addGroup { addStack { "indium".toStack() }; probability = 1.5 }
-					addGroup { addStack { "manganese".toStack() }; probability = 2.0 }
-					addGroup { addStack { "osmium".toStack() }; probability = 2.0 }
-					addGroup { addStack { "tin".toStack() }; probability = 3.0; }
+					addGroup { addStack { "aluminum_oxide".chemical() }; probability = 4.0 }
+					addGroup { addStack { "iron".chemical() }; probability = 2.0 }
+					addGroup { addStack { "potassium_chloride".chemical() }; probability = 4.0 }
+					addGroup { addStack { "silicon_dioxide".chemical() }; probability = 10.0 }
+					addGroup { addStack { "indium".chemical() }; probability = 1.5 }
+					addGroup { addStack { "manganese".chemical() }; probability = 2.0 }
+					addGroup { addStack { "osmium".chemical() }; probability = 2.0 }
+					addGroup { addStack { "tin".chemical() }; probability = 3.0; }
 				}
 			})
 		}
@@ -1219,16 +1220,16 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				input = Blocks.MAGMA.toIngredient()
 				output {
 					rolls = 2
-					addGroup { addStack { "manganese".toStack(2) }; probability = 10.0 }
-					addGroup { addStack { "aluminum_oxide".toStack() }; probability = 5.0 }
-					addGroup { addStack { "magnesium_oxide".toStack() }; probability = 20.0 }
-					addGroup { addStack { "potassium_chloride".toStack() }; probability = 2.0 }
-					addGroup { addStack { "silicon_dioxide".toStack(2) }; probability = 10.0 }
-					addGroup { addStack { "sulfur".toStack(2) }; probability = 20.0 }
-					addGroup { addStack { "iron_oxide".toStack() }; probability = 10.0 }
-					addGroup { addStack { "lead".toStack(2) }; probability = 8.0 }
-					addGroup { addStack { "fluorine".toStack() }; probability = 4.0 }
-					addGroup { addStack { "bromine".toStack() }; probability = 4.0 }
+					addGroup { addStack { "manganese".chemical(2) }; probability = 10.0 }
+					addGroup { addStack { "aluminum_oxide".chemical() }; probability = 5.0 }
+					addGroup { addStack { "magnesium_oxide".chemical() }; probability = 20.0 }
+					addGroup { addStack { "potassium_chloride".chemical() }; probability = 2.0 }
+					addGroup { addStack { "silicon_dioxide".chemical(2) }; probability = 10.0 }
+					addGroup { addStack { "sulfur".chemical(2) }; probability = 20.0 }
+					addGroup { addStack { "iron_oxide".chemical() }; probability = 10.0 }
+					addGroup { addStack { "lead".chemical(2) }; probability = 8.0 }
+					addGroup { addStack { "fluorine".chemical() }; probability = 4.0 }
+					addGroup { addStack { "bromine".chemical() }; probability = 4.0 }
 				}
 			})
 
@@ -1239,7 +1240,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 					relativeProbability = false
 					addGroup {
 						probability = 5.0
-						addStack { "cellulose".toStack() }
+						addStack { "cellulose".chemical() }
 					}
 				}
 			})
@@ -1248,12 +1249,12 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			recipes.add(dissolverRecipe {
 				input = it.toOre()
 				output {
-					addGroup { addStack { "aluminum_oxide".toStack() }; probability = 4.0 }
-					addGroup { addStack { "iron".toStack() }; probability = 3.0 }
-					addGroup { addStack { "potassium_chloride".toStack() }; probability = 4.0 }
-					addGroup { addStack { "silicon_dioxide".toStack() }; probability = 10.0 }
-					addGroup { addStack { "platinum".toStack() }; probability = 2.0 }
-					addGroup { addStack { "calcium".toStack() }; probability = 4.0 }
+					addGroup { addStack { "aluminum_oxide".chemical() }; probability = 4.0 }
+					addGroup { addStack { "iron".chemical() }; probability = 3.0 }
+					addGroup { addStack { "potassium_chloride".chemical() }; probability = 4.0 }
+					addGroup { addStack { "silicon_dioxide".chemical() }; probability = 10.0 }
+					addGroup { addStack { "platinum".chemical() }; probability = 2.0 }
+					addGroup { addStack { "calcium".chemical() }; probability = 4.0 }
 				}
 			})
 		}
@@ -1263,15 +1264,15 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				input = "stone".toOre()
 				output {
 					addGroup { addStack { ItemStack.EMPTY }; probability = 20.0 }
-					addGroup { addStack { "aluminum".toStack() }; probability = 2.0 }
-					addGroup { addStack { "iron".toStack() }; probability = 4.0 }
-					addGroup { addStack { "gold".toStack() }; probability = 1.5 }
-					addGroup { addStack { "silicon_dioxide".toStack() }; probability = 20.0 }
-					addGroup { addStack { "dysprosium".toStack() }; probability = 0.5 }
-					addGroup { addStack { "zirconium".toStack() }; probability = 1.25 }
-					addGroup { addStack { "tungsten".toStack() }; probability = 1.0 }
-					addGroup { addStack { "nickel".toStack() }; probability = 1.0 }
-					addGroup { addStack { "gallium".toStack() }; probability = 1.0 }
+					addGroup { addStack { "aluminum".chemical() }; probability = 2.0 }
+					addGroup { addStack { "iron".chemical() }; probability = 4.0 }
+					addGroup { addStack { "gold".chemical() }; probability = 1.5 }
+					addGroup { addStack { "silicon_dioxide".chemical() }; probability = 20.0 }
+					addGroup { addStack { "dysprosium".chemical() }; probability = 0.5 }
+					addGroup { addStack { "zirconium".chemical() }; probability = 1.25 }
+					addGroup { addStack { "tungsten".chemical() }; probability = 1.0 }
+					addGroup { addStack { "nickel".chemical() }; probability = 1.0 }
+					addGroup { addStack { "gallium".chemical() }; probability = 1.0 }
 				}
 			})
 
@@ -1280,8 +1281,8 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				input = Blocks.SAND.toIngredient()
 				output {
 					relativeProbability = false
-					addGroup { addStack { "silicon_dioxide".toStack(4) }; probability = 100.0 }
-					addGroup { addStack { "gold".toStack() } }
+					addGroup { addStack { "silicon_dioxide".chemical(4) }; probability = 100.0 }
+					addGroup { addStack { "gold".chemical() } }
 				}
 			})
 
@@ -1290,8 +1291,8 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				input = Blocks.SAND.toIngredient(meta = 1) //red sand
 				output {
 					relativeProbability = false
-					addGroup { addStack { "silicon_dioxide".toStack(4) }; probability = 100.0 }
-					addGroup { addStack { "iron_oxide".toStack() }; probability = 10.0 }
+					addGroup { addStack { "silicon_dioxide".chemical(4) }; probability = 100.0 }
+					addGroup { addStack { "iron_oxide".chemical() }; probability = 10.0 }
 				}
 			})
 
@@ -1301,8 +1302,8 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				output {
 					rolls = 4
 					relativeProbability = false
-					addGroup { addStack { "silicon_dioxide".toStack(4) }; probability = 100.0 }
-					addGroup { addStack { "iron_oxide".toStack() }; probability = 10.0 }
+					addGroup { addStack { "silicon_dioxide".chemical(4) }; probability = 100.0 }
+					addGroup { addStack { "iron_oxide".chemical() }; probability = 10.0 }
 				}
 			})
 		}
@@ -1313,9 +1314,9 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			reversible = true
 			output {
 				addGroup {
-					addStack { "potassium_nitrate".toStack(2) }
-					addStack { "sulfur".toStack(8) }
-					addStack { "carbon".toStack(8) }
+					addStack { "potassium_nitrate".chemical(2) }
+					addStack { "sulfur".chemical(8) }
+					addStack { "carbon".chemical(8) }
 				}
 			}
 		})
@@ -1323,7 +1324,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 		recipes.add(dissolverRecipe {
 			input = "logWood".toOre()
 			output {
-				addStack { "cellulose".toStack() }
+				addStack { "cellulose".chemical() }
 			}
 		})
 
@@ -1379,7 +1380,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				input = Items.GLOWSTONE_DUST.toIngredient()
 				reversible = true
 				output {
-					addStack { "phosphorus".toStack(4) }
+					addStack { "phosphorus".chemical(4) }
 				}
 			})
 
@@ -1387,7 +1388,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			dissolverRecipe {
 				input = Blocks.GLOWSTONE.toIngredient()
 				output {
-					addStack { "phosphorus".toStack(16) }
+					addStack { "phosphorus".chemical(16) }
 				}
 			})
 
@@ -1395,7 +1396,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			dissolverRecipe {
 				input = Blocks.IRON_BARS.toIngredient()
 				output {
-					addStack { "iron".toStack(6) }
+					addStack { "iron".chemical(6) }
 				}
 			})
 
@@ -1405,9 +1406,9 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				reversible = true
 				output {
 					addGroup {
-						addStack { "germanium".toStack(8) }
-						addStack { "carbon".toStack(8) }
-						addStack { "sulfur".toStack(8) }
+						addStack { "germanium".chemical(8) }
+						addStack { "carbon".chemical(8) }
+						addStack { "sulfur".chemical(8) }
 					}
 				}
 			})
@@ -1418,9 +1419,9 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				reversible = true
 				output {
 					addGroup {
-						addStack { "cellulose".toStack() }
-						addStack { "germanium".toStack(4) }
-						addStack { "selenium".toStack(4) }
+						addStack { "cellulose".chemical() }
+						addStack { "germanium".chemical(4) }
+						addStack { "selenium".chemical(4) }
 					}
 				}
 			})
@@ -1430,9 +1431,9 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				input = Blocks.NETHER_WART_BLOCK.toIngredient()
 				output {
 					addGroup {
-						addStack { "cellulose".toStack(9) }
-						addStack { "germanium".toStack(4 * 9) }
-						addStack { "selenium".toStack(4 * 9) }
+						addStack { "cellulose".chemical(9) }
+						addStack { "germanium".chemical(4 * 9) }
+						addStack { "selenium".chemical(4 * 9) }
 					}
 				}
 			})
@@ -1441,7 +1442,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 			recipes.add(dissolverRecipe {
 				input = "dropHoney".toOre()
 				output {
-					addStack { "sucrose".toStack(4) }
+					addStack { "sucrose".chemical(4) }
 				}
 			})
 		}
@@ -1452,8 +1453,8 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				reversible = true
 				output {
 					addGroup {
-						addStack { "beryl".toStack(2) }
-						addStack { "cobalt_aluminate".toStack(4) }
+						addStack { "beryl".chemical(2) }
+						addStack { "cobalt_aluminate".chemical(4) }
 					}
 				}
 			})
@@ -1464,8 +1465,8 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				input = it.toOre()
 				output {
 					addGroup {
-						addStack { "copper".toStack(if(it == "blockBronze") 9 * 12 else 12) }
-						addStack { "tin".toStack(if(it == "blockBronze") 9 * 4 else 4) }
+						addStack { "copper".chemical(if(it == "blockBronze") 9 * 12 else 12) }
+						addStack { "tin".chemical(if(it == "blockBronze") 9 * 4 else 4) }
 					}
 				}
 			})
@@ -1476,8 +1477,8 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				input = it.toOre()
 				output {
 					addGroup {
-						addStack { "gold".toStack(if(it == "blockElectrum") 9 * 8 else 8) }
-						addStack { "silver".toStack(if(it == "blockElectrum") 9 * 8 else 8) }
+						addStack { "gold".chemical(if(it == "blockElectrum") 9 * 8 else 8) }
+						addStack { "silver".chemical(if(it == "blockElectrum") 9 * 8 else 8) }
 					}
 				}
 			})
@@ -1488,8 +1489,8 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				input = ore.toOre()
 				output {
 					addGroup {
-						addStack { "aluminum_oxide".toStack(16) }
-						addStack { "chromium".toStack(8) }
+						addStack { "aluminum_oxide".chemical(16) }
+						addStack { "chromium".chemical(8) }
 					}
 				}
 			})
@@ -1500,9 +1501,9 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				input = ore.toOre()
 				output {
 					addGroup {
-						addStack { "aluminum_oxide".toStack(16) }
-						addStack { "iron".toStack(4) }
-						addStack { "titanium".toStack(4) }
+						addStack { "aluminum_oxide".chemical(16) }
+						addStack { "iron".chemical(4) }
+						addStack { "titanium".chemical(4) }
 					}
 				}
 			})
@@ -1514,12 +1515,12 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				relativeProbability = false
 				addGroup {
 					probability = 50.0
-					addStack { "cucurbitacin".toStack(); }
+					addStack { "cucurbitacin".chemical(); }
 				}
 				addGroup {
 					probability = 1.0
-					addStack { "water".toStack(4) }
-					addStack { "sucrose".toStack(2) }
+					addStack { "water".chemical(4) }
+					addStack { "sucrose".chemical(2) }
 				}
 			}
 		})
@@ -1530,8 +1531,8 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				reversible = true
 				output {
 					relativeProbability = false
-					addGroup { addStack { "cellulose".toStack() }; probability = 100.0 }
-					addGroup { addStack { "mescaline".toStack() }; probability = 50.0 }
+					addGroup { addStack { "cellulose".chemical() }; probability = 100.0 }
+					addGroup { addStack { "mescaline".chemical() }; probability = 50.0 }
 				}
 			})
 
@@ -1540,7 +1541,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				input = Blocks.HARDENED_CLAY.toIngredient()
 				reversible = true
 				output {
-					addStack { "mullite".toStack(2) }
+					addStack { "mullite".chemical(2) }
 				}
 			})
 
@@ -1549,7 +1550,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				input = Blocks.STAINED_HARDENED_CLAY.toIngredient(meta = it)
 				reversible = false
 				output {
-					addStack { "mullite".toStack(2) }
+					addStack { "mullite".chemical(2) }
 				}
 			})
 		}
@@ -1576,7 +1577,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 				input = it.toIngredient()
 				reversible = false
 				output {
-					addStack { "mullite".toStack(2) }
+					addStack { "mullite".chemical(2) }
 				}
 			})
 		}
@@ -1588,7 +1589,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 					addGroup {
 						relativeProbability = false
 						probability = 10.0
-						addStack { "starch".toStack() }
+						addStack { "starch".chemical() }
 					}
 				}
 			})

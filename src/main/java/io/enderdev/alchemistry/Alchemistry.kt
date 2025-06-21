@@ -7,9 +7,12 @@ import io.enderdev.alchemistry.command.DissolverCommand
 import io.enderdev.alchemistry.crafting.DankFoodHandler
 import io.enderdev.alchemistry.crafting.MachineResettingHandler
 import io.enderdev.alchemistry.crafting.SaltyFoodHandler
+import io.enderdev.alchemistry.items.ItemBase
 import io.enderdev.alchemistry.items.ModItems
 import io.enderdev.alchemistry.proxy.CommonProxy
-import io.enderdev.alchemistry.utils.extensions.toStack
+import io.enderdev.catalyx.CatalyxSettings
+import io.enderdev.catalyx.blocks.BaseBlock
+import io.enderdev.catalyx.utils.extensions.toStack
 import net.minecraft.block.Block
 import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.item.Item
@@ -36,12 +39,14 @@ import java.util.*
 )
 object Alchemistry {
 	const val DEPENDENCIES =
-		"required-after:configanytime;required-after:forgelin_continuous@[${Tags.KOTLIN_VERSION},);after:crafttweaker;after:groovyscript@[${Tags.GROOVYSCRIPT_VERSION},);before:jei;"
+		"required-after:configanytime;required-after:forgelin_continuous@[${Tags.KOTLIN_VERSION},);required-after:catalyx;after:crafttweaker;after:groovyscript@[${Tags.GROOVYSCRIPT_VERSION},);before:jei;"
 	val DECIMAL_FORMAT = DecimalFormat("#0.00")
 
 	val creativeTab = object : CreativeTabs(Tags.MOD_ID) {
 		override fun createIcon() = ModBlocks.chemical_combiner.toStack()
 	}
+
+	val catalyxSettings = CatalyxSettings(Tags.MOD_ID, creativeTab, Alchemistry, ConfigHandler.GENERAL.enableAutomation, { ModBlocks.blocks.add(it as BaseBlock) }, { ModItems.items.add(it as ItemBase) })
 
 	//https://github.com/jaredlll08/ModTweaker/blob/1.12/src/main/java/com/blamejared/ModTweaker.java
 	val LATE_REMOVALS: LinkedList<IAction> = LinkedList()
@@ -88,7 +93,7 @@ object Alchemistry {
 		@JvmStatic
 		@SubscribeEvent
 		fun registerItems(event: RegistryEvent.Register<Item>) {
-			ModBlocks.registerItemBlocks(event)
+			ModBlocks.registerItems(event)
 			ModItems.registerItems(event)
 		}
 

@@ -4,8 +4,8 @@ import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.capability.CapabilityDrugInfo
 import io.enderdev.alchemistry.chemistry.ChemicalCompound
 import io.enderdev.alchemistry.chemistry.CompoundRegistry
-import io.enderdev.alchemistry.utils.extensions.toPotion
-import io.enderdev.alchemistry.utils.extensions.translate
+import io.enderdev.catalyx.utils.extensions.toPotion
+import io.enderdev.catalyx.utils.extensions.translate
 import net.minecraft.client.renderer.block.model.ModelResourceLocation
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.creativetab.CreativeTabs

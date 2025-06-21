@@ -8,10 +8,11 @@ import io.enderdev.alchemistry.chemistry.ElementRegistry
 import io.enderdev.alchemistry.items.ModItems
 import io.enderdev.alchemistry.recipes.FissionRecipe
 import io.enderdev.alchemistry.recipes.register.FissionRegister
-import io.enderdev.alchemistry.tiles.tags.EnergyTileImpl
-import io.enderdev.alchemistry.tiles.tags.IEnergyTile
-import io.enderdev.alchemistry.utils.extensions.get
-import io.enderdev.alchemistry.utils.extensions.toStack
+import io.enderdev.catalyx.utils.extensions.get
+import io.enderdev.catalyx.tiles.helper.EnergyTileImpl
+import io.enderdev.catalyx.tiles.helper.IEnergyTile
+import io.enderdev.catalyx.tiles.helper.TileStackHandler
+import io.enderdev.catalyx.utils.extensions.toStack
 import net.minecraft.item.ItemStack
 
 class TileFissionController : AbstractReactorController<FissionRecipe>(ReactorType.FISSION, FissionRegister.Companion.INSTANCE),
@@ -43,7 +44,7 @@ class TileFissionController : AbstractReactorController<FissionRecipe>(ReactorTy
 
 	override fun updateRecipe() {
 		val meta = input[0].metadata
-		recipeRegister.firstOrNull { it.inputMeta == meta }?.let { currentRecipe = it }
+		recipeRegister.recipes.firstOrNull { it.inputMeta == meta }?.let { currentRecipe = it }
 		recipeOutput1 = ItemStack.EMPTY
 		recipeOutput2 = ItemStack.EMPTY
 		if(meta == 0)

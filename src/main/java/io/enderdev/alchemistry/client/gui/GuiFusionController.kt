@@ -2,13 +2,9 @@ package io.enderdev.alchemistry.client.gui
 
 import io.enderdev.alchemistry.client.button.SingleButton
 import io.enderdev.alchemistry.client.container.ContainerFusionController
-import io.enderdev.alchemistry.network.ButtonPacket
-import io.enderdev.alchemistry.network.PacketHandler
 import io.enderdev.alchemistry.tiles.TileFusionController
-import io.enderdev.alchemistry.utils.extensions.translate
-import net.minecraft.client.gui.GuiButton
+import io.enderdev.catalyx.utils.extensions.translate
 import net.minecraft.entity.player.InventoryPlayer
-
 
 class GuiFusionController(playerInv: InventoryPlayer, tile: TileFusionController) :
 	GuiReactorController<TileFusionController>(ContainerFusionController(playerInv, tile), tile, "fusion_controller") {
@@ -19,13 +15,6 @@ class GuiFusionController(playerInv: InventoryPlayer, tile: TileFusionController
 		super.initGui()
 		modeButton = SingleButton(this.guiLeft + 137, this.guiTop + displayNameOffset + 14)
 		this.buttonList.add(modeButton)
-	}
-
-	override fun actionPerformed(button: GuiButton) {
-		super.actionPerformed(button)
-		if(button.id == modeButton.id) {
-			PacketHandler.INSTANCE!!.sendToServer(ButtonPacket(tile.pos, single = true))
-		}
 	}
 
 	override fun drawGuiContainerBackgroundLayer(partialTicks: Float, mouseX: Int, mouseY: Int) {

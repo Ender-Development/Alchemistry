@@ -1,29 +1,16 @@
 package io.enderdev.alchemistry.items
 
 import io.enderdev.alchemistry.Alchemistry
-import io.enderdev.alchemistry.Tags
+import io.enderdev.alchemistry.blocks.machine.IHasModel
+import io.enderdev.catalyx.items.BaseItem
 import net.minecraft.client.renderer.block.model.ModelResourceLocation
-import net.minecraft.item.Item
-import net.minecraft.util.ResourceLocation
 import net.minecraftforge.client.model.ModelLoader
-import net.minecraftforge.event.RegistryEvent
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 
-open class ItemBase(val name: String) : Item() {
-	init {
-		ModItems.items.add(this)
-		registryName = ResourceLocation(Tags.MOD_ID, name)
-		translationKey = "$registryName"
-		creativeTab = Alchemistry.creativeTab
-	}
-
-	open fun registerItem(event: RegistryEvent.Register<Item>) {
-		event.registry.register(this)
-	}
-
+open class ItemBase(val name: String) : BaseItem(Alchemistry.catalyxSettings, name), IHasModel {
 	@SideOnly(Side.CLIENT)
-	open fun registerModel() {
+	override fun registerModel() {
 		ModelLoader.setCustomModelResourceLocation(this, 0, ModelResourceLocation(registryName!!, "inventory"))
 	}
 }

@@ -1,8 +1,8 @@
 package io.enderdev.alchemistry.compat.top
 
 import io.enderdev.alchemistry.tiles.TileChemicalDissolver
-import io.enderdev.alchemistry.utils.extensions.get
-import io.enderdev.alchemistry.utils.extensions.translate
+import io.enderdev.catalyx.utils.extensions.get
+import io.enderdev.catalyx.utils.extensions.translate
 import mcjty.theoneprobe.api.IProbeHitData
 import mcjty.theoneprobe.api.IProbeInfo
 import mcjty.theoneprobe.api.ProbeMode

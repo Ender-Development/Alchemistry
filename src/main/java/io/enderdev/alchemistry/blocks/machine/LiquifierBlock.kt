@@ -2,7 +2,7 @@ package io.enderdev.alchemistry.blocks.machine
 
 import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.items.TooltipItemBlock
-import io.enderdev.alchemistry.utils.extensions.translate
+import io.enderdev.catalyx.utils.extensions.translate
 import net.minecraft.block.state.IBlockState
 import net.minecraft.item.Item
 import net.minecraft.tileentity.TileEntity
@@ -15,7 +15,7 @@ import kotlin.math.roundToInt
 
 class LiquifierBlock(name: String, tileClass: Class<out TileEntity>, guiID: Int) : ModelMachineBlock(name, tileClass, guiID, AxisAlignedBB(.0, .0, .0, 1.0, 1.0, 1.0)) {
 
-	override fun registerItemBlock(event: RegistryEvent.Register<Item>) {
+	override fun registerItem(event: RegistryEvent.Register<Item>) {
 		event.registry.register(
 			TooltipItemBlock(
 				this,

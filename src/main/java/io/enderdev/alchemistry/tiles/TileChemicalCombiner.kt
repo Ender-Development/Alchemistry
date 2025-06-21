@@ -1,11 +1,14 @@
 package io.enderdev.alchemistry.tiles
 
+import io.enderdev.alchemistry.Alchemistry
 import io.enderdev.alchemistry.ConfigHandler
+import io.enderdev.alchemistry.client.button.LockButton
 import io.enderdev.alchemistry.recipes.CombinerRecipe
-import io.enderdev.alchemistry.recipes.register.CombinerRegister
-import io.enderdev.alchemistry.tiles.tags.EnergyTileImpl
-import io.enderdev.alchemistry.tiles.tags.IEnergyTile
-import io.enderdev.alchemistry.utils.extensions.get
+import io.enderdev.catalyx.utils.extensions.get
+import io.enderdev.catalyx.tiles.BaseMachineTile
+import io.enderdev.catalyx.tiles.helper.EnergyTileImpl
+import io.enderdev.catalyx.tiles.helper.IEnergyTile
+import io.enderdev.catalyx.tiles.helper.TileStackHandler
 import net.darkhax.gamestages.GameStageHelper
 import net.minecraft.entity.player.EntityPlayerMP
 import net.minecraft.item.ItemStack
@@ -16,8 +19,8 @@ import net.minecraftforge.fml.common.FMLCommonHandler
 import net.minecraftforge.fml.common.Loader
 import net.minecraftforge.items.ItemStackHandler
 
-class TileChemicalCombiner : AbstractMachine<CombinerRecipe>(CombinerRegister.Companion.INSTANCE),
-	IEnergyTile by EnergyTileImpl(capacity = ConfigHandler.COMBINER.energyCapacity) {
+class TileChemicalCombiner : BaseMachineTile<CombinerRecipe>(Alchemistry.catalyxSettings),
+	IEnergyTile by EnergyTileImpl(ConfigHandler.COMBINER.energyCapacity) {
 
 	var recipeIsLocked = false
 	val clientRecipeTarget: TileStackHandler
@@ -126,5 +129,15 @@ class TileChemicalCombiner : AbstractMachine<CombinerRecipe>(CombinerRegister.Co
 		}
 		compound.setTag("RecipeTarget", clientRecipeTarget[0].serializeNBT())
 		return super.writeToNBT(compound)
+	}
+
+	override fun handleButtonPress(id: Int) {
+		if(id == LockButton.buttonId)
+			if(recipeIsLocked) {
+				recipeIsLocked = false
+				currentRecipe = null
+			} else
+				recipeIsLocked = true
+		super.handleButtonPress(id)
 	}
 }

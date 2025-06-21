@@ -7,10 +7,10 @@ import net.minecraft.util.EnumFacing
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 
-class LightBlock(name: String) : BaseBlock(name) {
+class LightBlock(name: String) : ModelBlock(name) {
 	init {
-		this.setLightLevel(1.0f)
-		this.soundType = SoundType.GLASS
+		lightValue = 15
+		soundType = SoundType.GLASS
 	}
 
 	@Deprecated("")

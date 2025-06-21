@@ -1,7 +1,7 @@
 package io.enderdev.alchemistry.blocks
 
 import io.enderdev.alchemistry.items.TooltipItemBlock
-import io.enderdev.alchemistry.utils.extensions.translate
+import io.enderdev.catalyx.utils.extensions.translate
 import net.minecraft.block.Block
 import net.minecraft.block.BlockCactus
 import net.minecraft.block.BlockReed
@@ -22,14 +22,14 @@ import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import java.util.*
 
-class WetSandBlock : BaseBlock("wet_sand", Material.SAND) {
+class WetSandBlock : ModelBlock("wet_sand", Material.SAND) {
 	init {
 		this.setHardness(.5f)
 		this.setResistance(1f)
 		this.setSoundType(SoundType.SAND)
 	}
 
-	override fun registerItemBlock(event: RegistryEvent.Register<Item>) {
+	override fun registerItem(event: RegistryEvent.Register<Item>) {
 		event.registry.register(
 			TooltipItemBlock(
 				this,

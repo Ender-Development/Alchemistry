@@ -3,7 +3,7 @@ package io.enderdev.alchemistry.blocks.machine
 import io.enderdev.alchemistry.client.TESREvaporator
 import io.enderdev.alchemistry.items.TooltipItemBlock
 import io.enderdev.alchemistry.tiles.TileEvaporator
-import io.enderdev.alchemistry.utils.extensions.translate
+import io.enderdev.catalyx.utils.extensions.translate
 import net.minecraft.item.Item
 import net.minecraft.tileentity.TileEntity
 import net.minecraft.util.math.AxisAlignedBB
@@ -23,7 +23,7 @@ class EvaporatorBlock(name: String, tileClass: Class<out TileEntity>, guiID: Int
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEvaporator::class.java, TESREvaporator())
 	}
 
-	override fun registerItemBlock(event: RegistryEvent.Register<Item>) {
+	override fun registerItem(event: RegistryEvent.Register<Item>) {
 		event.registry.register(
 			TooltipItemBlock(this, "tile.evaporator.tooltip".translate())
 				.setRegistryName(this.registryName)

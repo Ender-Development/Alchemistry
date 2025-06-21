@@ -3,10 +3,11 @@ package io.enderdev.alchemistry.recipes.register
 import io.enderdev.alchemistry.chemistry.CompoundRegistry
 import io.enderdev.alchemistry.items.ModItems
 import io.enderdev.alchemistry.recipes.CombinerRecipe
-import io.enderdev.alchemistry.utils.extensions.areStacksEqualIgnoreQuantity
-import io.enderdev.alchemistry.utils.extensions.firstOre
-import io.enderdev.alchemistry.utils.extensions.toDict
-import io.enderdev.alchemistry.utils.extensions.toStack
+import io.enderdev.alchemistry.utils.extensions.chemical
+import io.enderdev.catalyx.utils.extensions.areStacksEqualIgnoreQuantity
+import io.enderdev.catalyx.utils.extensions.firstOre
+import io.enderdev.catalyx.utils.extensions.toDict
+import io.enderdev.catalyx.utils.extensions.toStack
 import net.minecraft.init.Blocks
 import net.minecraft.init.Items
 import net.minecraft.item.Item
@@ -20,15 +21,15 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
 	}
 
 	override fun registerRecipes() {
-		recipes.add(CombinerRecipe(Items.COAL.toStack(meta = 1), listOf(null, null, "carbon".toStack(8))))
-		recipes.add(CombinerRecipe(Items.COAL.toStack(), listOf(null, "carbon".toStack(8))))
-		recipes.add(CombinerRecipe(Blocks.GLOWSTONE.toStack(), listOf(null, "phosphorus".toStack(16))))
+		recipes.add(CombinerRecipe(Items.COAL.toStack(meta = 1), listOf(null, null, "carbon".chemical(8))))
+		recipes.add(CombinerRecipe(Items.COAL.toStack(), listOf(null, "carbon".chemical(8))))
+		recipes.add(CombinerRecipe(Blocks.GLOWSTONE.toStack(), listOf(null, "phosphorus".chemical(16))))
 
 		// every quartz block variant
 		(0..2).forEach {
 			val input: MutableList<Any?> = (0..it).map { null }.toMutableList()
-			input.add("barium".toStack(32))
-			input.add("silicon_dioxide".toStack(64))
+			input.add("barium".chemical(32))
+			input.add("silicon_dioxide".chemical(64))
 			recipes.add(
 				CombinerRecipe(
 					Blocks.QUARTZ_BLOCK.toStack(meta = it),
@@ -82,7 +83,7 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
 					recipes.add(
 						CombinerRecipe(
 							name.firstOre(),
-							input.apply { add("sodium_chloride".toStack(8)) })
+							input.apply { add("sodium_chloride".chemical(8)) })
 					)
 					saltOutputs.add(name.firstOre())
 				}
@@ -98,7 +99,7 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
 					recipes.add(
 						CombinerRecipe(
 							name.firstOre(),
-							input.apply { add("potassium_nitrate".toStack(8)) })
+							input.apply { add("potassium_nitrate".chemical(8)) })
 					)
 					saltpeterOutputs.add(name.firstOre())
 				}
@@ -106,22 +107,22 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
 
 		recipes.add(
 			CombinerRecipe(
-				"triglyceride".toStack(),
+				"triglyceride".chemical(),
 				listOf(
-					null, null, "oxygen".toStack(2),
-					null, "hydrogen".toStack(32), null,
-					"carbon".toStack(18)
+					null, null, "oxygen".chemical(2),
+					null, "hydrogen".chemical(32), null,
+					"carbon".chemical(18)
 				)
 			)
 		)
 
 		recipes.add(
 			CombinerRecipe(
-				"cucurbitacin".toStack(),
+				"cucurbitacin".chemical(),
 				listOf(
 					null, null, null,
-					null, "hydrogen".toStack(44), null,
-					"carbon".toStack(32), null, "oxygen".toStack(8)
+					null, "hydrogen".chemical(44), null,
+					"carbon".chemical(32), null, "oxygen".chemical(8)
 				)
 			)
 		)
@@ -144,7 +145,7 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
 				recipes.add(CombinerRecipe(recipe.inputs[0], recipe.outputs.toStackList()))
 		}
 
-		val carbon = "carbon".toStack(quantity = 64)
+		val carbon = "carbon".chemical(quantity = 64)
 		recipes.add(
 			CombinerRecipe(
 				Items.DIAMOND.toStack(),
@@ -162,7 +163,7 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
 				listOf(
 					null, null, null,
 					null, null, null,
-					null, null, "silicon_dioxide".toStack(4)
+					null, null, "silicon_dioxide".chemical(4)
 				)
 			)
 		)
@@ -172,7 +173,7 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
 				Blocks.SAND.toStack(quantity = 8, meta = 1), //red sand
 				listOf(
 					null, null, null,
-					"silicon_dioxide".toStack(quantity = 32), "iron_oxide".toStack()
+					"silicon_dioxide".chemical(quantity = 32), "iron_oxide".chemical()
 				)
 			)
 		)
@@ -180,14 +181,14 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
 		recipes.add(
 			CombinerRecipe(
 				Blocks.COBBLESTONE.toStack(quantity = 2),
-				listOf("silicon_dioxide".toStack())
+				listOf("silicon_dioxide".chemical())
 			)
 		)
 
 		recipes.add(
 			CombinerRecipe(
 				Blocks.STONE.toStack(),
-				listOf(null, "silicon_dioxide".toStack())
+				listOf(null, "silicon_dioxide".chemical())
 			)
 		)
 
@@ -195,8 +196,8 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
 			CombinerRecipe(
 				Blocks.OBSIDIAN.toStack(),
 				listOf(
-					"magnesium_oxide".toStack(8), "potassium_chloride".toStack(8), "aluminum_oxide".toStack(8),
-					"silicon_dioxide".toStack(24)
+					"magnesium_oxide".chemical(8), "potassium_chloride".chemical(8), "aluminum_oxide".chemical(8),
+					"silicon_dioxide".chemical(24)
 				)
 			)
 		)
@@ -204,14 +205,14 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
 		recipes.add(
 			CombinerRecipe(
 				Blocks.CLAY.toStack(),
-				listOf(null, "kaolinite".toStack(4))
+				listOf(null, "kaolinite".chemical(4))
 			)
 		)
 
 		recipes.add(
 			CombinerRecipe(
 				Blocks.DIRT.toStack(4),
-				listOf("water".toStack(), "cellulose".toStack(), "kaolinite".toStack())
+				listOf("water".chemical(), "cellulose".chemical(), "kaolinite".chemical())
 			)
 		)
 
@@ -220,8 +221,8 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
 				Blocks.MYCELIUM.toStack(4),
 				listOf(
 					null, null, null,
-					null, null, "psilocybin".toStack(),
-					"water".toStack(), "cellulose".toStack(), "kaolinite".toStack()
+					null, null, "psilocybin".chemical(),
+					"water".chemical(), "cellulose".chemical(), "kaolinite".chemical()
 				)
 			)
 		)
@@ -231,7 +232,7 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
 				Items.FEATHER.toStack(),
 				listOf(
 					null, null, null,
-					null, null, "protein".toStack(2)
+					null, null, "protein".chemical(2)
 				)
 			)
 		)
@@ -239,14 +240,14 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
 		recipes.add(
 			CombinerRecipe(
 				Items.SPIDER_EYE.toStack(),
-				listOf(null, "beta_carotene".toStack(2), "protein".toStack(2))
+				listOf(null, "beta_carotene".chemical(2), "protein".chemical(2))
 			)
 		)
 
 		recipes.add(
 			CombinerRecipe(
 				Blocks.SPONGE.toStack(),
-				listOf(null, "calcium_carbonate".toStack(8), "kaolinite".toStack(8))
+				listOf(null, "calcium_carbonate".chemical(8), "kaolinite".chemical(8))
 			)
 		)
 
@@ -255,7 +256,7 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
 				Blocks.GRASS.toStack(4),
 				listOf(
 					null, null, null,
-					"water".toStack(), "cellulose".toStack(), "kaolinite".toStack()
+					"water".chemical(), "cellulose".chemical(), "kaolinite".chemical()
 				)
 			)
 		)
@@ -263,7 +264,7 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
 		recipes.add(
 			CombinerRecipe(
 				Blocks.GRAVEL.toStack(),
-				listOf(null, null, "silicon_dioxide".toStack())
+				listOf(null, null, "silicon_dioxide".chemical())
 			)
 		)
 
@@ -272,7 +273,7 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
 				Items.WATER_BUCKET.toStack(),
 				listOf(
 					null, null, null,
-					null, "water".toStack(16), null,
+					null, "water".chemical(16), null,
 					null, Items.BUCKET, null
 				)
 			)
@@ -284,7 +285,7 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
 				Items.MILK_BUCKET.toStack(),
 				listOf(
 					null, null, null,
-					"protein".toStack(2), "water".toStack(16), "sucrose".toStack(),
+					"protein".chemical(2), "water".chemical(16), "sucrose".chemical(),
 					null, Items.BUCKET, null
 				)
 			)
@@ -296,7 +297,7 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
 					.apply { this.setTagInfo("Potion", NBTTagString("water")) },
 				listOf(
 					null, null, null,
-					null, "water".toStack(16), null,
+					null, "water".chemical(16), null,
 					null, Items.GLASS_BOTTLE, null
 				)
 			)
@@ -307,7 +308,7 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
 				Blocks.REDSTONE_BLOCK.toStack(),
 				listOf(
 					null, null, null,
-					"iron_oxide".toStack(9), "strontium_carbonate".toStack(9)
+					"iron_oxide".chemical(9), "strontium_carbonate".chemical(9)
 				)
 			)
 		)
@@ -315,7 +316,7 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
 		recipes.add(
 			CombinerRecipe(
 				Items.STRING.toStack(4),
-				listOf(null, "protein".toStack(2))
+				listOf(null, "protein".chemical(2))
 			)
 		)
 
@@ -325,7 +326,7 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
 				listOf(
 					null, null, null,
 					null, null, null,
-					"protein".toStack(1), "triglyceride".toStack(1)
+					"protein".chemical(1), "triglyceride".chemical(1)
 				)
 			)
 		)
@@ -335,7 +336,7 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
 				Items.CARROT.toStack(),
 				listOf(
 					null, null, null,
-					"cellulose".toStack(), "beta_carotene".toStack()
+					"cellulose".chemical(), "beta_carotene".chemical()
 				)
 			)
 		)
@@ -345,7 +346,7 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
 				Items.REEDS.toStack(),
 				listOf(
 					null, null, null,
-					"cellulose".toStack(), "sucrose".toStack()
+					"cellulose".chemical(), "sucrose".chemical()
 				)
 			)
 		)
@@ -355,7 +356,7 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
 				Blocks.STONE.toStack(meta = 1), //granite
 				listOf(
 					null, null, null,
-					"silicon_dioxide".toStack(1)
+					"silicon_dioxide".chemical(1)
 				)
 			)
 		)
@@ -365,7 +366,7 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
 				Blocks.STONE.toStack(meta = 3), //diorite
 				listOf(
 					null, null, null,
-					null, "silicon_dioxide".toStack(1)
+					null, "silicon_dioxide".chemical(1)
 				)
 			)
 		)
@@ -374,7 +375,7 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
 			recipes.add(
 				CombinerRecipe(
 					"itemSilicon".firstOre(),
-					listOf(null, null, "silicon".toStack(16))
+					listOf(null, null, "silicon".chemical(16))
 				)
 			)
 
@@ -383,7 +384,7 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
 				Blocks.STONE.toStack(meta = 5), //andesite
 				listOf(
 					null, null, null,
-					null, null, "silicon_dioxide".toStack(1)
+					null, null, "silicon_dioxide".chemical(1)
 				)
 			)
 		)
@@ -394,7 +395,7 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
 				listOf(
 					null, null, null,
 					null, null, null,
-					null, "silicon_dioxide".toStack(3), null
+					null, "silicon_dioxide".chemical(3), null
 				)
 			)
 		)
@@ -402,7 +403,7 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
 		recipes.add(
 			CombinerRecipe(
 				Items.POTATO.toStack(),
-				listOf("starch".toStack(), "potassium".toStack(4))
+				listOf("starch".chemical(), "potassium".chemical(4))
 			)
 		)
 
@@ -410,8 +411,8 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
 			CombinerRecipe(
 				Items.APPLE.toStack(),
 				listOf(
-					null, "cellulose".toStack(), null,
-					null, "sucrose".toStack(1), null
+					null, "cellulose".chemical(), null,
+					null, "sucrose".chemical(1), null
 				)
 			)
 		)
@@ -420,9 +421,9 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
 			CombinerRecipe(
 				ModItems.fertilizer.toStack(8),
 				listOf(
-					"urea".toStack(1),
-					"diammonium_phosphate".toStack(1),
-					"potassium_chloride".toStack(1)
+					"urea".chemical(1),
+					"diammonium_phosphate".chemical(1),
+					"potassium_chloride".chemical(1)
 				)
 			)
 		)
@@ -431,7 +432,7 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
 			recipes.add(
 				CombinerRecipe(
 					"gemRuby".firstOre(),
-					listOf("aluminum_oxide".toStack(16), "chromium".toStack(8))
+					listOf("aluminum_oxide".chemical(16), "chromium".chemical(8))
 				)
 			)
 
@@ -440,9 +441,9 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
 				CombinerRecipe(
 					"gemSapphire".firstOre(),
 					listOf(
-						"aluminum_oxide".toStack(16),
-						"iron".toStack(4),
-						"titanium".toStack(4)
+						"aluminum_oxide".chemical(16),
+						"iron".chemical(4),
+						"titanium".chemical(4)
 					)
 				)
 			)
@@ -456,18 +457,18 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
 		)
 
 		seeds.forEachIndexed { index: Int, stack: ItemStack ->
-			val inputs = mutableListOf(null, "triglyceride".toStack(), null)
+			val inputs = mutableListOf(null, "triglyceride".chemical(), null)
 			inputs.addAll((0..<index).map { null })
-			inputs.add("sucrose".toStack())
+			inputs.add("sucrose".chemical())
 			if(stack.item == Items.BEETROOT_SEEDS)
-				inputs.add("iron_oxide".toStack())
+				inputs.add("iron_oxide".chemical())
 			recipes.add(CombinerRecipe(stack, inputs))
 		}
 
 		recipes.add(
 			CombinerRecipe(
 				Items.BEETROOT.toStack(), listOf(
-					null, "sucrose".toStack(), "iron_oxide".toStack()
+					null, "sucrose".chemical(), "iron_oxide".chemical()
 				)
 			)
 		)
@@ -480,7 +481,7 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
 					it.toStack(),
 					listOf(
 						null, null, null,
-						"iodine".toStack(8), "iodine".toStack(8)
+						"iodine".chemical(8), "iodine".chemical(8)
 					)
 				)
 			)
@@ -489,15 +490,15 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
 		// all saplings
 		(0..5).forEach { i ->
 			val input: MutableList<ItemStack?> = (0..<i).map { null }.toMutableList()
-			input.add("oxygen".toStack())
-			input.add("cellulose".toStack(2))
+			input.add("oxygen".chemical())
+			input.add("cellulose".chemical(2))
 			recipes.add(CombinerRecipe(Blocks.SAPLING.toStack(quantity = 4, meta = i), input))
 		}
 
 		// all logs
 		(0..5).forEach { i ->
 			val input: MutableList<ItemStack?> = (0..<i).map { null }.toMutableList()
-			input.add("cellulose".toStack())
+			input.add("cellulose".chemical())
 
 			//y u gotta do dis mojang
 			if(i < 4) recipes.add(CombinerRecipe(ItemStack(Blocks.LOG, 1, i), input))
@@ -505,35 +506,35 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
 		}
 
 
-		recipes.add(CombinerRecipe(Items.DYE.toStack(meta = 0), listOf("titanium_oxide".toStack(4))))
-		recipes.add(CombinerRecipe(Items.DYE.toStack(meta = 1), listOf("mercury_sulfide".toStack(4))))
-		recipes.add(CombinerRecipe(Items.DYE.toStack(meta = 2), listOf("nickel_chloride".toStack(4))))
+		recipes.add(CombinerRecipe(Items.DYE.toStack(meta = 0), listOf("titanium_oxide".chemical(4))))
+		recipes.add(CombinerRecipe(Items.DYE.toStack(meta = 1), listOf("mercury_sulfide".chemical(4))))
+		recipes.add(CombinerRecipe(Items.DYE.toStack(meta = 2), listOf("nickel_chloride".chemical(4))))
 		recipes.add(
 			CombinerRecipe(
 				Items.DYE.toStack(meta = 3),
-				listOf("caffeine".toStack(1), "cellulose".toStack(1))
+				listOf("caffeine".chemical(1), "cellulose".chemical(1))
 			)
 		)
-		recipes.add(CombinerRecipe(Items.DYE.toStack(meta = 5), listOf("potassium_permanganate".toStack(4))))
-		recipes.add(CombinerRecipe(Items.DYE.toStack(meta = 6), listOf("copper_chloride".toStack(4))))
-		recipes.add(CombinerRecipe(Items.DYE.toStack(meta = 7), listOf("magnesium_sulfate".toStack(4))))
-		recipes.add(CombinerRecipe(Items.DYE.toStack(meta = 8), listOf("barium_sulfate".toStack(4))))
-		recipes.add(CombinerRecipe(Items.DYE.toStack(meta = 9), listOf("arsenic_sulfide".toStack(4))))
+		recipes.add(CombinerRecipe(Items.DYE.toStack(meta = 5), listOf("potassium_permanganate".chemical(4))))
+		recipes.add(CombinerRecipe(Items.DYE.toStack(meta = 6), listOf("copper_chloride".chemical(4))))
+		recipes.add(CombinerRecipe(Items.DYE.toStack(meta = 7), listOf("magnesium_sulfate".chemical(4))))
+		recipes.add(CombinerRecipe(Items.DYE.toStack(meta = 8), listOf("barium_sulfate".chemical(4))))
+		recipes.add(CombinerRecipe(Items.DYE.toStack(meta = 9), listOf("arsenic_sulfide".chemical(4))))
 		recipes.add(
 			CombinerRecipe(
 				Items.DYE.toStack(meta = 10),
-				listOf("cadmium_sulfide".toStack(2), "chromium_oxide".toStack(2))
+				listOf("cadmium_sulfide".chemical(2), "chromium_oxide".chemical(2))
 			)
 		)
-		recipes.add(CombinerRecipe(Items.DYE.toStack(meta = 11), listOf("lead_iodide".toStack(4))))
+		recipes.add(CombinerRecipe(Items.DYE.toStack(meta = 11), listOf("lead_iodide".chemical(4))))
 		recipes.add(
 			CombinerRecipe(
 				Items.DYE.toStack(meta = 12),
-				listOf("cobalt_aluminate".toStack(2), "antimony_trioxide".toStack(2))
+				listOf("cobalt_aluminate".chemical(2), "antimony_trioxide".chemical(2))
 			)
 		)
-		recipes.add(CombinerRecipe(Items.DYE.toStack(meta = 13), listOf("han_purple".toStack(4))))
-		recipes.add(CombinerRecipe(Items.DYE.toStack(meta = 14), listOf("potassium_dichromate".toStack(4))))
+		recipes.add(CombinerRecipe(Items.DYE.toStack(meta = 13), listOf("han_purple".chemical(4))))
+		recipes.add(CombinerRecipe(Items.DYE.toStack(meta = 14), listOf("potassium_dichromate".chemical(4))))
 
 
 		recipes.add(
@@ -542,7 +543,7 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
 				listOf(
 					null, null, null,
 					null, null, null,
-					"water".toStack(4)
+					"water".chemical(4)
 				)
 			)
 		)
@@ -553,7 +554,7 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
 				listOf(
 					null, null, null,
 					null, null, null,
-					null, "water".toStack(16)
+					null, "water".chemical(16)
 				)
 			)
 		)
@@ -564,7 +565,7 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
 				listOf(
 					null, null, null,
 					null, null, null,
-					null, null, "water".toStack(16)
+					null, null, "water".chemical(16)
 				)
 			)
 		)
@@ -573,7 +574,7 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
 		recipes.add(
 			CombinerRecipe(
 				Items.DYE.toStack(quantity = 3, meta = 15),
-				listOf(null, null, "hydroxylapatite".toStack(2))
+				listOf(null, null, "hydroxylapatite".chemical(2))
 			)
 		)
 
@@ -582,7 +583,7 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
 				Items.LEATHER.toStack(),
 				listOf(
 					null, null, null,
-					null, "protein".toStack(3)
+					null, "protein".chemical(3)
 				)
 			)
 		)
@@ -594,7 +595,7 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
 				listOf(
 					null, null, null,
 					null, null, null,
-					null, "protein".toStack(3)
+					null, "protein".chemical(3)
 				)
 			)
 		)
@@ -603,9 +604,9 @@ class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
 			CombinerRecipe(
 				Items.NETHER_STAR.toStack(),
 				listOf(
-					"lutetium".toStack(64), "hydrogen".toStack(64), "titanium".toStack(64),
-					"hydrogen".toStack(64), "hydrogen".toStack(64), "hydrogen".toStack(64),
-					"dysprosium".toStack(64), "hydrogen".toStack(64), "mendelevium".toStack(64)
+					"lutetium".chemical(64), "hydrogen".chemical(64), "titanium".chemical(64),
+					"hydrogen".chemical(64), "hydrogen".chemical(64), "hydrogen".chemical(64),
+					"dysprosium".chemical(64), "hydrogen".chemical(64), "mendelevium".chemical(64)
 				)
 			)
 		)

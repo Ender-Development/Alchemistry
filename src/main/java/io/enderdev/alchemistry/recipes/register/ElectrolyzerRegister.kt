@@ -1,8 +1,9 @@
 package io.enderdev.alchemistry.recipes.register
 
 import io.enderdev.alchemistry.recipes.ElectrolyzerRecipe
-import io.enderdev.alchemistry.utils.extensions.toIngredient
-import io.enderdev.alchemistry.utils.extensions.toStack
+import io.enderdev.alchemistry.utils.extensions.chemical
+import io.enderdev.catalyx.utils.extensions.toIngredient
+import io.enderdev.catalyx.utils.extensions.toStack
 import net.minecraftforge.fluids.FluidRegistry
 
 class ElectrolyzerRegister : AbstractRecipeRegister<ElectrolyzerRecipe>() {
@@ -14,21 +15,21 @@ class ElectrolyzerRegister : AbstractRecipeRegister<ElectrolyzerRecipe>() {
 		recipes.add(
 			ElectrolyzerRecipe(
 				FluidRegistry.WATER.toStack(125),
-				"calcium_carbonate".toIngredient(),
+				"calcium_carbonate".chemical().toIngredient(),
 				20,
-				"hydrogen".toStack(4),
-				"oxygen".toStack(2)
+				"hydrogen".chemical(4),
+				"oxygen".chemical(2)
 			)
 		)
 
 		recipes.add(
 			ElectrolyzerRecipe(
 				FluidRegistry.WATER.toStack(125),
-				"sodium_chloride".toIngredient(),
+				"sodium_chloride".chemical().toIngredient(),
 				20,
-				"hydrogen".toStack(2),
-				"oxygen".toStack(1),
-				"chlorine".toStack(2),
+				"hydrogen".chemical(2),
+				"oxygen".chemical(1),
+				"chlorine".chemical(2),
 				10
 			)
 		)

@@ -7,7 +7,7 @@ import net.minecraft.util.EnumFacing
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 
-class GlassBlock(name: String) : BaseBlock(name) {
+class GlassBlock(name: String) : ModelBlock(name) {
 	init {
 		this.soundType = SoundType.GLASS
 	}

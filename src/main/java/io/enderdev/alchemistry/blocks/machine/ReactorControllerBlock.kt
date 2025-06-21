@@ -1,13 +1,17 @@
 package io.enderdev.alchemistry.blocks.machine
 
+import io.enderdev.alchemistry.Alchemistry
+import io.enderdev.alchemistry.blocks.ModBlocks
 import io.enderdev.alchemistry.blocks.PropertyPowerStatus
 import io.enderdev.alchemistry.items.TooltipItemBlock
-import io.enderdev.alchemistry.utils.extensions.translate
+import io.enderdev.catalyx.utils.extensions.translate
+import io.enderdev.catalyx.blocks.BaseMachineBlock
 import net.minecraft.block.properties.IProperty
 import net.minecraft.block.properties.PropertyDirection
 import net.minecraft.block.properties.PropertyEnum
 import net.minecraft.block.state.BlockStateContainer
 import net.minecraft.block.state.IBlockState
+import net.minecraft.client.renderer.block.model.ModelResourceLocation
 import net.minecraft.entity.EntityLivingBase
 import net.minecraft.item.Item
 import net.minecraft.tileentity.TileEntity
@@ -15,17 +19,23 @@ import net.minecraft.util.EnumFacing
 import net.minecraft.util.EnumHand
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
+import net.minecraftforge.client.model.ModelLoader
 import net.minecraftforge.event.RegistryEvent
 
 class ReactorControllerBlock(name: String, tileClass: Class<out TileEntity>, guiID: Int, val energyPerTick: Int) :
-	BaseMachineBlock(name, tileClass, guiID) {
+	BaseMachineBlock(Alchemistry.catalyxSettings, name, tileClass, guiID), IHasModel {
 
 	init {
 		this.defaultState = this.blockState.baseState.withProperty(FACING, EnumFacing.NORTH)
 			.withProperty(STATUS, PropertyPowerStatus.OFF)
+		ModBlocks.modelBlocks.add(this)
 	}
 
-	override fun registerItemBlock(event: RegistryEvent.Register<Item>) {
+	override fun registerModel() {
+		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), 0, ModelResourceLocation(registryName!!, "inventory"))
+	}
+
+	override fun registerItem(event: RegistryEvent.Register<Item>) {
 		event.registry.register(
 			TooltipItemBlock(
 				this,

@@ -12,9 +12,9 @@ import io.enderdev.alchemistry.recipes.DissolverRecipe
 import io.enderdev.alchemistry.recipes.ProbabilityGroup
 import io.enderdev.alchemistry.recipes.ProbabilitySet
 import io.enderdev.alchemistry.recipes.register.DissolverRegister
-import io.enderdev.alchemistry.utils.extensions.containsItem
-import io.enderdev.alchemistry.utils.extensions.equalsIgnoreMeta
-import io.enderdev.alchemistry.utils.extensions.toOre
+import io.enderdev.catalyx.utils.extensions.containsItem
+import io.enderdev.catalyx.utils.extensions.equalsIgnoreMeta
+import io.enderdev.catalyx.utils.extensions.toOre
 import net.minecraft.item.ItemStack
 import net.minecraft.item.crafting.Ingredient
 import net.minecraftforge.oredict.OreDictionary

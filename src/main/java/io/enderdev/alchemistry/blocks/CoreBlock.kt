@@ -13,7 +13,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 
-class CoreBlock(name: String) : BaseBlock(name) {
+class CoreBlock(name: String) : ModelBlock(name) {
 	companion object {
 		val AXIS = PropertyEnum.create("axis", Axis::class.java)
 		val PROPERTIES = arrayOf<IProperty<*>>(AXIS)

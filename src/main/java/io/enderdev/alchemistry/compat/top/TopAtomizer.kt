@@ -3,7 +3,7 @@ package io.enderdev.alchemistry.compat.top
 import io.enderdev.alchemistry.items.ItemCompound
 import io.enderdev.alchemistry.items.ItemElement
 import io.enderdev.alchemistry.tiles.TileAtomizer
-import io.enderdev.alchemistry.utils.extensions.translate
+import io.enderdev.catalyx.utils.extensions.translate
 import mcjty.theoneprobe.api.IProbeHitData
 import mcjty.theoneprobe.api.IProbeInfo
 import mcjty.theoneprobe.api.ProbeMode

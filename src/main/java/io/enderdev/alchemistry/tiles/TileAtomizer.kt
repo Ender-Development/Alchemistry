@@ -1,12 +1,14 @@
 package io.enderdev.alchemistry.tiles
 
+import io.enderdev.alchemistry.Alchemistry
 import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.recipes.AtomizerRecipe
 import io.enderdev.alchemistry.recipes.register.AtomizerRegister
-import io.enderdev.alchemistry.tiles.tags.EnergyTileImpl
-import io.enderdev.alchemistry.tiles.tags.IEnergyTile
-import io.enderdev.alchemistry.tiles.tags.IFluidTile
-import io.enderdev.alchemistry.utils.extensions.get
+import io.enderdev.catalyx.utils.extensions.get
+import io.enderdev.catalyx.tiles.BaseMachineTile
+import io.enderdev.catalyx.tiles.helper.EnergyTileImpl
+import io.enderdev.catalyx.tiles.helper.IEnergyTile
+import io.enderdev.catalyx.tiles.helper.IFluidTile
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraftforge.fluids.Fluid
@@ -14,7 +16,7 @@ import net.minecraftforge.fluids.FluidStack
 import net.minecraftforge.fluids.FluidTank
 import net.minecraftforge.fluids.capability.templates.FluidHandlerConcatenate
 
-class TileAtomizer : AbstractMachine<AtomizerRecipe>(AtomizerRegister.Companion.INSTANCE), IFluidTile,
+class TileAtomizer : BaseMachineTile<AtomizerRecipe>(Alchemistry.catalyxSettings), IFluidTile,
 	IEnergyTile by EnergyTileImpl(ConfigHandler.ATOMIZER.energyCapacity) {
 
 	val inputTank: FluidTank
@@ -45,7 +47,7 @@ class TileAtomizer : AbstractMachine<AtomizerRecipe>(AtomizerRegister.Companion.
 		if(inputTank.fluid != null
 			&& (currentRecipe == null || !ItemStack.areItemStacksEqual(currentRecipe!!.output, output.getStackInSlot(0)))
 		) {
-			currentRecipe = recipeRegister.firstOrNull { it.input.fluid == inputTank.fluid?.fluid }
+			currentRecipe = AtomizerRegister.INSTANCE.recipes.firstOrNull { it.input.fluid == inputTank.fluid?.fluid }
 		}
 		if(inputTank.fluid == null) currentRecipe = null
 	}

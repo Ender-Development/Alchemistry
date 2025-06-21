@@ -3,12 +3,13 @@ package io.enderdev.alchemistry.tiles
 import io.enderdev.alchemistry.Alchemistry
 import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.blocks.machine.ReactorControllerBlock
-import io.enderdev.alchemistry.client.BlockHighlighter
 import io.enderdev.alchemistry.recipes.IRecipe
 import io.enderdev.alchemistry.recipes.register.AbstractRecipeRegister
-import io.enderdev.alchemistry.tiles.tags.IEnergyTile
 import io.enderdev.alchemistry.utils.BlockMeta
 import io.enderdev.alchemistry.utils.ConfigUtils
+import io.enderdev.catalyx.client.BlockHighlighter
+import io.enderdev.catalyx.tiles.BaseMachineTile
+import io.enderdev.catalyx.tiles.helper.IEnergyTile
 import net.minecraft.block.state.IBlockState
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.util.EnumFacing
@@ -16,7 +17,7 @@ import net.minecraftforge.common.capabilities.Capability
 import java.util.*
 import kotlin.math.roundToInt
 
-abstract class AbstractReactorController<T : IRecipe>(val reactorType: ReactorType, recipeRegister: AbstractRecipeRegister<T>) : AbstractMachine<T>(recipeRegister), IEnergyTile {
+abstract class AbstractReactorController<T : IRecipe>(val reactorType: ReactorType, val recipeRegister: AbstractRecipeRegister<T>) : BaseMachineTile<T>(Alchemistry.catalyxSettings), IEnergyTile {
 	val shapeHandler = ReactorShapeHandler(this)
 	val moderators = mutableMapOf<BlockMeta, Multiplier>()
 	var currentMultiplier = Multiplier()

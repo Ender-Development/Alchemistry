@@ -2,23 +2,27 @@ package io.enderdev.alchemistry.client.gui
 
 import io.enderdev.alchemistry.Alchemistry
 import io.enderdev.alchemistry.ConfigHandler
+import io.enderdev.alchemistry.Tags
 import io.enderdev.alchemistry.client.button.ModeratorButton
 import io.enderdev.alchemistry.client.gui.misc.GuiModifiers
 import io.enderdev.alchemistry.client.gui.misc.GuiModifiers.IRenderer
-import io.enderdev.alchemistry.client.gui.wrappers.CapabilityEnergyDisplayWrapper
 import io.enderdev.alchemistry.tiles.AbstractReactorController
 import io.enderdev.alchemistry.tiles.ReactorType
-import io.enderdev.alchemistry.tiles.tags.IGuiTile
-import io.enderdev.alchemistry.utils.extensions.translate
+import io.enderdev.catalyx.utils.extensions.translate
+import io.enderdev.catalyx.client.gui.BaseGui
+import io.enderdev.catalyx.client.gui.wrappers.CapabilityEnergyDisplayWrapper
+import io.enderdev.catalyx.tiles.helper.IGuiTile
 import net.minecraft.client.gui.GuiButton
 import net.minecraft.inventory.Container
+import net.minecraft.util.ResourceLocation
 import java.awt.Color
 import java.util.*
 import kotlin.math.ceil
 import kotlin.math.roundToInt
 
 abstract class GuiReactorController<T>(container: Container, tile: T, guiName: String) :
-	GuiBase<T>(container, tile, guiName) where T : AbstractReactorController<*>, T : IGuiTile {
+	BaseGui<T>(container, tile, guiName) where T : AbstractReactorController<*>, T : IGuiTile {
+	override val textureLocation = ResourceLocation(Tags.MOD_ID, "textures/gui/container/${guiName}_gui_redox.png")
 
 	val infoHeight = 102f
 	val infoX = 12f

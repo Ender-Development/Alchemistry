@@ -1,12 +1,15 @@
 package io.enderdev.alchemistry.tiles
 
+import io.enderdev.alchemistry.Alchemistry
 import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.recipes.LiquifierRecipe
 import io.enderdev.alchemistry.recipes.register.LiquifierRegister
-import io.enderdev.alchemistry.tiles.tags.EnergyTileImpl
-import io.enderdev.alchemistry.tiles.tags.IEnergyTile
-import io.enderdev.alchemistry.tiles.tags.IFluidTile
-import io.enderdev.alchemistry.utils.extensions.get
+import io.enderdev.catalyx.utils.extensions.get
+import io.enderdev.catalyx.tiles.BaseMachineTile
+import io.enderdev.catalyx.tiles.helper.EnergyTileImpl
+import io.enderdev.catalyx.tiles.helper.IEnergyTile
+import io.enderdev.catalyx.tiles.helper.IFluidTile
+import io.enderdev.catalyx.tiles.helper.TileStackHandler
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraftforge.fluids.Fluid
@@ -14,10 +17,12 @@ import net.minecraftforge.fluids.FluidStack
 import net.minecraftforge.fluids.FluidTank
 import net.minecraftforge.fluids.capability.templates.FluidHandlerConcatenate
 
-class TileLiquifier : AbstractMachine<LiquifierRecipe>(LiquifierRegister.Companion.INSTANCE), IFluidTile,
+class TileLiquifier : BaseMachineTile<LiquifierRecipe>(Alchemistry.catalyxSettings), IFluidTile,
 	IEnergyTile by EnergyTileImpl(ConfigHandler.LIQUIFIER.energyCapacity) {
 
 	val outputTank: FluidTank
+
+	val recipeRegister = LiquifierRegister.Companion.INSTANCE.recipes
 
 	override val energyPerTick: Int
 		get() = ConfigHandler.LIQUIFIER.energyPerTick

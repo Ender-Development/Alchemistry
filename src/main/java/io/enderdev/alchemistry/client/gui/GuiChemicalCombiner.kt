@@ -1,33 +1,26 @@
 package io.enderdev.alchemistry.client.gui
 
+import io.enderdev.alchemistry.Tags
 import io.enderdev.alchemistry.client.button.LockButton
 import io.enderdev.alchemistry.client.container.ContainerChemicalCombiner
-import io.enderdev.alchemistry.client.gui.wrappers.CapabilityEnergyDisplayWrapper
-import io.enderdev.alchemistry.network.ButtonPacket
-import io.enderdev.alchemistry.network.PacketHandler
 import io.enderdev.alchemistry.tiles.TileChemicalCombiner
-import io.enderdev.alchemistry.utils.extensions.get
-import io.enderdev.alchemistry.utils.extensions.translate
-import net.minecraft.client.gui.GuiButton
+import io.enderdev.catalyx.utils.extensions.get
+import io.enderdev.catalyx.utils.extensions.translate
+import io.enderdev.catalyx.client.gui.BaseGui
+import io.enderdev.catalyx.client.gui.wrappers.CapabilityEnergyDisplayWrapper
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.RenderHelper
 import net.minecraft.entity.player.InventoryPlayer
 import net.minecraft.item.ItemStack
+import net.minecraft.util.ResourceLocation
 
-
-class GuiChemicalCombiner(playerInv: InventoryPlayer, tile: TileChemicalCombiner) : GuiBase<TileChemicalCombiner>(ContainerChemicalCombiner(playerInv, tile), tile, "chemical_combiner") {
-
+class GuiChemicalCombiner(playerInv: InventoryPlayer, tile: TileChemicalCombiner) : BaseGui<TileChemicalCombiner>(ContainerChemicalCombiner(playerInv, tile), tile, "chemical_combiner") {
 	lateinit var toggleRecipeLock: LockButton
+
+	override val textureLocation = ResourceLocation(Tags.MOD_ID, "textures/gui/container/${guiName}_gui_redox.png")
 
 	init {
 		this.displayData.add(CapabilityEnergyDisplayWrapper(8, 21, 16, 70, tile::energyStorage))
-	}
-
-	override fun actionPerformed(button: GuiButton) {
-		super.actionPerformed(button)
-		if(button.id == toggleRecipeLock.id) {
-			PacketHandler.INSTANCE!!.sendToServer(ButtonPacket(tile.pos, lock = true))
-		}
 	}
 
 	override fun initGui() {

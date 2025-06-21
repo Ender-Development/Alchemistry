@@ -4,6 +4,7 @@ import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.blocks.machine.*
 import io.enderdev.alchemistry.client.gui.GuiHandler
 import io.enderdev.alchemistry.tiles.*
+import io.enderdev.catalyx.blocks.BaseBlock
 import net.minecraft.block.Block
 import net.minecraft.item.Item
 import net.minecraftforge.event.RegistryEvent
@@ -11,7 +12,8 @@ import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 
 object ModBlocks {
-	val blocks = ArrayList<BaseBlock>()
+	val blocks = mutableListOf<BaseBlock>()
+	val modelBlocks = mutableListOf<IHasModel>()
 
 	val electrolyzer = ElectrolyzerBlock("electrolyzer", TileElectrolyzer::class.java, GuiHandler.Companion.ELECTROLYZER_ID)
 	val chemical_dissolver = ChemicalDissolverBlock(
@@ -28,7 +30,7 @@ object ModBlocks {
 	val atomizer = AtomizerBlock("atomizer", TileAtomizer::class.java, GuiHandler.Companion.ATOMIZER_ID)
 	val liquifier = LiquifierBlock("liquifier", TileLiquifier::class.java, GuiHandler.Companion.LIQUIFIER_ID)
 
-	val fissionCasing: BaseBlock = BaseBlock("fission_casing")
+	val fissionCasing: BaseBlock = ModelBlock("fission_casing")
 	val fissionGlass: BaseBlock = GlassBlock("fission_glass")
 	val fissionCore: BaseBlock = CoreBlock("fission_core")
 	val fissionController = ReactorControllerBlock(
@@ -38,7 +40,7 @@ object ModBlocks {
 		ConfigHandler.FISSION.energyPerTick
 	)
 
-	val fusionCasing: BaseBlock = BaseBlock("fusion_casing")
+	val fusionCasing: BaseBlock = ModelBlock("fusion_casing")
 	val fusionGlass: BaseBlock = GlassBlock("fusion_glass")
 	val fusionCore: BaseBlock = CoreBlock("fusion_core")
 	val fusionController = ReactorControllerBlock(
@@ -59,8 +61,9 @@ object ModBlocks {
 
 	fun registerBlocks(event: RegistryEvent.Register<Block>) = blocks.forEach { it.registerBlock(event) }
 
-	fun registerItemBlocks(event: RegistryEvent.Register<Item>) = blocks.forEach { it.registerItemBlock(event) }
+	fun registerItems(event: RegistryEvent.Register<Item>) = blocks.forEach { it.registerItem(event) }
 
+	// TODO remove modelBlocks entirely and just filter through blocks, do same for items
 	@SideOnly(Side.CLIENT)
-	fun registerModels() = blocks.forEach { it.registerModel() }
+	fun registerModels() = modelBlocks.forEach { it.registerModel(); println("KJALKJDKLASJD ${modelBlocks.size} $modelBlocks") }
 }

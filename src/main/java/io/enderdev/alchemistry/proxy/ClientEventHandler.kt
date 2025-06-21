@@ -2,12 +2,10 @@ package io.enderdev.alchemistry.proxy
 
 import io.enderdev.alchemistry.capability.CapabilityDrugInfo
 import io.enderdev.alchemistry.chemistry.CompoundRegistry
-import io.enderdev.alchemistry.client.BlockHighlighter
 import io.enderdev.alchemistry.items.ItemCompound
-import io.enderdev.alchemistry.utils.extensions.translate
+import io.enderdev.catalyx.utils.extensions.translate
 import net.minecraft.item.ItemFood
 import net.minecraftforge.client.event.FOVUpdateEvent
-import net.minecraftforge.client.event.RenderWorldLastEvent
 import net.minecraftforge.event.entity.player.ItemTooltipEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.relauncher.Side
@@ -43,10 +41,5 @@ class ClientEventHandler {
 				e.toolTip.add("spiked_food.tooltip".translate(compoundName))
 			}
 		}
-	}
-
-	@SubscribeEvent
-	fun blockHighlighter(event: RenderWorldLastEvent) {
-		BlockHighlighter.Companion.eventHandler(event)
 	}
 }

@@ -1,19 +1,21 @@
 package io.enderdev.alchemistry.tiles
 
+import io.enderdev.alchemistry.Alchemistry
 import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.recipes.DissolverRecipe
-import io.enderdev.alchemistry.recipes.register.DissolverRegister
-import io.enderdev.alchemistry.tiles.tags.EnergyTileImpl
-import io.enderdev.alchemistry.tiles.tags.IEnergyTile
-import io.enderdev.alchemistry.utils.extensions.canMergeWith
-import io.enderdev.alchemistry.utils.extensions.get
+import io.enderdev.catalyx.utils.extensions.canMergeWith
+import io.enderdev.catalyx.utils.extensions.get
+import io.enderdev.catalyx.tiles.BaseMachineTile
+import io.enderdev.catalyx.tiles.helper.EnergyTileImpl
+import io.enderdev.catalyx.tiles.helper.IEnergyTile
+import io.enderdev.catalyx.tiles.helper.TileStackHandler
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.nbt.NBTTagList
 import net.minecraftforge.common.util.Constants
 
-class TileChemicalDissolver : AbstractMachine<DissolverRecipe>(DissolverRegister.Companion.INSTANCE),
-	IEnergyTile by EnergyTileImpl(capacity = ConfigHandler.DISSOLVER.energyCapacity) {
+class TileChemicalDissolver : BaseMachineTile<DissolverRecipe>(Alchemistry.catalyxSettings),
+	IEnergyTile by EnergyTileImpl(ConfigHandler.DISSOLVER.energyCapacity) {
 
 	private var outputSuccessful = true
 	private var outputBuffer: MutableList<ItemStack> = ArrayList()

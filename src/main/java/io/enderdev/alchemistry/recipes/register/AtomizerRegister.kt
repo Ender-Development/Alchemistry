@@ -2,7 +2,8 @@ package io.enderdev.alchemistry.recipes.register
 
 import io.enderdev.alchemistry.chemistry.ElementRegistry
 import io.enderdev.alchemistry.recipes.AtomizerRecipe
-import io.enderdev.alchemistry.utils.extensions.toStack
+import io.enderdev.alchemistry.utils.extensions.chemical
+import io.enderdev.catalyx.utils.extensions.toStack
 import net.minecraftforge.fluids.FluidRegistry
 import net.minecraftforge.fluids.FluidStack
 
@@ -12,13 +13,13 @@ class AtomizerRegister : AbstractRecipeRegister<AtomizerRecipe>() {
 	}
 
 	override fun registerRecipes() {
-		recipes.add(AtomizerRecipe(true, FluidStack(FluidRegistry.WATER, 500), "water".toStack(8)))
+		recipes.add(AtomizerRecipe(true, FluidStack(FluidRegistry.WATER, 500), "water".chemical(8)))
 
 		if(fluidExists("if.protein")) {
 			recipes.add(
 				AtomizerRecipe(
 					true,
-					FluidRegistry.getFluidStack("if.protein", 500)!!, "protein".toStack(8)
+					FluidRegistry.getFluidStack("if.protein", 500)!!, "protein".chemical(8)
 				)
 			)
 		}
@@ -26,7 +27,7 @@ class AtomizerRegister : AbstractRecipeRegister<AtomizerRecipe>() {
 			recipes.add(
 				AtomizerRecipe(
 					true,
-					FluidRegistry.getFluidStack("canolaoil", 500)!!, "triglyceride".toStack(4)
+					FluidRegistry.getFluidStack("canolaoil", 500)!!, "triglyceride".chemical(4)
 				)
 			)
 		}
@@ -34,7 +35,7 @@ class AtomizerRegister : AbstractRecipeRegister<AtomizerRecipe>() {
 			recipes.add(
 				AtomizerRecipe(
 					true,
-					FluidRegistry.getFluidStack("cocoa_butter", 144)!!, "triglyceride".toStack(1)
+					FluidRegistry.getFluidStack("cocoa_butter", 144)!!, "triglyceride".chemical(1)
 				)
 			)
 		}
@@ -42,7 +43,7 @@ class AtomizerRegister : AbstractRecipeRegister<AtomizerRecipe>() {
 			recipes.add(
 				AtomizerRecipe(
 					true,
-					FluidRegistry.getFluidStack("ethanol", 500)!!, "ethanol".toStack(8)
+					FluidRegistry.getFluidStack("ethanol", 500)!!, "ethanol".chemical(8)
 				)
 			)
 		}

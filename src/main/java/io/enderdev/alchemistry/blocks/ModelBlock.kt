@@ -11,10 +11,6 @@ import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 
 open class ModelBlock(name: String, material: Material = Material.ROCK) : BaseBlock(Alchemistry.catalyxSettings, name, material), IHasModel {
-	init {
-		ModBlocks.modelBlocks.add(this)
-	}
-
 	@SideOnly(Side.CLIENT)
 	override fun registerModel() {
 		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), 0, ModelResourceLocation(registryName!!, "inventory"))

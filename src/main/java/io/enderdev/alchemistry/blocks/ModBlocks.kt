@@ -13,7 +13,6 @@ import net.minecraftforge.fml.relauncher.SideOnly
 
 object ModBlocks {
 	val blocks = mutableListOf<BaseBlock>()
-	val modelBlocks = mutableListOf<IHasModel>()
 
 	val electrolyzer = ElectrolyzerBlock("electrolyzer", TileElectrolyzer::class.java, GuiHandler.Companion.ELECTROLYZER_ID)
 	val chemical_dissolver = ChemicalDissolverBlock(
@@ -63,7 +62,6 @@ object ModBlocks {
 
 	fun registerItems(event: RegistryEvent.Register<Item>) = blocks.forEach { it.registerItem(event) }
 
-	// TODO remove modelBlocks entirely and just filter through blocks, do same for items
 	@SideOnly(Side.CLIENT)
-	fun registerModels() = modelBlocks.forEach { it.registerModel(); println("KJALKJDKLASJD ${modelBlocks.size} $modelBlocks") }
+	fun registerModels() = blocks.forEach { if(it is IHasModel) it.registerModel() }
 }

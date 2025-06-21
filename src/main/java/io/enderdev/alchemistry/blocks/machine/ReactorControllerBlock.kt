@@ -1,11 +1,10 @@
 package io.enderdev.alchemistry.blocks.machine
 
 import io.enderdev.alchemistry.Alchemistry
-import io.enderdev.alchemistry.blocks.ModBlocks
 import io.enderdev.alchemistry.blocks.PropertyPowerStatus
 import io.enderdev.alchemistry.items.TooltipItemBlock
-import io.enderdev.catalyx.utils.extensions.translate
 import io.enderdev.catalyx.blocks.BaseMachineBlock
+import io.enderdev.catalyx.utils.extensions.translate
 import net.minecraft.block.properties.IProperty
 import net.minecraft.block.properties.PropertyDirection
 import net.minecraft.block.properties.PropertyEnum
@@ -28,7 +27,6 @@ class ReactorControllerBlock(name: String, tileClass: Class<out TileEntity>, gui
 	init {
 		this.defaultState = this.blockState.baseState.withProperty(FACING, EnumFacing.NORTH)
 			.withProperty(STATUS, PropertyPowerStatus.OFF)
-		ModBlocks.modelBlocks.add(this)
 	}
 
 	override fun registerModel() {

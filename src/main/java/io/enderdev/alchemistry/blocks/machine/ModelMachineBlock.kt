@@ -1,7 +1,6 @@
 package io.enderdev.alchemistry.blocks.machine
 
 import io.enderdev.alchemistry.Alchemistry
-import io.enderdev.alchemistry.blocks.ModBlocks
 import io.enderdev.catalyx.blocks.BaseMachineBlock
 import net.minecraft.block.state.IBlockState
 import net.minecraft.client.renderer.block.model.ModelResourceLocation
@@ -41,10 +40,6 @@ open class ModelMachineBlock(name: String, tileClass: Class<out TileEntity>, gui
 			@Suppress("DEPRECATION")
 			addCollisionBoxToList(pos, entityBox, collidingBoxes, it)
 		}
-	}
-
-	init {
-		ModBlocks.modelBlocks.add(this)
 	}
 
 	override fun registerModel() {

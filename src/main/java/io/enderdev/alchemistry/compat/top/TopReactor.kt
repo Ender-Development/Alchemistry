@@ -17,9 +17,9 @@ class TopReactor() : TopTileHandler<AbstractReactorController<*>>("reactor", Abs
 	override fun addInfo(mode: ProbeMode, info: IProbeInfo, player: EntityPlayer, world: World, state: IBlockState, data: IProbeHitData, te: AbstractReactorController<*>) {
 		if(te.isMultiblockValid) {
 			val (productivity, processingTime, energy) = te.currentMultiplier
-			info.text("tile.reactor.output_multiplier".translate("${Alchemistry.DECIMAL_FORMAT.format(productivity)}x"))
-				.text("tile.reactor.processing_time".translate("${Alchemistry.DECIMAL_FORMAT.format(processingTime)}x"))
-				.text("tile.reactor.energy_consumption".translate("${Alchemistry.DECIMAL_FORMAT.format(energy)}x"))
+			info.text("tile.alchemistry:reactor.output_multiplier".translate("${Alchemistry.DECIMAL_FORMAT.format(productivity)}x"))
+				.text("tile.alchemistry:reactor.processing_time".translate("${Alchemistry.DECIMAL_FORMAT.format(processingTime)}x"))
+				.text("tile.alchemistry:reactor.energy_consumption".translate("${Alchemistry.DECIMAL_FORMAT.format(energy)}x"))
 
 			val stack = { meta: Int -> ElementRegistry[meta]!!.toItemStack(1) }
 			if(te is TileFissionController)

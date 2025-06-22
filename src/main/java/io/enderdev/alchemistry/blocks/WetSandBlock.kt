@@ -33,7 +33,7 @@ class WetSandBlock : ModelBlock("wet_sand", Material.SAND) {
 		event.registry.register(
 			TooltipItemBlock(
 				this,
-				"tile.wet_sand.tooltip".translate()
+				"tile.alchemistry:wet_sand.tooltip".translate()
 			).setRegistryName(this.registryName)
 		)
 	}

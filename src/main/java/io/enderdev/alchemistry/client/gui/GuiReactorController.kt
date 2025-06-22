@@ -61,9 +61,9 @@ abstract class GuiReactorController<T>(container: Container, tile: T, guiName: S
 			}
 			sort { .0 }(false)
 			val gui = GuiModifiers(
-				"${tile.reactorType.name.lowercase(Locale.getDefault()).replaceFirstChar(Char::uppercaseChar)} ${"tile.reactor.modifers".translate()}",
+				"${tile.reactorType.name.lowercase(Locale.getDefault()).replaceFirstChar(Char::uppercaseChar)} ${"tile.alchemistry:reactor.modifers".translate()}",
 				entries,
-				arrayOf("output_multiplier", "processing_time", "energy_consumption").map { "tile.reactor.$it.short".translate("") }.toTypedArray(),
+				arrayOf("output_multiplier", "processing_time", "energy_consumption").map { "tile.alchemistry:reactor.$it.short".translate("") }.toTypedArray(),
 				arrayOf(sort { it.productivity }, sort { it.processingTime }, sort { it.energy }),
 				this
 			)
@@ -82,21 +82,21 @@ abstract class GuiReactorController<T>(container: Container, tile: T, guiName: S
 		if(tile.isMultiblockValid) {
 			val (productivity, processingTime, energy) = tile.currentMultiplier
 			fontRenderer.drawString(
-				"tile.reactor.output_multiplier".translate("${Alchemistry.DECIMAL_FORMAT.format(productivity)}x"),
+				"tile.alchemistry:reactor.output_multiplier".translate("${Alchemistry.DECIMAL_FORMAT.format(productivity)}x"),
 				infoX,
 				infoHeight,
 				getColorFromValue(productivity),
 				false
 			)
 			fontRenderer.drawString(
-				"tile.reactor.processing_time".translate("${Alchemistry.DECIMAL_FORMAT.format(processingTime)}x"),
+				"tile.alchemistry:reactor.processing_time".translate("${Alchemistry.DECIMAL_FORMAT.format(processingTime)}x"),
 				infoX,
 				infoHeight + 10,
 				getColorFromValue(processingTime, true),
 				false
 			)
 			fontRenderer.drawString(
-				"tile.reactor.energy_consumption".translate("${Alchemistry.DECIMAL_FORMAT.format(energy)}x"),
+				"tile.alchemistry:reactor.energy_consumption".translate("${Alchemistry.DECIMAL_FORMAT.format(energy)}x"),
 				infoX,
 				infoHeight + 20,
 				getColorFromValue(energy, true),

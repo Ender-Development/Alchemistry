@@ -17,7 +17,7 @@ import kotlin.math.roundToInt
 class GuiEvaporator(playerInv: InventoryPlayer, tile: TileEvaporator) : BaseGui<TileEvaporator>(ContainerEvaporator(playerInv, tile), tile, "evaporator") {
 	override val textureLocation = ResourceLocation(Tags.MOD_ID, "textures/gui/container/${guiName}_gui_redox.png")
 	private val hasHeatSources = TileEvaporator.heatSources.isNotEmpty()
-	private val heatText = { heat: Double -> "tile.evaporator.heat".translate(Alchemistry.DECIMAL_FORMAT.format(heat)) }
+	private val heatText = { heat: Double -> "tile.alchemistry:evaporator.heat".translate(Alchemistry.DECIMAL_FORMAT.format(heat)) }
 	private var mouseClick: MouseClickData? = null
 
 	init {
@@ -31,15 +31,15 @@ class GuiEvaporator(playerInv: InventoryPlayer, tile: TileEvaporator) : BaseGui<
 			val tooltipLines = mutableListOf(1, 2)
 			if(hasHeatSources)
 				tooltipLines.add(3)
-			drawHoveringText(tooltipLines.map { "tile.evaporator.heat_explanation.$it".translate() }, mouseX, mouseY)
+			drawHoveringText(tooltipLines.map { "tile.alchemistry:evaporator.heat_explanation.$it".translate() }, mouseX, mouseY)
 		}
 		if(mouseClick != null && mouseClick!!.btn == 0 && isHovered(guiLeft + 65, guiTop + 64, width, fontRenderer.FONT_HEIGHT, mouseClick!!.x, mouseClick!!.y)) {
 			val gui = GuiModifiers(
-				"$displayName ${"tile.evaporator.heat_sources".translate()}",
+				"$displayName ${"tile.alchemistry:evaporator.heat_sources".translate()}",
 				TileEvaporator.heatSources.map { (block, value) ->
 					block.getGUIRenderer(this) to listOf("${Alchemistry.DECIMAL_FORMAT.format(value)}x" to getColor(value))
 				},
-				arrayOf("tile.evaporator.heat".translate("")),
+				arrayOf("tile.alchemistry:evaporator.heat".translate("")),
 				emptyArray(),
 				this
 			)

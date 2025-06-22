@@ -68,7 +68,7 @@ class ReactorShapeHandler(val controller: AbstractReactorController<*>) {
 			val other = touchesOtherReactorPart()
 			if(other != null) {
 				failReason = {
-					listOf("tile.reactor.non_compact_touching".translate(), "tile.reactor.non_compact_touching_line2".translate())
+					listOf("tile.alchemistry:reactor.non_compact_touching".translate(), "tile.alchemistry:reactor.non_compact_touching_line2".translate())
 				}
 				failPos = other
 				failRed = true
@@ -312,8 +312,8 @@ class ReactorShapeHandler(val controller: AbstractReactorController<*>) {
 
 		failReason = {
 			listOf(
-				"tile.reactor.structure_incomplete".translate(expected.localizedName),
-				"tile.reactor.structure_incomplete_coordinates".translate(pos.x, pos.y, pos.z)
+				"tile.alchemistry:reactor.structure_incomplete".translate(expected.localizedName),
+				"tile.alchemistry:reactor.structure_incomplete_coordinates".translate(pos.x, pos.y, pos.z)
 			)
 		}
 		failPos = pos

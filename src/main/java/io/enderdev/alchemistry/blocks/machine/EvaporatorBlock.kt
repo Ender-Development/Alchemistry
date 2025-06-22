@@ -25,7 +25,7 @@ class EvaporatorBlock(name: String, tileClass: Class<out TileEntity>, guiID: Int
 
 	override fun registerItem(event: RegistryEvent.Register<Item>) {
 		event.registry.register(
-			TooltipItemBlock(this, "tile.evaporator.tooltip".translate())
+			TooltipItemBlock(this, "tile.alchemistry:evaporator.tooltip".translate())
 				.setRegistryName(this.registryName)
 		)
 	}

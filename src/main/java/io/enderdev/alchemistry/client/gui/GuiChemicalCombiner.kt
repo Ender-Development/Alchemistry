@@ -14,10 +14,10 @@ import net.minecraft.entity.player.InventoryPlayer
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ResourceLocation
 
-class GuiChemicalCombiner(playerInv: InventoryPlayer, tile: TileChemicalCombiner) : BaseGui<TileChemicalCombiner>(ContainerChemicalCombiner(playerInv, tile), tile, "chemical_combiner") {
+class GuiChemicalCombiner(playerInv: InventoryPlayer, override val tile: TileChemicalCombiner) : BaseGui(ContainerChemicalCombiner(playerInv, tile), tile) {
 	lateinit var toggleRecipeLock: LockButton
 
-	override val textureLocation = ResourceLocation(Tags.MOD_ID, "textures/gui/container/${guiName}_gui_redox.png")
+	override val textureLocation = ResourceLocation(Tags.MOD_ID, "textures/gui/container/chemical_combiner_gui_redox.png")
 
 	init {
 		this.displayData.add(CapabilityEnergyDisplayWrapper(8, 21, 16, 70, tile::energyStorage))

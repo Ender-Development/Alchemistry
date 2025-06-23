@@ -8,10 +8,9 @@ import io.enderdev.alchemistry.client.gui.misc.GuiModifiers
 import io.enderdev.alchemistry.client.gui.misc.GuiModifiers.IRenderer
 import io.enderdev.alchemistry.tiles.AbstractReactorController
 import io.enderdev.alchemistry.tiles.ReactorType
-import io.enderdev.catalyx.utils.extensions.translate
 import io.enderdev.catalyx.client.gui.BaseGui
 import io.enderdev.catalyx.client.gui.wrappers.CapabilityEnergyDisplayWrapper
-import io.enderdev.catalyx.tiles.helper.IGuiTile
+import io.enderdev.catalyx.utils.extensions.translate
 import net.minecraft.client.gui.GuiButton
 import net.minecraft.inventory.Container
 import net.minecraft.util.ResourceLocation
@@ -20,8 +19,7 @@ import java.util.*
 import kotlin.math.ceil
 import kotlin.math.roundToInt
 
-abstract class GuiReactorController<T>(container: Container, tile: T, guiName: String) :
-	BaseGui<T>(container, tile, guiName) where T : AbstractReactorController<*>, T : IGuiTile {
+abstract class GuiReactorController<T : AbstractReactorController<*>>(container: Container, override val tile: T, guiName: String) : BaseGui(container, tile) {
 	override val textureLocation = ResourceLocation(Tags.MOD_ID, "textures/gui/container/${guiName}_gui_redox.png")
 
 	val infoHeight = 102f

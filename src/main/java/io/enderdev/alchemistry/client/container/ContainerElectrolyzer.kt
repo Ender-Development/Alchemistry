@@ -6,9 +6,7 @@ import io.enderdev.catalyx.tiles.helper.TileStackHandler
 import net.minecraft.entity.player.InventoryPlayer
 import net.minecraftforge.items.SlotItemHandler
 
-class ContainerElectrolyzer(playerInv: InventoryPlayer, tile: TileElectrolyzer) :
-	BaseContainer<TileElectrolyzer>(playerInv, tile) {
-
+class ContainerElectrolyzer(playerInv: InventoryPlayer, tile: TileElectrolyzer) : BaseContainer(playerInv, tile) {
 	override fun addOwnSlots() {
 		if(tile.input.slots < 1) {
 			tile.input = TileStackHandler(1, tile)

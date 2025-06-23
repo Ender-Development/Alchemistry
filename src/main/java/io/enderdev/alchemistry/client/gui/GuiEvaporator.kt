@@ -6,16 +6,16 @@ import io.enderdev.alchemistry.client.container.ContainerEvaporator
 import io.enderdev.alchemistry.client.gui.misc.GuiModifiers
 import io.enderdev.alchemistry.client.gui.misc.GuiModifiers.MouseClickData
 import io.enderdev.alchemistry.tiles.TileEvaporator
-import io.enderdev.catalyx.utils.extensions.translate
 import io.enderdev.catalyx.client.gui.BaseGui
 import io.enderdev.catalyx.client.gui.wrappers.CapabilityFluidDisplayWrapper
+import io.enderdev.catalyx.utils.extensions.translate
 import net.minecraft.entity.player.InventoryPlayer
 import net.minecraft.util.ResourceLocation
 import java.awt.Color
 import kotlin.math.roundToInt
 
-class GuiEvaporator(playerInv: InventoryPlayer, tile: TileEvaporator) : BaseGui<TileEvaporator>(ContainerEvaporator(playerInv, tile), tile, "evaporator") {
-	override val textureLocation = ResourceLocation(Tags.MOD_ID, "textures/gui/container/${guiName}_gui_redox.png")
+class GuiEvaporator(playerInv: InventoryPlayer, override val tile: TileEvaporator) : BaseGui(ContainerEvaporator(playerInv, tile), tile) {
+	override val textureLocation = ResourceLocation(Tags.MOD_ID, "textures/gui/container/evaporator_gui_redox.png")
 	private val hasHeatSources = TileEvaporator.heatSources.isNotEmpty()
 	private val heatText = { heat: Double -> "tile.alchemistry:evaporator.heat".translate(Alchemistry.DECIMAL_FORMAT.format(heat)) }
 	private var mouseClick: MouseClickData? = null

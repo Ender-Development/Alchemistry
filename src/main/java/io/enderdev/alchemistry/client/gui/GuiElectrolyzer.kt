@@ -9,8 +9,8 @@ import io.enderdev.catalyx.client.gui.wrappers.CapabilityFluidDisplayWrapper
 import net.minecraft.entity.player.InventoryPlayer
 import net.minecraft.util.ResourceLocation
 
-class GuiElectrolyzer(playerInv: InventoryPlayer, tile: TileElectrolyzer) : BaseGui<TileElectrolyzer>(ContainerElectrolyzer(playerInv, tile), tile, "electrolyzer") {
-	override val textureLocation = ResourceLocation(Tags.MOD_ID, "textures/gui/container/${guiName}_gui_redox.png")
+class GuiElectrolyzer(playerInv: InventoryPlayer, tile: TileElectrolyzer) : BaseGui(ContainerElectrolyzer(playerInv, tile), tile) {
+	override val textureLocation = ResourceLocation(Tags.MOD_ID, "textures/gui/container/electrolyzer_gui_redox.png")
 
 	init {
 		this.displayData.add(CapabilityEnergyDisplayWrapper(8, 21, 16, 70, tile::energyStorage))

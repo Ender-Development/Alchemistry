@@ -9,9 +9,8 @@ import io.enderdev.catalyx.client.gui.wrappers.CapabilityFluidDisplayWrapper
 import net.minecraft.entity.player.InventoryPlayer
 import net.minecraft.util.ResourceLocation
 
-class GuiLiquifier(playerInv: InventoryPlayer, tile: TileLiquifier) :
-	BaseGui<TileLiquifier>(ContainerLiquifier(playerInv, tile), tile, "liquifier") {
-	override val textureLocation = ResourceLocation(Tags.MOD_ID, "textures/gui/container/${guiName}_gui_redox.png")
+class GuiLiquifier(playerInv: InventoryPlayer, tile: TileLiquifier) : BaseGui(ContainerLiquifier(playerInv, tile), tile) {
+	override val textureLocation = ResourceLocation(Tags.MOD_ID, "textures/gui/container/liquifier_gui_redox.png")
 
 	init {
 		this.displayData.add(CapabilityEnergyDisplayWrapper(8, 21, 16, 70, tile::energyStorage))

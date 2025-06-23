@@ -6,9 +6,7 @@ import io.enderdev.catalyx.client.container.BaseContainer
 import net.minecraft.entity.player.InventoryPlayer
 import net.minecraftforge.items.SlotItemHandler
 
-class ContainerFusionController(playerInv: InventoryPlayer, tile: TileFusionController) :
-	BaseContainer<TileFusionController>(playerInv, tile) {
-
+class ContainerFusionController(playerInv: InventoryPlayer, override val tile: TileFusionController) : BaseContainer(playerInv, tile) {
 	override fun addOwnSlots() {
 		this.addSlotToContainer(FusionSlotHandler(tile, tile.input, 0, 44, 75))
 		this.addSlotToContainer(FusionSlotHandler(tile, tile.input, 1, 44 + 18, 75))

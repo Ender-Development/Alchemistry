@@ -6,9 +6,7 @@ import io.enderdev.alchemistry.tiles.TileFusionController
 import io.enderdev.catalyx.utils.extensions.translate
 import net.minecraft.entity.player.InventoryPlayer
 
-class GuiFusionController(playerInv: InventoryPlayer, tile: TileFusionController) :
-	GuiReactorController<TileFusionController>(ContainerFusionController(playerInv, tile), tile, "fusion_controller") {
-
+class GuiFusionController(playerInv: InventoryPlayer, tile: TileFusionController) : GuiReactorController<TileFusionController>(ContainerFusionController(playerInv, tile), tile, "fusion_controller") {
 	lateinit var modeButton: SingleButton
 
 	override fun initGui() {

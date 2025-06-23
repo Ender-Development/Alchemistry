@@ -4,8 +4,7 @@ import io.enderdev.alchemistry.client.container.ContainerFissionController
 import io.enderdev.alchemistry.tiles.TileFissionController
 import net.minecraft.entity.player.InventoryPlayer
 
-class GuiFissionController(playerInv: InventoryPlayer, tile: TileFissionController) :
-	GuiReactorController<TileFissionController>(ContainerFissionController(playerInv, tile), tile, "fission_controller") {
+class GuiFissionController(playerInv: InventoryPlayer, tile: TileFissionController) : GuiReactorController<TileFissionController>(ContainerFissionController(playerInv, tile), tile, "fission_controller") {
 
 	override fun drawGuiContainerBackgroundLayer(partialTicks: Float, mouseX: Int, mouseY: Int) {
 		super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY)

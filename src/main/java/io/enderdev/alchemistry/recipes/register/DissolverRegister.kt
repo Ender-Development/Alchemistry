@@ -376,13 +376,13 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 
 		(0..15).forEach { i ->
 			recipes.add(dissolverRecipe {
-				input = Blocks.CONCRETE_POWDER.toIngredient(2, meta = i)
+				input = Blocks.CONCRETE_POWDER.toIngredient(i)
 				output {
 					addStack { "silicon_dioxide".chemical(5) }
 				}
 			})
 			recipes.add(dissolverRecipe {
-				input = Blocks.CONCRETE.toIngredient(2, meta = i)
+				input = Blocks.CONCRETE.toIngredient(i)
 				output {
 					addStack { "silicon_dioxide".chemical(5) }
 				}
@@ -527,7 +527,7 @@ class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 		})
 
 		recipes.add(dissolverRecipe {
-			input = Items.DYE.toIngredient(3, 4)
+			input = Items.DYE.toIngredient(4)
 			output {
 				reversible = true
 				addGroup {

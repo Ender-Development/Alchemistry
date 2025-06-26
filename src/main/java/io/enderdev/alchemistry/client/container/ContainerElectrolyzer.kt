@@ -7,7 +7,7 @@ import net.minecraft.entity.player.InventoryPlayer
 import net.minecraftforge.items.SlotItemHandler
 
 class ContainerElectrolyzer(playerInv: InventoryPlayer, tile: TileElectrolyzer) : BaseContainer(playerInv, tile) {
-	override fun addOwnSlots() {
+	init {
 		if(tile.input.slots < 1) {
 			tile.input = TileStackHandler(1, tile)
 		}

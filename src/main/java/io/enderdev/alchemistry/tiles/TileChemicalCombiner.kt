@@ -4,11 +4,12 @@ import io.enderdev.alchemistry.Alchemistry
 import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.client.button.LockButton
 import io.enderdev.alchemistry.recipes.CombinerRecipe
-import io.enderdev.catalyx.utils.extensions.get
+import io.enderdev.catalyx.client.button.AbstractButton
 import io.enderdev.catalyx.tiles.BaseMachineTile
 import io.enderdev.catalyx.tiles.helper.EnergyTileImpl
 import io.enderdev.catalyx.tiles.helper.IEnergyTile
 import io.enderdev.catalyx.tiles.helper.TileStackHandler
+import io.enderdev.catalyx.utils.extensions.get
 import net.darkhax.gamestages.GameStageHelper
 import net.minecraft.entity.player.EntityPlayerMP
 import net.minecraft.item.ItemStack
@@ -131,13 +132,13 @@ class TileChemicalCombiner : BaseMachineTile<CombinerRecipe>(Alchemistry.catalyx
 		return super.writeToNBT(compound)
 	}
 
-	override fun handleButtonPress(id: Int) {
-		if(id == LockButton.buttonId)
+	override fun handleButtonPress(button: AbstractButton) {
+		if(button is LockButton)
 			if(recipeIsLocked) {
 				recipeIsLocked = false
 				currentRecipe = null
 			} else
 				recipeIsLocked = true
-		super.handleButtonPress(id)
+		super.handleButtonPress(button)
 	}
 }

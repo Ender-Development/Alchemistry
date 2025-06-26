@@ -4,17 +4,17 @@ import io.enderdev.alchemistry.Tags
 import io.enderdev.alchemistry.client.button.LockButton
 import io.enderdev.alchemistry.client.container.ContainerChemicalCombiner
 import io.enderdev.alchemistry.tiles.TileChemicalCombiner
+import io.enderdev.catalyx.client.gui.BaseGuiTyped
+import io.enderdev.catalyx.client.gui.wrappers.CapabilityEnergyDisplayWrapper
 import io.enderdev.catalyx.utils.extensions.get
 import io.enderdev.catalyx.utils.extensions.translate
-import io.enderdev.catalyx.client.gui.BaseGui
-import io.enderdev.catalyx.client.gui.wrappers.CapabilityEnergyDisplayWrapper
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.RenderHelper
 import net.minecraft.entity.player.InventoryPlayer
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ResourceLocation
 
-class GuiChemicalCombiner(playerInv: InventoryPlayer, override val tile: TileChemicalCombiner) : BaseGui(ContainerChemicalCombiner(playerInv, tile), tile) {
+class GuiChemicalCombiner(playerInv: InventoryPlayer, val tile: TileChemicalCombiner) : BaseGuiTyped.BaseGui(ContainerChemicalCombiner(playerInv, tile), tile) {
 	lateinit var toggleRecipeLock: LockButton
 
 	override val textureLocation = ResourceLocation(Tags.MOD_ID, "textures/gui/container/chemical_combiner_gui_redox.png")

@@ -9,10 +9,11 @@ import io.enderdev.alchemistry.client.button.SingleButton
 import io.enderdev.alchemistry.items.ModItems
 import io.enderdev.alchemistry.recipes.FusionRecipe
 import io.enderdev.alchemistry.recipes.register.FusionRegister
-import io.enderdev.catalyx.utils.extensions.get
+import io.enderdev.catalyx.client.button.AbstractButton
 import io.enderdev.catalyx.tiles.helper.EnergyTileImpl
 import io.enderdev.catalyx.tiles.helper.IEnergyTile
 import io.enderdev.catalyx.tiles.helper.TileStackHandler
+import io.enderdev.catalyx.utils.extensions.get
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
 
@@ -115,9 +116,9 @@ class TileFusionController : AbstractReactorController<FusionRecipe>(ReactorType
 		super.readFromNBT(compound)
 	}
 
-	override fun handleButtonPress(id: Int) {
-		if(id == SingleButton.buttonId)
+	override fun handleButtonPress(button: AbstractButton) {
+		if(button is SingleButton)
 			singleMode = !singleMode
-		super.handleButtonPress(id)
+		super.handleButtonPress(button)
 	}
 }

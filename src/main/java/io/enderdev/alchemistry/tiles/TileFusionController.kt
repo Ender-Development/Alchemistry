@@ -5,11 +5,11 @@ import io.enderdev.alchemistry.blocks.ModBlocks
 import io.enderdev.alchemistry.blocks.PropertyPowerStatus
 import io.enderdev.alchemistry.blocks.machine.ReactorControllerBlock
 import io.enderdev.alchemistry.chemistry.ElementRegistry
-import io.enderdev.alchemistry.client.button.SingleButton
+import io.enderdev.alchemistry.client.button.SingleButtonWrapper
 import io.enderdev.alchemistry.items.ModItems
 import io.enderdev.alchemistry.recipes.FusionRecipe
 import io.enderdev.alchemistry.recipes.register.FusionRegister
-import io.enderdev.catalyx.client.button.AbstractButton
+import io.enderdev.catalyx.client.button.AbstractButtonWrapper
 import io.enderdev.catalyx.tiles.helper.EnergyTileImpl
 import io.enderdev.catalyx.tiles.helper.IEnergyTile
 import io.enderdev.catalyx.tiles.helper.TileStackHandler
@@ -116,8 +116,8 @@ class TileFusionController : AbstractReactorController<FusionRecipe>(ReactorType
 		super.readFromNBT(compound)
 	}
 
-	override fun handleButtonPress(button: AbstractButton) {
-		if(button is SingleButton)
+	override fun handleButtonPress(button: AbstractButtonWrapper) {
+		if(button is SingleButtonWrapper)
 			singleMode = !singleMode
 		super.handleButtonPress(button)
 	}

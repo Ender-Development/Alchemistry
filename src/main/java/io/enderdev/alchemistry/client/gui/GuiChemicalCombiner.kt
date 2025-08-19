@@ -1,10 +1,10 @@
 package io.enderdev.alchemistry.client.gui
 
 import io.enderdev.alchemistry.Tags
-import io.enderdev.alchemistry.client.button.LockButton
+import io.enderdev.alchemistry.client.button.LockButtonWrapper
 import io.enderdev.alchemistry.client.container.ContainerChemicalCombiner
 import io.enderdev.alchemistry.tiles.TileChemicalCombiner
-import io.enderdev.catalyx.client.gui.BaseGuiTyped
+import io.enderdev.catalyx.client.gui.BaseGui
 import io.enderdev.catalyx.client.gui.wrappers.CapabilityEnergyDisplayWrapper
 import io.enderdev.catalyx.utils.extensions.get
 import io.enderdev.catalyx.utils.extensions.translate
@@ -14,8 +14,8 @@ import net.minecraft.entity.player.InventoryPlayer
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ResourceLocation
 
-class GuiChemicalCombiner(playerInv: InventoryPlayer, val tile: TileChemicalCombiner) : BaseGuiTyped.BaseGui(ContainerChemicalCombiner(playerInv, tile), tile) {
-	lateinit var toggleRecipeLock: LockButton
+class GuiChemicalCombiner(playerInv: InventoryPlayer, val tile: TileChemicalCombiner) : BaseGui(ContainerChemicalCombiner(playerInv, tile), tile) {
+	lateinit var toggleRecipeLock: LockButtonWrapper
 
 	override val textureLocation = ResourceLocation(Tags.MOD_ID, "textures/gui/container/chemical_combiner_gui_redox.png")
 
@@ -25,17 +25,17 @@ class GuiChemicalCombiner(playerInv: InventoryPlayer, val tile: TileChemicalComb
 
 	override fun initGui() {
 		super.initGui()
-		toggleRecipeLock = LockButton(this.guiLeft + 175 - 20, this.guiTop + displayNameOffset - 4 + 18)
-		this.buttonList.add(toggleRecipeLock)
+		toggleRecipeLock = LockButtonWrapper(this.guiLeft + 175 - 20, this.guiTop + displayNameOffset - 4 + 18)
+		this.buttonList.add(toggleRecipeLock.button)
 	}
 
 	override fun drawGuiContainerForegroundLayer(mouseX: Int, mouseY: Int) {
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY)
 
 		if(tile.recipeIsLocked) {
-			toggleRecipeLock.isLocked = LockButton.State.LOCKED
+			toggleRecipeLock.isLocked = LockButtonWrapper.State.LOCKED
 		} else {
-			toggleRecipeLock.isLocked = LockButton.State.UNLOCKED
+			toggleRecipeLock.isLocked = LockButtonWrapper.State.UNLOCKED
 		}
 	}
 

@@ -2,9 +2,9 @@ package io.enderdev.alchemistry.tiles
 
 import io.enderdev.alchemistry.Alchemistry
 import io.enderdev.alchemistry.ConfigHandler
-import io.enderdev.alchemistry.client.button.LockButton
+import io.enderdev.alchemistry.client.button.LockButtonWrapper
 import io.enderdev.alchemistry.recipes.CombinerRecipe
-import io.enderdev.catalyx.client.button.AbstractButton
+import io.enderdev.catalyx.client.button.AbstractButtonWrapper
 import io.enderdev.catalyx.tiles.BaseMachineTile
 import io.enderdev.catalyx.tiles.helper.EnergyTileImpl
 import io.enderdev.catalyx.tiles.helper.IEnergyTile
@@ -27,11 +27,9 @@ class TileChemicalCombiner : BaseMachineTile<CombinerRecipe>(Alchemistry.catalyx
 	val clientRecipeTarget: TileStackHandler
 	var owner: String = ""
 
-	override val energyPerTick: Int
-		get() = ConfigHandler.COMBINER.energyPerTick
+	override val energyPerTick = ConfigHandler.COMBINER.energyPerTick
 
-	override val recipeTime: Int
-		get() = ConfigHandler.COMBINER.processingTicks
+	override val recipeTime = ConfigHandler.COMBINER.processingTicks
 
 	init {
 		initInventoryCapability(9, 1)
@@ -132,8 +130,8 @@ class TileChemicalCombiner : BaseMachineTile<CombinerRecipe>(Alchemistry.catalyx
 		return super.writeToNBT(compound)
 	}
 
-	override fun handleButtonPress(button: AbstractButton) {
-		if(button is LockButton)
+	override fun handleButtonPress(button: AbstractButtonWrapper) {
+		if(button is LockButtonWrapper)
 			if(recipeIsLocked) {
 				recipeIsLocked = false
 				currentRecipe = null

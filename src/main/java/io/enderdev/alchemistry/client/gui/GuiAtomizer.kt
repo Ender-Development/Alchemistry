@@ -3,13 +3,13 @@ package io.enderdev.alchemistry.client.gui
 import io.enderdev.alchemistry.Tags
 import io.enderdev.alchemistry.client.container.ContainerAtomizer
 import io.enderdev.alchemistry.tiles.TileAtomizer
-import io.enderdev.catalyx.client.gui.BaseGuiTyped
+import io.enderdev.catalyx.client.gui.BaseGui
 import io.enderdev.catalyx.client.gui.wrappers.CapabilityEnergyDisplayWrapper
 import io.enderdev.catalyx.client.gui.wrappers.CapabilityFluidDisplayWrapper
 import net.minecraft.entity.player.InventoryPlayer
 import net.minecraft.util.ResourceLocation
 
-class GuiAtomizer(playerInv: InventoryPlayer, tile: TileAtomizer) : BaseGuiTyped.BaseGui(ContainerAtomizer(playerInv, tile), tile) {
+class GuiAtomizer(playerInv: InventoryPlayer, tile: TileAtomizer) : BaseGui(ContainerAtomizer(playerInv, tile), tile) {
 	override val textureLocation = ResourceLocation(Tags.MOD_ID, "textures/gui/container/atomizer_gui_redox.png")
 
 	init {

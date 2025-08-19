@@ -3,12 +3,13 @@ package io.enderdev.alchemistry.client.gui
 import io.enderdev.alchemistry.Alchemistry
 import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.Tags
-import io.enderdev.alchemistry.client.button.ModeratorButton
+import io.enderdev.alchemistry.client.button.ModeratorButtonWrapper
 import io.enderdev.alchemistry.client.gui.misc.GuiModifiers
 import io.enderdev.alchemistry.client.gui.misc.GuiModifiers.IRenderer
 import io.enderdev.alchemistry.tiles.AbstractReactorController
 import io.enderdev.alchemistry.tiles.ReactorType
-import io.enderdev.catalyx.client.gui.BaseGuiTyped
+import io.enderdev.catalyx.client.button.AbstractButtonWrapper
+import io.enderdev.catalyx.client.gui.BaseGui
 import io.enderdev.catalyx.client.gui.wrappers.CapabilityEnergyDisplayWrapper
 import io.enderdev.catalyx.utils.extensions.translate
 import net.minecraft.client.gui.GuiButton
@@ -19,14 +20,14 @@ import java.util.*
 import kotlin.math.ceil
 import kotlin.math.roundToInt
 
-abstract class GuiReactorController<T : AbstractReactorController<*>>(container: Container, val tile: T, guiName: String) : BaseGuiTyped.BaseGui(container, tile) {
+abstract class GuiReactorController<T : AbstractReactorController<*>>(container: Container, val tile: T, guiName: String) : BaseGui(container, tile) {
 	override val textureLocation = ResourceLocation(Tags.MOD_ID, "textures/gui/container/${guiName}_gui_redox.png")
 
 	val infoHeight = 102f
 	val infoX = 12f
 
 	val hasModerators = tile.moderators.isNotEmpty()
-	lateinit var moderatorButton: ModeratorButton
+	lateinit var moderatorButtonWrapper: ModeratorButtonWrapper
 
 	init {
 		displayData.add(CapabilityEnergyDisplayWrapper(8, 21, 16, 70, tile::energyStorage))
@@ -34,14 +35,16 @@ abstract class GuiReactorController<T : AbstractReactorController<*>>(container:
 
 	override fun initGui() {
 		super.initGui()
-		moderatorButton = ModeratorButton(guiLeft + 155, guiTop + displayNameOffset + 14)
+		moderatorButtonWrapper = ModeratorButtonWrapper(guiLeft + 155, guiTop + displayNameOffset + 14)
 		if(hasModerators)
-			buttonList.add(moderatorButton)
+			buttonList.add(moderatorButtonWrapper.button)
 	}
 
 	override fun actionPerformed(button: GuiButton) {
-		super.actionPerformed(button)
-		if(button.id == moderatorButton.id) {
+		val wrapper = AbstractButtonWrapper.getWrapper<ModeratorButtonWrapper>(button)
+		if(wrapper == null)
+			super.actionPerformed(button)
+		else {
 			// this really is not pretty, but, what can you do
 			val entries = mutableListOf<Pair<IRenderer, List<Pair<String, Color>>>>()
 			val sort = { by: (AbstractReactorController.Multiplier) -> Double ->
@@ -71,7 +74,7 @@ abstract class GuiReactorController<T : AbstractReactorController<*>>(container:
 
 	override fun renderTooltips(mouseX: Int, mouseY: Int) {
 		super.renderTooltips(mouseX, mouseY)
-		if(hasModerators && isHovered(moderatorButton.x, moderatorButton.y, 16, 16, mouseX, mouseY))
+		if(hasModerators && isHovered(moderatorButtonWrapper.x, moderatorButtonWrapper.y, 16, 16, mouseX, mouseY))
 			drawHoveringText("tooltip.modifier_btn".translate(), mouseX, mouseY)
 	}
 

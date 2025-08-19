@@ -1,18 +1,18 @@
 package io.enderdev.alchemistry.client.gui
 
-import io.enderdev.alchemistry.client.button.SingleButton
+import io.enderdev.alchemistry.client.button.SingleButtonWrapper
 import io.enderdev.alchemistry.client.container.ContainerFusionController
 import io.enderdev.alchemistry.tiles.TileFusionController
 import io.enderdev.catalyx.utils.extensions.translate
 import net.minecraft.entity.player.InventoryPlayer
 
 class GuiFusionController(playerInv: InventoryPlayer, tile: TileFusionController) : GuiReactorController<TileFusionController>(ContainerFusionController(playerInv, tile), tile, "fusion_controller") {
-	lateinit var modeButton: SingleButton
+	lateinit var modeButton: SingleButtonWrapper
 
 	override fun initGui() {
 		super.initGui()
-		modeButton = SingleButton(this.guiLeft + 137, this.guiTop + displayNameOffset + 14)
-		this.buttonList.add(modeButton)
+		modeButton = SingleButtonWrapper(this.guiLeft + 137, this.guiTop + displayNameOffset + 14)
+		this.buttonList.add(modeButton.button)
 	}
 
 	override fun drawGuiContainerBackgroundLayer(partialTicks: Float, mouseX: Int, mouseY: Int) {
@@ -22,8 +22,8 @@ class GuiFusionController(playerInv: InventoryPlayer, tile: TileFusionController
 
 	override fun drawGuiContainerForegroundLayer(mouseX: Int, mouseY: Int) {
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY)
-		if(tile.singleMode) modeButton.isSingle = SingleButton.State.SINGLE
-		else modeButton.isSingle = SingleButton.State.REGULAR
+		if(tile.singleMode) modeButton.isSingle = SingleButtonWrapper.State.SINGLE
+		else modeButton.isSingle = SingleButtonWrapper.State.REGULAR
 	}
 
 	override fun renderTooltips(mouseX: Int, mouseY: Int) {

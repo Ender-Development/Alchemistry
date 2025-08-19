@@ -4,11 +4,11 @@ import io.enderdev.alchemistry.Alchemistry
 import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.recipes.AtomizerRecipe
 import io.enderdev.alchemistry.recipes.register.AtomizerRegister
-import io.enderdev.catalyx.utils.extensions.get
 import io.enderdev.catalyx.tiles.BaseMachineTile
 import io.enderdev.catalyx.tiles.helper.EnergyTileImpl
 import io.enderdev.catalyx.tiles.helper.IEnergyTile
 import io.enderdev.catalyx.tiles.helper.IFluidTile
+import io.enderdev.catalyx.utils.extensions.get
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraftforge.fluids.Fluid
@@ -19,28 +19,23 @@ import net.minecraftforge.fluids.capability.templates.FluidHandlerConcatenate
 class TileAtomizer : BaseMachineTile<AtomizerRecipe>(Alchemistry.catalyxSettings), IFluidTile,
 	IEnergyTile by EnergyTileImpl(ConfigHandler.ATOMIZER.energyCapacity) {
 
-	val inputTank: FluidTank
+	val inputTank = object : FluidTank(Fluid.BUCKET_VOLUME * 10) {
+		override fun canFillFluidType(with: FluidStack?) = fluid == null || fluid!!.fluid == with?.fluid
 
-	override val energyPerTick: Int
-		get() = ConfigHandler.ATOMIZER.energyPerTick
+		override fun onContentsChanged() = markDirtyGUI()
+	}.apply {
+		setTileEntity(this@TileAtomizer)
+		setCanFill(true)
+		setCanDrain(false)
+	}
 
-	override val recipeTime: Int
-		get() = ConfigHandler.ATOMIZER.processingTicks
+	override val energyPerTick = ConfigHandler.ATOMIZER.energyPerTick
+	override val recipeTime = ConfigHandler.ATOMIZER.processingTicks
 
-	override val fluidTanks: FluidHandlerConcatenate?
-		get() = FluidHandlerConcatenate(inputTank)
+	override val fluidTanks = FluidHandlerConcatenate(inputTank)
 
 	init {
 		initInventoryCapability(0, 1)
-		inputTank = object : FluidTank(Fluid.BUCKET_VOLUME * 10) {
-			override fun canFillFluidType(with: FluidStack?) = fluid == null || fluid!!.fluid == with?.fluid
-
-			override fun onContentsChanged() = markDirtyGUI()
-		}
-
-		inputTank.setTileEntity(this)
-		inputTank.setCanFill(true)
-		inputTank.setCanDrain(false)
 	}
 
 	override fun updateRecipe() {

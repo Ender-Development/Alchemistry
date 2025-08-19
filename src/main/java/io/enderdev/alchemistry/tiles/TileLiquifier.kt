@@ -4,12 +4,12 @@ import io.enderdev.alchemistry.Alchemistry
 import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.recipes.LiquifierRecipe
 import io.enderdev.alchemistry.recipes.register.LiquifierRegister
-import io.enderdev.catalyx.utils.extensions.get
 import io.enderdev.catalyx.tiles.BaseMachineTile
 import io.enderdev.catalyx.tiles.helper.EnergyTileImpl
 import io.enderdev.catalyx.tiles.helper.IEnergyTile
 import io.enderdev.catalyx.tiles.helper.IFluidTile
 import io.enderdev.catalyx.tiles.helper.TileStackHandler
+import io.enderdev.catalyx.utils.extensions.get
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraftforge.fluids.Fluid
@@ -20,30 +20,25 @@ import net.minecraftforge.fluids.capability.templates.FluidHandlerConcatenate
 class TileLiquifier : BaseMachineTile<LiquifierRecipe>(Alchemistry.catalyxSettings), IFluidTile,
 	IEnergyTile by EnergyTileImpl(ConfigHandler.LIQUIFIER.energyCapacity) {
 
-	val outputTank: FluidTank
+	val outputTank = object : FluidTank(Fluid.BUCKET_VOLUME * 10) {
+		override fun canFillFluidType(fluid: FluidStack?) = recipeRegister.any { it.output.fluid == fluid?.fluid }
+
+		override fun onContentsChanged() = markDirtyGUI()
+	}.apply {
+		setTileEntity(this@TileLiquifier)
+		setCanFill(false)
+		setCanDrain(true)
+	}
 
 	val recipeRegister = LiquifierRegister.Companion.INSTANCE.recipes
 
-	override val energyPerTick: Int
-		get() = ConfigHandler.LIQUIFIER.energyPerTick
+	override val energyPerTick = ConfigHandler.LIQUIFIER.energyPerTick
+	override val recipeTime = ConfigHandler.LIQUIFIER.processingTicks
 
-	override val recipeTime: Int
-		get() = ConfigHandler.LIQUIFIER.processingTicks
-
-	override val fluidTanks: FluidHandlerConcatenate?
-		get() = FluidHandlerConcatenate(outputTank)
+	override val fluidTanks = FluidHandlerConcatenate(outputTank)
 
 	init {
 		initInventoryCapability(1, 0)
-		outputTank = object : FluidTank(Fluid.BUCKET_VOLUME * 10) {
-			override fun canFillFluidType(fluid: FluidStack?) = recipeRegister.any { it.output.fluid == fluid?.fluid }
-
-			override fun onContentsChanged() = markDirtyGUI()
-		}
-
-		outputTank.setTileEntity(this)
-		outputTank.setCanFill(false)
-		outputTank.setCanDrain(true)
 	}
 
 	override fun initInventoryInputCapability() {

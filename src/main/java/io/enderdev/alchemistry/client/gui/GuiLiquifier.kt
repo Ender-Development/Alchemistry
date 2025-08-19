@@ -3,13 +3,13 @@ package io.enderdev.alchemistry.client.gui
 import io.enderdev.alchemistry.Tags
 import io.enderdev.alchemistry.client.container.ContainerLiquifier
 import io.enderdev.alchemistry.tiles.TileLiquifier
-import io.enderdev.catalyx.client.gui.BaseGuiTyped
+import io.enderdev.catalyx.client.gui.BaseGui
 import io.enderdev.catalyx.client.gui.wrappers.CapabilityEnergyDisplayWrapper
 import io.enderdev.catalyx.client.gui.wrappers.CapabilityFluidDisplayWrapper
 import net.minecraft.entity.player.InventoryPlayer
 import net.minecraft.util.ResourceLocation
 
-class GuiLiquifier(playerInv: InventoryPlayer, tile: TileLiquifier) : BaseGuiTyped.BaseGui(ContainerLiquifier(playerInv, tile), tile) {
+class GuiLiquifier(playerInv: InventoryPlayer, tile: TileLiquifier) : BaseGui(ContainerLiquifier(playerInv, tile), tile) {
 	override val textureLocation = ResourceLocation(Tags.MOD_ID, "textures/gui/container/liquifier_gui_redox.png")
 
 	init {

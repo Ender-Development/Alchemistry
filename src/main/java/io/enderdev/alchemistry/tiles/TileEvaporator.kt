@@ -6,9 +6,9 @@ import io.enderdev.alchemistry.recipes.EvaporatorRecipe
 import io.enderdev.alchemistry.recipes.register.EvaporatorRegister
 import io.enderdev.alchemistry.utils.BlockMeta
 import io.enderdev.alchemistry.utils.ConfigUtils
-import io.enderdev.catalyx.utils.extensions.get
 import io.enderdev.catalyx.tiles.BaseMachineTile
 import io.enderdev.catalyx.tiles.helper.IFluidTile
+import io.enderdev.catalyx.utils.extensions.get
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraftforge.common.BiomeDictionary
 import net.minecraftforge.fluids.Fluid
@@ -19,32 +19,26 @@ import kotlin.math.roundToInt
 
 class TileEvaporator : BaseMachineTile<EvaporatorRecipe>(Alchemistry.catalyxSettings), IFluidTile {
 
-	val inputTank: FluidTank
+	val inputTank = object : FluidTank(Fluid.BUCKET_VOLUME * 10) {
+		override fun canFillFluidType(fluid: FluidStack?) = recipeRegister.any { it.input.fluid == fluid?.fluid }
+
+		override fun onContentsChanged() = markDirtyClient()
+	}.apply {
+		setTileEntity(this@TileEvaporator)
+		setCanFill(true)
+		setCanDrain(false)
+	}
 
 	val recipeRegister = EvaporatorRegister.Companion.INSTANCE.recipes
 
-	override val energyPerTick: Int
-		get() = 0
-
+	override val energyPerTick = 0
 	override val recipeTime: Int
 		get() = calculateProcessingTime(ConfigHandler.EVAPORATOR.processingTicks)
 
-	override val fluidTanks: FluidHandlerConcatenate?
-		get() = FluidHandlerConcatenate(inputTank)
+	override val fluidTanks = FluidHandlerConcatenate(inputTank)
 
 	init {
 		initInventoryCapability(0, 1)
-
-		inputTank = object : FluidTank(Fluid.BUCKET_VOLUME * 10) {
-			override fun canFillFluidType(fluid: FluidStack?) = recipeRegister.any { it.input.fluid == fluid?.fluid }
-
-			override fun onContentsChanged() =
-				markDirtyClient()
-		}
-
-		inputTank.setTileEntity(this)
-		inputTank.setCanFill(true)
-		inputTank.setCanDrain(false)
 	}
 
 	override fun updateRecipe() {

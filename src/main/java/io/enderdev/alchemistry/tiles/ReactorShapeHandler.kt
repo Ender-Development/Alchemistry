@@ -3,7 +3,6 @@ package io.enderdev.alchemistry.tiles
 import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.blocks.ModBlocks
 import io.enderdev.catalyx.utils.extensions.translate
-import io.enderdev.catalyx.client.BlockHighlighter
 import net.minecraft.block.Block
 import net.minecraft.block.BlockLiquid
 import net.minecraft.block.state.IBlockState
@@ -360,7 +359,7 @@ class ReactorShapeHandler(val controller: AbstractReactorController<*>) {
 			g = .7f
 			b = .6f
 		}
-		BlockHighlighter.highlightBlock(failPos!!, r, g, b, 5000)
+		controller.areaHighlighter.highlightBlock(failPos!!, r, g, b, 5000)
 	}
 
 	private fun BlockPos.offsetUp(amt: Int = 1) = this.offset(EnumFacing.UP, amt)

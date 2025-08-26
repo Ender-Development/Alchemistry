@@ -7,7 +7,7 @@ import io.enderdev.alchemistry.recipes.IRecipe
 import io.enderdev.alchemistry.recipes.register.AbstractRecipeRegister
 import io.enderdev.alchemistry.utils.BlockMeta
 import io.enderdev.alchemistry.utils.ConfigUtils
-import io.enderdev.catalyx.client.BlockHighlighter
+import io.enderdev.catalyx.client.AreaHighlighter
 import io.enderdev.catalyx.tiles.BaseMachineTile
 import io.enderdev.catalyx.tiles.helper.IEnergyTile
 import net.minecraft.block.state.IBlockState
@@ -23,15 +23,16 @@ abstract class AbstractReactorController<T : IRecipe>(val reactorType: ReactorTy
 	var currentMultiplier = Multiplier()
 	var isMultiblockValid = false
 	var checkMultiblockTicks = 0
+	val areaHighlighter = AreaHighlighter()
 
 	fun getFacing() = world?.getBlockState(pos)?.getValue(ReactorControllerBlock.Companion.FACING)
 
 	fun updateMultiblock() {
-		val highlight = !isMultiblockValid && world?.isRemote == true && shapeHandler.failPos != null && BlockHighlighter.pos == shapeHandler.failPos
+		val highlight = !isMultiblockValid && world?.isRemote == true && shapeHandler.failPos != null && areaHighlighter.pos1 == shapeHandler.failPos
 
 		isMultiblockValid = validateMultiblock()
 
-		if(!isMultiblockValid && highlight && BlockHighlighter.pos != shapeHandler.failPos)
+		if(!isMultiblockValid && highlight && areaHighlighter.pos1 != shapeHandler.failPos)
 			shapeHandler.highlightIncorrect()
 	}
 

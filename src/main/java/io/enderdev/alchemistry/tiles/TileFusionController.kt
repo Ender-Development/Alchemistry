@@ -48,8 +48,12 @@ class TileFusionController : AbstractReactorController<FusionRecipe>(ReactorType
 	override fun updateRecipe() {
 		val meta1 = input[0].metadata
 		val meta2 = input[1].metadata
-		recipeRegister.recipes.firstOrNull { it.inputMeta1 == meta1 && it.inputMeta2 == meta2 }?.let { currentRecipe = it }
-		recipeOutput = ElementRegistry[meta1 + meta2]?.toItemStack(1) ?: ItemStack.EMPTY
+		recipeRegister.recipes.firstOrNull { (it.inputMeta1 == meta1 && it.inputMeta2 == meta2) || (it.inputMeta1 == meta2 && it.inputMeta2 == meta1) }?.let {
+			currentRecipe = it
+		}
+		currentRecipe?.let {
+			recipeOutput = ElementRegistry[it.outputMeta]?.toItemStack(1) ?: ItemStack.EMPTY
+		}
 	}
 
 	override fun onProcessComplete() {

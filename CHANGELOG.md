@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.3.2] - reactors
+- fix reactors breaking, when leaving the world and re-entering
+- updated dependencies
+
 ## [1.3.1] - (mostly) more bugfixes
 - fix crashes
   - with Charset ([#8](<https://github.com/Ender-Development/Alchemistry/issues/8>))

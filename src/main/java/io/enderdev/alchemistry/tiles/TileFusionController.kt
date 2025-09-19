@@ -5,7 +5,6 @@ import io.enderdev.alchemistry.blocks.ModBlocks
 import io.enderdev.alchemistry.blocks.PropertyPowerStatus
 import io.enderdev.alchemistry.blocks.machine.ReactorControllerBlock
 import io.enderdev.alchemistry.chemistry.ElementRegistry
-import io.enderdev.alchemistry.chemistry.ElementRegistry.get
 import io.enderdev.alchemistry.client.button.SingleButtonWrapper
 import io.enderdev.alchemistry.items.ModItems
 import io.enderdev.alchemistry.recipes.FusionRecipe
@@ -16,6 +15,7 @@ import org.ender_development.catalyx.client.button.AbstractButtonWrapper
 import org.ender_development.catalyx.tiles.helper.EnergyTileImpl
 import org.ender_development.catalyx.tiles.helper.IEnergyTile
 import org.ender_development.catalyx.tiles.helper.TileStackHandler
+import org.ender_development.catalyx.utils.extensions.get
 
 class TileFusionController : AbstractReactorController<FusionRecipe>(ReactorType.FUSION, FusionRegister.Companion.INSTANCE), IEnergyTile by EnergyTileImpl(ConfigHandler.FUSION.energyCapacity) {
 	override val guiHeight = 222

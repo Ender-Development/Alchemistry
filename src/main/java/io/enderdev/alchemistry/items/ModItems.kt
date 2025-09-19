@@ -27,6 +27,7 @@ object ModItems {
 	var compounds = ItemCompound("compound")
 	var ingots = ItemElementIngot("ingot")
 	val periodicDiagram = ItemPeriodicDiagram()
+	val copyPasteTool = ItemCopyPasteTool()
 
 	fun registerItems(event: RegistryEvent.Register<Item>) = items.forEach { it.registerItem(event) }
 

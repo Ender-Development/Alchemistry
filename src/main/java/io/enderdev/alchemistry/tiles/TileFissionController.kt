@@ -5,7 +5,6 @@ import io.enderdev.alchemistry.blocks.ModBlocks
 import io.enderdev.alchemistry.blocks.PropertyPowerStatus
 import io.enderdev.alchemistry.blocks.machine.ReactorControllerBlock
 import io.enderdev.alchemistry.chemistry.ElementRegistry
-import io.enderdev.alchemistry.chemistry.ElementRegistry.get
 import io.enderdev.alchemistry.items.ModItems
 import io.enderdev.alchemistry.recipes.FissionRecipe
 import io.enderdev.alchemistry.recipes.register.FissionRegister
@@ -13,6 +12,7 @@ import net.minecraft.item.ItemStack
 import org.ender_development.catalyx.tiles.helper.EnergyTileImpl
 import org.ender_development.catalyx.tiles.helper.IEnergyTile
 import org.ender_development.catalyx.tiles.helper.TileStackHandler
+import org.ender_development.catalyx.utils.extensions.get
 import org.ender_development.catalyx.utils.extensions.toStack
 
 class TileFissionController : AbstractReactorController<FissionRecipe>(ReactorType.FISSION, FissionRegister.Companion.INSTANCE),

@@ -4,8 +4,8 @@ import io.enderdev.alchemistry.chemistry.ElementRegistry
 import io.enderdev.alchemistry.items.ItemElementIngot
 import io.enderdev.alchemistry.items.ModItems
 import io.enderdev.alchemistry.recipes.register.*
-import io.enderdev.catalyx.utils.extensions.toStack
 import net.minecraftforge.oredict.OreDictionary
+import org.ender_development.catalyx.utils.extensions.toStack
 
 object ModRecipes {
 

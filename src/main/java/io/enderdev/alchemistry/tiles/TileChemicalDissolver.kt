@@ -3,16 +3,16 @@ package io.enderdev.alchemistry.tiles
 import io.enderdev.alchemistry.Alchemistry
 import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.recipes.DissolverRecipe
-import io.enderdev.catalyx.utils.extensions.canMergeWith
-import io.enderdev.catalyx.utils.extensions.get
-import io.enderdev.catalyx.tiles.BaseMachineTile
-import io.enderdev.catalyx.tiles.helper.EnergyTileImpl
-import io.enderdev.catalyx.tiles.helper.IEnergyTile
-import io.enderdev.catalyx.tiles.helper.TileStackHandler
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.nbt.NBTTagList
 import net.minecraftforge.common.util.Constants
+import org.ender_development.catalyx.tiles.BaseMachineTile
+import org.ender_development.catalyx.tiles.helper.EnergyTileImpl
+import org.ender_development.catalyx.tiles.helper.IEnergyTile
+import org.ender_development.catalyx.tiles.helper.TileStackHandler
+import org.ender_development.catalyx.utils.extensions.canMergeWith
+import org.ender_development.catalyx.utils.extensions.get
 
 class TileChemicalDissolver : BaseMachineTile<DissolverRecipe>(Alchemistry.catalyxSettings),
 	IEnergyTile by EnergyTileImpl(ConfigHandler.DISSOLVER.energyCapacity) {

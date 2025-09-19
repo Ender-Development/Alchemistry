@@ -3,7 +3,6 @@ package io.enderdev.alchemistry.blocks.machine
 import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.items.TooltipItemBlock
 import io.enderdev.alchemistry.tiles.TileChemicalCombiner
-import io.enderdev.catalyx.utils.extensions.translate
 import net.minecraft.block.state.IBlockState
 import net.minecraft.entity.EntityLivingBase
 import net.minecraft.item.Item
@@ -13,7 +12,7 @@ import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import net.minecraftforge.event.RegistryEvent
-
+import org.ender_development.catalyx.utils.extensions.translate
 
 class ChemicalCombinerBlock(name: String, tileClass: Class<out TileEntity>, guiID: Int) : ModelMachineBlock(name, tileClass, guiID, AxisAlignedBB(.0, .0, .0, 1.0, .875, 1.0)) {
 	override fun registerItem(event: RegistryEvent.Register<Item>) {

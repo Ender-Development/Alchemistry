@@ -4,12 +4,6 @@ import io.enderdev.alchemistry.Alchemistry
 import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.client.button.LockButtonWrapper
 import io.enderdev.alchemistry.recipes.CombinerRecipe
-import io.enderdev.catalyx.client.button.AbstractButtonWrapper
-import io.enderdev.catalyx.tiles.BaseMachineTile
-import io.enderdev.catalyx.tiles.helper.EnergyTileImpl
-import io.enderdev.catalyx.tiles.helper.IEnergyTile
-import io.enderdev.catalyx.tiles.helper.TileStackHandler
-import io.enderdev.catalyx.utils.extensions.get
 import net.darkhax.gamestages.GameStageHelper
 import net.minecraft.entity.player.EntityPlayerMP
 import net.minecraft.item.ItemStack
@@ -19,6 +13,12 @@ import net.minecraftforge.common.util.Constants
 import net.minecraftforge.fml.common.FMLCommonHandler
 import net.minecraftforge.fml.common.Loader
 import net.minecraftforge.items.ItemStackHandler
+import org.ender_development.catalyx.client.button.AbstractButtonWrapper
+import org.ender_development.catalyx.tiles.BaseMachineTile
+import org.ender_development.catalyx.tiles.helper.EnergyTileImpl
+import org.ender_development.catalyx.tiles.helper.IEnergyTile
+import org.ender_development.catalyx.tiles.helper.TileStackHandler
+import org.ender_development.catalyx.utils.extensions.get
 
 class TileChemicalCombiner : BaseMachineTile<CombinerRecipe>(Alchemistry.catalyxSettings),
 	IEnergyTile by EnergyTileImpl(ConfigHandler.COMBINER.energyCapacity) {

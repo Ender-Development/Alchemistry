@@ -4,15 +4,15 @@ import io.enderdev.alchemistry.Tags
 import io.enderdev.alchemistry.client.button.LockButtonWrapper
 import io.enderdev.alchemistry.client.container.ContainerChemicalCombiner
 import io.enderdev.alchemistry.tiles.TileChemicalCombiner
-import io.enderdev.catalyx.client.gui.BaseGui
-import io.enderdev.catalyx.client.gui.wrappers.CapabilityEnergyDisplayWrapper
-import io.enderdev.catalyx.utils.extensions.get
-import io.enderdev.catalyx.utils.extensions.translate
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.RenderHelper
 import net.minecraft.entity.player.InventoryPlayer
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ResourceLocation
+import org.ender_development.catalyx.client.gui.BaseGui
+import org.ender_development.catalyx.client.gui.wrappers.CapabilityEnergyDisplayWrapper
+import org.ender_development.catalyx.utils.extensions.get
+import org.ender_development.catalyx.utils.extensions.translate
 
 class GuiChemicalCombiner(playerInv: InventoryPlayer, val tile: TileChemicalCombiner) : BaseGui(ContainerChemicalCombiner(playerInv, tile), tile) {
 	lateinit var toggleRecipeLock: LockButtonWrapper

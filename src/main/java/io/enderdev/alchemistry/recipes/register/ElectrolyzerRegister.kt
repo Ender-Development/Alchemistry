@@ -2,9 +2,9 @@ package io.enderdev.alchemistry.recipes.register
 
 import io.enderdev.alchemistry.recipes.ElectrolyzerRecipe
 import io.enderdev.alchemistry.utils.extensions.chemical
-import io.enderdev.catalyx.utils.extensions.toIngredient
-import io.enderdev.catalyx.utils.extensions.toStack
 import net.minecraftforge.fluids.FluidRegistry
+import org.ender_development.catalyx.utils.extensions.toIngredient
+import org.ender_development.catalyx.utils.extensions.toStack
 
 class ElectrolyzerRegister : AbstractRecipeRegister<ElectrolyzerRecipe>() {
 	companion object {

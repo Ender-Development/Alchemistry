@@ -2,7 +2,6 @@ package io.enderdev.alchemistry.blocks.machine
 
 import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.items.TooltipItemBlock
-import io.enderdev.catalyx.utils.extensions.translate
 import net.minecraft.block.state.IBlockState
 import net.minecraft.item.Item
 import net.minecraft.tileentity.TileEntity
@@ -11,6 +10,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import net.minecraftforge.event.RegistryEvent
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler
+import org.ender_development.catalyx.utils.extensions.translate
 import kotlin.math.roundToInt
 
 class LiquifierBlock(name: String, tileClass: Class<out TileEntity>, guiID: Int) : ModelMachineBlock(name, tileClass, guiID, AxisAlignedBB(.0, .0, .0, 1.0, 1.0, 1.0)) {

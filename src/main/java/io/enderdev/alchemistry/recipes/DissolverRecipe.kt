@@ -1,12 +1,11 @@
 package io.enderdev.alchemistry.recipes
 
 import io.enderdev.alchemistry.recipes.register.DissolverRegister
-import io.enderdev.catalyx.utils.extensions.equalsIgnoreMeta
-import io.enderdev.catalyx.utils.extensions.toImmutable
 import net.minecraft.item.ItemStack
 import net.minecraft.item.crafting.Ingredient
 import net.minecraftforge.oredict.OreDictionary
-
+import org.ender_development.catalyx.utils.extensions.equalsIgnoreMeta
+import org.ender_development.catalyx.utils.extensions.toImmutable
 
 data class DissolverRecipe(
 	var input: Ingredient? = null,

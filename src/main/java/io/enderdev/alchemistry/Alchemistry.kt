@@ -10,9 +10,6 @@ import io.enderdev.alchemistry.crafting.SaltyFoodHandler
 import io.enderdev.alchemistry.items.ItemBase
 import io.enderdev.alchemistry.items.ModItems
 import io.enderdev.alchemistry.proxy.CommonProxy
-import io.enderdev.catalyx.CatalyxSettings
-import io.enderdev.catalyx.blocks.BaseBlock
-import io.enderdev.catalyx.utils.extensions.toStack
 import net.minecraft.block.Block
 import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.item.Item
@@ -27,6 +24,9 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import org.apache.logging.log4j.Logger
+import org.ender_development.catalyx.CatalyxSettings
+import org.ender_development.catalyx.blocks.BaseBlock
+import org.ender_development.catalyx.utils.extensions.toStack
 import java.text.DecimalFormat
 import java.util.*
 

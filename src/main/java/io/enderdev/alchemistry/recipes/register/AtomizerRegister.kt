@@ -3,9 +3,9 @@ package io.enderdev.alchemistry.recipes.register
 import io.enderdev.alchemistry.chemistry.ElementRegistry
 import io.enderdev.alchemistry.recipes.AtomizerRecipe
 import io.enderdev.alchemistry.utils.extensions.chemical
-import io.enderdev.catalyx.utils.extensions.toStack
 import net.minecraftforge.fluids.FluidRegistry
 import net.minecraftforge.fluids.FluidStack
+import org.ender_development.catalyx.utils.extensions.toStack
 
 class AtomizerRegister : AbstractRecipeRegister<AtomizerRecipe>() {
 	companion object {

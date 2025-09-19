@@ -1,11 +1,11 @@
 package io.enderdev.alchemistry.client.button
 
 import io.enderdev.alchemistry.Tags
-import io.enderdev.catalyx.client.button.AbstractButtonWrapper
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiButton
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.util.ResourceLocation
+import org.ender_development.catalyx.client.button.AbstractButtonWrapper
 
 class ModeratorButtonWrapper(x: Int, y: Int) : AbstractButtonWrapper(x, y) {
 	override val textureLocation = ResourceLocation(Tags.MOD_ID, "textures/gui/container/template_redox.png")

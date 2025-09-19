@@ -2,9 +2,9 @@ package io.enderdev.alchemistry.recipes.register
 
 import io.enderdev.alchemistry.items.ModItems
 import io.enderdev.alchemistry.recipes.EvaporatorRecipe
-import io.enderdev.catalyx.utils.extensions.toStack
 import net.minecraft.init.Blocks
 import net.minecraftforge.fluids.FluidRegistry
+import org.ender_development.catalyx.utils.extensions.toStack
 
 class EvaporatorRegister : AbstractRecipeRegister<EvaporatorRecipe>() {
 	companion object {

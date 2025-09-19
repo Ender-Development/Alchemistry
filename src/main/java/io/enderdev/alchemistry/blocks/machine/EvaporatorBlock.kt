@@ -3,13 +3,12 @@ package io.enderdev.alchemistry.blocks.machine
 import io.enderdev.alchemistry.client.TESREvaporator
 import io.enderdev.alchemistry.items.TooltipItemBlock
 import io.enderdev.alchemistry.tiles.TileEvaporator
-import io.enderdev.catalyx.utils.extensions.translate
 import net.minecraft.item.Item
 import net.minecraft.tileentity.TileEntity
 import net.minecraft.util.math.AxisAlignedBB
 import net.minecraftforge.event.RegistryEvent
 import net.minecraftforge.fml.client.registry.ClientRegistry
-
+import org.ender_development.catalyx.utils.extensions.translate
 
 class EvaporatorBlock(name: String, tileClass: Class<out TileEntity>, guiID: Int) : ModelMachineBlock(
 	name,

@@ -8,13 +8,13 @@ import io.enderdev.alchemistry.client.gui.misc.GuiModifiers
 import io.enderdev.alchemistry.client.gui.misc.GuiModifiers.IRenderer
 import io.enderdev.alchemistry.tiles.AbstractReactorController
 import io.enderdev.alchemistry.tiles.ReactorType
-import io.enderdev.catalyx.client.button.AbstractButtonWrapper
-import io.enderdev.catalyx.client.gui.BaseGui
-import io.enderdev.catalyx.client.gui.wrappers.CapabilityEnergyDisplayWrapper
-import io.enderdev.catalyx.utils.extensions.translate
 import net.minecraft.client.gui.GuiButton
 import net.minecraft.inventory.Container
 import net.minecraft.util.ResourceLocation
+import org.ender_development.catalyx.client.button.AbstractButtonWrapper
+import org.ender_development.catalyx.client.gui.BaseGui
+import org.ender_development.catalyx.client.gui.wrappers.CapabilityEnergyDisplayWrapper
+import org.ender_development.catalyx.utils.extensions.translate
 import java.awt.Color
 import java.util.*
 import kotlin.math.ceil

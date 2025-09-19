@@ -6,11 +6,11 @@ import io.enderdev.alchemistry.client.container.ContainerEvaporator
 import io.enderdev.alchemistry.client.gui.misc.GuiModifiers
 import io.enderdev.alchemistry.client.gui.misc.GuiModifiers.MouseClickData
 import io.enderdev.alchemistry.tiles.TileEvaporator
-import io.enderdev.catalyx.client.gui.BaseGui
-import io.enderdev.catalyx.client.gui.wrappers.CapabilityFluidDisplayWrapper
-import io.enderdev.catalyx.utils.extensions.translate
 import net.minecraft.entity.player.InventoryPlayer
 import net.minecraft.util.ResourceLocation
+import org.ender_development.catalyx.client.gui.BaseGui
+import org.ender_development.catalyx.client.gui.wrappers.CapabilityFluidDisplayWrapper
+import org.ender_development.catalyx.utils.extensions.translate
 import java.awt.Color
 import kotlin.math.roundToInt
 

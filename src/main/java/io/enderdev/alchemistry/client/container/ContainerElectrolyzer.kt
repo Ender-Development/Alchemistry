@@ -1,10 +1,10 @@
 package io.enderdev.alchemistry.client.container
 
 import io.enderdev.alchemistry.tiles.TileElectrolyzer
-import io.enderdev.catalyx.client.container.BaseContainer
-import io.enderdev.catalyx.tiles.helper.TileStackHandler
 import net.minecraft.entity.player.InventoryPlayer
 import net.minecraftforge.items.SlotItemHandler
+import org.ender_development.catalyx.client.container.BaseContainer
+import org.ender_development.catalyx.tiles.helper.TileStackHandler
 
 class ContainerElectrolyzer(playerInv: InventoryPlayer, tile: TileElectrolyzer) : BaseContainer(playerInv, tile) {
 	init {

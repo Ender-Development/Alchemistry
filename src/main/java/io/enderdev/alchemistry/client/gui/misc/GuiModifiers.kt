@@ -3,9 +3,6 @@ package io.enderdev.alchemistry.client.gui.misc
 import io.enderdev.alchemistry.Tags
 import io.enderdev.alchemistry.compat.jei.AlchemistryPlugin
 import io.enderdev.alchemistry.utils.BlockMeta
-import io.enderdev.catalyx.utils.RenderUtils
-import io.enderdev.catalyx.utils.extensions.toStack
-import io.enderdev.catalyx.utils.extensions.translate
 import mezz.jei.config.KeyBindings
 import net.minecraft.client.gui.GuiScreen
 import net.minecraft.client.renderer.GlStateManager
@@ -13,6 +10,9 @@ import net.minecraft.util.ResourceLocation
 import net.minecraftforge.fluids.Fluid
 import net.minecraftforge.fluids.FluidStack
 import net.minecraftforge.fml.common.Loader
+import org.ender_development.catalyx.utils.RenderUtils
+import org.ender_development.catalyx.utils.extensions.toStack
+import org.ender_development.catalyx.utils.extensions.translate
 import org.lwjgl.input.Mouse
 import java.awt.Color
 

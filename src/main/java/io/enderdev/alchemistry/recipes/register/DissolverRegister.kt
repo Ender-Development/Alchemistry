@@ -6,9 +6,6 @@ import io.enderdev.alchemistry.items.ModItems
 import io.enderdev.alchemistry.recipes.DissolverRecipe
 import io.enderdev.alchemistry.recipes.dissolverRecipe
 import io.enderdev.alchemistry.utils.extensions.chemical
-import io.enderdev.catalyx.utils.extensions.toIngredient
-import io.enderdev.catalyx.utils.extensions.toOre
-import io.enderdev.catalyx.utils.extensions.toStack
 import net.minecraft.block.Block
 import net.minecraft.block.BlockTallGrass
 import net.minecraft.init.Blocks
@@ -16,6 +13,9 @@ import net.minecraft.init.Items
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraftforge.oredict.OreDictionary
+import org.ender_development.catalyx.utils.extensions.toIngredient
+import org.ender_development.catalyx.utils.extensions.toOre
+import org.ender_development.catalyx.utils.extensions.toStack
 
 class DissolverRegister : AbstractRecipeRegister<DissolverRecipe>() {
 	companion object {

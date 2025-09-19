@@ -3,8 +3,8 @@ package io.enderdev.alchemistry.client.gui
 import io.enderdev.alchemistry.client.button.SingleButtonWrapper
 import io.enderdev.alchemistry.client.container.ContainerFusionController
 import io.enderdev.alchemistry.tiles.TileFusionController
-import io.enderdev.catalyx.utils.extensions.translate
 import net.minecraft.entity.player.InventoryPlayer
+import org.ender_development.catalyx.utils.extensions.translate
 
 class GuiFusionController(playerInv: InventoryPlayer, tile: TileFusionController) : GuiReactorController<TileFusionController>(ContainerFusionController(playerInv, tile), tile, "fusion_controller") {
 	lateinit var modeButton: SingleButtonWrapper

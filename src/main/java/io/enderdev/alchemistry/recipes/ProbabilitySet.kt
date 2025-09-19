@@ -1,9 +1,9 @@
 package io.enderdev.alchemistry.recipes
 
 import com.google.common.collect.ImmutableList
-import io.enderdev.catalyx.utils.extensions.areStacksEqualIgnoreQuantity
-import io.enderdev.catalyx.utils.extensions.toImmutable
 import net.minecraft.item.ItemStack
+import org.ender_development.catalyx.utils.extensions.areStacksEqualIgnoreQuantity
+import org.ender_development.catalyx.utils.extensions.toImmutable
 import java.util.*
 
 data class ProbabilityGroup(

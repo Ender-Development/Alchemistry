@@ -3,11 +3,11 @@ package io.enderdev.alchemistry.compat.jei.dissolver
 import io.enderdev.alchemistry.Alchemistry
 import io.enderdev.alchemistry.compat.jei.AlchemistryRecipeWrapper
 import io.enderdev.alchemistry.recipes.DissolverRecipe
-import io.enderdev.catalyx.utils.extensions.translate
 import mezz.jei.api.ingredients.IIngredients
 import mezz.jei.api.ingredients.VanillaTypes
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.FontRenderer
+import org.ender_development.catalyx.utils.extensions.translate
 import java.awt.Color
 
 class DissolverRecipeWrapper(recipe: DissolverRecipe) : AlchemistryRecipeWrapper<DissolverRecipe>(recipe) {

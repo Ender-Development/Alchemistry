@@ -1,7 +1,6 @@
 package io.enderdev.alchemistry.blocks.machine
 
 import io.enderdev.alchemistry.Alchemistry
-import io.enderdev.catalyx.blocks.BaseMachineBlock
 import net.minecraft.block.state.IBlockState
 import net.minecraft.client.renderer.block.model.ModelResourceLocation
 import net.minecraft.entity.Entity
@@ -13,6 +12,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 import net.minecraftforge.client.model.ModelLoader
+import org.ender_development.catalyx.blocks.BaseMachineBlock
 
 open class ModelMachineBlock(name: String, tileClass: Class<out TileEntity>, guiID: Int, vararg val boundingBoxes: AxisAlignedBB) : BaseMachineBlock(Alchemistry.catalyxSettings, name, tileClass, guiID), IHasModel {
 	@Deprecated("")

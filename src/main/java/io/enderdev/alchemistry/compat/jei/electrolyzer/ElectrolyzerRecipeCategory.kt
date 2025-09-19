@@ -2,11 +2,11 @@ package io.enderdev.alchemistry.compat.jei.electrolyzer
 
 import io.enderdev.alchemistry.compat.jei.AlchemistryRecipeCategory
 import io.enderdev.alchemistry.compat.jei.AlchemistryRecipeUID
-import io.enderdev.catalyx.utils.extensions.translate
 import mezz.jei.api.IGuiHelper
 import mezz.jei.api.gui.IRecipeLayout
 import mezz.jei.api.ingredients.IIngredients
 import mezz.jei.api.ingredients.VanillaTypes
+import org.ender_development.catalyx.utils.extensions.translate
 
 class ElectrolyzerRecipeCategory(guiHelper: IGuiHelper) : AlchemistryRecipeCategory<ElectrolyzerRecipeWrapper>(guiHelper, "electrolyzer") {
 	companion object {

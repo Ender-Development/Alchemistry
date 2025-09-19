@@ -4,15 +4,15 @@ import io.enderdev.alchemistry.chemistry.CompoundRegistry
 import io.enderdev.alchemistry.items.ModItems
 import io.enderdev.alchemistry.recipes.CombinerRecipe
 import io.enderdev.alchemistry.utils.extensions.chemical
-import io.enderdev.catalyx.utils.extensions.areStacksEqualIgnoreQuantity
-import io.enderdev.catalyx.utils.extensions.firstOre
-import io.enderdev.catalyx.utils.extensions.toDict
-import io.enderdev.catalyx.utils.extensions.toStack
 import net.minecraft.init.Blocks
 import net.minecraft.init.Items
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagString
+import org.ender_development.catalyx.utils.extensions.areStacksEqualIgnoreQuantity
+import org.ender_development.catalyx.utils.extensions.firstOre
+import org.ender_development.catalyx.utils.extensions.toDict
+import org.ender_development.catalyx.utils.extensions.toStack
 
 class CombinerRegister : AbstractRecipeRegister<CombinerRecipe>() {
 	companion object {

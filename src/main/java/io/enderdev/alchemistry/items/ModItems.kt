@@ -1,7 +1,6 @@
 package io.enderdev.alchemistry.items
 
 import io.enderdev.alchemistry.Tags
-import io.enderdev.catalyx.utils.extensions.translate
 import net.minecraft.client.Minecraft
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.item.Item
@@ -10,6 +9,7 @@ import net.minecraft.world.World
 import net.minecraftforge.event.RegistryEvent
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
+import org.ender_development.catalyx.utils.extensions.translate
 
 object ModItems {
 	val items = ArrayList<ItemBase>()

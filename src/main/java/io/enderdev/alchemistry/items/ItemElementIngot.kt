@@ -2,7 +2,6 @@ package io.enderdev.alchemistry.items
 
 import io.enderdev.alchemistry.Tags
 import io.enderdev.alchemistry.chemistry.ElementRegistry
-import io.enderdev.catalyx.utils.extensions.translate
 import net.minecraft.client.renderer.block.model.ModelResourceLocation
 import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.item.ItemStack
@@ -10,6 +9,7 @@ import net.minecraft.util.NonNullList
 import net.minecraftforge.client.model.ModelLoader
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
+import org.ender_development.catalyx.utils.extensions.translate
 
 class ItemElementIngot(name: String) : ItemMetaBase(name) {
 	@SideOnly(Side.CLIENT)

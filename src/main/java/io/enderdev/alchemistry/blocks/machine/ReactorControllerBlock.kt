@@ -3,8 +3,6 @@ package io.enderdev.alchemistry.blocks.machine
 import io.enderdev.alchemistry.Alchemistry
 import io.enderdev.alchemistry.blocks.PropertyPowerStatus
 import io.enderdev.alchemistry.items.TooltipItemBlock
-import io.enderdev.catalyx.blocks.BaseMachineBlock
-import io.enderdev.catalyx.utils.extensions.translate
 import net.minecraft.block.properties.IProperty
 import net.minecraft.block.properties.PropertyDirection
 import net.minecraft.block.properties.PropertyEnum
@@ -20,6 +18,8 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import net.minecraftforge.client.model.ModelLoader
 import net.minecraftforge.event.RegistryEvent
+import org.ender_development.catalyx.blocks.BaseMachineBlock
+import org.ender_development.catalyx.utils.extensions.translate
 
 class ReactorControllerBlock(name: String, tileClass: Class<out TileEntity>, guiID: Int, val energyPerTick: Int) :
 	BaseMachineBlock(Alchemistry.catalyxSettings, name, tileClass, guiID), IHasModel {

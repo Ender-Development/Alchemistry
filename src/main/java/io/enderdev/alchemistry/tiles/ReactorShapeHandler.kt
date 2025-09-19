@@ -2,13 +2,13 @@ package io.enderdev.alchemistry.tiles
 
 import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.blocks.ModBlocks
-import io.enderdev.catalyx.utils.extensions.translate
 import net.minecraft.block.Block
 import net.minecraft.block.BlockLiquid
 import net.minecraft.block.state.IBlockState
 import net.minecraft.init.Blocks
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.math.BlockPos
+import org.ender_development.catalyx.utils.extensions.translate
 
 class ReactorShapeHandler(val controller: AbstractReactorController<*>) {
 

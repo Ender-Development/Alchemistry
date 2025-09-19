@@ -3,10 +3,10 @@ package io.enderdev.alchemistry.client.gui
 import io.enderdev.alchemistry.Tags
 import io.enderdev.alchemistry.client.container.ContainerChemicalDissolver
 import io.enderdev.alchemistry.tiles.TileChemicalDissolver
-import io.enderdev.catalyx.client.gui.BaseGui
-import io.enderdev.catalyx.client.gui.wrappers.CapabilityEnergyDisplayWrapper
 import net.minecraft.entity.player.InventoryPlayer
 import net.minecraft.util.ResourceLocation
+import org.ender_development.catalyx.client.gui.BaseGui
+import org.ender_development.catalyx.client.gui.wrappers.CapabilityEnergyDisplayWrapper
 
 class GuiChemicalDissolver(playerInv: InventoryPlayer, tile: TileChemicalDissolver) : BaseGui(ContainerChemicalDissolver(playerInv, tile), tile) {
 	override val textureLocation = ResourceLocation(Tags.MOD_ID, "textures/gui/container/chemical_dissolver_gui_redox.png")

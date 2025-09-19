@@ -4,12 +4,12 @@ import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.blocks.machine.*
 import io.enderdev.alchemistry.client.gui.GuiHandler
 import io.enderdev.alchemistry.tiles.*
-import io.enderdev.catalyx.blocks.BaseBlock
 import net.minecraft.block.Block
 import net.minecraft.item.Item
 import net.minecraftforge.event.RegistryEvent
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
+import org.ender_development.catalyx.blocks.BaseBlock
 
 object ModBlocks {
 	val blocks = mutableListOf<BaseBlock>()

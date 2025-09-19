@@ -5,20 +5,19 @@ import io.enderdev.alchemistry.blocks.ModBlocks
 import io.enderdev.alchemistry.blocks.PropertyPowerStatus
 import io.enderdev.alchemistry.blocks.machine.ReactorControllerBlock
 import io.enderdev.alchemistry.chemistry.ElementRegistry
+import io.enderdev.alchemistry.chemistry.ElementRegistry.get
 import io.enderdev.alchemistry.items.ModItems
 import io.enderdev.alchemistry.recipes.FissionRecipe
 import io.enderdev.alchemistry.recipes.register.FissionRegister
-import io.enderdev.catalyx.utils.extensions.get
-import io.enderdev.catalyx.tiles.helper.EnergyTileImpl
-import io.enderdev.catalyx.tiles.helper.IEnergyTile
-import io.enderdev.catalyx.tiles.helper.TileStackHandler
-import io.enderdev.catalyx.utils.extensions.toStack
 import net.minecraft.item.ItemStack
+import org.ender_development.catalyx.tiles.helper.EnergyTileImpl
+import org.ender_development.catalyx.tiles.helper.IEnergyTile
+import org.ender_development.catalyx.tiles.helper.TileStackHandler
+import org.ender_development.catalyx.utils.extensions.toStack
 
 class TileFissionController : AbstractReactorController<FissionRecipe>(ReactorType.FISSION, FissionRegister.Companion.INSTANCE),
 	IEnergyTile by EnergyTileImpl(ConfigHandler.FISSION.energyCapacity) {
-	override val guiHeight: Int
-		get() = 222
+	override val guiHeight = 222
 
 	var recipeOutput1: ItemStack = ItemStack.EMPTY
 	var recipeOutput2: ItemStack = ItemStack.EMPTY

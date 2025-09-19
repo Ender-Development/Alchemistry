@@ -4,8 +4,6 @@ import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.capability.CapabilityDrugInfo
 import io.enderdev.alchemistry.chemistry.ChemicalCompound
 import io.enderdev.alchemistry.chemistry.CompoundRegistry
-import io.enderdev.catalyx.utils.extensions.toPotion
-import io.enderdev.catalyx.utils.extensions.translate
 import net.minecraft.client.renderer.block.model.ModelResourceLocation
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.creativetab.CreativeTabs
@@ -20,7 +18,8 @@ import net.minecraft.world.World
 import net.minecraftforge.client.model.ModelLoader
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
-
+import org.ender_development.catalyx.utils.extensions.toPotion
+import org.ender_development.catalyx.utils.extensions.translate
 
 class ItemCompound(name: String) : ItemMetaBase(name) {
 

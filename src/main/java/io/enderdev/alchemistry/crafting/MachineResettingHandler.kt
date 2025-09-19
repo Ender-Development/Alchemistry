@@ -2,12 +2,12 @@ package io.enderdev.alchemistry.crafting
 
 import io.enderdev.alchemistry.Tags
 import io.enderdev.alchemistry.blocks.ModBlocks
-import io.enderdev.catalyx.utils.extensions.toStack
 import net.minecraft.inventory.InventoryCrafting
 import net.minecraft.item.ItemStack
 import net.minecraft.item.crafting.IRecipe
 import net.minecraft.world.World
 import net.minecraftforge.registries.IForgeRegistryEntry
+import org.ender_development.catalyx.utils.extensions.toStack
 
 class MachineResettingHandler : IForgeRegistryEntry.Impl<IRecipe>(), IRecipe {
 

@@ -4,19 +4,19 @@ import io.enderdev.alchemistry.Alchemistry
 import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.recipes.ElectrolyzerRecipe
 import io.enderdev.alchemistry.recipes.register.ElectrolyzerRegister
-import io.enderdev.catalyx.tiles.BaseMachineTile
-import io.enderdev.catalyx.tiles.helper.EnergyTileImpl
-import io.enderdev.catalyx.tiles.helper.IEnergyTile
-import io.enderdev.catalyx.tiles.helper.IFluidTile
-import io.enderdev.catalyx.tiles.helper.TileStackHandler
-import io.enderdev.catalyx.utils.extensions.containsItem
-import io.enderdev.catalyx.utils.extensions.get
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraftforge.fluids.Fluid
 import net.minecraftforge.fluids.FluidStack
 import net.minecraftforge.fluids.FluidTank
 import net.minecraftforge.fluids.capability.templates.FluidHandlerConcatenate
+import org.ender_development.catalyx.tiles.BaseMachineTile
+import org.ender_development.catalyx.tiles.helper.EnergyTileImpl
+import org.ender_development.catalyx.tiles.helper.IEnergyTile
+import org.ender_development.catalyx.tiles.helper.IFluidTile
+import org.ender_development.catalyx.tiles.helper.TileStackHandler
+import org.ender_development.catalyx.utils.extensions.containsItem
+import org.ender_development.catalyx.utils.extensions.get
 
 class TileElectrolyzer : BaseMachineTile<ElectrolyzerRecipe>(Alchemistry.catalyxSettings), IFluidTile,
 	IEnergyTile by EnergyTileImpl(ConfigHandler.ELECTROLYZER.energyCapacity) {

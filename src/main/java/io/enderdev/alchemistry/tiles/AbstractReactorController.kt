@@ -7,13 +7,13 @@ import io.enderdev.alchemistry.recipes.IRecipe
 import io.enderdev.alchemistry.recipes.register.AbstractRecipeRegister
 import io.enderdev.alchemistry.utils.BlockMeta
 import io.enderdev.alchemistry.utils.ConfigUtils
-import io.enderdev.catalyx.client.AreaHighlighter
-import io.enderdev.catalyx.tiles.BaseMachineTile
-import io.enderdev.catalyx.tiles.helper.IEnergyTile
 import net.minecraft.block.state.IBlockState
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.util.EnumFacing
 import net.minecraftforge.common.capabilities.Capability
+import org.ender_development.catalyx.client.AreaHighlighter
+import org.ender_development.catalyx.tiles.BaseMachineTile
+import org.ender_development.catalyx.tiles.helper.IEnergyTile
 import java.util.*
 import kotlin.math.roundToInt
 

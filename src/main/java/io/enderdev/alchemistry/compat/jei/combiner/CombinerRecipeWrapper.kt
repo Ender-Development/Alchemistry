@@ -2,12 +2,12 @@ package io.enderdev.alchemistry.compat.jei.combiner
 
 import io.enderdev.alchemistry.compat.jei.AlchemistryRecipeWrapper
 import io.enderdev.alchemistry.recipes.CombinerRecipe
-import io.enderdev.catalyx.utils.extensions.translate
 import mezz.jei.api.ingredients.IIngredients
 import mezz.jei.api.ingredients.VanillaTypes
 import net.darkhax.gamestages.GameStageHelper
 import net.minecraft.client.Minecraft
 import net.minecraftforge.fml.common.Loader
+import org.ender_development.catalyx.utils.extensions.translate
 import java.awt.Color
 
 class CombinerRecipeWrapper(recipe: CombinerRecipe) : AlchemistryRecipeWrapper<CombinerRecipe>(recipe) {

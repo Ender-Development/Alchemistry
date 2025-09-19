@@ -1,7 +1,6 @@
 package io.enderdev.alchemistry.blocks
 
 import io.enderdev.alchemistry.items.TooltipItemBlock
-import io.enderdev.catalyx.utils.extensions.translate
 import net.minecraft.block.Block
 import net.minecraft.block.BlockCactus
 import net.minecraft.block.BlockReed
@@ -20,6 +19,7 @@ import net.minecraftforge.common.IPlantable
 import net.minecraftforge.event.RegistryEvent
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
+import org.ender_development.catalyx.utils.extensions.translate
 import java.util.*
 
 class WetSandBlock : ModelBlock("wet_sand", Material.SAND) {

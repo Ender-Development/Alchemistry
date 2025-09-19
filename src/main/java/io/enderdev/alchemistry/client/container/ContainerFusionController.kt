@@ -2,9 +2,9 @@ package io.enderdev.alchemistry.client.container
 
 import io.enderdev.alchemistry.tiles.FusionSlotHandler
 import io.enderdev.alchemistry.tiles.TileFusionController
-import io.enderdev.catalyx.client.container.BaseContainer
 import net.minecraft.entity.player.InventoryPlayer
 import net.minecraftforge.items.SlotItemHandler
+import org.ender_development.catalyx.client.container.BaseContainer
 
 class ContainerFusionController(playerInv: InventoryPlayer, tile: TileFusionController) : BaseContainer(playerInv, tile) {
 	init {

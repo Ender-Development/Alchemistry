@@ -6,6 +6,7 @@ import io.enderdev.alchemistry.client.button.LockButtonWrapper
 import io.enderdev.alchemistry.recipes.CombinerRecipe
 import net.darkhax.gamestages.GameStageHelper
 import net.minecraft.entity.player.EntityPlayerMP
+import net.minecraft.item.Item.getByNameOrId
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.nbt.NBTTagList
@@ -16,13 +17,13 @@ import net.minecraftforge.items.ItemStackHandler
 import org.ender_development.catalyx.client.button.AbstractButtonWrapper
 import org.ender_development.catalyx.tiles.BaseMachineTile
 import org.ender_development.catalyx.tiles.helper.EnergyTileImpl
+import org.ender_development.catalyx.tiles.helper.ICopyPasteExtraTile
 import org.ender_development.catalyx.tiles.helper.IEnergyTile
 import org.ender_development.catalyx.tiles.helper.TileStackHandler
 import org.ender_development.catalyx.utils.extensions.get
+import org.ender_development.catalyx.utils.extensions.toStack
 
-class TileChemicalCombiner : BaseMachineTile<CombinerRecipe>(Alchemistry.catalyxSettings),
-	IEnergyTile by EnergyTileImpl(ConfigHandler.COMBINER.energyCapacity) {
-
+class TileChemicalCombiner : BaseMachineTile<CombinerRecipe>(Alchemistry.catalyxSettings), IEnergyTile by EnergyTileImpl(ConfigHandler.COMBINER.energyCapacity), ICopyPasteExtraTile {
 	var recipeIsLocked = false
 	val clientRecipeTarget: TileStackHandler
 	var owner: String = ""
@@ -138,5 +139,35 @@ class TileChemicalCombiner : BaseMachineTile<CombinerRecipe>(Alchemistry.catalyx
 			} else
 				recipeIsLocked = true
 		super.handleButtonPress(button)
+	}
+
+	// ICopyPasteExtraTile
+
+	override fun copyData(tag: NBTTagCompound) =
+		tag.setString("RecipeOutput", currentRecipe?.output?.string() ?: "")
+
+	override fun pasteData(tag: NBTTagCompound) {
+		if(tag.hasKey("RecipeOutput")) {
+			val output = tag.getString("RecipeOutput")
+			if(output.isEmpty()) {
+				recipeIsLocked = false
+				currentRecipe = null
+				clientRecipeTarget.setStackInSlot(0, ItemStack.EMPTY)
+			} else
+				output.stack()?.let {
+					currentRecipe = CombinerRecipe.matchOutput(it)
+					recipeIsLocked = currentRecipe != null
+					if(currentRecipe != null)
+						clientRecipeTarget.setStackInSlot(0, it.copy())
+				}
+		}
+	}
+
+	private fun ItemStack.string() =
+		"${item.registryName}$${metadata}"
+
+	private fun String.stack(): ItemStack? {
+		val (name, meta) = split('$')
+		return getByNameOrId(name)?.toStack(meta = meta.toInt())
 	}
 }

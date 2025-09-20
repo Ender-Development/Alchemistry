@@ -1,5 +1,6 @@
 package io.enderdev.alchemistry.blocks
 
+import io.enderdev.alchemistry.Alchemistry
 import net.minecraft.block.properties.IProperty
 import net.minecraft.block.properties.PropertyEnum
 import net.minecraft.block.state.BlockStateContainer
@@ -12,8 +13,9 @@ import net.minecraft.util.Rotation
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
+import org.ender_development.catalyx.blocks.BaseBlock
 
-class CoreBlock(name: String) : ModelBlock(name) {
+class CoreBlock(name: String) : BaseBlock(Alchemistry.catalyxSettings, name) {
 	companion object {
 		val AXIS = PropertyEnum.create("axis", Axis::class.java)
 		val PROPERTIES = arrayOf<IProperty<*>>(AXIS)

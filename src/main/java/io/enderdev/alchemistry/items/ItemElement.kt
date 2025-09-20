@@ -5,19 +5,21 @@ import io.enderdev.alchemistry.chemistry.ElementRegistry
 import net.minecraft.client.renderer.block.model.ModelResourceLocation
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.creativetab.CreativeTabs
+import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.util.NonNullList
 import net.minecraft.world.World
 import net.minecraftforge.client.model.ModelLoader
+import net.minecraftforge.event.RegistryEvent
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import org.ender_development.catalyx.utils.extensions.translate
 import java.util.*
 
 class ItemElement(name: String) : ItemMetaBase(name) {
-
 	@SideOnly(Side.CLIENT)
-	override fun registerModel() {
+	override fun registerItem(event: RegistryEvent.Register<Item>) {
+		event.registry.register(this)
 		ElementRegistry.keys().forEach {
 			val element = ElementRegistry[it]
 			val elementName = element?.name?.lowercase(Locale.getDefault()) ?: ""

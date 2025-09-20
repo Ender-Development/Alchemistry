@@ -1,5 +1,6 @@
 package io.enderdev.alchemistry.blocks
 
+import io.enderdev.alchemistry.Alchemistry
 import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.blocks.machine.*
 import io.enderdev.alchemistry.client.gui.GuiHandler
@@ -7,8 +8,6 @@ import io.enderdev.alchemistry.tiles.*
 import net.minecraft.block.Block
 import net.minecraft.item.Item
 import net.minecraftforge.event.RegistryEvent
-import net.minecraftforge.fml.relauncher.Side
-import net.minecraftforge.fml.relauncher.SideOnly
 import org.ender_development.catalyx.blocks.BaseBlock
 
 object ModBlocks {
@@ -29,7 +28,7 @@ object ModBlocks {
 	val atomizer = AtomizerBlock("atomizer", TileAtomizer::class.java, GuiHandler.Companion.ATOMIZER_ID)
 	val liquifier = LiquifierBlock("liquifier", TileLiquifier::class.java, GuiHandler.Companion.LIQUIFIER_ID)
 
-	val fissionCasing: BaseBlock = ModelBlock("fission_casing")
+	val fissionCasing: BaseBlock = BaseBlock(Alchemistry.catalyxSettings, "fission_casing")
 	val fissionGlass: BaseBlock = GlassBlock("fission_glass")
 	val fissionCore: BaseBlock = CoreBlock("fission_core")
 	val fissionController = ReactorControllerBlock(
@@ -39,7 +38,7 @@ object ModBlocks {
 		ConfigHandler.FISSION.energyPerTick
 	)
 
-	val fusionCasing: BaseBlock = ModelBlock("fusion_casing")
+	val fusionCasing: BaseBlock = BaseBlock(Alchemistry.catalyxSettings, "fusion_casing")
 	val fusionGlass: BaseBlock = GlassBlock("fusion_glass")
 	val fusionCore: BaseBlock = CoreBlock("fusion_core")
 	val fusionController = ReactorControllerBlock(
@@ -61,7 +60,4 @@ object ModBlocks {
 	fun registerBlocks(event: RegistryEvent.Register<Block>) = blocks.forEach { it.registerBlock(event) }
 
 	fun registerItems(event: RegistryEvent.Register<Item>) = blocks.forEach { it.registerItem(event) }
-
-	@SideOnly(Side.CLIENT)
-	fun registerModels() = blocks.forEach { if(it is IHasModel) it.registerModel() }
 }

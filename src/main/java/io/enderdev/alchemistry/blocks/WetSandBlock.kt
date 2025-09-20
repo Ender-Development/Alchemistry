@@ -1,6 +1,6 @@
 package io.enderdev.alchemistry.blocks
 
-import io.enderdev.alchemistry.items.TooltipItemBlock
+import io.enderdev.alchemistry.Alchemistry
 import net.minecraft.block.Block
 import net.minecraft.block.BlockCactus
 import net.minecraft.block.BlockReed
@@ -16,27 +16,25 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 import net.minecraftforge.common.IPlantable
-import net.minecraftforge.event.RegistryEvent
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
+import org.ender_development.catalyx.blocks.BaseBlock
+import org.ender_development.catalyx.items.TooltipItemBlock
 import org.ender_development.catalyx.utils.extensions.translate
 import java.util.*
 
-class WetSandBlock : ModelBlock("wet_sand", Material.SAND) {
+class WetSandBlock : BaseBlock(Alchemistry.catalyxSettings, "wet_sand", Material.SAND) {
 	init {
-		this.setHardness(.5f)
-		this.setResistance(1f)
-		this.setSoundType(SoundType.SAND)
+		blockHardness = .5f
+		blockResistance = 1f
+		soundType = SoundType.SAND
 	}
 
-	override fun registerItem(event: RegistryEvent.Register<Item>) {
-		event.registry.register(
-			TooltipItemBlock(
-				this,
-				"tile.alchemistry:wet_sand.tooltip".translate()
-			).setRegistryName(this.registryName)
+	override fun createItemBlock(): Item =
+		TooltipItemBlock(
+			this,
+			"tile.alchemistry:wet_sand.tooltip".translate()
 		)
-	}
 
 	override fun canSustainPlant(state: IBlockState, world: IBlockAccess, pos: BlockPos, direction: EnumFacing, plantable: IPlantable): Boolean {
 		val plant = plantable.getPlant(world, pos.offset(direction))

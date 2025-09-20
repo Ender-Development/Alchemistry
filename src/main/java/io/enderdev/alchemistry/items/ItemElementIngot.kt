@@ -4,16 +4,19 @@ import io.enderdev.alchemistry.Tags
 import io.enderdev.alchemistry.chemistry.ElementRegistry
 import net.minecraft.client.renderer.block.model.ModelResourceLocation
 import net.minecraft.creativetab.CreativeTabs
+import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.util.NonNullList
 import net.minecraftforge.client.model.ModelLoader
+import net.minecraftforge.event.RegistryEvent
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import org.ender_development.catalyx.utils.extensions.translate
 
 class ItemElementIngot(name: String) : ItemMetaBase(name) {
 	@SideOnly(Side.CLIENT)
-	override fun registerModel() {
+	override fun registerItem(event: RegistryEvent.Register<Item>) {
+		event.registry.register(this)
 		ElementRegistry.keys()
 			.filter { it <= 118 && !invalidIngots.contains(it) }
 			.forEach {

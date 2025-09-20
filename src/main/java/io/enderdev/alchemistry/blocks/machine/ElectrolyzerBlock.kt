@@ -1,7 +1,6 @@
 package io.enderdev.alchemistry.blocks.machine
 
 import io.enderdev.alchemistry.ConfigHandler
-import io.enderdev.alchemistry.items.TooltipItemBlock
 import net.minecraft.block.properties.IProperty
 import net.minecraft.block.properties.PropertyDirection
 import net.minecraft.block.state.BlockStateContainer
@@ -14,23 +13,19 @@ import net.minecraft.util.EnumHand
 import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
-import net.minecraftforge.event.RegistryEvent
+import org.ender_development.catalyx.items.TooltipItemBlock
 import org.ender_development.catalyx.utils.extensions.translate
 
-class ElectrolyzerBlock(name: String, tileClass: Class<out TileEntity>, guiID: Int) : ModelMachineBlock(name, tileClass, guiID, AxisAlignedBB(.0, .0, .0, 1.0, .75, 1.0)) {
+class ElectrolyzerBlock(name: String, tileClass: Class<out TileEntity>, guiID: Int) : BaseMachineBlock(name, tileClass, guiID, AxisAlignedBB(.0, .0, .0, 1.0, .75, 1.0)) {
 	init {
-		this.defaultState = this.blockState.baseState.withProperty(FACING, EnumFacing.NORTH)
+		defaultState = blockState.baseState.withProperty(FACING, EnumFacing.NORTH)
 	}
 
-	override fun registerItem(event: RegistryEvent.Register<Item>) {
-		event.registry.register(
-			TooltipItemBlock(
-				this,
-				"tooltip.alchemistry.energy_requirement".translate(ConfigHandler.ELECTROLYZER.energyPerTick)
-			)
-				.setRegistryName(this.registryName)
+	override fun createItemBlock(): Item =
+		TooltipItemBlock(
+			this,
+			"tooltip.alchemistry.energy_requirement".translate(ConfigHandler.ELECTROLYZER.energyPerTick)
 		)
-	}
 
 	override fun createBlockState() = BlockStateContainer(this, *PROPERTIES)
 

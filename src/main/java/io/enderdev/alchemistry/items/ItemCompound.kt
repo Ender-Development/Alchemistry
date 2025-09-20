@@ -10,19 +10,20 @@ import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.entity.EntityLivingBase
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.EnumAction
+import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.potion.Potion
 import net.minecraft.potion.PotionEffect
 import net.minecraft.util.*
 import net.minecraft.world.World
 import net.minecraftforge.client.model.ModelLoader
+import net.minecraftforge.event.RegistryEvent
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import org.ender_development.catalyx.utils.extensions.toPotion
 import org.ender_development.catalyx.utils.extensions.translate
 
 class ItemCompound(name: String) : ItemMetaBase(name) {
-
 	override fun onItemUseFinish(stack: ItemStack, worldIn: World, entity: EntityLivingBase): ItemStack {
 		if(entity is EntityPlayer) {
 			val molecule = dankMolecules.firstOrNull { it.meta == stack.metadata }
@@ -54,7 +55,8 @@ class ItemCompound(name: String) : ItemMetaBase(name) {
 	}
 
 	@SideOnly(Side.CLIENT)
-	override fun registerModel() {
+	override fun registerItem(event: RegistryEvent.Register<Item>) {
+		event.registry.register(this)
 		CompoundRegistry.keys().forEach {
 			ModelLoader.setCustomModelResourceLocation(
 				this, it,

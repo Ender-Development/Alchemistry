@@ -7,25 +7,22 @@ import io.enderdev.alchemistry.command.DissolverCommand
 import io.enderdev.alchemistry.crafting.DankFoodHandler
 import io.enderdev.alchemistry.crafting.MachineResettingHandler
 import io.enderdev.alchemistry.crafting.SaltyFoodHandler
-import io.enderdev.alchemistry.items.ItemBase
 import io.enderdev.alchemistry.items.ModItems
 import io.enderdev.alchemistry.proxy.CommonProxy
 import net.minecraft.block.Block
 import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.item.Item
 import net.minecraft.item.crafting.IRecipe
-import net.minecraftforge.client.event.ModelRegistryEvent
 import net.minecraftforge.event.RegistryEvent
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.Mod.EventHandler
 import net.minecraftforge.fml.common.SidedProxy
 import net.minecraftforge.fml.common.event.*
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
-import net.minecraftforge.fml.relauncher.Side
-import net.minecraftforge.fml.relauncher.SideOnly
 import org.apache.logging.log4j.Logger
 import org.ender_development.catalyx.CatalyxSettings
 import org.ender_development.catalyx.blocks.BaseBlock
+import org.ender_development.catalyx.items.BaseItem
 import org.ender_development.catalyx.utils.extensions.toStack
 import java.text.DecimalFormat
 import java.util.*
@@ -46,7 +43,7 @@ object Alchemistry {
 		override fun createIcon() = ModBlocks.chemical_combiner.toStack()
 	}
 
-	val catalyxSettings = CatalyxSettings(Tags.MOD_ID, creativeTab, Alchemistry, ConfigHandler.GENERAL.enableAutomation, { ModBlocks.blocks.add(it as BaseBlock) }, { ModItems.items.add(it as ItemBase) })
+	val catalyxSettings = CatalyxSettings(Tags.MOD_ID, creativeTab, Alchemistry, ConfigHandler.GENERAL.enableAutomation, { ModBlocks.blocks.add(it as BaseBlock) }, { ModItems.items.add(it as BaseItem) })
 
 	//https://github.com/jaredlll08/ModTweaker/blob/1.12/src/main/java/com/blamejared/ModTweaker.java
 	val LATE_REMOVALS: LinkedList<IAction> = LinkedList()
@@ -95,14 +92,6 @@ object Alchemistry {
 		fun registerItems(event: RegistryEvent.Register<Item>) {
 			ModBlocks.registerItems(event)
 			ModItems.registerItems(event)
-		}
-
-		@SideOnly(Side.CLIENT)
-		@JvmStatic
-		@SubscribeEvent
-		fun registerModels(event: ModelRegistryEvent) {
-			ModBlocks.registerModels()
-			ModItems.registerModels()
 		}
 
 		@JvmStatic

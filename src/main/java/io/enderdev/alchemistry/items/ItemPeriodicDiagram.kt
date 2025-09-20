@@ -1,5 +1,6 @@
 package io.enderdev.alchemistry.items
 
+import io.enderdev.alchemistry.Alchemistry
 import io.enderdev.alchemistry.Tags
 import io.enderdev.alchemistry.client.gui.GuiPeriodicTable
 import net.minecraft.client.Minecraft
@@ -12,10 +13,10 @@ import net.minecraft.util.EnumHand
 import net.minecraft.world.World
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
+import org.ender_development.catalyx.items.BaseItem
 import org.ender_development.catalyx.utils.extensions.translate
 
-class ItemPeriodicDiagram : ItemBase("periodic_table") {
-
+class ItemPeriodicDiagram : BaseItem(Alchemistry.catalyxSettings, "periodic_table") {
 	override fun onItemRightClick(world: World, player: EntityPlayer, hand: EnumHand): ActionResult<ItemStack> {
 		if(world.isRemote)
 			Minecraft.getMinecraft().displayGuiScreen(GuiPeriodicTable())

@@ -1,15 +1,17 @@
 package io.enderdev.alchemistry.blocks
 
+import io.enderdev.alchemistry.Alchemistry
 import net.minecraft.block.SoundType
 import net.minecraft.block.state.IBlockState
 import net.minecraft.util.BlockRenderLayer
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
+import org.ender_development.catalyx.blocks.BaseBlock
 
-class GlassBlock(name: String) : ModelBlock(name) {
+class GlassBlock(name: String) : BaseBlock(Alchemistry.catalyxSettings, name) {
 	init {
-		this.soundType = SoundType.GLASS
+		soundType = SoundType.GLASS
 	}
 
 	@Deprecated("")

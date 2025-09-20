@@ -1,5 +1,6 @@
 package io.enderdev.alchemistry.items
 
+import io.enderdev.alchemistry.Alchemistry
 import io.enderdev.alchemistry.Tags
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.player.EntityPlayer
@@ -12,10 +13,10 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
+import org.ender_development.catalyx.items.BaseItem
 import org.ender_development.catalyx.utils.extensions.translate
 
-class ItemFertilizer : ItemBase("Fertilizer") {
-
+class ItemFertilizer : BaseItem(Alchemistry.catalyxSettings, "fertilizer") {
 	override fun onItemUse(player: EntityPlayer, worldIn: World, pos: BlockPos, hand: EnumHand, facing: EnumFacing, hitX: Float, hitY: Float, hitZ: Float): EnumActionResult {
 		val pos = pos
 		val itemstack = player.getHeldItem(hand)

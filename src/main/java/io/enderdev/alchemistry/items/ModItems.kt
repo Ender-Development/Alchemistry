@@ -1,5 +1,6 @@
 package io.enderdev.alchemistry.items
 
+import io.enderdev.alchemistry.Alchemistry
 import io.enderdev.alchemistry.Tags
 import net.minecraft.client.Minecraft
 import net.minecraft.client.util.ITooltipFlag
@@ -9,30 +10,28 @@ import net.minecraft.world.World
 import net.minecraftforge.event.RegistryEvent
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
+import org.ender_development.catalyx.items.BaseItem
 import org.ender_development.catalyx.utils.extensions.translate
 
 object ModItems {
-	val items = ArrayList<ItemBase>()
+	val items = ArrayList<BaseItem>()
 
-	var mineralSalt = ItemBase("mineral_salt")
-	var condensedMilk = ItemBase("condensed_milk")
-	var fertilizer = ItemFertilizer()
-	var obsidianBreaker = object : ItemBase("obsidian_breaker") {
+	val mineralSalt = BaseItem(Alchemistry.catalyxSettings, "mineral_salt")
+	val condensedMilk = BaseItem(Alchemistry.catalyxSettings, "condensed_milk")
+	val fertilizer = ItemFertilizer()
+	val obsidianBreaker = object : BaseItem(Alchemistry.catalyxSettings, "obsidian_breaker") {
 		override fun addInformation(stack: ItemStack, worldIn: World?, tooltip: MutableList<String>, flagIn: ITooltipFlag) {
 			tooltip.add("item.${Tags.MOD_ID}:obsidian_breaker.tooltip".translate())
 		}
 	}
 
-	var elements = ItemElement("element")
-	var compounds = ItemCompound("compound")
-	var ingots = ItemElementIngot("ingot")
+	val elements = ItemElement("element")
+	val compounds = ItemCompound("compound")
+	val ingots = ItemElementIngot("ingot")
 	val periodicDiagram = ItemPeriodicDiagram()
-	val copyPasteTool = ItemCopyPasteTool()
 
-	fun registerItems(event: RegistryEvent.Register<Item>) = items.forEach { it.registerItem(event) }
-
-	@SideOnly(Side.CLIENT)
-	fun registerModels() = items.forEach { it.registerModel() }
+	fun registerItems(event: RegistryEvent.Register<Item>) =
+		items.forEach { it.registerItem(event) }
 
 	@SideOnly(Side.CLIENT)
 	fun initColors() =

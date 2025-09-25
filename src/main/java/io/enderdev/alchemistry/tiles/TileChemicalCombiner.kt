@@ -164,7 +164,7 @@ class TileChemicalCombiner : BaseMachineTile<CombinerRecipe>(Alchemistry.catalyx
 	}
 
 	private fun ItemStack.string() =
-		"${item.registryName}$${metadata}"
+		"${item.registryName}$$metadata"
 
 	private fun String.stack(): ItemStack? {
 		val (name, meta) = split('$')

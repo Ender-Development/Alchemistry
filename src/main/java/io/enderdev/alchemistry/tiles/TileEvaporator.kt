@@ -4,7 +4,6 @@ import io.enderdev.alchemistry.Alchemistry
 import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.recipes.EvaporatorRecipe
 import io.enderdev.alchemistry.recipes.register.EvaporatorRegister
-import io.enderdev.alchemistry.utils.BlockMeta
 import io.enderdev.alchemistry.utils.ConfigUtils
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraftforge.common.BiomeDictionary
@@ -18,7 +17,6 @@ import org.ender_development.catalyx.utils.extensions.get
 import kotlin.math.roundToInt
 
 class TileEvaporator : BaseMachineTile<EvaporatorRecipe>(Alchemistry.catalyxSettings), IFluidTile {
-
 	val inputTank = object : FluidTank(Fluid.BUCKET_VOLUME * 10) {
 		override fun canFillFluidType(fluid: FluidStack?) = recipeRegister.any { it.input.fluid == fluid?.fluid }
 
@@ -95,7 +93,6 @@ class TileEvaporator : BaseMachineTile<EvaporatorRecipe>(Alchemistry.catalyxSett
 	}
 
 	companion object {
-		@Suppress("UNCHECKED_CAST") // stfu IntelliJ
 		val heatSources = ConfigHandler.EVAPORATOR.heatSources.map {
 			val split = it.split(';', ',')
 			if(split.size != 2) {
@@ -105,6 +102,6 @@ class TileEvaporator : BaseMachineTile<EvaporatorRecipe>(Alchemistry.catalyxSett
 			val block = ConfigUtils.parseBlock(split[0]) ?: return@map null
 			val multiplier = split[1].toDouble()
 			block to multiplier
-		}.filter { it != null }.toTypedArray() as Array<Pair<BlockMeta, Double>>
+		}.filterNotNull().toTypedArray()
 	}
 }

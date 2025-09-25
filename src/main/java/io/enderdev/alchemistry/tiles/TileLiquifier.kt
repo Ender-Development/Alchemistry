@@ -7,30 +7,20 @@ import io.enderdev.alchemistry.recipes.register.LiquifierRegister
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraftforge.fluids.Fluid
-import net.minecraftforge.fluids.FluidStack
-import net.minecraftforge.fluids.FluidTank
 import net.minecraftforge.fluids.capability.templates.FluidHandlerConcatenate
 import org.ender_development.catalyx.tiles.BaseMachineTile
 import org.ender_development.catalyx.tiles.helper.EnergyTileImpl
 import org.ender_development.catalyx.tiles.helper.IEnergyTile
 import org.ender_development.catalyx.tiles.helper.IFluidTile
 import org.ender_development.catalyx.tiles.helper.TileStackHandler
+import org.ender_development.catalyx.utils.FluidTankUtils
 import org.ender_development.catalyx.utils.extensions.get
+import org.ender_development.catalyx.utils.extensions.mapUnique
 
-class TileLiquifier : BaseMachineTile<LiquifierRecipe>(Alchemistry.catalyxSettings), IFluidTile,
-	IEnergyTile by EnergyTileImpl(ConfigHandler.LIQUIFIER.energyCapacity) {
-
-	val outputTank = object : FluidTank(Fluid.BUCKET_VOLUME * 10) {
-		override fun canFillFluidType(fluid: FluidStack?) = recipeRegister.any { it.output.fluid == fluid?.fluid }
-
-		override fun onContentsChanged() = markDirtyGUI()
-	}.apply {
-		setTileEntity(this@TileLiquifier)
-		setCanFill(false)
-		setCanDrain(true)
-	}
-
+class TileLiquifier : BaseMachineTile<LiquifierRecipe>(Alchemistry.catalyxSettings), IFluidTile, IEnergyTile by EnergyTileImpl(ConfigHandler.LIQUIFIER.energyCapacity) {
 	val recipeRegister = LiquifierRegister.Companion.INSTANCE.recipes
+
+	val outputTank = FluidTankUtils.create(this, Fluid.BUCKET_VOLUME * 10, false, true, fluidWhitelist = recipeRegister.mapUnique { it.output.fluid }.toTypedArray(), this::markDirtyGUI)
 
 	override val energyPerTick = ConfigHandler.LIQUIFIER.energyPerTick
 	override val recipeTime = ConfigHandler.LIQUIFIER.processingTicks
@@ -70,7 +60,8 @@ class TileLiquifier : BaseMachineTile<LiquifierRecipe>(Alchemistry.catalyxSettin
 		energyStorage.extractEnergy(energyPerTick, false)
 	}
 
-	override fun shouldTick() = !input[0].isEmpty
+	override fun shouldTick() =
+		!input[0].isEmpty
 
 	override fun shouldProcess(): Boolean {
 		val recipeOutput = currentRecipe!!.output

@@ -7,27 +7,16 @@ import io.enderdev.alchemistry.recipes.register.AtomizerRegister
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraftforge.fluids.Fluid
-import net.minecraftforge.fluids.FluidStack
-import net.minecraftforge.fluids.FluidTank
 import net.minecraftforge.fluids.capability.templates.FluidHandlerConcatenate
 import org.ender_development.catalyx.tiles.BaseMachineTile
 import org.ender_development.catalyx.tiles.helper.EnergyTileImpl
 import org.ender_development.catalyx.tiles.helper.IEnergyTile
 import org.ender_development.catalyx.tiles.helper.IFluidTile
+import org.ender_development.catalyx.utils.FluidTankUtils
 import org.ender_development.catalyx.utils.extensions.get
 
-class TileAtomizer : BaseMachineTile<AtomizerRecipe>(Alchemistry.catalyxSettings), IFluidTile,
-	IEnergyTile by EnergyTileImpl(ConfigHandler.ATOMIZER.energyCapacity) {
-
-	val inputTank = object : FluidTank(Fluid.BUCKET_VOLUME * 10) {
-		override fun canFillFluidType(with: FluidStack?) = fluid == null || fluid!!.fluid == with?.fluid
-
-		override fun onContentsChanged() = markDirtyGUI()
-	}.apply {
-		setTileEntity(this@TileAtomizer)
-		setCanFill(true)
-		setCanDrain(false)
-	}
+class TileAtomizer : BaseMachineTile<AtomizerRecipe>(Alchemistry.catalyxSettings), IFluidTile, IEnergyTile by EnergyTileImpl(ConfigHandler.ATOMIZER.energyCapacity) {
+	val inputTank = FluidTankUtils.create(this, Fluid.BUCKET_VOLUME * 10, true, false, this::markDirtyGUI)
 
 	override val energyPerTick = ConfigHandler.ATOMIZER.energyPerTick
 	override val recipeTime = ConfigHandler.ATOMIZER.processingTicks
@@ -39,12 +28,11 @@ class TileAtomizer : BaseMachineTile<AtomizerRecipe>(Alchemistry.catalyxSettings
 	}
 
 	override fun updateRecipe() {
-		if(inputTank.fluid != null
-			&& (currentRecipe == null || !ItemStack.areItemStacksEqual(currentRecipe!!.output, output.getStackInSlot(0)))
-		) {
+		if(inputTank.fluid != null && (currentRecipe == null || !ItemStack.areItemStacksEqual(currentRecipe!!.output, output.getStackInSlot(0))))
 			currentRecipe = AtomizerRegister.INSTANCE.recipes.firstOrNull { it.input.fluid == inputTank.fluid?.fluid }
-		}
-		if(inputTank.fluid == null) currentRecipe = null
+
+		if(inputTank.fluid == null)
+			currentRecipe = null
 	}
 
 	override fun onProcessComplete() {
@@ -56,7 +44,8 @@ class TileAtomizer : BaseMachineTile<AtomizerRecipe>(Alchemistry.catalyxSettings
 		energyStorage.extractEnergy(energyPerTick, false)
 	}
 
-	override fun shouldTick() = inputTank.fluidAmount > 0
+	override fun shouldTick() =
+		inputTank.fluidAmount > 0
 
 	override fun shouldProcess(): Boolean {
 		val recipeOutput = currentRecipe!!.output

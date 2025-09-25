@@ -8,26 +8,18 @@ import io.enderdev.alchemistry.utils.ConfigUtils
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraftforge.common.BiomeDictionary
 import net.minecraftforge.fluids.Fluid
-import net.minecraftforge.fluids.FluidStack
-import net.minecraftforge.fluids.FluidTank
 import net.minecraftforge.fluids.capability.templates.FluidHandlerConcatenate
 import org.ender_development.catalyx.tiles.BaseMachineTile
 import org.ender_development.catalyx.tiles.helper.IFluidTile
+import org.ender_development.catalyx.utils.FluidTankUtils
 import org.ender_development.catalyx.utils.extensions.get
+import org.ender_development.catalyx.utils.extensions.mapUnique
 import kotlin.math.roundToInt
 
 class TileEvaporator : BaseMachineTile<EvaporatorRecipe>(Alchemistry.catalyxSettings), IFluidTile {
-	val inputTank = object : FluidTank(Fluid.BUCKET_VOLUME * 10) {
-		override fun canFillFluidType(fluid: FluidStack?) = recipeRegister.any { it.input.fluid == fluid?.fluid }
-
-		override fun onContentsChanged() = markDirtyClient()
-	}.apply {
-		setTileEntity(this@TileEvaporator)
-		setCanFill(true)
-		setCanDrain(false)
-	}
-
 	val recipeRegister = EvaporatorRegister.Companion.INSTANCE.recipes
+
+	val inputTank = FluidTankUtils.create(this, Fluid.BUCKET_VOLUME * 10, true, false, fluidWhitelist = recipeRegister.mapUnique { it.input.fluid }.toTypedArray(), this::markDirtyClient)
 
 	override val energyPerTick = 0
 	override val recipeTime: Int
@@ -54,7 +46,8 @@ class TileEvaporator : BaseMachineTile<EvaporatorRecipe>(Alchemistry.catalyxSett
 
 	override fun onWorkTick() {}
 
-	override fun shouldTick() = inputTank.fluidAmount > 0
+	override fun shouldTick() =
+		inputTank.fluidAmount > 0
 
 	override fun shouldProcess(): Boolean {
 		val recipeOutput = currentRecipe!!.output
@@ -75,7 +68,8 @@ class TileEvaporator : BaseMachineTile<EvaporatorRecipe>(Alchemistry.catalyxSett
 		inputTank.readFromNBT(compound.getCompoundTag("InputTankNBT"))
 	}
 
-	fun calculateProcessingTime(config: Int) = (config / getHeat()).roundToInt()
+	fun calculateProcessingTime(config: Int) =
+		(config / getHeat()).roundToInt()
 
 	// TODO more elaborate calculation?
 	fun getHeat(): Double {

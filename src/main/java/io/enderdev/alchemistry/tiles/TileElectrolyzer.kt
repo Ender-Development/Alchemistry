@@ -7,32 +7,21 @@ import io.enderdev.alchemistry.recipes.register.ElectrolyzerRegister
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraftforge.fluids.Fluid
-import net.minecraftforge.fluids.FluidStack
-import net.minecraftforge.fluids.FluidTank
 import net.minecraftforge.fluids.capability.templates.FluidHandlerConcatenate
 import org.ender_development.catalyx.tiles.BaseMachineTile
 import org.ender_development.catalyx.tiles.helper.EnergyTileImpl
 import org.ender_development.catalyx.tiles.helper.IEnergyTile
 import org.ender_development.catalyx.tiles.helper.IFluidTile
 import org.ender_development.catalyx.tiles.helper.TileStackHandler
+import org.ender_development.catalyx.utils.FluidTankUtils
 import org.ender_development.catalyx.utils.extensions.containsItem
 import org.ender_development.catalyx.utils.extensions.get
+import org.ender_development.catalyx.utils.extensions.mapUnique
 
-class TileElectrolyzer : BaseMachineTile<ElectrolyzerRecipe>(Alchemistry.catalyxSettings), IFluidTile,
-	IEnergyTile by EnergyTileImpl(ConfigHandler.ELECTROLYZER.energyCapacity) {
-
-	val inputTank = object : FluidTank(Fluid.BUCKET_VOLUME * 10) {
-		override fun canFillFluidType(fluid: FluidStack?) =
-			recipeRegister.any { it.input.fluid == fluid?.fluid }
-
-		override fun onContentsChanged() = markDirtyGUI()
-	}.apply {
-		setTileEntity(this@TileElectrolyzer)
-		setCanFill(true)
-		setCanDrain(false)
-	}
-
+class TileElectrolyzer : BaseMachineTile<ElectrolyzerRecipe>(Alchemistry.catalyxSettings), IFluidTile, IEnergyTile by EnergyTileImpl(ConfigHandler.ELECTROLYZER.energyCapacity) {
 	val recipeRegister = ElectrolyzerRegister.Companion.INSTANCE.recipes
+
+	val inputTank = FluidTankUtils.create(this, Fluid.BUCKET_VOLUME * 10, true, false, fluidWhitelist = recipeRegister.mapUnique { it.input.fluid }.toTypedArray(), this::markDirtyGUI)
 
 	override val energyPerTick = ConfigHandler.ELECTROLYZER.energyPerTick
 	override val recipeTime = ConfigHandler.ELECTROLYZER.processingTicks
@@ -61,7 +50,8 @@ class TileElectrolyzer : BaseMachineTile<ElectrolyzerRecipe>(Alchemistry.catalyx
 		energyStorage.extractEnergy(ConfigHandler.ELECTROLYZER.energyPerTick, false)
 	}
 
-	override fun shouldTick() = inputTank.fluidAmount > 0
+	override fun shouldTick() =
+		inputTank.fluidAmount > 0
 
 	override fun shouldProcess() =
 		inputTank.fluidAmount >= currentRecipe!!.input.amount

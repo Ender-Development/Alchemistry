@@ -5,14 +5,9 @@ import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.blocks.machine.*
 import io.enderdev.alchemistry.client.gui.GuiHandler
 import io.enderdev.alchemistry.tiles.*
-import net.minecraft.block.Block
-import net.minecraft.item.Item
-import net.minecraftforge.event.RegistryEvent
 import org.ender_development.catalyx.blocks.BaseBlock
 
 object ModBlocks {
-	val blocks = mutableListOf<BaseBlock>()
-
 	val electrolyzer = ElectrolyzerBlock("electrolyzer", TileElectrolyzer::class.java, GuiHandler.Companion.ELECTROLYZER_ID)
 	val chemical_dissolver = ChemicalDissolverBlock(
 		"chemical_dissolver",
@@ -28,7 +23,7 @@ object ModBlocks {
 	val atomizer = AtomizerBlock("atomizer", TileAtomizer::class.java, GuiHandler.Companion.ATOMIZER_ID)
 	val liquifier = LiquifierBlock("liquifier", TileLiquifier::class.java, GuiHandler.Companion.LIQUIFIER_ID)
 
-	val fissionCasing: BaseBlock = BaseBlock(Alchemistry.catalyxSettings, "fission_casing")
+	val fissionCasing: BaseBlock = BaseBlock(Alchemistry, "fission_casing")
 	val fissionGlass: BaseBlock = GlassBlock("fission_glass")
 	val fissionCore: BaseBlock = CoreBlock("fission_core")
 	val fissionController = ReactorControllerBlock(
@@ -38,7 +33,7 @@ object ModBlocks {
 		ConfigHandler.FISSION.energyPerTick
 	)
 
-	val fusionCasing: BaseBlock = BaseBlock(Alchemistry.catalyxSettings, "fusion_casing")
+	val fusionCasing: BaseBlock = BaseBlock(Alchemistry, "fusion_casing")
 	val fusionGlass: BaseBlock = GlassBlock("fusion_glass")
 	val fusionCore: BaseBlock = CoreBlock("fusion_core")
 	val fusionController = ReactorControllerBlock(
@@ -57,7 +52,5 @@ object ModBlocks {
 
 	val wetSand = WetSandBlock()
 
-	fun registerBlocks(event: RegistryEvent.Register<Block>) = blocks.forEach { it.registerBlock(event) }
-
-	fun registerItems(event: RegistryEvent.Register<Item>) = blocks.forEach { it.registerItem(event) }
+	fun nya() {}
 }

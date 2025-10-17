@@ -16,7 +16,7 @@ import org.ender_development.catalyx.utils.extensions.get
 import org.ender_development.catalyx.utils.extensions.mapUnique
 import kotlin.math.roundToInt
 
-class TileEvaporator : BaseMachineTile<EvaporatorRecipe>(Alchemistry.catalyxSettings), IFluidTile {
+class TileEvaporator : BaseMachineTile<EvaporatorRecipe>(Alchemistry), IFluidTile {
 	val recipeRegister = EvaporatorRegister.Companion.INSTANCE.recipes
 
 	val inputTank = FluidTankUtils.create(this, Fluid.BUCKET_VOLUME * 10, true, false, fluidWhitelist = recipeRegister.mapUnique { it.input.fluid }.toTypedArray(), this::markDirtyClient)
@@ -25,7 +25,7 @@ class TileEvaporator : BaseMachineTile<EvaporatorRecipe>(Alchemistry.catalyxSett
 	override val recipeTime: Int
 		get() = calculateProcessingTime(ConfigHandler.EVAPORATOR.processingTicks)
 
-	override val fluidTanks = FluidHandlerConcatenate(inputTank)
+	override val fluidHandler = inputTank
 
 	init {
 		initInventoryCapability(0, 1)

@@ -15,7 +15,7 @@ import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 import org.ender_development.catalyx.blocks.BaseBlock
 
-class CoreBlock(name: String) : BaseBlock(Alchemistry.catalyxSettings, name) {
+class CoreBlock(name: String) : BaseBlock(Alchemistry, name) {
 	companion object {
 		val AXIS = PropertyEnum.create("axis", Axis::class.java)
 		val PROPERTIES = arrayOf<IProperty<*>>(AXIS)

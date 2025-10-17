@@ -3,7 +3,6 @@ package io.enderdev.alchemistry.recipes
 import com.google.common.collect.ImmutableList
 import net.minecraft.item.ItemStack
 import org.ender_development.catalyx.utils.extensions.areStacksEqualIgnoreQuantity
-import org.ender_development.catalyx.utils.extensions.toImmutable
 import java.util.*
 
 data class ProbabilityGroup(
@@ -12,7 +11,7 @@ data class ProbabilityGroup(
 ) {
 
 	val output: List<ItemStack>
-		get(): List<ItemStack> = _output.toImmutable()
+		get(): List<ItemStack> = _output
 }
 
 data class ProbabilitySet(
@@ -27,7 +26,7 @@ data class ProbabilitySet(
 	fun toStackList(): List<ItemStack> {
 		val temp = ImmutableList.Builder<ImmutableList<ItemStack>>()
 		set.forEach { temp.add(ImmutableList.copyOf(it.output)) }
-		return temp.build().flatten().toImmutable()
+		return temp.build().flatten()
 	}
 
 	fun probabilityAtIndex(index: Int): Double {

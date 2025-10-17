@@ -9,7 +9,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import org.ender_development.catalyx.blocks.BaseBlock
 
-class LightBlock(name: String) : BaseBlock(Alchemistry.catalyxSettings, name) {
+class LightBlock(name: String) : BaseBlock(Alchemistry, name) {
 	init {
 		lightValue = 15
 		soundType = SoundType.GLASS

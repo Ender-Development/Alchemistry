@@ -17,7 +17,7 @@ import org.ender_development.catalyx.tiles.helper.IEnergyTile
 import java.util.*
 import kotlin.math.roundToInt
 
-abstract class AbstractReactorController<T : IRecipe>(val reactorType: ReactorType, val recipeRegister: AbstractRecipeRegister<T>) : BaseMachineTile<T>(Alchemistry.catalyxSettings), IEnergyTile {
+abstract class AbstractReactorController<T : IRecipe>(val reactorType: ReactorType, val recipeRegister: AbstractRecipeRegister<T>) : BaseMachineTile<T>(Alchemistry), IEnergyTile {
 	val shapeHandler = ReactorShapeHandler(this)
 	val moderators = mutableMapOf<BlockMeta, Multiplier>()
 	var currentMultiplier = Multiplier()

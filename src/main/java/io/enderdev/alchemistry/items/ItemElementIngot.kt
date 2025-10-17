@@ -11,20 +11,21 @@ import net.minecraftforge.client.model.ModelLoader
 import net.minecraftforge.event.RegistryEvent
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
+import org.ender_development.catalyx.utils.SideUtils
 import org.ender_development.catalyx.utils.extensions.translate
 
 class ItemElementIngot(name: String) : ItemMetaBase(name) {
-	@SideOnly(Side.CLIENT)
-	override fun registerItem(event: RegistryEvent.Register<Item>) {
+	override fun register(event: RegistryEvent.Register<Item>) {
 		event.registry.register(this)
-		ElementRegistry.keys()
-			.filter { it <= 118 && !invalidIngots.contains(it) }
-			.forEach {
-				ModelLoader.setCustomModelResourceLocation(
-					this, it,
-					ModelResourceLocation("$registryName", "inventory")
-				)
-			}
+		if(SideUtils.isClient)
+			ElementRegistry.keys()
+				.filter { it <= 118 && !invalidIngots.contains(it) }
+				.forEach {
+					ModelLoader.setCustomModelResourceLocation(
+						this, it,
+						ModelResourceLocation("$registryName", "inventory")
+					)
+				}
 	}
 
 	@SideOnly(Side.CLIENT)

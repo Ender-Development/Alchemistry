@@ -5,6 +5,7 @@ import io.enderdev.alchemistry.ConfigHandler
 import io.enderdev.alchemistry.client.button.LockButtonWrapper
 import io.enderdev.alchemistry.recipes.CombinerRecipe
 import net.darkhax.gamestages.GameStageHelper
+import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.entity.player.EntityPlayerMP
 import net.minecraft.item.Item.getByNameOrId
 import net.minecraft.item.ItemStack
@@ -23,7 +24,7 @@ import org.ender_development.catalyx.tiles.helper.TileStackHandler
 import org.ender_development.catalyx.utils.extensions.get
 import org.ender_development.catalyx.utils.extensions.toStack
 
-class TileChemicalCombiner : BaseMachineTile<CombinerRecipe>(Alchemistry.catalyxSettings), IEnergyTile by EnergyTileImpl(ConfigHandler.COMBINER.energyCapacity), ICopyPasteExtraTile {
+class TileChemicalCombiner : BaseMachineTile<CombinerRecipe>(Alchemistry), IEnergyTile by EnergyTileImpl(ConfigHandler.COMBINER.energyCapacity), ICopyPasteExtraTile {
 	var recipeIsLocked = false
 	val clientRecipeTarget: TileStackHandler
 	var owner: String = ""
@@ -146,7 +147,7 @@ class TileChemicalCombiner : BaseMachineTile<CombinerRecipe>(Alchemistry.catalyx
 	override fun copyData(tag: NBTTagCompound) =
 		tag.setString("RecipeOutput", currentRecipe?.output?.string() ?: "")
 
-	override fun pasteData(tag: NBTTagCompound) {
+	override fun pasteData(tag: NBTTagCompound, player: EntityPlayer) {
 		if(tag.hasKey("RecipeOutput")) {
 			val output = tag.getString("RecipeOutput")
 			if(output.isEmpty()) {

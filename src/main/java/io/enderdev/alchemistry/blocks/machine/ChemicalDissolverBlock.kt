@@ -8,9 +8,5 @@ import org.ender_development.catalyx.items.TooltipItemBlock
 import org.ender_development.catalyx.utils.extensions.translate
 
 class ChemicalDissolverBlock(name: String, tileClass: Class<out TileEntity>, guiID: Int) : BaseMachineBlock(name, tileClass, guiID, AxisAlignedBB(.0, .0, .0, 1.0, .875, 1.0)) {
-	override fun createItemBlock(): Item =
-		TooltipItemBlock(
-			this,
-			"tooltip.alchemistry.energy_requirement".translate(ConfigHandler.DISSOLVER.energyPerTick)
-		)
+	override val item = TooltipItemBlock(this, "tooltip.alchemistry.energy_requirement".translate(ConfigHandler.DISSOLVER.energyPerTick))
 }

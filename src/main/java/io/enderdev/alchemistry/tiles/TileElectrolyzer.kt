@@ -18,7 +18,7 @@ import org.ender_development.catalyx.utils.extensions.containsItem
 import org.ender_development.catalyx.utils.extensions.get
 import org.ender_development.catalyx.utils.extensions.mapUnique
 
-class TileElectrolyzer : BaseMachineTile<ElectrolyzerRecipe>(Alchemistry.catalyxSettings), IFluidTile, IEnergyTile by EnergyTileImpl(ConfigHandler.ELECTROLYZER.energyCapacity) {
+class TileElectrolyzer : BaseMachineTile<ElectrolyzerRecipe>(Alchemistry), IFluidTile, IEnergyTile by EnergyTileImpl(ConfigHandler.ELECTROLYZER.energyCapacity) {
 	val recipeRegister = ElectrolyzerRegister.Companion.INSTANCE.recipes
 
 	val inputTank = FluidTankUtils.create(this, Fluid.BUCKET_VOLUME * 10, true, false, fluidWhitelist = recipeRegister.mapUnique { it.input.fluid }.toTypedArray(), this::markDirtyGUI)
@@ -26,7 +26,7 @@ class TileElectrolyzer : BaseMachineTile<ElectrolyzerRecipe>(Alchemistry.catalyx
 	override val energyPerTick = ConfigHandler.ELECTROLYZER.energyPerTick
 	override val recipeTime = ConfigHandler.ELECTROLYZER.processingTicks
 
-	override val fluidTanks = FluidHandlerConcatenate(inputTank)
+	override val fluidHandler = inputTank
 
 	override fun updateRecipe() {
 		val inputStack = inputTank.fluid

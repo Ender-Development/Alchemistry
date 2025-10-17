@@ -18,17 +18,13 @@ import org.ender_development.catalyx.blocks.BaseMachineBlock
 import org.ender_development.catalyx.items.TooltipItemBlock
 import org.ender_development.catalyx.utils.extensions.translate
 
-class ReactorControllerBlock(name: String, tileClass: Class<out TileEntity>, guiID: Int, val energyPerTick: Int) : BaseMachineBlock(Alchemistry.catalyxSettings, name, tileClass, guiID) {
+class ReactorControllerBlock(name: String, tileClass: Class<out TileEntity>, guiID: Int, val energyPerTick: Int) : BaseMachineBlock(Alchemistry, name, tileClass, guiID) {
 	init {
 		defaultState = blockState.baseState.withProperty(FACING, EnumFacing.NORTH)
 			.withProperty(STATUS, PropertyPowerStatus.OFF)
 	}
 
-	override fun createItemBlock(): Item =
-		TooltipItemBlock(
-			this,
-			"tooltip.alchemistry.energy_requirement".translate(energyPerTick)
-		)
+	override val item = TooltipItemBlock(this, "tooltip.alchemistry.energy_requirement".translate(energyPerTick))
 
 	override fun createBlockState() = BlockStateContainer(this, *PROPERTIES)
 

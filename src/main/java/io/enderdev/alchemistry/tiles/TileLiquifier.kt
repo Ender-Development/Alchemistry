@@ -7,7 +7,6 @@ import io.enderdev.alchemistry.recipes.register.LiquifierRegister
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraftforge.fluids.Fluid
-import net.minecraftforge.fluids.capability.templates.FluidHandlerConcatenate
 import org.ender_development.catalyx.tiles.BaseMachineTile
 import org.ender_development.catalyx.tiles.helper.EnergyTileImpl
 import org.ender_development.catalyx.tiles.helper.IEnergyTile
@@ -17,7 +16,7 @@ import org.ender_development.catalyx.utils.FluidTankUtils
 import org.ender_development.catalyx.utils.extensions.get
 import org.ender_development.catalyx.utils.extensions.mapUnique
 
-class TileLiquifier : BaseMachineTile<LiquifierRecipe>(Alchemistry.catalyxSettings), IFluidTile, IEnergyTile by EnergyTileImpl(ConfigHandler.LIQUIFIER.energyCapacity) {
+class TileLiquifier : BaseMachineTile<LiquifierRecipe>(Alchemistry), IFluidTile, IEnergyTile by EnergyTileImpl(ConfigHandler.LIQUIFIER.energyCapacity) {
 	val recipeRegister = LiquifierRegister.Companion.INSTANCE.recipes
 
 	val outputTank = FluidTankUtils.create(this, Fluid.BUCKET_VOLUME * 10, false, true, fluidWhitelist = recipeRegister.mapUnique { it.output.fluid }.toTypedArray(), this::markDirtyGUI)
@@ -25,7 +24,7 @@ class TileLiquifier : BaseMachineTile<LiquifierRecipe>(Alchemistry.catalyxSettin
 	override val energyPerTick = ConfigHandler.LIQUIFIER.energyPerTick
 	override val recipeTime = ConfigHandler.LIQUIFIER.processingTicks
 
-	override val fluidTanks = FluidHandlerConcatenate(outputTank)
+	override val fluidHandler = outputTank
 
 	init {
 		initInventoryCapability(1, 0)

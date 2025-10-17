@@ -7,7 +7,6 @@ import io.enderdev.alchemistry.recipes.register.AtomizerRegister
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraftforge.fluids.Fluid
-import net.minecraftforge.fluids.capability.templates.FluidHandlerConcatenate
 import org.ender_development.catalyx.tiles.BaseMachineTile
 import org.ender_development.catalyx.tiles.helper.EnergyTileImpl
 import org.ender_development.catalyx.tiles.helper.IEnergyTile
@@ -15,13 +14,13 @@ import org.ender_development.catalyx.tiles.helper.IFluidTile
 import org.ender_development.catalyx.utils.FluidTankUtils
 import org.ender_development.catalyx.utils.extensions.get
 
-class TileAtomizer : BaseMachineTile<AtomizerRecipe>(Alchemistry.catalyxSettings), IFluidTile, IEnergyTile by EnergyTileImpl(ConfigHandler.ATOMIZER.energyCapacity) {
+class TileAtomizer : BaseMachineTile<AtomizerRecipe>(Alchemistry), IFluidTile, IEnergyTile by EnergyTileImpl(ConfigHandler.ATOMIZER.energyCapacity) {
 	val inputTank = FluidTankUtils.create(this, Fluid.BUCKET_VOLUME * 10, true, false, this::markDirtyGUI)
 
 	override val energyPerTick = ConfigHandler.ATOMIZER.energyPerTick
 	override val recipeTime = ConfigHandler.ATOMIZER.processingTicks
 
-	override val fluidTanks = FluidHandlerConcatenate(inputTank)
+	override val fluidHandler = inputTank
 
 	init {
 		initInventoryCapability(0, 1)

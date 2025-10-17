@@ -13,11 +13,7 @@ import org.ender_development.catalyx.utils.extensions.translate
 import kotlin.math.roundToInt
 
 class LiquifierBlock(name: String, tileClass: Class<out TileEntity>, guiID: Int) : BaseMachineBlock(name, tileClass, guiID, AxisAlignedBB(.0, .0, .0, 1.0, 1.0, 1.0)) {
-	override fun createItemBlock(): Item =
-		TooltipItemBlock(
-			this,
-			"tooltip.alchemistry.energy_requirement".translate(ConfigHandler.LIQUIFIER.energyPerTick)
-		)
+	override val item = TooltipItemBlock(this, "tooltip.alchemistry.energy_requirement".translate(ConfigHandler.LIQUIFIER.energyPerTick))
 
 	@Deprecated("")
 	override fun getComparatorInputOverride(state: IBlockState, world: World, pos: BlockPos): Int {

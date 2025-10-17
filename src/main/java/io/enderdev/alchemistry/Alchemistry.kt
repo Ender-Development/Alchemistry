@@ -9,9 +9,7 @@ import io.enderdev.alchemistry.crafting.MachineResettingHandler
 import io.enderdev.alchemistry.crafting.SaltyFoodHandler
 import io.enderdev.alchemistry.items.ModItems
 import io.enderdev.alchemistry.proxy.CommonProxy
-import net.minecraft.block.Block
 import net.minecraft.creativetab.CreativeTabs
-import net.minecraft.item.Item
 import net.minecraft.item.crafting.IRecipe
 import net.minecraftforge.event.RegistryEvent
 import net.minecraftforge.fml.common.Mod
@@ -20,9 +18,7 @@ import net.minecraftforge.fml.common.SidedProxy
 import net.minecraftforge.fml.common.event.*
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import org.apache.logging.log4j.Logger
-import org.ender_development.catalyx.CatalyxSettings
-import org.ender_development.catalyx.blocks.BaseBlock
-import org.ender_development.catalyx.items.BaseItem
+import org.ender_development.catalyx.core.ICatalyxMod
 import org.ender_development.catalyx.utils.extensions.toStack
 import java.text.DecimalFormat
 import java.util.*
@@ -31,19 +27,18 @@ import java.util.*
 	modid = Tags.MOD_ID,
 	name = Tags.MOD_NAME,
 	version = Tags.VERSION,
-	dependencies = Alchemistry.DEPENDENCIES,
-	modLanguageAdapter = "io.github.chaosunity.forgelin.KotlinAdapter"
+	dependencies = "required-after:configanytime;required-after:forgelin_continuous@[${Tags.KOTLIN_VERSION},);required-after:catalyx;after:crafttweaker;after:groovyscript@[${Tags.GROOVYSCRIPT_VERSION},);before:jei;",
+	modLanguageAdapter = ICatalyxMod.MOD_LANGUAGE_ADAPTER
 )
-object Alchemistry {
-	const val DEPENDENCIES =
-		"required-after:configanytime;required-after:forgelin_continuous@[${Tags.KOTLIN_VERSION},);required-after:catalyx;after:crafttweaker;after:groovyscript@[${Tags.GROOVYSCRIPT_VERSION},);before:jei;"
+object Alchemistry : ICatalyxMod {
 	val DECIMAL_FORMAT = DecimalFormat("#0.00")
 
-	val creativeTab = object : CreativeTabs(Tags.MOD_ID) {
-		override fun createIcon() = ModBlocks.chemical_combiner.toStack()
+	override val creativeTab = object : CreativeTabs(Tags.MOD_ID) {
+		override fun createIcon() =
+			ModBlocks.chemical_combiner.toStack()
 	}
 
-	val catalyxSettings = CatalyxSettings(Tags.MOD_ID, creativeTab, Alchemistry, ConfigHandler.GENERAL.enableAutomation, { ModBlocks.blocks.add(it as BaseBlock) }, { ModItems.items.add(it as BaseItem) })
+	//val catalyxSettings = CatalyxSettings(Tags.MOD_ID, creativeTab, Alchemistry, ConfigHandler.GENERAL.enableAutomation, { ModBlocks.blocks.add(it as BaseBlock) }, { ModItems.items.add(it as BaseItem) })
 
 	//https://github.com/jaredlll08/ModTweaker/blob/1.12/src/main/java/com/blamejared/ModTweaker.java
 	val LATE_REMOVALS: LinkedList<IAction> = LinkedList()
@@ -83,23 +78,15 @@ object Alchemistry {
 	object Registration {
 		@JvmStatic
 		@SubscribeEvent
-		fun registerBlocks(event: RegistryEvent.Register<Block>) {
-			ModBlocks.registerBlocks(event)
-		}
-
-		@JvmStatic
-		@SubscribeEvent
-		fun registerItems(event: RegistryEvent.Register<Item>) {
-			ModBlocks.registerItems(event)
-			ModItems.registerItems(event)
-		}
-
-		@JvmStatic
-		@SubscribeEvent
 		fun registerCraftingHandler(event: RegistryEvent.Register<IRecipe>) {
 			event.registry.register(DankFoodHandler())
 			event.registry.register(SaltyFoodHandler())
 			event.registry.register(MachineResettingHandler())
 		}
+	}
+
+	init {
+		ModBlocks.nya()
+		ModItems.nya()
 	}
 }

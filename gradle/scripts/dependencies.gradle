@@ -75,7 +75,7 @@ dependencies {
 	implementation("io.github.chaosunity.forgelin:Forgelin-Continuous:" + project.forgelin_continuous_version) { transitive = false }
 
 	implementation "com.cleanroommc:configanytime:3.0"
-	implementation "org.ender_development:catalyx:0.1.0"
+	implementation("org.ender_development:catalyx:0.1.0") { transitive = false }
 
 	runtimeOnly rfg.deobf("curse.maven:lolasm-460609:6333774") // otherwise it will crash
 	runtimeOnly rfg.deobf("curse.maven:vintagefix-871198:6300725") // otherwise it will crash

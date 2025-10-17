@@ -6,7 +6,6 @@ import net.minecraft.block.properties.PropertyDirection
 import net.minecraft.block.state.BlockStateContainer
 import net.minecraft.block.state.IBlockState
 import net.minecraft.entity.EntityLivingBase
-import net.minecraft.item.Item
 import net.minecraft.tileentity.TileEntity
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.EnumHand
@@ -21,11 +20,7 @@ class ElectrolyzerBlock(name: String, tileClass: Class<out TileEntity>, guiID: I
 		defaultState = blockState.baseState.withProperty(FACING, EnumFacing.NORTH)
 	}
 
-	override fun createItemBlock(): Item =
-		TooltipItemBlock(
-			this,
-			"tooltip.alchemistry.energy_requirement".translate(ConfigHandler.ELECTROLYZER.energyPerTick)
-		)
+	override val item = TooltipItemBlock(this, "tooltip.alchemistry.energy_requirement".translate(ConfigHandler.ELECTROLYZER.energyPerTick))
 
 	override fun createBlockState() = BlockStateContainer(this, *PROPERTIES)
 

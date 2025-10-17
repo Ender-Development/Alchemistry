@@ -16,7 +16,7 @@ import net.minecraftforge.fml.relauncher.SideOnly
 import org.ender_development.catalyx.items.BaseItem
 import org.ender_development.catalyx.utils.extensions.translate
 
-class ItemPeriodicDiagram : BaseItem(Alchemistry.catalyxSettings, "periodic_table") {
+class ItemPeriodicDiagram : BaseItem(Alchemistry, "periodic_table") {
 	override fun onItemRightClick(world: World, player: EntityPlayer, hand: EnumHand): ActionResult<ItemStack> {
 		if(world.isRemote)
 			Minecraft.getMinecraft().displayGuiScreen(GuiPeriodicTable())

@@ -4,7 +4,6 @@ import io.enderdev.alchemistry.chemistry.ElementRegistry
 import io.enderdev.alchemistry.recipes.IRecipe
 import net.minecraftforge.fluids.FluidRegistry
 import net.minecraftforge.oredict.OreDictionary
-import org.ender_development.catalyx.utils.extensions.toImmutable
 
 abstract class AbstractRecipeRegister<T : IRecipe> {
 	val recipes: MutableList<T> = mutableListOf()
@@ -17,7 +16,6 @@ abstract class AbstractRecipeRegister<T : IRecipe> {
 	val metals: List<String> = mutableListOf<String>()
 		.apply { addAll(heathens.keys) }
 		.apply { addAll(ElementRegistry.getAllElements().map { it.name }) }
-		.toImmutable()
 
 	abstract fun registerRecipes()
 

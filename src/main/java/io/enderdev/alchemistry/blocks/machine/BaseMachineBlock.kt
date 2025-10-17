@@ -11,7 +11,7 @@ import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 import org.ender_development.catalyx.blocks.BaseMachineBlock
 
-open class BaseMachineBlock(name: String, tileClass: Class<out TileEntity>, guiID: Int, vararg val boundingBoxes: AxisAlignedBB) : BaseMachineBlock(Alchemistry.catalyxSettings, name, tileClass, guiID) {
+open class BaseMachineBlock(name: String, tileClass: Class<out TileEntity>, guiID: Int, vararg val boundingBoxes: AxisAlignedBB) : BaseMachineBlock(Alchemistry, name, tileClass, guiID) {
 	@Deprecated("")
 	override fun getRenderType(state: IBlockState): EnumBlockRenderType = EnumBlockRenderType.MODEL
 

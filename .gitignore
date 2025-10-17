@@ -23,4 +23,4 @@ build
 # other
 eclipse
 run
-/examples/postInit/jei.groovy
+examples/**

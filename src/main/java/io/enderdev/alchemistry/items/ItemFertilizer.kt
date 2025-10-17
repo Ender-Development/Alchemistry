@@ -16,7 +16,7 @@ import net.minecraftforge.fml.relauncher.SideOnly
 import org.ender_development.catalyx.items.BaseItem
 import org.ender_development.catalyx.utils.extensions.translate
 
-class ItemFertilizer : BaseItem(Alchemistry.catalyxSettings, "fertilizer") {
+class ItemFertilizer : BaseItem(Alchemistry, "fertilizer") {
 	override fun onItemUse(player: EntityPlayer, worldIn: World, pos: BlockPos, hand: EnumHand, facing: EnumFacing, hitX: Float, hitY: Float, hitZ: Float): EnumActionResult {
 		val pos = pos
 		val itemstack = player.getHeldItem(hand)

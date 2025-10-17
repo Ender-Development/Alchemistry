@@ -9,7 +9,6 @@ import net.minecraft.block.material.Material
 import net.minecraft.block.state.IBlockState
 import net.minecraft.entity.item.EntityFallingBlock
 import net.minecraft.init.Blocks
-import net.minecraft.item.Item
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.EnumParticleTypes
 import net.minecraft.util.math.BlockPos
@@ -23,18 +22,14 @@ import org.ender_development.catalyx.items.TooltipItemBlock
 import org.ender_development.catalyx.utils.extensions.translate
 import java.util.*
 
-class WetSandBlock : BaseBlock(Alchemistry.catalyxSettings, "wet_sand", Material.SAND) {
+class WetSandBlock : BaseBlock(Alchemistry, "wet_sand", Material.SAND) {
 	init {
 		blockHardness = .5f
 		blockResistance = 1f
 		soundType = SoundType.SAND
 	}
 
-	override fun createItemBlock(): Item =
-		TooltipItemBlock(
-			this,
-			"tile.alchemistry:wet_sand.tooltip".translate()
-		)
+	override val item = TooltipItemBlock(this, "tile.alchemistry:wet_sand.tooltip".translate())
 
 	override fun canSustainPlant(state: IBlockState, world: IBlockAccess, pos: BlockPos, direction: EnumFacing, plantable: IPlantable): Boolean {
 		val plant = plantable.getPlant(world, pos.offset(direction))

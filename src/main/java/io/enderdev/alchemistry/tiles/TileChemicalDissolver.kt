@@ -14,7 +14,7 @@ import org.ender_development.catalyx.tiles.helper.TileStackHandler
 import org.ender_development.catalyx.utils.extensions.canMergeWith
 import org.ender_development.catalyx.utils.extensions.get
 
-class TileChemicalDissolver : BaseMachineTile<DissolverRecipe>(Alchemistry.catalyxSettings),
+class TileChemicalDissolver : BaseMachineTile<DissolverRecipe>(Alchemistry),
 	IEnergyTile by EnergyTileImpl(ConfigHandler.DISSOLVER.energyCapacity) {
 
 	private var outputSuccessful = true

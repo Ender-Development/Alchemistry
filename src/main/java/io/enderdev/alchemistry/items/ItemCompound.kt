@@ -20,6 +20,7 @@ import net.minecraftforge.client.model.ModelLoader
 import net.minecraftforge.event.RegistryEvent
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
+import org.ender_development.catalyx.utils.SideUtils
 import org.ender_development.catalyx.utils.extensions.toPotion
 import org.ender_development.catalyx.utils.extensions.translate
 
@@ -54,15 +55,15 @@ class ItemCompound(name: String) : ItemMetaBase(name) {
 			ActionResult(EnumActionResult.PASS, stack)
 	}
 
-	@SideOnly(Side.CLIENT)
-	override fun registerItem(event: RegistryEvent.Register<Item>) {
+	override fun register(event: RegistryEvent.Register<Item>) {
 		event.registry.register(this)
-		CompoundRegistry.keys().forEach {
-			ModelLoader.setCustomModelResourceLocation(
-				this, it,
-				ModelResourceLocation("$registryName", "inventory")
-			)
-		}
+		if(SideUtils.isClient)
+			CompoundRegistry.keys().forEach {
+				ModelLoader.setCustomModelResourceLocation(
+					this, it,
+					ModelResourceLocation("$registryName", "inventory")
+				)
+			}
 	}
 
 	@SideOnly(Side.CLIENT)

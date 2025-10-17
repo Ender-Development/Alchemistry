@@ -5,7 +5,6 @@ import net.minecraft.item.ItemStack
 import net.minecraft.item.crafting.Ingredient
 import net.minecraftforge.oredict.OreDictionary
 import org.ender_development.catalyx.utils.extensions.equalsIgnoreMeta
-import org.ender_development.catalyx.utils.extensions.toImmutable
 
 data class DissolverRecipe(
 	var input: Ingredient? = null,
@@ -14,9 +13,10 @@ data class DissolverRecipe(
 ) : IRecipe {
 	inline val inputs: List<ItemStack>
 		get(): List<ItemStack> {
-			val temp = ArrayList<ItemStack>()
-			if(input != null) temp.addAll(input!!.getMatchingStacks().copyOf())
-			return temp.toImmutable()
+			return if(input == null)
+				emptyList()
+			else
+				input!!.matchingStacks.toList()
 		}
 
 	inline fun output(crossinline init: ProbabilitySetDSL.() -> Unit) {
